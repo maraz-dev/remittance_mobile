@@ -9,6 +9,7 @@ abstract class AppColors {
   static const kWhiteColor = Color(0xFFFFFFFF);
   static const kTextfieldColor = Color(0xFFF9FAFB);
   static const kTextColor = Color(0xFF6B7280);
+  static const kHintColor = Color(0xFF9CA3AF);
 
   static const kSuccessColor = Color(0xFF4ADE80);
   static const kWarningColor = Color(0xFFFACC15);

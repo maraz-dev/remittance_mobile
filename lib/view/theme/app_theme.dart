@@ -14,7 +14,7 @@ ThemeData themeData() {
 InputDecorationTheme inputDecorationTheme() {
   OutlineInputBorder focusInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(16),
-    borderSide: const BorderSide(color: AppColors.kSecondaryColorTwo, width: 2),
+    borderSide: const BorderSide(color: AppColors.kSecondaryColorTwo, width: 1),
   );
   OutlineInputBorder defaultInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(16),

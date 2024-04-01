@@ -5,7 +5,6 @@ import 'package:smart_pay_mobile/view/theme/app_colors.dart';
 import 'package:smart_pay_mobile/view/utils/app_images.dart';
 
 class TextInput extends StatelessWidget {
-  final String fieldName;
   final TextInputType inputType;
   final String? Function(String?)? validator;
   final TextEditingController controller;
@@ -15,7 +14,6 @@ class TextInput extends StatelessWidget {
   final int? maxLength;
   const TextInput({
     super.key,
-    required this.fieldName,
     required this.controller,
     required this.hint,
     required this.inputType,
@@ -30,21 +28,17 @@ class TextInput extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          fieldName,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
         TextFormField(
           controller: controller,
           keyboardType: inputType,
           maxLength: maxLength,
+          cursorColor: AppColors.kPrimaryColor,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: validator,
           readOnly: readOnly,
           onTap: onPressed,
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: AppColors.kPrimaryColor, fontWeight: FontWeight.w600),
           decoration: InputDecoration(
               hintText: hint,
               hintStyle: Theme.of(context)
@@ -58,7 +52,6 @@ class TextInput extends StatelessWidget {
 }
 
 class PasswordInput extends StatefulWidget {
-  final String fieldName;
   final TextInputType inputType;
   final String? Function(String?)? validator;
   final TextEditingController controller;
@@ -66,7 +59,6 @@ class PasswordInput extends StatefulWidget {
   final int? maxLength;
   const PasswordInput({
     super.key,
-    required this.fieldName,
     required this.controller,
     required this.hint,
     required this.inputType,
@@ -85,21 +77,17 @@ class _PasswordInputState extends State<PasswordInput> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.fieldName,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
         TextFormField(
           controller: widget.controller,
           maxLength: widget.maxLength,
+          cursorColor: AppColors.kPrimaryColor,
           keyboardType: widget.inputType,
           validator: widget.validator,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           obscureText: obscureText,
-          obscuringCharacter: '•',
+          obscuringCharacter: '●',
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: AppColors.kPrimaryColor, fontWeight: FontWeight.w400),
           decoration: InputDecoration(
               suffixIcon: IconButton(
                 splashRadius: 1,
@@ -117,7 +105,7 @@ class _PasswordInputState extends State<PasswordInput> {
               hintStyle: Theme.of(context)
                   .textTheme
                   .bodyLarge!
-                  .copyWith(color: AppColors.kTextColor.withOpacity(0.5))),
+                  .copyWith(color: AppColors.kHintColor)),
         )
       ],
     );

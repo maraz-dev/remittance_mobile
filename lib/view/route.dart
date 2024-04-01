@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:smart_pay_mobile/view/features/auth/login_screen.dart';
+import 'package:smart_pay_mobile/view/features/auth/sign_up_email_screen.dart';
 
 final GlobalKey<NavigatorState> rootNavigation = GlobalKey(debugLabel: "root");
 final GlobalKey<NavigatorState> shellNavigation =
@@ -16,11 +18,16 @@ final routeProvider = Provider<GoRouter>((ref) {
         return null;
       },
       routes: [
-        // GoRoute(
-        //   path: "/",
-        //   name: OnboardingScreen.path,
-        //   builder: (context, state) => const OnboardingScreen(),
-        // ),
+        GoRoute(
+          path: "/",
+          name: LoginScreen.path,
+          builder: (context, state) => const LoginScreen(),
+        ),
+        GoRoute(
+          path: SignUpEmailScreen.path,
+          name: SignUpEmailScreen.path,
+          builder: (context, state) => const SignUpEmailScreen(),
+        ),
 
         // GoRoute(
         //     path: SMSScreen.path,
