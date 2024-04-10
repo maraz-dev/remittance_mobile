@@ -1,4 +1,4 @@
-package com.example.smart_pay_mobile
+package com.example.remittance_mobile
 
 import io.flutter.embedding.android.FlutterActivity
 

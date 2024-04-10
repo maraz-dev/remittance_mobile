@@ -1,5 +1,5 @@
-import 'package:smart_pay_mobile/core/third-party/environment.dart';
-import 'package:smart_pay_mobile/core/utils/logger.dart';
+import 'package:remittance_mobile/core/third-party/environment.dart';
+import 'package:remittance_mobile/core/utils/logger.dart';
 
 class ApiEndpoints {
   static final ApiEndpoints _instance = ApiEndpoints._privateConstructor();

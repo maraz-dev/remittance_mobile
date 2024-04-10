@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:clock/clock.dart';
 import 'package:dio/dio.dart';
-import 'package:smart_pay_mobile/core/storage/cache/config.dart';
+import 'package:remittance_mobile/core/storage/cache/config.dart';
 
 /// Model for the response returned from HTTP Cache
 class CachedResponse {

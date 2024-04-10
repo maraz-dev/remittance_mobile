@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:smart_pay_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/theme/app_colors.dart';
 //import 'package:connectivity_plus/connectivity_plus.dart';
 
 Future<bool> checkInternet() async {

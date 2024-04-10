@@ -1,13 +1,13 @@
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:smart_pay_mobile/core/http/dio_http_service.dart';
-import 'package:smart_pay_mobile/core/http/http_service.dart';
-import 'package:smart_pay_mobile/core/storage/hive-storage/hive_storage.dart';
-import 'package:smart_pay_mobile/core/storage/hive-storage/hive_storage_service.dart';
-import 'package:smart_pay_mobile/core/storage/secure-storage/secure_storage.dart';
-import 'package:smart_pay_mobile/core/storage/share_pref.dart';
-import 'package:smart_pay_mobile/core/third-party/environment.dart';
-import 'package:smart_pay_mobile/core/utils/app_url.dart';
+import 'package:remittance_mobile/core/http/dio_http_service.dart';
+import 'package:remittance_mobile/core/http/http_service.dart';
+import 'package:remittance_mobile/core/storage/hive-storage/hive_storage.dart';
+import 'package:remittance_mobile/core/storage/hive-storage/hive_storage_service.dart';
+import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
+import 'package:remittance_mobile/core/storage/share_pref.dart';
+import 'package:remittance_mobile/core/third-party/environment.dart';
+import 'package:remittance_mobile/core/utils/app_url.dart';
 
 final inject = GetIt.instance;
 

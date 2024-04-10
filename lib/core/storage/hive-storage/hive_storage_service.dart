@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:smart_pay_mobile/core/storage/hive-storage/hive_storage.dart';
+import 'package:remittance_mobile/core/storage/hive-storage/hive_storage.dart';
 
 /// [StorageService] interface implementation using the Hive package
 ///

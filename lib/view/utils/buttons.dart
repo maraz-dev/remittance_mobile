@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:smart_pay_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MainButton extends StatelessWidget {
@@ -26,14 +26,21 @@ class MainButton extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 16.h),
+        padding: EdgeInsets.symmetric(vertical: 12.h),
         decoration: BoxDecoration(
             color: isPrimary ? AppColors.kPrimaryColor : color,
-            borderRadius: BorderRadius.circular(16.r)),
+            borderRadius: BorderRadius.circular(8.r),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.kBoxShadowColor,
+                blurRadius: 2,
+                offset: const Offset(0, 1),
+              )
+            ]),
         child: isLoading ?? false
             ? const SpinKitDualRing(
                 color: AppColors.kWhiteColor,
-                size: 20,
+                size: 25,
               )
             : Center(
                 child: Text(

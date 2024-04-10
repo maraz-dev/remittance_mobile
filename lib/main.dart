@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:smart_pay_mobile/core/di/injector.dart';
-import 'package:smart_pay_mobile/core/storage/hive-storage/hive_storage.dart';
-import 'package:smart_pay_mobile/core/storage/hive-storage/hive_storage_service.dart';
-import 'package:smart_pay_mobile/core/third-party/environment.dart';
-import 'package:smart_pay_mobile/core/utils/logger.dart';
-import 'package:smart_pay_mobile/view/route.dart';
-import 'package:smart_pay_mobile/view/theme/app_theme.dart';
+import 'package:remittance_mobile/core/di/injector.dart';
+import 'package:remittance_mobile/core/storage/hive-storage/hive_storage.dart';
+import 'package:remittance_mobile/core/storage/hive-storage/hive_storage_service.dart';
+import 'package:remittance_mobile/core/third-party/environment.dart';
+import 'package:remittance_mobile/core/utils/logger.dart';
+import 'package:remittance_mobile/view/route.dart';
+import 'package:remittance_mobile/view/theme/app_theme.dart';
 
 void main() {
   runZonedGuarded(() async {

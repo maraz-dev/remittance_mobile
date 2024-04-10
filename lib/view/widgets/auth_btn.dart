@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:smart_pay_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/theme/app_colors.dart';
 
 class AuthBtn extends StatelessWidget {
   final String image;
@@ -13,10 +13,10 @@ class AuthBtn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 14),
         width: double.infinity,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(8),
             border: Border.all(color: AppColors.kBorderColor)),
         child: SvgPicture.asset(image),
       ),

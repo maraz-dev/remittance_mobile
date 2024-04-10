@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_pay_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/theme/app_colors.dart';
 
 class CreateAccountHeader extends StatelessWidget {
   const CreateAccountHeader({

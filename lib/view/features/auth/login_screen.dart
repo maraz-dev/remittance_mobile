@@ -1,15 +1,19 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:smart_pay_mobile/view/theme/app_colors.dart';
-import 'package:smart_pay_mobile/view/utils/app_images.dart';
-import 'package:smart_pay_mobile/view/utils/buttons.dart';
-import 'package:smart_pay_mobile/view/utils/extensions.dart';
-import 'package:smart_pay_mobile/view/utils/input_fields.dart';
-import 'package:smart_pay_mobile/view/utils/validator.dart';
-import 'package:smart_pay_mobile/view/widgets/auth_btn.dart';
-import 'package:smart_pay_mobile/view/widgets/back_button.dart';
-import 'package:smart_pay_mobile/view/widgets/bottom_widget.dart';
-import 'package:smart_pay_mobile/view/widgets/scaffold_body.dart';
+import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
+import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/app_images.dart';
+import 'package:remittance_mobile/view/utils/buttons.dart';
+import 'package:remittance_mobile/view/utils/extensions.dart';
+import 'package:remittance_mobile/view/utils/input_fields.dart';
+import 'package:remittance_mobile/view/utils/validator.dart';
+import 'package:remittance_mobile/view/widgets/back_button.dart';
+import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
+import 'package:remittance_mobile/view/widgets/bottom_widget.dart';
+import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -42,24 +46,18 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const BackArrowButton(),
             32.0.height,
-            Text(
-              'Hi There! 👋',
-              style: Theme.of(context).textTheme.displayLarge,
-            )
-                .animate()
-                .fadeIn(begin: 0, delay: 400.ms)
-                .slideX(begin: -.1, end: 0),
-            8.0.height,
-            const Text('Welcome back, Sign in to your account')
-                .animate()
-                .fadeIn(begin: 0, delay: 400.ms)
-                .slideX(begin: -.1, end: 0),
+            const BackArrowButton(),
+            18.0.height,
+            const AuthTitle(
+              title: 'Log In',
+              subtitle: 'Send money across the world',
+            ),
             32.0.height,
             TextInput(
+              header: 'Email Address',
               controller: _email,
-              hint: "Email",
+              hint: "Enter Email Address",
               inputType: TextInputType.emailAddress,
               validator: validateEmail,
             )
@@ -68,55 +66,81 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                 .slideY(begin: .5, end: 0),
             16.0.height,
             PasswordInput(
+              header: 'Password',
               controller: _password,
-              hint: 'Password',
+              hint: '********',
               inputType: TextInputType.visiblePassword,
               validator: validatePassword,
             )
                 .animate()
                 .fadeIn(begin: 0, delay: 500.ms)
                 .slideY(begin: .5, end: 0),
-            24.0.height,
+            10.0.height,
             Text(
               'Forgot Password?',
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.kSecondaryColor),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: AppColors.kPrimaryColor),
             )
                 .animate()
                 .fadeIn(begin: 0, delay: 500.ms)
                 .slideY(begin: .5, end: 0),
             24.0.height,
-            MainButton(
-              text: 'Sign In',
-              onPressed: () {},
-            )
-                .animate()
-                .fadeIn(begin: 0, delay: 500.ms)
-                .slideY(begin: .5, end: 0),
-            32.0.height,
-            const Center(child: Text('OR')),
-            24.0.height,
-            Row(
-              children: [
-                const AuthBtn(
-                  image: AppImages.google,
-                ),
-                16.0.width,
-                const AuthBtn(
-                  image: AppImages.apple,
-                ),
-              ],
-            )
-                .animate()
-                .fadeIn(begin: 0, delay: 500.ms)
-                .slideY(begin: .5, end: 0),
-            70.0.height,
-            const BottomWidget(
-              isSignIn: true,
-            )
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavBarWidget(
+        children: [
+          const BottomWidget(
+            isSignIn: true,
+          ),
+          12.0.height,
+          Row(
+            children: [
+              Expanded(
+                flex: 6,
+                child: MainButton(
+                  //isLoading: true,
+                  text: 'Log In',
+                  onPressed: () {},
+                )
+                    .animate()
+                    .fadeIn(begin: 0, delay: 1000.ms)
+                    // .then(delay: 200.ms)
+                    .slideY(begin: .1, end: 0),
+              ),
+              8.0.width,
+              Expanded(
+                flex: 1,
+                child: InkWell(
+                  splashColor: Colors.transparent,
+                  radius: 0,
+                  onTap: null,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: AppColors.kWhiteColor,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppColors.kBorderColor),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.kBoxShadowColor,
+                          blurRadius: 2,
+                          offset: const Offset(0, 1),
+                        )
+                      ],
+                    ),
+                    child: SvgPicture.asset(
+                      AppImages.fingerprint,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ],
       ),
     );
   }

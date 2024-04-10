@@ -4,10 +4,10 @@ import 'dart:developer';
 import 'package:clock/clock.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:smart_pay_mobile/core/connection/connection.dart';
-import 'package:smart_pay_mobile/core/storage/cache/cache_response.dart';
-import 'package:smart_pay_mobile/core/storage/cache/config.dart';
-import 'package:smart_pay_mobile/core/storage/hive-storage/hive_storage.dart';
+import 'package:remittance_mobile/core/connection/connection.dart';
+import 'package:remittance_mobile/core/storage/cache/cache_response.dart';
+import 'package:remittance_mobile/core/storage/cache/config.dart';
+import 'package:remittance_mobile/core/storage/hive-storage/hive_storage.dart';
 
 class CacheInterceptor implements Interceptor {
   /// Creates new instance of [CacheInterceptor]

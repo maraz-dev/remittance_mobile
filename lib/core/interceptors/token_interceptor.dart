@@ -2,9 +2,9 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:smart_pay_mobile/core/di/injector.dart';
-import 'package:smart_pay_mobile/core/storage/secure-storage/secure_storage.dart';
-import 'package:smart_pay_mobile/core/utils/app_url.dart';
+import 'package:remittance_mobile/core/di/injector.dart';
+import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
+import 'package:remittance_mobile/core/utils/app_url.dart';
 
 class TokenInterceptor extends Interceptor {
   final Dio _dio;

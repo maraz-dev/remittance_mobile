@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:smart_pay_mobile/core/error/error_model.dart';
-import 'package:smart_pay_mobile/core/error/http_error_strings.dart';
+import 'package:remittance_mobile/core/error/error_model.dart';
+import 'package:remittance_mobile/core/error/http_error_strings.dart';
 
 class DioExceptions implements Exception {
   late String message;

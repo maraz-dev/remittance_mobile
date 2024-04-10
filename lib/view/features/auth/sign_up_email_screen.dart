@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:smart_pay_mobile/view/features/auth/widgets/create_account_header.dart';
-import 'package:smart_pay_mobile/view/utils/app_images.dart';
-import 'package:smart_pay_mobile/view/utils/buttons.dart';
-import 'package:smart_pay_mobile/view/utils/extensions.dart';
-import 'package:smart_pay_mobile/view/utils/input_fields.dart';
-import 'package:smart_pay_mobile/view/utils/validator.dart';
-import 'package:smart_pay_mobile/view/widgets/auth_btn.dart';
-import 'package:smart_pay_mobile/view/widgets/back_button.dart';
-import 'package:smart_pay_mobile/view/widgets/bottom_widget.dart';
-import 'package:smart_pay_mobile/view/widgets/scaffold_body.dart';
+import 'package:remittance_mobile/view/features/auth/widgets/create_account_header.dart';
+import 'package:remittance_mobile/view/utils/app_images.dart';
+import 'package:remittance_mobile/view/utils/buttons.dart';
+import 'package:remittance_mobile/view/utils/extensions.dart';
+import 'package:remittance_mobile/view/utils/input_fields.dart';
+import 'package:remittance_mobile/view/utils/validator.dart';
+import 'package:remittance_mobile/view/widgets/auth_btn.dart';
+import 'package:remittance_mobile/view/widgets/back_button.dart';
+import 'package:remittance_mobile/view/widgets/bottom_widget.dart';
+import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
 class SignUpEmailScreen extends ConsumerStatefulWidget {
   static String path = "/sign-up";
@@ -55,15 +55,7 @@ class _SignUpEmailScreenState extends ConsumerState<SignUpEmailScreen> {
           const Center(child: Text('OR')),
           24.0.height,
           Row(
-            children: [
-              const AuthBtn(
-                image: AppImages.google,
-              ),
-              16.0.width,
-              const AuthBtn(
-                image: AppImages.apple,
-              ),
-            ],
+            children: [],
           ).animate().fadeIn(begin: 0, delay: 500.ms).slideY(begin: .5, end: 0),
           100.0.height,
           const BottomWidget(

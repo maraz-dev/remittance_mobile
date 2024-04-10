@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:smart_pay_mobile/view/features/auth/login_screen.dart';
-import 'package:smart_pay_mobile/view/features/auth/sign_up_email_screen.dart';
+import 'package:remittance_mobile/view/features/auth/login_screen.dart';
+import 'package:remittance_mobile/view/features/auth/sign_up_email_screen.dart';
 
 final GlobalKey<NavigatorState> rootNavigation = GlobalKey(debugLabel: "root");
 final GlobalKey<NavigatorState> shellNavigation =

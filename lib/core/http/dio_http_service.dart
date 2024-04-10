@@ -5,11 +5,11 @@ import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_stor
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-import 'package:smart_pay_mobile/core/connection/connection.dart';
-import 'package:smart_pay_mobile/core/error/error_handler.dart';
-import 'package:smart_pay_mobile/core/http/http_service.dart';
-import 'package:smart_pay_mobile/core/interceptors/token_interceptor.dart';
-import 'package:smart_pay_mobile/core/utils/app_url.dart';
+import 'package:remittance_mobile/core/connection/connection.dart';
+import 'package:remittance_mobile/core/error/error_handler.dart';
+import 'package:remittance_mobile/core/http/http_service.dart';
+import 'package:remittance_mobile/core/interceptors/token_interceptor.dart';
+import 'package:remittance_mobile/core/utils/app_url.dart';
 
 class NetworkService implements HttpService {
   late final Dio _dio;

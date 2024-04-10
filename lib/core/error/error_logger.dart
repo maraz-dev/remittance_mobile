@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:smart_pay_mobile/core/error/error_model.dart';
+import 'package:remittance_mobile/core/error/error_model.dart';
 
 class ErrorLogger {
   void logError(Object error, StackTrace? stackTrace) {

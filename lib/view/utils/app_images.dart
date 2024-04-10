@@ -4,6 +4,7 @@ class AppImages {
   static const eye = '$path/eye.svg';
   static const eyeSlash = '$path/eye-off.svg';
   static const backArrow = '$path/arrowBack.svg';
-  static const google = '$path/google.svg';
-  static const apple = '$path/apple.svg';
+  static const fingerprint = '$path/fingerprint.svg';
+  static const checkedBox = '$path/checked_box.svg';
+  static const uncheckedBox = '$path/unchecked_box.svg';
 }
