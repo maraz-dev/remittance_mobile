@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 
 class BottomNavBarWidget extends StatelessWidget {
@@ -13,8 +14,8 @@ class BottomNavBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-      height: height ?? 140,
+      padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
+      height: height ?? 80.h,
       decoration: BoxDecoration(
         color: AppColors.kBackgroundColor,
         boxShadow: [

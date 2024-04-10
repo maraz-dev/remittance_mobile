@@ -11,7 +11,7 @@ class ScaffoldBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+        padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
         child: body,
       ),
     );

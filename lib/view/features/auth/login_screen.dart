@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -12,7 +15,7 @@ import 'package:remittance_mobile/view/utils/input_fields.dart';
 import 'package:remittance_mobile/view/utils/validator.dart';
 import 'package:remittance_mobile/view/widgets/back_button.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
-import 'package:remittance_mobile/view/widgets/bottom_widget.dart';
+import 'package:remittance_mobile/view/widgets/richtext_widget.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -43,57 +46,63 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScaffoldBody(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            32.0.height,
-            const BackArrowButton(),
-            18.0.height,
-            const AuthTitle(
-              title: 'Log In',
-              subtitle: 'Send money across the world',
-            ),
-            32.0.height,
-            TextInput(
-              header: 'Email Address',
-              controller: _email,
-              hint: "Enter Email Address",
-              inputType: TextInputType.emailAddress,
-              validator: validateEmail,
-            )
-                .animate()
-                .fadeIn(begin: 0, delay: 500.ms)
-                .slideY(begin: .5, end: 0),
-            16.0.height,
-            PasswordInput(
-              header: 'Password',
-              controller: _password,
-              hint: '********',
-              inputType: TextInputType.visiblePassword,
-              validator: validatePassword,
-            )
-                .animate()
-                .fadeIn(begin: 0, delay: 500.ms)
-                .slideY(begin: .5, end: 0),
-            10.0.height,
-            Text(
-              'Forgot Password?',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.kPrimaryColor),
-            )
-                .animate()
-                .fadeIn(begin: 0, delay: 500.ms)
-                .slideY(begin: .5, end: 0),
-            24.0.height,
-          ],
+        body: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              32.0.height,
+              const BackArrowButton(),
+              18.0.height,
+              const AuthTitle(
+                title: 'Log In',
+                subtitle: 'Send money across the world',
+              ),
+              32.0.height,
+              TextInput(
+                header: 'Email Address',
+                controller: _email,
+                hint: "Enter Email Address",
+                inputType: TextInputType.emailAddress,
+                validator: validateEmail,
+              )
+                  .animate()
+                  .fadeIn(begin: 0, delay: 500.ms)
+                  .slideY(begin: .5, end: 0),
+              16.0.height,
+              PasswordInput(
+                header: 'Password',
+                controller: _password,
+                hint: '********',
+                inputType: TextInputType.visiblePassword,
+                validator: validatePassword,
+              )
+                  .animate()
+                  .fadeIn(begin: 0, delay: 500.ms)
+                  .slideY(begin: .5, end: 0),
+              10.0.height,
+              Text(
+                'Forgot Password?',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: AppColors.kPrimaryColor),
+              )
+                  .animate()
+                  .fadeIn(begin: 0, delay: 500.ms)
+                  .slideY(begin: .5, end: 0),
+              24.0.height,
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavBarWidget(
+        height: 120.h,
         children: [
-          const BottomWidget(
-            isSignIn: true,
+          RichTextWidget(
+            text: "Don't have an Account?",
+            hyperlink: ' Sign Up',
+            onTap: () => context.pushNamed(CreateAccountView.path),
           ),
           12.0.height,
           Row(

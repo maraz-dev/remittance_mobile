@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/view/features/auth/login_screen.dart';
-import 'package:remittance_mobile/view/features/auth/sign_up_email_screen.dart';
+import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 
 final GlobalKey<NavigatorState> rootNavigation = GlobalKey(debugLabel: "root");
 final GlobalKey<NavigatorState> shellNavigation =
@@ -24,9 +24,9 @@ final routeProvider = Provider<GoRouter>((ref) {
           builder: (context, state) => const LoginScreen(),
         ),
         GoRoute(
-          path: SignUpEmailScreen.path,
-          name: SignUpEmailScreen.path,
-          builder: (context, state) => const SignUpEmailScreen(),
+          path: CreateAccountView.path,
+          name: CreateAccountView.path,
+          builder: (context, state) => const CreateAccountView(),
         ),
 
         // GoRoute(
