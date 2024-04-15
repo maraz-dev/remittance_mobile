@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -65,10 +63,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                 hint: "Enter Email Address",
                 inputType: TextInputType.emailAddress,
                 validator: validateEmail,
-              )
-                  .animate()
-                  .fadeIn(begin: 0, delay: 500.ms)
-                  .slideY(begin: .5, end: 0),
+              ),
               16.0.height,
               PasswordInput(
                 header: 'Password',
@@ -76,10 +71,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                 hint: '********',
                 inputType: TextInputType.visiblePassword,
                 validator: validatePassword,
-              )
-                  .animate()
-                  .fadeIn(begin: 0, delay: 500.ms)
-                  .slideY(begin: .5, end: 0),
+              ),
               10.0.height,
               Text(
                 'Forgot Password?',

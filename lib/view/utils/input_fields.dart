@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -13,6 +14,7 @@ class TextInput extends StatelessWidget {
   final bool readOnly;
   final Function()? onPressed;
   final int? maxLength;
+  final Widget? prefixIcon, suffixIcon;
   const TextInput({
     super.key,
     required this.controller,
@@ -23,6 +25,8 @@ class TextInput extends StatelessWidget {
     this.readOnly = false,
     this.onPressed,
     this.header,
+    this.prefixIcon,
+    this.suffixIcon,
   });
 
   @override
@@ -58,15 +62,27 @@ class TextInput extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: AppColors.kSecondaryColor, fontWeight: FontWeight.w600),
             decoration: InputDecoration(
-                hintText: hint,
-                hintStyle: Theme.of(context)
-                    .textTheme
-                    .bodyLarge!
-                    .copyWith(color: AppColors.kHintColor)),
+              hintText: hint,
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: AppColors.kHintColor),
+              suffixIcon: suffixIcon,
+              prefixIcon: prefixIcon,
+            ),
           ),
         )
       ],
-    );
+    )
+        .animate()
+        .fadeIn(
+          begin: 0,
+          delay: 500.ms,
+        )
+        .slideY(
+          begin: .5,
+          end: 0,
+        );
   }
 }
 
@@ -141,11 +157,20 @@ class _PasswordInputState extends State<PasswordInput> {
                 hintText: widget.hint,
                 hintStyle: Theme.of(context)
                     .textTheme
-                    .bodyLarge!
+                    .bodyMedium!
                     .copyWith(color: AppColors.kHintColor)),
           ),
         )
       ],
-    );
+    )
+        .animate()
+        .fadeIn(
+          begin: 0,
+          delay: 500.ms,
+        )
+        .slideY(
+          begin: .5,
+          end: 0,
+        );
   }
 }
