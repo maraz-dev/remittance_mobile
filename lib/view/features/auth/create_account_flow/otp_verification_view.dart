@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:pinput/pinput.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
+import 'package:remittance_mobile/view/theme/app_theme.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/back_button.dart';
@@ -39,6 +41,14 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
                   title: 'OTP Verification',
                   subtitle: 'Enter the 6 digit code sent to +1 **** **** 7376'),
               32.0.height,
+              Center(
+                child: Pinput(
+                  length: 6,
+                  obscureText: true,
+                  defaultPinTheme: defaultPinInputTheme,
+                  focusedPinTheme: focusedPinInputTheme,
+                ),
+              )
             ],
           ),
         ),

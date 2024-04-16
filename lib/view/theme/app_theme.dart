@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pinput/pinput.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 
 ThemeData themeData() {
@@ -35,6 +36,26 @@ InputDecorationTheme inputDecorationTheme() {
     suffixIconColor: AppColors.kInactiveColor,
   );
 }
+
+PinTheme defaultPinInputTheme = PinTheme(
+  width: 50.w,
+  height: 55.h,
+  textStyle: textTheme.call().displayMedium,
+  decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(12.r),
+      color: AppColors.kBackgroundColor,
+      border: Border.all(color: AppColors.kSecondaryColorTwo)),
+);
+
+PinTheme focusedPinInputTheme = PinTheme(
+  width: 50.w,
+  height: 55.h,
+  textStyle: textTheme.call().displayMedium,
+  decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(12.r),
+      color: AppColors.kPinInputColor,
+      border: Border.all(color: AppColors.kPrimaryColor)),
+);
 
 TextTheme textTheme() {
   return TextTheme(

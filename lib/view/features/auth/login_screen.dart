@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
+import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
@@ -104,7 +105,9 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                 child: MainButton(
                   //isLoading: true,
                   text: 'Log In',
-                  onPressed: () {},
+                  onPressed: () {
+                    context.pushNamed(DashboardView.path);
+                  },
                 )
                     .animate()
                     .fadeIn(begin: 0, delay: 1000.ms)
@@ -133,7 +136,9 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                       ],
                     ),
                     child: SvgPicture.asset(
-                      AppImages.fingerprint,
+                      Theme.of(context).platform == TargetPlatform.iOS
+                          ? AppImages.faceID
+                          : AppImages.fingerprint,
                       fit: BoxFit.contain,
                     ),
                   ),

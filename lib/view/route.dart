@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/view/features/auth/login_screen.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
+import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 
 final GlobalKey<NavigatorState> rootNavigation = GlobalKey(debugLabel: "root");
 final GlobalKey<NavigatorState> shellNavigation =
@@ -27,6 +28,11 @@ final routeProvider = Provider<GoRouter>((ref) {
           path: CreateAccountView.path,
           name: CreateAccountView.path,
           builder: (context, state) => const CreateAccountView(),
+        ),
+        GoRoute(
+          path: DashboardView.path,
+          name: DashboardView.path,
+          builder: (context, state) => const DashboardView(),
         ),
 
         // GoRoute(

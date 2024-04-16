@@ -8,8 +8,10 @@ String? validatePassword(String? value) {
 }
 
 String? confirmPassword(String? value, String confirmPass) {
-  if (value != confirmPass) {
-    return 'Not Equal';
+  if (value!.isEmpty) {
+    return 'Field cannot be Empty';
+  } else if (value != confirmPass) {
+    return "Password do not Match";
   }
   return null;
 }
@@ -87,4 +89,50 @@ bool isStrongPassword(String password) {
       hasLowercaseLetter &&
       hasSymbol &&
       isMinimumLength;
+}
+
+bool has8Characters(String field) {
+  if (field.length < 8) return false;
+
+  return true;
+}
+
+bool hasLowercase(String field) {
+  String pattern = r'^(?=.*?[a-z])';
+
+  RegExp regExp = RegExp(pattern);
+
+  if (regExp.hasMatch(field)) return true;
+
+  return false;
+}
+
+bool hasANumber(String field) {
+  String pattern = r'^(?=.*?[0-9])';
+
+  RegExp regExp = RegExp(pattern);
+
+  if (regExp.hasMatch(field)) return true;
+
+  return false;
+}
+
+bool hasUppercase(String field) {
+  String pattern = r'^(?=.*?[A-Z])';
+
+  RegExp regExp = RegExp(pattern);
+
+  if (regExp.hasMatch(field)) return true;
+
+  return false;
+}
+
+bool hasSpecialCharacter(String field) {
+  String pattern = r'^(?=.*?[!@#\$&*~.%^_-])';
+
+  RegExp regExp = RegExp(pattern);
+
+  if (regExp.hasMatch(field)) return true;
+
+  return false;
 }
