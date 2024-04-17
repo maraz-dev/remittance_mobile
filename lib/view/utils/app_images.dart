@@ -26,9 +26,16 @@ class AppImages {
   static const addCard = '$path/add_card.svg';
   static const credit = '$path/credit.svg';
   static const debit = '$path/debit.svg';
+  static const homeViewAdd = '$path/add_home_view.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';
   static const tempProfileImage = '$imagePath/profile_image.png';
   static const homeBannerImage = '$imagePath/home_banner_image.png';
+
+  /// COUNTRY
+  static const String imageCountryPath = 'assets/images/country';
+  static const us = '$imageCountryPath/us.png';
+  static const uk = '$imageCountryPath/uk.png';
+  static const ng = '$imageCountryPath/ng.png';
 }

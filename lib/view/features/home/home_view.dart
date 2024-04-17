@@ -1,3 +1,4 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,9 +53,21 @@ class _HomeViewState extends State<HomeView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            /// Acounts
             Text(
               'Accounts',
               style: Theme.of(context).textTheme.displaySmall,
+            ),
+            8.0.height,
+            SizedBox(
+              height: 135.h,
+              child: Row(
+                children: [
+                  const AddNewAccountCard(),
+                  10.0.width,
+                  const AccountsCard()
+                ],
+              ),
             ),
             36.0.height,
 
@@ -129,6 +142,82 @@ class _HomeViewState extends State<HomeView> {
           ],
         ),
       )),
+    );
+  }
+}
+
+class AccountsCard extends StatelessWidget {
+  const AccountsCard({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.only(top: 16, left: 16, bottom: 16, right: 50),
+      decoration: BoxDecoration(
+          color: AppColors.kCardColor,
+          borderRadius: BorderRadius.circular(8.r)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CircleAvatar(
+            radius: 16.r,
+            backgroundImage: const AssetImage(AppImages.us),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                '\$500.21',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: AppColors.kWhiteColor, fontWeight: FontWeight.bold),
+              ),
+              Text(
+                'USD',
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: AppColors.kWhiteColor, fontWeight: FontWeight.bold),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class AddNewAccountCard extends StatelessWidget {
+  const AddNewAccountCard({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return DottedBorder(
+      color: AppColors.kPrimaryColor,
+      borderType: BorderType.RRect,
+      radius: const Radius.circular(8),
+      dashPattern: const [10, 10],
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+            color: AppColors.kTextBorderColor,
+            borderRadius: BorderRadius.circular(8.r)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SvgPicture.asset(AppImages.homeViewAdd),
+            Text(
+              'Add New \t',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: AppColors.kSecondaryColor,
+                  fontWeight: FontWeight.bold),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

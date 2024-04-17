@@ -3,20 +3,22 @@ description: "A new Flutter project."
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-
 version: 1.0.0+1
 
 environment:
   sdk: '>=3.3.2 <4.0.0'
 
-
 dependencies:
+  cupertino_icons: ^1.0.6
   curl_logger_dio_interceptor: ^1.0.0
   device_info_plus: ^9.1.2
   dio: ^5.4.0
   dio_cache_interceptor: ^3.4.3
   dio_cache_interceptor_hive_store: ^3.2.1
+  dotted_border: ^2.1.0
   equatable: ^2.0.5
+  flutter:
+    sdk: flutter
   flutter_animate: ^4.5.0
   flutter_screenutil: ^5.9.0
   flutter_secure_storage: ^9.0.0
@@ -36,41 +38,29 @@ dependencies:
   pretty_dio_logger: ^1.1.1
   shared_preferences: ^2.2.2
   smooth_page_indicator: ^1.1.0
-  flutter:
-    sdk: flutter
-
-
-  cupertino_icons: ^1.0.6
 
 dev_dependencies:
+
+  flutter_lints: ^3.0.0
   flutter_test:
     sdk: flutter
 
- 
-  flutter_lints: ^3.0.0
-
-
-
-
 flutter:
   uses-material-design: true
- 
+
   assets:
     - assets/
     - assets/images/
     - assets/images/svg/
+    - assets/images/country/
     - assets/fonts/
     - assets/countries.json
 
- 
-  
   fonts:
     - family: SFPro
       fonts:
         - asset: assets/fonts/Regular.otf
         - asset: assets/fonts/Bold.otf
         - asset: assets/fonts/Bold.otf
-          weight: 500  
+          weight: 500
         - asset: assets/fonts/Medium.otf
-       
-  
