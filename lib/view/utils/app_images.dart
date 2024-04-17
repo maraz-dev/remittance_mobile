@@ -12,8 +12,23 @@ class AppImages {
   static const accountCreated = '$path/account_created.svg';
   static const security = '$path/security.svg';
   static const success = '$path/success.svg';
+  static const activeHomeIcon = '$path/active_home_icon.svg';
   static const homeIcon = '$path/home_icon.svg';
   static const servicesIcon = '$path/services_icon.svg';
+  static const activeServicesIcon = '$path/active_services_icon.svg';
   static const accountsIcon = '$path/accounts_icon.svg';
+  static const activeAccountsIcon = '$path/active_accounts_icon.svg';
   static const profileIcon = '$path/profile_icon.svg';
+  static const activeProfileIcon = '$path/active_profile_icon.svg';
+  static const notification = '$path/notification.svg';
+  static const sendMoney = '$path/send_money.svg';
+  static const payBills = '$path/pay_bill.svg';
+  static const addCard = '$path/add_card.svg';
+  static const credit = '$path/credit.svg';
+  static const debit = '$path/debit.svg';
+
+  /// IMAGES
+  static const String imagePath = 'assets/images';
+  static const tempProfileImage = '$imagePath/profile_image.png';
+  static const homeBannerImage = '$imagePath/home_banner_image.png';
 }
