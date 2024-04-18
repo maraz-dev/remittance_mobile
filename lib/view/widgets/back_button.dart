@@ -16,7 +16,7 @@ class BackArrowButton extends StatelessWidget {
       onTap: () => context.pop(),
       child: SvgPicture.asset(
         AppImages.backArrow,
-        fit: BoxFit.contain,
+        fit: BoxFit.scaleDown,
       ),
     );
   }

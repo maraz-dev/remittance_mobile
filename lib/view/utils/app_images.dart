@@ -27,11 +27,17 @@ class AppImages {
   static const credit = '$path/credit.svg';
   static const debit = '$path/debit.svg';
   static const homeViewAdd = '$path/add_home_view.svg';
+  static const details = '$path/details.svg';
+  static const exchange = '$path/exchange.svg';
+  static const statment = '$path/statement.svg';
+  static const add = '$path/add.svg';
+  static const swap = '$path/swap.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';
   static const tempProfileImage = '$imagePath/profile_image.png';
   static const homeBannerImage = '$imagePath/home_banner_image.png';
+  static const accountViewImage = '$imagePath/account_view_background.png';
 
   /// COUNTRY
   static const String imageCountryPath = 'assets/images/country';

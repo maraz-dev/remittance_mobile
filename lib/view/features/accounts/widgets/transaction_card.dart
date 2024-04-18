@@ -31,7 +31,7 @@ class TransactionCard extends StatelessWidget {
           ),
           const Spacer(),
           Text(
-            '₦1,500.00',
+            1500.00.amountWithCurrency('ngn'),
             style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: AppColors.kErrorColor, fontWeight: FontWeight.bold),
           ),

@@ -1,0 +1,125 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:remittance_mobile/view/features/accounts/widgets/transaction_card.dart';
+import 'package:remittance_mobile/view/features/home/widgets/account_options.dart';
+import 'package:remittance_mobile/view/features/home/widgets/recent_transaction_header.dart';
+import 'package:remittance_mobile/view/features/home/widgets/section_header.dart';
+import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/app_images.dart';
+import 'package:remittance_mobile/view/utils/extensions.dart';
+import 'package:remittance_mobile/view/widgets/back_button.dart';
+
+class CurrencyAccountView extends StatefulWidget {
+  static String path = 'currency-account-screen';
+  const CurrencyAccountView({super.key});
+
+  @override
+  State<CurrencyAccountView> createState() => _CurrencyAccountViewState();
+}
+
+class _CurrencyAccountViewState extends State<CurrencyAccountView> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        leading: const BackArrowButton(),
+        title: const SectionHeader(text: 'USD Account'),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                Image.asset(
+                  AppImages.accountViewImage,
+                  fit: BoxFit.fitWidth,
+                ),
+                Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          color: AppColors.kCardColor,
+                          borderRadius: BorderRadius.circular(16.r)),
+                      child: Text(
+                        'Balance',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            color: AppColors.kWhiteColor,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    10.0.height,
+                    Text(
+                      500.21.amountWithCurrency('usd'),
+                      style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.kWhiteColor,
+                          fontSize: 40.sp),
+                    ),
+                    65.0.height,
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        AccountOptions(
+                          text: 'Add',
+                          image: AppImages.add,
+                        ),
+                        AccountOptions(
+                          text: 'Exchange',
+                          image: AppImages.exchange,
+                        ),
+                        AccountOptions(
+                          text: 'Details',
+                          image: AppImages.details,
+                        ),
+                        AccountOptions(
+                          text: 'Statement',
+                          image: AppImages.statment,
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
+            30.0.height,
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    /// Transactions
+                    const RecentTransactionHeader(),
+                    12.0.height,
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.kWhiteColor,
+                        borderRadius: BorderRadius.circular(12.r),
+                        border: Border.all(color: AppColors.kBorderColor),
+                      ),
+                      child: ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) =>
+                            const TransactionCard(),
+                        separatorBuilder: (context, index) {
+                          return const Divider(
+                            color: AppColors.kBorderColor,
+                          );
+                        },
+                        itemCount: 5,
+                      ),
+                    ),
+                    30.0.height,
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

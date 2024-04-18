@@ -12,8 +12,10 @@ abstract class AppColors {
   static const kTextfieldColor = Color(0xFFF9FAFB);
   static const kTextColor = Color(0xFF98A2B3);
   static const kHintColor = Color(0xFF98A2B3);
+  static const kCountryDropDownColor = Color(0xFFF2F4F7);
   static const kPinInputColor = Color(0xFFF0EEFF);
   static const kCardColor = Color(0xFF8A7EF9);
+  static const kBlueColor = Color(0xFF151076);
 
   static const kSuccessColor = Color(0xFF027A48);
   static const kWarningColor = Color(0xFFFACC15);

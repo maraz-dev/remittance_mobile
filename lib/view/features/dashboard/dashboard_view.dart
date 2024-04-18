@@ -48,6 +48,7 @@ class _DashboardViewState extends State<DashboardView> {
           child: BottomNavigationBar(
             backgroundColor: AppColors.kWhiteColor,
             currentIndex: currentIndex,
+            elevation: 0,
             onTap: (value) {
               setState(() {
                 currentIndex = value;

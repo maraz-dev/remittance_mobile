@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
+import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class AccountsCard extends StatelessWidget {
   final Function()? onPressed;
@@ -32,7 +33,7 @@ class AccountsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '\$500.21',
+                  500.21.amountWithCurrency('usd'),
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: AppColors.kWhiteColor,
                       fontWeight: FontWeight.bold),
