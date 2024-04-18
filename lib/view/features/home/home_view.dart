@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:remittance_mobile/view/features/accounts/widgets/transaction_card.dart';
+import 'package:remittance_mobile/view/features/home/widgets/add_new_account_card.dart';
+import 'package:remittance_mobile/view/features/home/widgets/home_account_card.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_image.dart';
+import 'package:remittance_mobile/view/features/home/widgets/home_service_card.dart';
+import 'package:remittance_mobile/view/features/home/widgets/recent_transaction_header.dart';
+import 'package:remittance_mobile/view/features/home/widgets/section_header.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -54,11 +60,10 @@ class _HomeViewState extends State<HomeView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// Acounts
-            Text(
-              'Accounts',
-              style: Theme.of(context).textTheme.displaySmall,
+            const SectionHeader(
+              text: 'Accounts',
             ),
-            8.0.height,
+            12.0.height,
             SizedBox(
               height: 135.h,
               child: Row(
@@ -72,9 +77,8 @@ class _HomeViewState extends State<HomeView> {
             36.0.height,
 
             /// Services
-            Text(
-              'Services',
-              style: Theme.of(context).textTheme.displaySmall,
+            const SectionHeader(
+              text: 'Services',
             ),
             8.0.height,
             const HomeServiceCard(),
@@ -96,28 +100,7 @@ class _HomeViewState extends State<HomeView> {
             16.0.height,
 
             /// Transactions
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Recent Transactions',
-                  style: Theme.of(context).textTheme.displaySmall,
-                ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                  decoration: BoxDecoration(
-                      color: AppColors.kTextBorderColor,
-                      borderRadius: BorderRadius.circular(16.r)),
-                  child: Text(
-                    'See All',
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: AppColors.kPrimaryColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
+            const RecentTransactionHeader(),
             12.0.height,
             Container(
               decoration: BoxDecoration(
@@ -142,157 +125,6 @@ class _HomeViewState extends State<HomeView> {
           ],
         ),
       )),
-    );
-  }
-}
-
-class AccountsCard extends StatelessWidget {
-  const AccountsCard({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(top: 16, left: 16, bottom: 16, right: 50),
-      decoration: BoxDecoration(
-          color: AppColors.kCardColor,
-          borderRadius: BorderRadius.circular(8.r)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CircleAvatar(
-            radius: 16.r,
-            backgroundImage: const AssetImage(AppImages.us),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '\$500.21',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: AppColors.kWhiteColor, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                'USD',
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    color: AppColors.kWhiteColor, fontWeight: FontWeight.bold),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class AddNewAccountCard extends StatelessWidget {
-  const AddNewAccountCard({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return DottedBorder(
-      color: AppColors.kPrimaryColor,
-      borderType: BorderType.RRect,
-      radius: const Radius.circular(8),
-      dashPattern: const [10, 10],
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-            color: AppColors.kTextBorderColor,
-            borderRadius: BorderRadius.circular(8.r)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SvgPicture.asset(AppImages.homeViewAdd),
-            Text(
-              'Add New \t',
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: AppColors.kSecondaryColor,
-                  fontWeight: FontWeight.bold),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class TransactionCard extends StatelessWidget {
-  const TransactionCard({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-      child: Row(
-        children: [
-          SvgPicture.asset(AppImages.debit),
-          12.0.width,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Peter Greene',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: AppColors.kSecondaryColor,
-                    fontWeight: FontWeight.bold),
-              ),
-              const Text('Send money . 12:21pm'),
-            ],
-          ),
-          const Spacer(),
-          Text(
-            '₦1,500.00',
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: AppColors.kErrorColor, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class HomeServiceCard extends StatelessWidget {
-  final String? image, title;
-  final Function()? onTap;
-
-  const HomeServiceCard({
-    super.key,
-    this.image,
-    this.title,
-    this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: AppColors.kBorderColor)),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SvgPicture.asset(image ?? AppImages.sendMoney),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              title ?? 'Send Money',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.kSecondaryColor),
-            ),
-          )
-        ],
-      ),
     );
   }
 }
