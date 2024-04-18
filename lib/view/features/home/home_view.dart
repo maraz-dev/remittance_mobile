@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/accounts/widgets/transaction_card.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
@@ -13,7 +12,6 @@ import 'package:remittance_mobile/view/features/home/widgets/rates_card.dart';
 import 'package:remittance_mobile/view/features/home/widgets/recent_transaction_header.dart';
 import 'package:remittance_mobile/view/features/home/widgets/section_header.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
-import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
