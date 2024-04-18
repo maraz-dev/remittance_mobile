@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:remittance_mobile/view/features/auth/widgets/bottomsheet_title.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
+import 'package:remittance_mobile/view/features/transactions/widgets/add_beneficiary.dart';
+import 'package:remittance_mobile/view/features/transactions/widgets/td_tab_bar.dart';
+import 'package:remittance_mobile/view/features/transactions/widgets/transaction_details_amount_card.dart';
+import 'package:remittance_mobile/view/features/transactions/widgets/transaction_details_card.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -43,35 +46,11 @@ class _AddMoneyTransactionDetailsState extends State<AddMoneyTransactionDetails>
           body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30.r),
-                  color: AppColors.kTextfieldColor,
-                  border: Border.all(color: AppColors.kBorderColor)),
-              child: TabBar(
-                controller: _tabController,
-                labelColor: AppColors.kBlueColor,
-                dividerColor: Colors.transparent,
-                labelStyle: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(fontWeight: FontWeight.bold),
-                unselectedLabelStyle: Theme.of(context).textTheme.bodyMedium,
-                indicator: BoxDecoration(
-                    color: AppColors.kPurpleColor,
-                    borderRadius: BorderRadius.circular(30.r)),
-                indicatorSize: TabBarIndicatorSize.tab,
-                overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                  (states) => Colors.transparent,
-                ),
-                tabs: const [
-                  Tab(text: 'Details'),
-                  Tab(text: 'Updates'),
-                ],
-              ),
-            ),
+            /// Tab Bar
+            TDTabBar(tabController: _tabController),
             32.0.height,
+
+            /// Add Beneficiary
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -80,27 +59,7 @@ class _AddMoneyTransactionDetailsState extends State<AddMoneyTransactionDetails>
                   onTap: () {
                     AppBottomSheet.showBottomSheet(
                       context,
-                      widget: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.asset(AppImages.success),
-                          16.0.height,
-                          const BottomSheetTitle(
-                            title: 'Beneficiary Added Successfully',
-                            subtitle:
-                                'Great job! You have successfully added Peter Greene to your beneficiary list.',
-                          ),
-                          40.0.height,
-                          MainButton(
-                            text: 'Back to Home',
-                            onPressed: () {
-                              context.pushReplacementNamed(DashboardView.path);
-                            },
-                          ),
-                          12.0.height
-                        ],
-                      ),
+                      widget: const AddBeneficiaryWidget(),
                     );
                   },
                   child: Text(
@@ -117,40 +76,10 @@ class _AddMoneyTransactionDetailsState extends State<AddMoneyTransactionDetails>
             12.0.height,
 
             /// Amount Card
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 21),
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.kBorderColor),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    12.31.amountWithCurrency('usd'),
-                    style: Theme.of(context)
-                        .textTheme
-                        .displayLarge!
-                        .copyWith(fontSize: 40.sp, fontWeight: FontWeight.bold),
-                  ),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: AppColors.kLightSuccessColor,
-                      borderRadius: BorderRadius.circular(16.r),
-                    ),
-                    child: Text(
-                      'Successful',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          color: AppColors.kSuccessColor,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              ),
-            ),
+            const TransactionDetailsAmountCard(),
             16.0.height,
+
+            /// Details
             Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 21),
@@ -224,32 +153,6 @@ class _AddMoneyTransactionDetailsState extends State<AddMoneyTransactionDetails>
           },
         ),
       ]),
-    );
-  }
-}
-
-class TDetailsCard extends StatelessWidget {
-  final String? title, text;
-  const TDetailsCard({
-    super.key,
-    this.title,
-    this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title ?? 'Sender Name'),
-        Text(
-          text ?? 'Peter Greene',
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: AppColors.kSecondaryColor,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-      ],
     );
   }
 }
