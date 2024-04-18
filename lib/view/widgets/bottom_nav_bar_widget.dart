@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 
 class BottomNavBarWidget extends StatelessWidget {
@@ -15,7 +14,7 @@ class BottomNavBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
-      height: height ?? 80.h,
+      //height: height ?? 80.h,
       decoration: BoxDecoration(
         color: AppColors.kBackgroundColor,
         boxShadow: [
@@ -28,7 +27,9 @@ class BottomNavBarWidget extends StatelessWidget {
       ),
       child: SafeArea(
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, children: children),
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: children),
       ),
     );
   }

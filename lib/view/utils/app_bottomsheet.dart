@@ -26,13 +26,15 @@ class AppBottomSheet {
                     right: 20,
                     bottom: MediaQuery.of(context).viewInsets.bottom),
                 decoration: const ShapeDecoration(
-                    color: AppColors.kBackgroundColor,
+                    color: AppColors.kWhiteColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(24),
                       topRight: Radius.circular(24),
                     ))),
-                child: widget),
+                child: SafeArea(
+                  child: widget,
+                )),
           );
         });
   }

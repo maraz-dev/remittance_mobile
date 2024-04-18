@@ -40,36 +40,25 @@ class TextInput extends StatelessWidget {
               color: AppColors.kSecondaryColor, fontWeight: FontWeight.bold),
         ),
         header != null ? 6.0.height : 0.0.height,
-        Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.kBoxShadowColor,
-                blurRadius: 2,
-                offset: const Offset(0, 1),
-              )
-            ],
-          ),
-          child: TextFormField(
-            controller: controller,
-            keyboardType: inputType,
-            maxLength: maxLength,
-            cursorColor: AppColors.kSecondaryColor,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: validator,
-            readOnly: readOnly,
-            onTap: onPressed,
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: AppColors.kSecondaryColor, fontWeight: FontWeight.w600),
-            decoration: InputDecoration(
-              hintText: hint,
-              hintStyle: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.kHintColor),
-              suffixIcon: suffixIcon,
-              prefixIcon: prefixIcon,
-            ),
+        TextFormField(
+          controller: controller,
+          keyboardType: inputType,
+          maxLength: maxLength,
+          cursorColor: AppColors.kSecondaryColor,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: validator,
+          readOnly: readOnly,
+          onTap: onPressed,
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: AppColors.kSecondaryColor, fontWeight: FontWeight.w600),
+          decoration: InputDecoration(
+            hintText: hint,
+            hintStyle: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(color: AppColors.kHintColor),
+            suffixIcon: suffixIcon,
+            prefixIcon: prefixIcon,
           ),
         )
       ],
@@ -120,46 +109,35 @@ class _PasswordInputState extends State<PasswordInput> {
               color: AppColors.kSecondaryColor, fontWeight: FontWeight.bold),
         ),
         widget.header != null ? 6.0.height : 0.0.height,
-        Container(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.kBoxShadowColor,
-                blurRadius: 2,
-                offset: const Offset(0, 1),
-              )
-            ],
-          ),
-          child: TextFormField(
-            controller: widget.controller,
-            maxLength: widget.maxLength,
-            cursorColor: AppColors.kSecondaryColor,
-            keyboardType: widget.inputType,
-            validator: widget.validator,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            obscureText: obscureText,
-            obscuringCharacter: '*',
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: AppColors.kSecondaryColor, fontWeight: FontWeight.w400),
-            decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  splashRadius: 1,
-                  onPressed: () {
-                    setState(() => obscureText = !obscureText);
-                  },
-                  icon: SvgPicture.asset(
-                    obscureText ? AppImages.eyeSlash : AppImages.eye,
-                    colorFilter: const ColorFilter.mode(
-                        AppColors.kInactiveColor, BlendMode.srcIn),
-                  ),
-                  iconSize: 19,
+        TextFormField(
+          controller: widget.controller,
+          maxLength: widget.maxLength,
+          cursorColor: AppColors.kSecondaryColor,
+          keyboardType: widget.inputType,
+          validator: widget.validator,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          obscureText: obscureText,
+          obscuringCharacter: '*',
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: AppColors.kSecondaryColor, fontWeight: FontWeight.w400),
+          decoration: InputDecoration(
+              suffixIcon: IconButton(
+                splashRadius: 1,
+                onPressed: () {
+                  setState(() => obscureText = !obscureText);
+                },
+                icon: SvgPicture.asset(
+                  obscureText ? AppImages.eyeSlash : AppImages.eye,
+                  colorFilter: const ColorFilter.mode(
+                      AppColors.kInactiveColor, BlendMode.srcIn),
                 ),
-                hintText: widget.hint,
-                hintStyle: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: AppColors.kHintColor)),
-          ),
+                iconSize: 19,
+              ),
+              hintText: widget.hint,
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: AppColors.kHintColor)),
         )
       ],
     )

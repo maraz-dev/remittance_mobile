@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pinput/pinput.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/bottomsheet_title.dart';
+import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/theme/app_theme.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -167,21 +168,24 @@ class _CreateAccountPasswordFormViewState
                                           40.0.height,
                                           MainButton(
                                             text: 'Start Transacting',
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              context.pushReplacementNamed(
+                                                  DashboardView.path);
+                                            },
                                           ),
-                                          30.0.height
+                                          12.0.height
                                         ],
                                       ),
                                     );
                                   },
                                 ),
-                                30.0.height
+                                12.0.height
                               ],
                             ),
                           );
                         },
                       ),
-                      30.0.height
+                      12.0.height
                     ],
                   ),
                 );

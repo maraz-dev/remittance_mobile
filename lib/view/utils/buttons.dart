@@ -5,19 +5,19 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MainButton extends StatelessWidget {
   final String text;
-  final bool isPrimary;
-  final Color color;
-  final Color textColor;
+  final Color? color;
+  final Color? textColor;
+  final Color? borderColor;
   final bool? isLoading;
   final Function()? onPressed;
   const MainButton({
     super.key,
     required this.text,
-    this.isPrimary = true,
-    this.color = AppColors.kPrimaryColor,
-    this.textColor = AppColors.kWhiteColor,
+    this.color,
+    this.textColor,
     required this.onPressed,
     this.isLoading,
+    this.borderColor,
   });
 
   @override
@@ -28,8 +28,9 @@ class MainButton extends StatelessWidget {
         width: double.infinity,
         padding: EdgeInsets.symmetric(vertical: 12.h),
         decoration: BoxDecoration(
-            color: isPrimary ? AppColors.kPrimaryColor : color,
+            color: color ?? AppColors.kPrimaryColor,
             borderRadius: BorderRadius.circular(8.r),
+            border: Border.all(color: borderColor ?? Colors.transparent),
             boxShadow: [
               BoxShadow(
                 color: AppColors.kBoxShadowColor,
@@ -46,8 +47,9 @@ class MainButton extends StatelessWidget {
                 child: Text(
                   text,
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: isPrimary ? AppColors.kWhiteColor : textColor),
+                        fontWeight: FontWeight.bold,
+                        color: textColor ?? AppColors.kWhiteColor,
+                      ),
                 ),
               ),
       ),

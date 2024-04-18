@@ -4,8 +4,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/view/features/auth/login_screen.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
+import 'package:remittance_mobile/view/features/home/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/home_view.dart';
+import 'package:remittance_mobile/view/features/transactions/transaction_details.dart';
 
 final GlobalKey<NavigatorState> rootNavigation = GlobalKey(debugLabel: "root");
 final GlobalKey<NavigatorState> shellNavigation =
@@ -45,6 +47,16 @@ final routeProvider = Provider<GoRouter>((ref) {
                 path: CurrencyAccountView.path,
                 name: CurrencyAccountView.path,
                 builder: (context, state) => const CurrencyAccountView(),
+              ),
+              GoRoute(
+                path: AddMoneyView.path,
+                name: AddMoneyView.path,
+                builder: (context, state) => const AddMoneyView(),
+              ),
+              GoRoute(
+                path: AddMoneyTransactionDetails.path,
+                name: AddMoneyTransactionDetails.path,
+                builder: (context, state) => const AddMoneyTransactionDetails(),
               ),
             ]),
 

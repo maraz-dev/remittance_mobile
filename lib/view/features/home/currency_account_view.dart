@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:remittance_mobile/view/features/accounts/widgets/transaction_card.dart';
-import 'package:remittance_mobile/view/features/home/widgets/account_options.dart';
-import 'package:remittance_mobile/view/features/home/widgets/recent_transaction_header.dart';
-import 'package:remittance_mobile/view/features/home/widgets/section_header.dart';
+import 'package:go_router/go_router.dart';
+import 'package:remittance_mobile/view/features/home/add_money_view.dart';
+import 'package:remittance_mobile/view/features/transactions/widgets/transaction_card.dart';
+import 'package:remittance_mobile/view/widgets/account_options.dart';
+import 'package:remittance_mobile/view/features/transactions/widgets/recent_transaction_header.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
-import 'package:remittance_mobile/view/widgets/back_button.dart';
+import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 
 class CurrencyAccountView extends StatefulWidget {
   static String path = 'currency-account-screen';
@@ -21,11 +22,7 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        leading: const BackArrowButton(),
-        title: const SectionHeader(text: 'USD Account'),
-      ),
+      appBar: innerAppBar(title: 'USD Account'),
       body: SafeArea(
         child: Column(
           children: [
@@ -59,22 +56,23 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                           fontSize: 40.sp),
                     ),
                     65.0.height,
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         AccountOptions(
                           text: 'Add',
                           image: AppImages.add,
+                          onPressed: () => context.pushNamed(AddMoneyView.path),
                         ),
-                        AccountOptions(
+                        const AccountOptions(
                           text: 'Exchange',
                           image: AppImages.exchange,
                         ),
-                        AccountOptions(
+                        const AccountOptions(
                           text: 'Details',
                           image: AppImages.details,
                         ),
-                        AccountOptions(
+                        const AccountOptions(
                           text: 'Statement',
                           image: AppImages.statment,
                         ),

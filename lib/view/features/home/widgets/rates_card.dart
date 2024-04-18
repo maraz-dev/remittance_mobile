@@ -6,14 +6,18 @@ import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class RatesCard extends StatelessWidget {
+  final bool? showBorder;
+  final Color? color;
   const RatesCard({
     super.key,
+    this.showBorder,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+    return ConditionalContainer(
+      showContainer: showBorder ?? true,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),
         border: Border.all(color: AppColors.kBorderColor),
@@ -24,7 +28,7 @@ class RatesCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24),
-              color: AppColors.kCountryDropDownColor,
+              color: color ?? AppColors.kCountryDropDownColor,
             ),
             child: Row(
               children: [
@@ -71,5 +75,32 @@ class RatesCard extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class ConditionalContainer extends StatelessWidget {
+  final bool showContainer;
+  final Widget child;
+  final BoxDecoration? decoration;
+
+  const ConditionalContainer({
+    super.key,
+    required this.showContainer,
+    required this.child,
+    this.decoration,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return showContainer
+        ? Visibility(
+            visible: showContainer,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: decoration,
+              child: child,
+            ),
+          )
+        : child;
   }
 }

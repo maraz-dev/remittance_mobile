@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -131,7 +130,6 @@ class _ChooseCountryViewState extends ConsumerState<ChooseCountryView> {
           ),
         ),
         bottomNavigationBar: BottomNavBarWidget(
-          height: 130.h,
           children: [
             const RichTextWidget(
               text: "By continuing, you’ve accepted our ",

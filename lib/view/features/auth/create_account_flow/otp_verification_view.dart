@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pinput/pinput.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
@@ -53,7 +52,6 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
           ),
         ),
         bottomNavigationBar: BottomNavBarWidget(
-          height: 100.h,
           children: [
             const RichTextWidget(
               text: "Didn't receive a code? ",

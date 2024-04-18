@@ -98,7 +98,7 @@ class _DashboardViewState extends State<DashboardView> {
                     colorFilter: const ColorFilter.mode(
                         AppColors.kSecondaryColorTwo, BlendMode.srcIn),
                   ),
-                  label: 'Accounts'),
+                  label: 'Transactions'),
               BottomNavigationBarItem(
                   activeIcon: SvgPicture.asset(
                     AppImages.activeProfileIcon,

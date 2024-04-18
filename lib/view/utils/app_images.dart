@@ -32,6 +32,7 @@ class AppImages {
   static const statment = '$path/statement.svg';
   static const add = '$path/add.svg';
   static const swap = '$path/swap.svg';
+  static const boxBackArrow = '$path/boxed_back_arrow.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';

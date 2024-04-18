@@ -90,7 +90,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
         ),
       ),
       bottomNavigationBar: BottomNavBarWidget(
-        height: 120.h,
+        height: 135.h,
         children: [
           RichTextWidget(
             text: "Don't have an Account?",
@@ -143,7 +143,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ],
