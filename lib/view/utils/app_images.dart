@@ -33,6 +33,16 @@ class AppImages {
   static const add = '$path/add.svg';
   static const swap = '$path/swap.svg';
   static const boxBackArrow = '$path/boxed_back_arrow.svg';
+  static const airtime = '$path/airtime.svg';
+  static const betting = '$path/betting.svg';
+  static const buy = '$path/buy.svg';
+  static const cableTv = '$path/cable_tv.svg';
+  static const electricity = '$path/electricity.svg';
+  static const internet = '$path/internet.svg';
+  static const sell = '$path/sell.svg';
+  static const servicesSendMoney = '$path/services_send_money.svg';
+  static const virtualCards = '$path/virtual_card.svg';
+  static const servicesReceiveMoney = '$path/services_receive_money.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';
