@@ -19,7 +19,7 @@ class _DashboardViewState extends State<DashboardView> {
   List<Widget> pageList = [
     const HomeView(),
     const ServicesView(),
-    const Center(child: Text('Accounts')),
+    const Center(child: Text('Transactions')),
     const Center(child: Text('Profile')),
   ];
   @override

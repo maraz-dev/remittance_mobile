@@ -41,8 +41,10 @@ class AppImages {
   static const internet = '$path/internet.svg';
   static const sell = '$path/sell.svg';
   static const servicesSendMoney = '$path/services_send_money.svg';
-  static const virtualCards = '$path/virtual_card.svg';
+  static const virtualCards = '$path/virtual_cards.svg';
   static const servicesReceiveMoney = '$path/services_receive_money.svg';
+  static const human = '$path/human.svg';
+  static const copy = '$path/copy.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';

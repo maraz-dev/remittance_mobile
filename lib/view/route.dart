@@ -7,6 +7,16 @@ import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/home/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/home_view.dart';
+import 'package:remittance_mobile/view/features/services/bill-payment/airtime_view.dart';
+import 'package:remittance_mobile/view/features/services/bill-payment/betting_view.dart';
+import 'package:remittance_mobile/view/features/services/bill-payment/cable_tv_view.dart';
+import 'package:remittance_mobile/view/features/services/bill-payment/electricity_view.dart';
+import 'package:remittance_mobile/view/features/services/bill-payment/internet_view.dart';
+import 'package:remittance_mobile/view/features/services/services_view.dart';
+import 'package:remittance_mobile/view/features/services/transfers/receive_money_view.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_final.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_initial.dart';
+import 'package:remittance_mobile/view/features/services/virtual-cards/virtual_cards_empty_view.dart';
 import 'package:remittance_mobile/view/features/transactions/transaction_details.dart';
 
 final GlobalKey<NavigatorState> rootNavigation = GlobalKey(debugLabel: "root");
@@ -59,6 +69,57 @@ final routeProvider = Provider<GoRouter>((ref) {
                 builder: (context, state) => const AddMoneyTransactionDetails(),
               ),
             ]),
+        GoRoute(
+            path: ServicesView.path,
+            name: ServicesView.path,
+            builder: (context, state) => const ServicesView(),
+            routes: [
+              GoRoute(
+                path: BettingView.path,
+                name: BettingView.path,
+                builder: (context, state) => const BettingView(),
+              ),
+              GoRoute(
+                path: ElectricityView.path,
+                name: ElectricityView.path,
+                builder: (context, state) => const ElectricityView(),
+              ),
+              GoRoute(
+                path: CableTvView.path,
+                name: CableTvView.path,
+                builder: (context, state) => const CableTvView(),
+              ),
+              GoRoute(
+                path: AirtimeView.path,
+                name: AirtimeView.path,
+                builder: (context, state) => const AirtimeView(),
+              ),
+              GoRoute(
+                path: InternetView.path,
+                name: InternetView.path,
+                builder: (context, state) => const InternetView(),
+              ),
+              GoRoute(
+                path: SendMoneyInitialView.path,
+                name: SendMoneyInitialView.path,
+                builder: (context, state) => const SendMoneyInitialView(),
+              ),
+              GoRoute(
+                path: SendMoneyFinalView.path,
+                name: SendMoneyFinalView.path,
+                builder: (context, state) => const SendMoneyFinalView(),
+              ),
+              GoRoute(
+                path: ReceiveMoneyView.path,
+                name: ReceiveMoneyView.path,
+                builder: (context, state) => const ReceiveMoneyView(),
+              ),
+              GoRoute(
+                path: VirtualCardEmptyView.path,
+                name: VirtualCardEmptyView.path,
+                builder: (context, state) => const VirtualCardEmptyView(),
+              ),
+            ])
 
         // GoRoute(
         //     path: SMSScreen.path,

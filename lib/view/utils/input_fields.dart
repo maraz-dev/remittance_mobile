@@ -14,6 +14,7 @@ class TextInput extends StatelessWidget {
   final bool readOnly;
   final Function()? onPressed;
   final int? maxLength;
+  final int? maxLines;
   final Widget? prefixIcon, suffixIcon;
   const TextInput({
     super.key,
@@ -27,6 +28,7 @@ class TextInput extends StatelessWidget {
     this.header,
     this.prefixIcon,
     this.suffixIcon,
+    this.maxLines,
   });
 
   @override
@@ -49,6 +51,7 @@ class TextInput extends StatelessWidget {
           validator: validator,
           readOnly: readOnly,
           onTap: onPressed,
+          maxLines: maxLines,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
               color: AppColors.kSecondaryColor, fontWeight: FontWeight.w600),
           decoration: InputDecoration(
