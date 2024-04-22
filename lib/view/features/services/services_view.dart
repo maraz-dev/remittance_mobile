@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:remittance_mobile/view/features/services/services_functions.dart';
+import 'package:remittance_mobile/view/features/services/services_options.dart';
 import 'package:remittance_mobile/view/features/services/widgets/services_card.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';

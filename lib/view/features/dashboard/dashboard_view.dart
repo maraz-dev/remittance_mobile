@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:remittance_mobile/view/features/home/home_view.dart';
+import 'package:remittance_mobile/view/features/profile/profile_view.dart';
 import 'package:remittance_mobile/view/features/services/services_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -20,7 +21,7 @@ class _DashboardViewState extends State<DashboardView> {
     const HomeView(),
     const ServicesView(),
     const Center(child: Text('Transactions')),
-    const Center(child: Text('Profile')),
+    const ProfileView(),
   ];
   @override
   Widget build(BuildContext context) {

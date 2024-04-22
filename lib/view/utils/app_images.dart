@@ -45,12 +45,22 @@ class AppImages {
   static const servicesReceiveMoney = '$path/services_receive_money.svg';
   static const human = '$path/human.svg';
   static const copy = '$path/copy.svg';
+  static const accountLimit = '$path/account_limit.svg';
+  static const directNotification = '$path/direct_notification.svg';
+  static const documentText = '$path/document_text.svg';
+  static const fingerScan = '$path/finger_scan.svg';
+  static const lock = '$path/lock.svg';
+  static const shieldSecurity = '$path/shield_security.svg';
+  static const smsNotification = '$path/sms_notification.svg';
+  static const user = '$path/user.svg';
+  static const uploadImage = '$path/upload_image.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';
   static const tempProfileImage = '$imagePath/profile_image.png';
   static const homeBannerImage = '$imagePath/home_banner_image.png';
   static const accountViewImage = '$imagePath/account_view_background.png';
+  static const profileBackground = '$imagePath/profile_background.png';
 
   /// COUNTRY
   static const String imageCountryPath = 'assets/images/country';

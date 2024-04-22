@@ -7,6 +7,10 @@ import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/home/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/home_view.dart';
+import 'package:remittance_mobile/view/features/profile/personal-info/account_statements_view.dart';
+import 'package:remittance_mobile/view/features/profile/personal-info/personal_details_view.dart';
+import 'package:remittance_mobile/view/features/profile/profile_view.dart';
+import 'package:remittance_mobile/view/features/profile/security/change_password_view.dart';
 import 'package:remittance_mobile/view/features/services/bill-payment/airtime_view.dart';
 import 'package:remittance_mobile/view/features/services/bill-payment/betting_view.dart';
 import 'package:remittance_mobile/view/features/services/bill-payment/cable_tv_view.dart';
@@ -70,56 +74,79 @@ final routeProvider = Provider<GoRouter>((ref) {
               ),
             ]),
         GoRoute(
-            path: ServicesView.path,
-            name: ServicesView.path,
-            builder: (context, state) => const ServicesView(),
-            routes: [
-              GoRoute(
-                path: BettingView.path,
-                name: BettingView.path,
-                builder: (context, state) => const BettingView(),
-              ),
-              GoRoute(
-                path: ElectricityView.path,
-                name: ElectricityView.path,
-                builder: (context, state) => const ElectricityView(),
-              ),
-              GoRoute(
-                path: CableTvView.path,
-                name: CableTvView.path,
-                builder: (context, state) => const CableTvView(),
-              ),
-              GoRoute(
-                path: AirtimeView.path,
-                name: AirtimeView.path,
-                builder: (context, state) => const AirtimeView(),
-              ),
-              GoRoute(
-                path: InternetView.path,
-                name: InternetView.path,
-                builder: (context, state) => const InternetView(),
-              ),
-              GoRoute(
-                path: SendMoneyInitialView.path,
-                name: SendMoneyInitialView.path,
-                builder: (context, state) => const SendMoneyInitialView(),
-              ),
-              GoRoute(
-                path: SendMoneyFinalView.path,
-                name: SendMoneyFinalView.path,
-                builder: (context, state) => const SendMoneyFinalView(),
-              ),
-              GoRoute(
-                path: ReceiveMoneyView.path,
-                name: ReceiveMoneyView.path,
-                builder: (context, state) => const ReceiveMoneyView(),
-              ),
-              GoRoute(
-                path: VirtualCardEmptyView.path,
-                name: VirtualCardEmptyView.path,
-                builder: (context, state) => const VirtualCardEmptyView(),
-              ),
-            ])
+          path: ServicesView.path,
+          name: ServicesView.path,
+          builder: (context, state) => const ServicesView(),
+          routes: [
+            GoRoute(
+              path: BettingView.path,
+              name: BettingView.path,
+              builder: (context, state) => const BettingView(),
+            ),
+            GoRoute(
+              path: ElectricityView.path,
+              name: ElectricityView.path,
+              builder: (context, state) => const ElectricityView(),
+            ),
+            GoRoute(
+              path: CableTvView.path,
+              name: CableTvView.path,
+              builder: (context, state) => const CableTvView(),
+            ),
+            GoRoute(
+              path: AirtimeView.path,
+              name: AirtimeView.path,
+              builder: (context, state) => const AirtimeView(),
+            ),
+            GoRoute(
+              path: InternetView.path,
+              name: InternetView.path,
+              builder: (context, state) => const InternetView(),
+            ),
+            GoRoute(
+              path: SendMoneyInitialView.path,
+              name: SendMoneyInitialView.path,
+              builder: (context, state) => const SendMoneyInitialView(),
+            ),
+            GoRoute(
+              path: SendMoneyFinalView.path,
+              name: SendMoneyFinalView.path,
+              builder: (context, state) => const SendMoneyFinalView(),
+            ),
+            GoRoute(
+              path: ReceiveMoneyView.path,
+              name: ReceiveMoneyView.path,
+              builder: (context, state) => const ReceiveMoneyView(),
+            ),
+            GoRoute(
+              path: VirtualCardEmptyView.path,
+              name: VirtualCardEmptyView.path,
+              builder: (context, state) => const VirtualCardEmptyView(),
+            ),
+          ],
+        ),
+        GoRoute(
+          path: ProfileView.path,
+          name: ProfileView.path,
+          builder: (context, state) => const ProfileView(),
+          routes: [
+            GoRoute(
+              path: PersonalDetailsView.path,
+              name: PersonalDetailsView.path,
+              builder: (context, state) => const PersonalDetailsView(),
+            ),
+            GoRoute(
+              path: ChangePasswordView.path,
+              name: ChangePasswordView.path,
+              builder: (context, state) => const ChangePasswordView(),
+            ),
+            GoRoute(
+              path: AccountStatementView.path,
+              name: AccountStatementView.path,
+              builder: (context, state) => const AccountStatementView(),
+            )
+          ],
+        )
 
         // GoRoute(
         //     path: SMSScreen.path,

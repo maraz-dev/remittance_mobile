@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/home/add_money_view.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/transaction_card.dart';
+import 'package:remittance_mobile/view/utils/box_decoration.dart';
 import 'package:remittance_mobile/view/widgets/account_options.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/recent_transaction_header.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
@@ -92,11 +93,7 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                     const RecentTransactionHeader(),
                     12.0.height,
                     Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.kWhiteColor,
-                        borderRadius: BorderRadius.circular(12.r),
-                        border: Border.all(color: AppColors.kBorderColor),
-                      ),
+                      decoration: whiteCardDecoration(),
                       child: ListView.separated(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
@@ -105,6 +102,7 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                         separatorBuilder: (context, index) {
                           return const Divider(
                             color: AppColors.kBorderColor,
+                            height: 0,
                           );
                         },
                         itemCount: 5,

@@ -10,6 +10,7 @@ import 'package:remittance_mobile/view/features/home/widgets/home_image.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_service_card.dart';
 import 'package:remittance_mobile/view/features/home/widgets/rates_card.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/recent_transaction_header.dart';
+import 'package:remittance_mobile/view/utils/box_decoration.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -84,18 +85,15 @@ class _HomeViewState extends State<HomeView> {
             const RecentTransactionHeader(),
             12.0.height,
             Container(
-              decoration: BoxDecoration(
-                color: AppColors.kWhiteColor,
-                borderRadius: BorderRadius.circular(12.r),
-                border: Border.all(color: AppColors.kBorderColor),
-              ),
+              decoration: whiteCardDecoration(),
               child: ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemBuilder: (context, index) => const TransactionCard(),
                 separatorBuilder: (context, index) {
                   return const Divider(
-                    color: AppColors.kBorderColor,
+                    color: AppColors.kCountryDropDownColor,
+                    height: 0,
                   );
                 },
                 itemCount: 5,
