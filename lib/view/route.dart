@@ -7,6 +7,9 @@ import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/home/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/home_view.dart';
+import 'package:remittance_mobile/view/features/profile/more/help_and_support_view.dart';
+import 'package:remittance_mobile/view/features/profile/more/privacy_policy_view.dart';
+import 'package:remittance_mobile/view/features/profile/more/terms_and_conditions_view.dart';
 import 'package:remittance_mobile/view/features/profile/personal-info/account_statements_view.dart';
 import 'package:remittance_mobile/view/features/profile/personal-info/personal_details_view.dart';
 import 'package:remittance_mobile/view/features/profile/profile_view.dart';
@@ -144,6 +147,21 @@ final routeProvider = Provider<GoRouter>((ref) {
               path: AccountStatementView.path,
               name: AccountStatementView.path,
               builder: (context, state) => const AccountStatementView(),
+            ),
+            GoRoute(
+              path: PrivacyPolicyView.path,
+              name: PrivacyPolicyView.path,
+              builder: (context, state) => const PrivacyPolicyView(),
+            ),
+            GoRoute(
+              path: TermsAndConditionsView.path,
+              name: TermsAndConditionsView.path,
+              builder: (context, state) => const TermsAndConditionsView(),
+            ),
+            GoRoute(
+              path: HelpAndSupportView.path,
+              name: HelpAndSupportView.path,
+              builder: (context, state) => const HelpAndSupportView(),
             )
           ],
         )

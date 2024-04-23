@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:remittance_mobile/view/features/profile/more/help_and_support_view.dart';
+import 'package:remittance_mobile/view/features/profile/more/privacy_policy_view.dart';
+import 'package:remittance_mobile/view/features/profile/more/terms_and_conditions_view.dart';
 import 'package:remittance_mobile/view/features/profile/personal-info/account_statements_view.dart';
 import 'package:remittance_mobile/view/features/profile/personal-info/personal_details_view.dart';
 import 'package:remittance_mobile/view/features/profile/security/change_password_view.dart';
@@ -54,11 +57,21 @@ List profileSecurityItems = [
 
 // More Items
 List profileMoreItems = [
-  ProfileOption(image: AppImages.lock, text: 'Privacy Policy'),
-  ProfileOption(image: AppImages.shieldSecurity, text: 'Terms and Conditions'),
-  ProfileOption(image: AppImages.smsNotification, text: 'Help and Support'),
   ProfileOption(
-      image: AppImages.directNotification,
-      text: 'Log Out',
-      color: AppColors.kErrorColor),
+    image: AppImages.document,
+    text: 'Privacy Policy',
+    optionPath: PrivacyPolicyView.path,
+  ),
+  ProfileOption(
+    image: AppImages.termsAndCondition,
+    text: 'Terms and Conditions',
+    optionPath: TermsAndConditionsView.path,
+  ),
+  ProfileOption(
+    image: AppImages.headphone,
+    text: 'Help and Support',
+    optionPath: HelpAndSupportView.path,
+  ),
+  ProfileOption(
+      image: AppImages.logout, text: 'Log Out', color: AppColors.kErrorColor),
 ];

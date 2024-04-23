@@ -104,8 +104,9 @@ class _ProfileViewState extends State<ProfileView> {
                             return ProfileCard(
                               image: value.image,
                               text: value.text,
-                              onPressed: () =>
-                                  context.pushNamed(value.optionPath),
+                              onPressed: () => value.optionPath == null
+                                  ? null
+                                  : context.pushNamed(value.optionPath),
                             );
                           },
                           separatorBuilder: (context, index) {
@@ -130,8 +131,9 @@ class _ProfileViewState extends State<ProfileView> {
                             return ProfileCard(
                               image: value.image,
                               text: value.text,
-                              onPressed: () =>
-                                  context.pushNamed(value.optionPath),
+                              onPressed: () => value.optionPath == null
+                                  ? null
+                                  : context.pushNamed(value.optionPath),
                             );
                           },
                           separatorBuilder: (context, index) {
@@ -157,6 +159,9 @@ class _ProfileViewState extends State<ProfileView> {
                               image: value.image,
                               text: value.text,
                               color: value.color,
+                              onPressed: () => value.optionPath == null
+                                  ? null
+                                  : context.pushNamed(value.optionPath),
                             );
                           },
                           separatorBuilder: (context, index) {

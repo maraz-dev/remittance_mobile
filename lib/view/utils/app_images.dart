@@ -54,6 +54,16 @@ class AppImages {
   static const smsNotification = '$path/sms_notification.svg';
   static const user = '$path/user.svg';
   static const uploadImage = '$path/upload_image.svg';
+  static const whatsAppButton = '$path/whatsapp_button.svg';
+  static const emailButton = '$path/email_button.svg';
+  static const document = '$path/document.svg';
+  static const headphone = '$path/headphone.svg';
+  static const logout = '$path/logout.svg';
+  static const termsAndCondition = '$path/terms_and_conditions.svg';
+  static const kycAwaiting = '$path/kyc_awaiting.svg';
+  static const kycCurrent = '$path/kyc_current.svg';
+  static const kycDone = '$path/kyc_done.svg';
+  static const kycShield = '$path/kyc_shield.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';
