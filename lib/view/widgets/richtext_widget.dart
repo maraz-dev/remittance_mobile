@@ -5,12 +5,14 @@ import 'package:remittance_mobile/view/theme/app_colors.dart';
 class RichTextWidget extends StatelessWidget {
   final String text, hyperlink;
   final Function()? onTap;
+  final Color? hyperlinkColor;
 
   const RichTextWidget({
     super.key,
     required this.text,
     required this.hyperlink,
     this.onTap,
+    this.hyperlinkColor,
   });
 
   @override
@@ -23,7 +25,9 @@ class RichTextWidget extends StatelessWidget {
           TextSpan(
             text: hyperlink,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontWeight: FontWeight.bold, color: AppColors.kPrimaryColor),
+                  fontWeight: FontWeight.w600,
+                  color: hyperlinkColor ?? AppColors.kPrimaryColor,
+                ),
             recognizer: TapGestureRecognizer()..onTap = onTap,
           ),
         ],

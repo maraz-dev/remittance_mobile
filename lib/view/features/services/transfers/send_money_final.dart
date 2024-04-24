@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
+import 'package:remittance_mobile/view/widgets/amount_input.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/bottomsheet_balance_info.dart';
 import 'package:remittance_mobile/view/widgets/bottomsheet_confirmation_widget.dart';
@@ -39,6 +40,19 @@ class _SendMoneyFinalViewState extends State<SendMoneyFinalView> {
             child: Column(
               children: [
                 10.0.height,
+
+                /// Amount
+                AmountInput(
+                  header: "You'll Send",
+                  controller: _receiveAmount,
+                ),
+                24.0.height,
+
+                /// Amount
+                AmountInput(
+                  header: "Recipient Gets",
+                  controller: _sendAmount,
+                ),
               ],
             ),
           ),

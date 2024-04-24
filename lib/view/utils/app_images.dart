@@ -71,6 +71,7 @@ class AppImages {
   static const homeBannerImage = '$imagePath/home_banner_image.png';
   static const accountViewImage = '$imagePath/account_view_background.png';
   static const profileBackground = '$imagePath/profile_background.png';
+  static const selfieImage = '$imagePath/temp_selfie.png';
 
   /// COUNTRY
   static const String imageCountryPath = 'assets/images/country';

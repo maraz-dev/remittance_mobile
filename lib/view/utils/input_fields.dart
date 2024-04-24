@@ -52,8 +52,8 @@ class TextInput extends StatelessWidget {
           readOnly: readOnly,
           onTap: onPressed,
           maxLines: maxLines,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              color: AppColors.kSecondaryColor, fontWeight: FontWeight.w600),
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: AppColors.kSecondaryColor, fontWeight: FontWeight.w500),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: Theme.of(context)
@@ -121,8 +121,8 @@ class _PasswordInputState extends State<PasswordInput> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           obscureText: obscureText,
           obscuringCharacter: '*',
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              color: AppColors.kSecondaryColor, fontWeight: FontWeight.w400),
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: AppColors.kSecondaryColor, fontWeight: FontWeight.w500),
           decoration: InputDecoration(
               suffixIcon: IconButton(
                 splashRadius: 1,

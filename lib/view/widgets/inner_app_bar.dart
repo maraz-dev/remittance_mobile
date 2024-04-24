@@ -8,5 +8,7 @@ AppBar innerAppBar({required String title}) {
     centerTitle: true,
     leading: const BackArrowButton(),
     title: SectionHeader(text: title),
+    shadowColor: Colors.black.withOpacity(0.5),
+    elevation: 2,
   );
 }

@@ -10,6 +10,7 @@ import 'package:remittance_mobile/view/features/home/widgets/home_image.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_service_card.dart';
 import 'package:remittance_mobile/view/features/home/widgets/rates_card.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/recent_transaction_header.dart';
+import 'package:remittance_mobile/view/utils/bottomsheets/kyc_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/box_decoration.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
@@ -25,6 +26,16 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (timeStamp) {
+        kycBottomSheet(context);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

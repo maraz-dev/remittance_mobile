@@ -6,6 +6,7 @@ import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/input_fields.dart';
 import 'package:remittance_mobile/view/utils/validator.dart';
+import 'package:remittance_mobile/view/widgets/amount_input.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/bottomsheet_balance_info.dart';
 import 'package:remittance_mobile/view/widgets/bottomsheet_confirmation_widget.dart';
@@ -103,6 +104,13 @@ class _CableTvViewState extends State<CableTvView> {
                   validator: validateGeneric,
                 ),
                 24.0.height,
+
+                /// Amount
+                AmountInput(
+                  header: 'Amount',
+                  controller: _amount,
+                ),
+                24.0.height
               ],
             ),
           ),
