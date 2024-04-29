@@ -11,6 +11,7 @@ import 'package:remittance_mobile/view/features/home/kyc-views/means_of_id_view.
 import 'package:remittance_mobile/view/features/home/kyc-views/proof_of_address.dart';
 import 'package:remittance_mobile/view/features/home/kyc-views/selfle_view.dart';
 import 'package:remittance_mobile/view/features/home/kyc-views/ssn_and_bvn_view.dart';
+import 'package:remittance_mobile/view/features/onboarding/onboarding_screen.dart';
 import 'package:remittance_mobile/view/features/profile/more/help_and_support_view.dart';
 import 'package:remittance_mobile/view/features/profile/more/privacy_policy_view.dart';
 import 'package:remittance_mobile/view/features/profile/more/terms_and_conditions_view.dart';
@@ -46,6 +47,11 @@ final routeProvider = Provider<GoRouter>((ref) {
       routes: [
         GoRoute(
           path: "/",
+          name: OnboardingScreen.path,
+          builder: (context, state) => const OnboardingScreen(),
+        ),
+        GoRoute(
+          path: LoginScreen.path,
           name: LoginScreen.path,
           builder: (context, state) => const LoginScreen(),
         ),
