@@ -64,6 +64,7 @@ class AppImages {
   static const kycCurrent = '$path/kyc_current.svg';
   static const kycDone = '$path/kyc_done.svg';
   static const kycShield = '$path/kyc_shield.svg';
+  static const lockIcon = '$path/lock_icon.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';

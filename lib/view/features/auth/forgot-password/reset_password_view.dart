@@ -1,31 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
+import 'package:remittance_mobile/view/features/auth/login_screen.dart';
+import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/input_fields.dart';
 import 'package:remittance_mobile/view/utils/validator.dart';
+import 'package:remittance_mobile/view/widgets/back_button.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
-import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/password_validator.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
+import 'package:remittance_mobile/view/widgets/success_bottomsheet.dart';
 
-class ChangePasswordView extends StatefulWidget {
-  static String path = 'change-password-view';
-  const ChangePasswordView({super.key});
+class ResetPasswordView extends StatefulWidget {
+  static String path = 'reset-password-view';
+  const ResetPasswordView({super.key});
 
   @override
-  State<ChangePasswordView> createState() => _ChangePasswordViewState();
+  State<ResetPasswordView> createState() => _ResetPasswordViewState();
 }
 
-class _ChangePasswordViewState extends State<ChangePasswordView> {
-  final TextEditingController _oldPassword = TextEditingController();
+class _ResetPasswordViewState extends State<ResetPasswordView> {
   final TextEditingController _newPassword = TextEditingController();
   final TextEditingController _confirmNewPassword = TextEditingController();
 
   @override
   void dispose() {
-    _oldPassword.dispose();
     _newPassword.dispose();
     _confirmNewPassword.dispose();
     super.dispose();
@@ -34,22 +37,19 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: innerAppBar(title: 'Change Password'),
       body: ScaffoldBody(
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              24.0.height,
-
-              /// Old Password
-              PasswordInput(
-                header: 'Old Password',
-                controller: _oldPassword,
-                hint: '********',
-                inputType: TextInputType.visiblePassword,
-                validator: validatePassword,
+              32.0.height,
+              const BackArrowButton(),
+              18.0.height,
+              const AuthTitle(
+                title: 'Reset Password',
+                subtitle: 'Enter your New Password.',
               ),
-              16.0.height,
+              32.0.height,
 
               /// New Password
               PasswordInput(
@@ -85,7 +85,16 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
           MainButton(
             //isLoading: true,
             text: 'Change Password',
-            onPressed: () {},
+            onPressed: () {
+              AppBottomSheet.showBottomSheet(context,
+                  widget: SuccessBottomSheet(
+                    title: 'Password Reset Successfully',
+                    subtitle: 'You’ve successfully reset your password',
+                    buttonText: 'Back to Login',
+                    action: () =>
+                        context.pushReplacementNamed(LoginScreen.path),
+                  ));
+            },
             color: AppColors.kPrimaryColor.withOpacity(0.3),
           )
               .animate()

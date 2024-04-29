@@ -10,13 +10,16 @@ import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class SuccessBottomSheet extends StatelessWidget {
-  final String? title, subtitle;
+  final String? title, subtitle, buttonText;
   final bool? isAddMoney;
+  final Function()? action;
   const SuccessBottomSheet({
     super.key,
     this.title,
     this.subtitle,
     this.isAddMoney,
+    this.action,
+    this.buttonText,
   });
 
   @override
@@ -34,13 +37,14 @@ class SuccessBottomSheet extends StatelessWidget {
         ),
         40.0.height,
         MainButton(
-          text: 'Back to Home',
-          onPressed: () {
-            context.pushReplacementNamed(DashboardView.path);
-          },
+          text: buttonText ?? 'Back to Home',
+          onPressed: action ??
+              () {
+                context.pushReplacementNamed(DashboardView.path);
+              },
         ),
         Visibility(
-          visible: isAddMoney ?? true,
+          visible: isAddMoney ?? false,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

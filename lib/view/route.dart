@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
+import 'package:remittance_mobile/view/features/auth/forgot-password/reset_password_view.dart';
+import 'package:remittance_mobile/view/features/auth/forgot-password/security_lock_view.dart';
 import 'package:remittance_mobile/view/features/auth/login_screen.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
@@ -54,6 +57,23 @@ final routeProvider = Provider<GoRouter>((ref) {
           path: LoginScreen.path,
           name: LoginScreen.path,
           builder: (context, state) => const LoginScreen(),
+          routes: [
+            GoRoute(
+              path: SecurityLockView.path,
+              name: SecurityLockView.path,
+              builder: (context, state) => const SecurityLockView(),
+            ),
+            GoRoute(
+              path: ForgotPasswordView.path,
+              name: ForgotPasswordView.path,
+              builder: (context, state) => const ForgotPasswordView(),
+            ),
+            GoRoute(
+              path: ResetPasswordView.path,
+              name: ResetPasswordView.path,
+              builder: (context, state) => const ResetPasswordView(),
+            )
+          ],
         ),
         GoRoute(
           path: CreateAccountView.path,

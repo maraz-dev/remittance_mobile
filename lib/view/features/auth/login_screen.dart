@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
+import 'package:remittance_mobile/view/features/auth/forgot-password/security_lock_view.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
@@ -74,16 +75,19 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                 validator: validatePassword,
               ),
               10.0.height,
-              Text(
-                'Forgot Password?',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: AppColors.kPrimaryColor),
-              )
-                  .animate()
-                  .fadeIn(begin: 0, delay: 500.ms)
-                  .slideY(begin: .5, end: 0),
+              InkWell(
+                onTap: () => context.pushNamed(SecurityLockView.path),
+                child: Text(
+                  'Forgot Password?',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: AppColors.kPrimaryColor),
+                )
+                    .animate()
+                    .fadeIn(begin: 0, delay: 500.ms)
+                    .slideY(begin: .5, end: 0),
+              ),
               24.0.height,
             ],
           ),
