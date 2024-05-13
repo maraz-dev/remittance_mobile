@@ -74,6 +74,11 @@ class AppImages {
   static const profileBackground = '$imagePath/profile_background.png';
   static const selfieImage = '$imagePath/temp_selfie.png';
   static const splashImage = '$imagePath/splash_image.png';
+  static const remittanceLogo = '$imagePath/remittance_logo.png';
+  static const onboardingOne = '$imagePath/onboarding_one.png';
+  static const onboardingTwo = '$imagePath/onboarding_two.png';
+  static const onboardingThree = '$imagePath/onboarding_three.png';
+  static const onboardingFour = '$imagePath/onboarding_four.png';
 
   /// COUNTRY
   static const String imageCountryPath = 'assets/images/country';

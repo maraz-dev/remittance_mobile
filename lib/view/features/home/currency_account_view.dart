@@ -101,7 +101,7 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                             const TransactionCard(),
                         separatorBuilder: (context, index) {
                           return const Divider(
-                            color: AppColors.kBorderColor,
+                            color: AppColors.kCountryDropDownColor,
                             height: 0,
                           );
                         },

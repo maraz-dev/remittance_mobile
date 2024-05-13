@@ -45,35 +45,37 @@ class _LoginViewState extends ConsumerState<ForgotPasswordView> {
       body: ScaffoldBody(
         body: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              32.0.height,
-              const BackArrowButton(),
-              18.0.height,
-              const AuthTitle(
-                title: 'Forgot Password',
-                subtitle: 'Confirm your Email Address Below.',
-              ),
-              32.0.height,
-              TextInput(
-                header: 'Email Address',
-                controller: _email,
-                hint: "Enter Email Address",
-                inputType: TextInputType.emailAddress,
-                validator: validateEmail,
-              ),
-              16.0.height,
-              PasswordInput(
-                header: 'Transaction PIN',
-                controller: _pin,
-                hint: '****',
-                maxLength: 4,
-                inputType: TextInputType.visiblePassword,
-                validator: validatePassword,
-              ),
-              24.0.height,
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                32.0.height,
+                const BackArrowButton(),
+                18.0.height,
+                const AuthTitle(
+                  title: 'Forgot Password',
+                  subtitle: 'Confirm your Email Address Below.',
+                ),
+                32.0.height,
+                TextInput(
+                  header: 'Email Address',
+                  controller: _email,
+                  hint: "Enter Email Address",
+                  inputType: TextInputType.emailAddress,
+                  validator: validateEmail,
+                ),
+                16.0.height,
+                PasswordInput(
+                  header: 'Transaction PIN',
+                  controller: _pin,
+                  hint: '****',
+                  maxLength: 4,
+                  inputType: TextInputType.number,
+                  validator: validatePassword,
+                ),
+                24.0.height,
+              ],
+            ),
           ),
         ),
       ),
@@ -104,6 +106,7 @@ class _LoginViewState extends ConsumerState<ForgotPasswordView> {
                         context.pushNamed(ResetPasswordView.path);
                       },
                     ),
+                    16.0.height,
                   ],
                 ),
               );

@@ -48,49 +48,51 @@ class _LoginViewState extends ConsumerState<SecurityLockView> {
       body: ScaffoldBody(
         body: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              32.0.height,
-              const BackArrowButton(),
-              18.0.height,
-              const AuthTitle(
-                title: 'Security Lock',
-                subtitle: 'Enter your security question and answer',
-              ),
-              32.0.height,
-              TextInput(
-                key: _questionKey,
-                header: 'Security Question 1',
-                controller: _question,
-                hint: "Select Security Question",
-                inputType: TextInputType.emailAddress,
-                validator: validateGeneric,
-                readOnly: true,
-                suffixIcon: SvgPicture.asset(
-                  AppImages.arrowDown,
-                  fit: BoxFit.scaleDown,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                32.0.height,
+                const BackArrowButton(),
+                18.0.height,
+                const AuthTitle(
+                  title: 'Security Lock',
+                  subtitle: 'Enter your security question and answer',
                 ),
-              ),
-              16.0.height,
-              PasswordInput(
-                header: 'Answer',
-                controller: _answer,
-                hint: '********',
-                inputType: TextInputType.visiblePassword,
-                validator: validatePassword,
-              ),
-              16.0.height,
-              PasswordInput(
-                header: 'Transaction PIN',
-                controller: _pin,
-                hint: '****',
-                maxLength: 4,
-                inputType: TextInputType.visiblePassword,
-                validator: validatePassword,
-              ),
-              24.0.height,
-            ],
+                32.0.height,
+                TextInput(
+                  key: _questionKey,
+                  header: 'Security Question 1',
+                  controller: _question,
+                  hint: "Select Security Question",
+                  inputType: TextInputType.emailAddress,
+                  validator: validateGeneric,
+                  readOnly: true,
+                  suffixIcon: SvgPicture.asset(
+                    AppImages.arrowDown,
+                    fit: BoxFit.scaleDown,
+                  ),
+                ),
+                16.0.height,
+                PasswordInput(
+                  header: 'Answer',
+                  controller: _answer,
+                  hint: '********',
+                  inputType: TextInputType.visiblePassword,
+                  validator: validatePassword,
+                ),
+                16.0.height,
+                PasswordInput(
+                  header: 'Transaction PIN',
+                  controller: _pin,
+                  hint: '****',
+                  maxLength: 4,
+                  inputType: TextInputType.number,
+                  validator: validatePassword,
+                ),
+                24.0.height,
+              ],
+            ),
           ),
         ),
       ),
@@ -121,6 +123,7 @@ class _LoginViewState extends ConsumerState<SecurityLockView> {
                         context.pushNamed(ForgotPasswordView.path);
                       },
                     ),
+                    16.0.height,
                   ],
                 ),
               );

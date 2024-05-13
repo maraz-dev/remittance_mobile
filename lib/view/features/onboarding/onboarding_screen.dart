@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
@@ -29,20 +31,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              AppImages.splashImage,
-            ),
             16.0.height,
-            SmoothPageIndicator(
-              controller: _pageController,
-              count: 3,
-              effect: ExpandingDotsEffect(
-                dotColor: AppColors.kBorderColor,
-                dotWidth: 8.w,
-                dotHeight: 8.h,
+            Center(
+              child: Image.asset(
+                AppImages.remittanceLogo,
+                width: 90.w,
               ),
             ),
-            16.0.height,
+            24.0.height,
+            Center(
+              child: SmoothPageIndicator(
+                controller: _pageController,
+                count: 4,
+                axisDirection: Axis.horizontal,
+                effect: SlideEffect(
+                  spacing: 8.0,
+                  radius: 10.0,
+                  dotWidth: 75.w,
+                  dotHeight: 4.5,
+                  paintStyle: PaintingStyle.fill,
+                  strokeWidth: 1.5,
+                  dotColor: Colors.grey.shade300,
+                  activeDotColor: AppColors.kPrimaryColor,
+                ),
+              ),
+            ),
+            32.0.height,
             Expanded(
               child: PageView(
                 controller: _pageController,
@@ -59,6 +73,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       Text(
                         value.subtitle,
                       ),
+                      40.0.height,
+                      Image.asset(value.image)
                     ],
                   );
                 }),
@@ -73,18 +89,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              MainButton(
-                text: "Get Started",
-                onPressed: () => context.pushNamed(CreateAccountView.path),
+              Row(
+                children: [
+                  Expanded(
+                    child: MainButton(
+                      text: "Sign In",
+                      textColor: AppColors.kPrimaryColor,
+                      borderColor: AppColors.kPrimaryColor,
+                      color: Colors.white,
+                      onPressed: () => context.pushNamed(LoginScreen.path),
+                    ),
+                  ),
+                  10.0.width,
+                  Expanded(
+                    child: MainButton(
+                      text: "Get Started",
+                      onPressed: () =>
+                          context.pushNamed(CreateAccountView.path),
+                    ),
+                  ),
+                ],
               ),
-              10.0.height,
-              MainButton(
-                text: "Sign In",
-                textColor: AppColors.kPrimaryColor,
-                borderColor: AppColors.kPrimaryColor,
-                color: Colors.white,
-                onPressed: () => context.pushNamed(LoginScreen.path),
-              ),
+              16.0.height,
             ],
           ),
         ),
