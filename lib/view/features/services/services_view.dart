@@ -21,7 +21,7 @@ class ServicesView extends StatelessWidget {
         title: const SectionHeader(text: 'Services'),
         backgroundColor: AppColors.kWhiteColor,
         shadowColor: Colors.black.withOpacity(0.5),
-        elevation: 2,
+        elevation: 1,
       ),
       body: ScaffoldBody(
         body: SingleChildScrollView(

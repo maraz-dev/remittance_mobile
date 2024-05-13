@@ -65,6 +65,14 @@ class AppImages {
   static const kycDone = '$path/kyc_done.svg';
   static const kycShield = '$path/kyc_shield.svg';
   static const lockIcon = '$path/lock_icon.svg';
+  static const transactionBillPayment = '$path/transaction_bill_payment.svg';
+  static const transactionCardFund = '$path/transaction_card_fund.svg';
+  static const transactionEmpty = '$path/transaction_empty.svg';
+  static const transactionInflow = '$path/transaction_inflow.svg';
+  static const transactionOutflow = '$path/transaction_outflow.svg';
+  static const transactionReceiveMoney = '$path/transaction_receive_money.svg';
+  static const transactionSendMoney = '$path/transaction_send_money.svg';
+  static const transactionStatement = '$path/transaction_statement.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';
