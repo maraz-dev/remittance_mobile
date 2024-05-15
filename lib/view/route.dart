@@ -33,6 +33,8 @@ import 'package:remittance_mobile/view/features/services/transfers/send_money_fi
 import 'package:remittance_mobile/view/features/services/transfers/send_money_initial.dart';
 import 'package:remittance_mobile/view/features/services/virtual-cards/virtual_cards_empty_view.dart';
 import 'package:remittance_mobile/view/features/transactions/transaction_details.dart';
+import 'package:remittance_mobile/view/features/transactions/transaction_history_view.dart';
+import 'package:remittance_mobile/view/features/transactions/transactions_view.dart';
 
 final GlobalKey<NavigatorState> rootNavigation = GlobalKey(debugLabel: "root");
 final GlobalKey<NavigatorState> shellNavigation =
@@ -158,6 +160,17 @@ final routeProvider = Provider<GoRouter>((ref) {
             ),
           ],
         ),
+        GoRoute(
+            path: TransactionsView.path,
+            name: TransactionsView.path,
+            builder: (context, state) => const TransactionsView(),
+            routes: [
+              GoRoute(
+                path: TransactionHistoryView.path,
+                name: TransactionHistoryView.path,
+                builder: (context, state) => const TransactionHistoryView(),
+              )
+            ]),
         GoRoute(
           path: ProfileView.path,
           name: ProfileView.path,

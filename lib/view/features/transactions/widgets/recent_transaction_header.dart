@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:remittance_mobile/view/features/transactions/transaction_history_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 
 class RecentTransactionHeader extends StatelessWidget {
@@ -19,7 +21,7 @@ class RecentTransactionHeader extends StatelessWidget {
               .copyWith(fontWeight: FontWeight.w700),
         ),
         InkWell(
-          onTap: () {},
+          onTap: () => context.pushNamed(TransactionHistoryView.path),
           child: Text(
             'See All',
             style: Theme.of(context).textTheme.bodySmall!.copyWith(

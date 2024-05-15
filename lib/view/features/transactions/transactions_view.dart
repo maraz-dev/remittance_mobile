@@ -10,10 +10,15 @@ import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 
-class TransactionsView extends StatelessWidget {
-  static String path = '/services-view';
+class TransactionsView extends StatefulWidget {
+  static String path = '/transactions-view';
   const TransactionsView({super.key});
 
+  @override
+  State<TransactionsView> createState() => _TransactionsViewState();
+}
+
+class _TransactionsViewState extends State<TransactionsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
