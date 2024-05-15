@@ -1,6 +1,6 @@
 {
-    "name": "smart_pay_mobile",
-    "short_name": "smart_pay_mobile",
+    "name": "remittance_mobile",
+    "short_name": "remittance_mobile",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,4 +1,4 @@
-# smart_pay_mobile
+# remittance_mobile
 
 A new Flutter project.
 
