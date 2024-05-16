@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,6 +10,7 @@ import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/input_fields.dart';
+import 'package:remittance_mobile/view/utils/validator.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
@@ -103,39 +105,43 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                                     ),
                               ),
                               16.0.height,
-                              Expanded(
+                              SizedBox(
+                                height: 35.h,
                                 child: ListView.separated(
                                   shrinkWrap: true,
                                   scrollDirection: Axis.horizontal,
                                   itemCount: filterTabList.length,
                                   separatorBuilder: (context, index) =>
-                                      12.0.height,
+                                      8.0.width,
                                   itemBuilder: (context, index) {
-                                    return GestureDetector(
+                                    return InkWell(
                                       onTap: () {
                                         setState(() {
                                           isSelectedList[index] =
                                               !isSelectedList[index];
                                         });
+                                        if (kDebugMode) print(isSelectedList);
                                       },
                                       child: Container(
-                                        padding: const EdgeInsets.all(8),
-                                        margin: const EdgeInsets.symmetric(
-                                            vertical: 4),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 8),
                                         decoration: BoxDecoration(
                                           color: isSelectedList[index]
                                               ? AppColors.kPrimaryColor
-                                              : null,
+                                              : Colors.transparent,
                                           borderRadius:
                                               BorderRadius.circular(20),
                                         ),
                                         child: Text(
                                           filterTabList[index],
-                                          style: TextStyle(
-                                            color: isSelectedList[index]
-                                                ? Colors.white
-                                                : Colors.black,
-                                          ),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                color: isSelectedList[index]
+                                                    ? AppColors.kWhiteColor
+                                                    : AppColors.kInactiveColor,
+                                              ),
                                         ),
                                       ),
                                     );
@@ -184,6 +190,43 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                                     },
                                   );
                                 },
+                              ),
+
+                              // Custom Date Filter
+                              Visibility(
+                                visible: selectedFilterDate == 'Custom',
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 30),
+                                  child: Column(
+                                    children: [
+                                      8.0.height,
+                                      Row(
+                                        children: [
+                                          Expanded(
+                                            child: TextInput(
+                                              controller: _startDateController,
+                                              header: 'Start Date',
+                                              hint: 'DD/MM',
+                                              inputType: TextInputType.datetime,
+                                              validator: validateGeneric,
+                                            ),
+                                          ),
+                                          16.0.width,
+                                          Expanded(
+                                            child: TextInput(
+                                              controller: _endDateController,
+                                              header: 'End Date',
+                                              hint: 'DD/MM',
+                                              inputType: TextInputType.datetime,
+                                              validator: validateGeneric,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
                               ),
                               24.0.height,
                               MainButton(
