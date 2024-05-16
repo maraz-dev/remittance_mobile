@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/td_tab_bar.dart';
-import 'package:remittance_mobile/view/features/transactions/widgets/transaction_details_card.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
+import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/richtext_widget.dart';
@@ -47,6 +47,7 @@ class _TransactionDetailsState extends State<TransactionDetails>
                 child: Column(
                   children: [
                     16.0.height,
+
                     // Basic Details
                     const CardIcon(
                       image: AppImages.timer,
@@ -67,73 +68,48 @@ class _TransactionDetailsState extends State<TransactionDetails>
                     16.0.height,
 
                     // Tab Bar
-                    const Divider(color: AppColors.kGrey200, height: 0),
+                    const TDLine(),
                     TDTabBar(tabController: _tabController),
-                    32.0.height,
+                    20.0.height,
 
-                    /// Details
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 21),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: AppColors.kBorderColor),
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const TUpdateCard(
-                            title: 'Sender Name',
-                            text: 'Peter Greene',
-                          ),
-                          24.0.height,
-                          const TUpdateCard(
-                            title: 'Transaction Type',
-                            text: 'Send Money',
-                          ),
-                          24.0.height,
-                          const TUpdateCard(
-                            title: 'Recipient Name',
-                            text: 'Paul Blu',
-                          ),
-                          24.0.height,
-                          const TUpdateCard(
-                            title: 'Recipient Bank',
-                            text: 'First Bank Nigeria',
-                          ),
-                          24.0.height,
-                          const TUpdateCard(
-                            title: 'Recipient Account Number',
-                            text: '982377362',
-                          ),
-                          24.0.height,
-                          TUpdateCard(
-                            title: 'Additional Fees',
-                            text: 2.52.amountWithCurrency('usd'),
-                          ),
-                          24.0.height,
-                          const TUpdateCard(
-                            title: 'Transaction ID',
-                            text: '9837982372838',
-                          ),
-                          24.0.height,
-                          const TUpdateCard(
-                            title: 'Account Name',
-                            text: 'USD Account',
-                          ),
+                    // Tab Body
+                    SizedBox(
+                      height: 100,
+                      child: TabBarView(
+                        controller: _tabController,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: const [
+                          Text('Updates'),
+                          Text('Details'),
                         ],
                       ),
                     ),
-                    30.0.height
+                    20.0.height
                   ],
                 ),
+              ),
+              24.0.height,
+              MainButton(
+                text: 'Cancel Transaction',
+                color: AppColors.kBrandColor,
+                textColor: AppColors.kPrimaryColor,
+                onPressed: () {},
               ),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class TDLine extends StatelessWidget {
+  const TDLine({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Divider(color: AppColors.kGrey200, height: 0);
   }
 }

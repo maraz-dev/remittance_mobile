@@ -6,7 +6,7 @@ import 'package:remittance_mobile/view/theme/app_colors.dart';
 ThemeData themeData() {
   return ThemeData(
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      scaffoldBackgroundColor: AppColors.kBackgroundColor,
+      scaffoldBackgroundColor: AppColors.kGrey50,
       fontFamily: 'SFPro',
       textTheme: textTheme(),
       inputDecorationTheme: inputDecorationTheme());
@@ -43,7 +43,7 @@ PinTheme defaultPinInputTheme = PinTheme(
   textStyle: textTheme.call().displayMedium,
   decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(12.r),
-      color: AppColors.kBackgroundColor,
+      color: AppColors.kGrey50,
       border: Border.all(color: AppColors.kSecondaryColorTwo)),
 );
 
