@@ -33,8 +33,7 @@ class KycCard extends StatelessWidget {
               Text(
                 title ?? 'Social Security Number/BVN',
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.kSecondaryColor),
+                    fontWeight: FontWeight.bold, color: AppColors.kGrey700),
               ),
               5.0.height,
               Row(

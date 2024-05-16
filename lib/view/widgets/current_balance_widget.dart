@@ -15,14 +15,14 @@ class CurrentBalanceWidget extends StatelessWidget {
         Text(
           'Current USD Balance',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: AppColors.kSecondaryColor,
+                color: AppColors.kGrey700,
                 fontWeight: FontWeight.bold,
               ),
         ),
         Text(
           500.50.amountWithCurrency('usd'),
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: AppColors.kSecondaryColor,
+                color: AppColors.kGrey700,
                 fontWeight: FontWeight.bold,
               ),
         )

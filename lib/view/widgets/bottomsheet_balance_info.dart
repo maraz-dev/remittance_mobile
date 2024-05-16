@@ -18,7 +18,7 @@ class BottomNavBarBalanceInfo extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: AppColors.kTextfieldColor,
-        border: Border.all(color: AppColors.kCountryDropDownColor),
+        border: Border.all(color: AppColors.kGrey100),
       ),
       child: Column(
         children: [
@@ -37,14 +37,14 @@ class BottomNavBarBalanceInfo extends StatelessWidget {
                     Text(
                       'Payment should arrive',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: AppColors.kSecondaryColor,
+                            color: AppColors.kGrey700,
                             fontWeight: FontWeight.bold,
                           ),
                     ),
                     Text(
                       "by Friday 23",
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: AppColors.kSecondaryColor,
+                            color: AppColors.kGrey700,
                             fontWeight: FontWeight.bold,
                           ),
                     )

@@ -28,7 +28,7 @@ class RatesCard extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(24),
-              color: color ?? AppColors.kCountryDropDownColor,
+              color: color ?? AppColors.kGrey100,
             ),
             child: Row(
               children: [
@@ -56,7 +56,7 @@ class RatesCard extends StatelessWidget {
               Text(
                 1.amountWithCurrency('usd'),
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: AppColors.kSecondaryColor,
+                      color: AppColors.kGrey700,
                       fontWeight: FontWeight.bold,
                     ),
               ),
@@ -66,7 +66,7 @@ class RatesCard extends StatelessWidget {
               Text(
                 1500.00.amountWithCurrency('ngn'),
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: AppColors.kSecondaryColor,
+                      color: AppColors.kGrey700,
                       fontWeight: FontWeight.bold,
                     ),
               ),

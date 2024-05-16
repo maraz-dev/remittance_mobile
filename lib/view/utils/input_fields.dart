@@ -38,22 +38,26 @@ class TextInput extends StatelessWidget {
       children: [
         Text(
           header ?? "",
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: AppColors.kSecondaryColor, fontWeight: FontWeight.bold),
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.bold),
         ),
         header != null ? 6.0.height : 0.0.height,
         TextFormField(
           controller: controller,
           keyboardType: inputType,
           maxLength: maxLength,
-          cursorColor: AppColors.kSecondaryColor,
+          cursorColor: AppColors.kGrey700,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: validator,
           readOnly: readOnly,
           onTap: onPressed,
           maxLines: maxLines,
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: AppColors.kSecondaryColor, fontWeight: FontWeight.w500),
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.w500),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: Theme.of(context)
@@ -108,21 +112,25 @@ class _PasswordInputState extends State<PasswordInput> {
       children: [
         Text(
           widget.header ?? "",
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: AppColors.kSecondaryColor, fontWeight: FontWeight.bold),
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.bold),
         ),
         widget.header != null ? 6.0.height : 0.0.height,
         TextFormField(
           controller: widget.controller,
           maxLength: widget.maxLength,
-          cursorColor: AppColors.kSecondaryColor,
+          cursorColor: AppColors.kGrey700,
           keyboardType: widget.inputType,
           validator: widget.validator,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           obscureText: obscureText,
           obscuringCharacter: '*',
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: AppColors.kSecondaryColor, fontWeight: FontWeight.w500),
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.w500),
           decoration: InputDecoration(
               suffixIcon: IconButton(
                 splashRadius: 1,

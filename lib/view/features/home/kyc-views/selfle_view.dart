@@ -43,14 +43,13 @@ class _SelfieViewState extends State<SelfieView> {
             Text(
               'Selfie Captured!',
               style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.kSecondaryColor),
+                  fontWeight: FontWeight.bold, color: AppColors.kGrey700),
             ),
             8.0.height,
             const RichTextWidget(
               text: 'Continue to ',
               hyperlink: 'Proof of Address',
-              hyperlinkColor: AppColors.kSecondaryColor,
+              hyperlinkColor: AppColors.kGrey700,
             ),
             50.0.height,
             Text(

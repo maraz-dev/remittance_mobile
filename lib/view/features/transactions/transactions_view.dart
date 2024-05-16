@@ -104,7 +104,7 @@ class _TransactionsViewState extends State<TransactionsView> {
                               .textTheme
                               .bodyMedium!
                               .copyWith(
-                                  color: AppColors.kSecondaryColor,
+                                  color: AppColors.kGrey700,
                                   fontWeight: FontWeight.bold),
                         ),
                         Text(

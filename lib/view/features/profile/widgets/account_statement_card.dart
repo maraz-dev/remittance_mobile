@@ -35,8 +35,7 @@ class AccountStatementCard extends StatelessWidget {
               Text(
                 'Statement for Apr.',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: AppColors.kSecondaryColor,
-                    fontWeight: FontWeight.bold),
+                    color: AppColors.kGrey700, fontWeight: FontWeight.bold),
               ),
               const Text('12:21pm'),
             ],
@@ -45,7 +44,7 @@ class AccountStatementCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
             decoration: BoxDecoration(
-              color: AppColors.kCountryDropDownColor,
+              color: AppColors.kGrey100,
               borderRadius: BorderRadius.circular(36.r),
             ),
             child: Row(
@@ -53,7 +52,7 @@ class AccountStatementCard extends StatelessWidget {
                 Text(
                   'Export',
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: AppColors.kSecondaryColor,
+                        color: AppColors.kGrey700,
                         fontWeight: FontWeight.bold,
                       ),
                 ),

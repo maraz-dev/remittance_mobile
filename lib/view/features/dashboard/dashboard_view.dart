@@ -75,7 +75,11 @@ class _DashboardViewState extends State<DashboardView> {
             ),
             items: [
               BottomNavigationBarItem(
-                  activeIcon: SvgPicture.asset(AppImages.activeHomeIcon),
+                  activeIcon: SvgPicture.asset(
+                    AppImages.activeHomeIcon,
+                    colorFilter: const ColorFilter.mode(
+                        AppColors.kPrimaryColor, BlendMode.srcIn),
+                  ),
                   icon: SvgPicture.asset(
                     AppImages.homeIcon,
                     colorFilter: const ColorFilter.mode(
@@ -83,7 +87,11 @@ class _DashboardViewState extends State<DashboardView> {
                   ),
                   label: 'Home'),
               BottomNavigationBarItem(
-                  activeIcon: SvgPicture.asset(AppImages.activeServicesIcon),
+                  activeIcon: SvgPicture.asset(
+                    AppImages.activeServicesIcon,
+                    colorFilter: const ColorFilter.mode(
+                        AppColors.kPrimaryColor, BlendMode.srcIn),
+                  ),
                   icon: SvgPicture.asset(
                     AppImages.servicesIcon,
                     colorFilter: const ColorFilter.mode(

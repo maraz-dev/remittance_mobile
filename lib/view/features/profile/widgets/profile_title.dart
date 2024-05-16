@@ -13,7 +13,7 @@ class ProfileTitle extends StatelessWidget {
     return Text(
       title,
       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            color: AppColors.kSecondaryColor,
+            color: AppColors.kGrey700,
             fontWeight: FontWeight.bold,
           ),
     );

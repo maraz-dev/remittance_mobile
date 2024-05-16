@@ -25,8 +25,10 @@ class AmountInput extends StatelessWidget {
       children: [
         Text(
           header,
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: AppColors.kSecondaryColor, fontWeight: FontWeight.bold),
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.bold),
         ),
         6.0.height,
         Container(
@@ -44,11 +46,11 @@ class AmountInput extends StatelessWidget {
                   controller: controller,
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
-                  cursorColor: AppColors.kSecondaryColor,
+                  cursorColor: AppColors.kGrey700,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   validator: validateGeneric,
                   style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                      color: AppColors.kSecondaryColor,
+                      color: AppColors.kGrey700,
                       fontWeight: FontWeight.w500,
                       fontSize: 40.sp),
                   decoration: InputDecoration(
@@ -90,7 +92,7 @@ class AmountInput extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(24),
-                  color: AppColors.kCountryDropDownColor,
+                  color: AppColors.kGrey100,
                 ),
                 child: Row(
                   children: [
@@ -98,7 +100,7 @@ class AmountInput extends StatelessWidget {
                       'NGN',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontWeight: FontWeight.w500,
-                            color: AppColors.kSecondaryColor,
+                            color: AppColors.kGrey700,
                           ),
                     ),
                     5.0.width,

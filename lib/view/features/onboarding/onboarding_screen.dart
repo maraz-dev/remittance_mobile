@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
@@ -11,7 +10,7 @@ import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart' as spi;
 
 class OnboardingScreen extends StatefulWidget {
   static String path = '/onboarding-view';
@@ -40,11 +39,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
             24.0.height,
             Center(
-              child: SmoothPageIndicator(
+              child: spi.SmoothPageIndicator(
                 controller: _pageController,
                 count: 4,
                 axisDirection: Axis.horizontal,
-                effect: SlideEffect(
+                effect: spi.SlideEffect(
                   spacing: 8.0,
                   radius: 10.0,
                   dotWidth: 75.w,
@@ -74,7 +73,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         value.subtitle,
                       ),
                       40.0.height,
-                      Image.asset(value.image)
+                      Image.asset(value.image).animate().scale()
                     ],
                   );
                 }),
