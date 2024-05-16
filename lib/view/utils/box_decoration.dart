@@ -6,6 +6,6 @@ BoxDecoration whiteCardDecoration() {
   return BoxDecoration(
     color: AppColors.kWhiteColor,
     borderRadius: BorderRadius.circular(12.r),
-    border: Border.all(color: AppColors.kCountryDropDownColor),
+    border: Border.all(color: AppColors.kGrey100),
   );
 }

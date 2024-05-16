@@ -22,7 +22,7 @@ class ProfileOption {
     this.switchButton,
     this.onPressed,
     this.optionPath,
-    this.color = AppColors.kSecondaryColor,
+    this.color = AppColors.kGrey700,
   });
 }
 

@@ -103,9 +103,9 @@ final routeProvider = Provider<GoRouter>((ref) {
                 builder: (context, state) => const AddMoneyView(),
               ),
               GoRoute(
-                path: AddMoneyTransactionDetails.path,
-                name: AddMoneyTransactionDetails.path,
-                builder: (context, state) => const AddMoneyTransactionDetails(),
+                path: TransactionDetails.path,
+                name: TransactionDetails.path,
+                builder: (context, state) => const TransactionDetails(),
               ),
             ]),
         GoRoute(

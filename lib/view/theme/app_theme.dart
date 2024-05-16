@@ -63,19 +63,19 @@ TextTheme textTheme() {
       fontSize: 24.sp,
       fontWeight: FontWeight.w600,
       letterSpacing: -0.2,
-      color: AppColors.kSecondaryColor,
+      color: AppColors.kGrey700,
     ),
     displayMedium: TextStyle(
       fontSize: 22.sp,
       fontWeight: FontWeight.w600,
       letterSpacing: -0.4,
-      color: AppColors.kSecondaryColor,
+      color: AppColors.kGrey700,
     ),
     displaySmall: TextStyle(
       fontSize: 16.sp,
       fontWeight: FontWeight.w600,
       letterSpacing: 0,
-      color: AppColors.kSecondaryColor,
+      color: AppColors.kGrey700,
     ),
     bodyLarge: TextStyle(
       fontSize: 16.sp,

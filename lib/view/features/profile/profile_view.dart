@@ -112,7 +112,7 @@ class _ProfileViewState extends State<ProfileView> {
                           separatorBuilder: (context, index) {
                             return const Divider(
                               height: 0,
-                              color: AppColors.kCountryDropDownColor,
+                              color: AppColors.kGrey100,
                             );
                           },
                           itemCount: profilePersonalInfoItems.length,
@@ -139,7 +139,7 @@ class _ProfileViewState extends State<ProfileView> {
                           separatorBuilder: (context, index) {
                             return const Divider(
                               height: 0,
-                              color: AppColors.kCountryDropDownColor,
+                              color: AppColors.kGrey100,
                             );
                           },
                           itemCount: profileSecurityItems.length,
@@ -167,7 +167,7 @@ class _ProfileViewState extends State<ProfileView> {
                           separatorBuilder: (context, index) {
                             return const Divider(
                               height: 0,
-                              color: AppColors.kCountryDropDownColor,
+                              color: AppColors.kGrey100,
                             );
                           },
                           itemCount: profileMoreItems.length,

@@ -12,8 +12,10 @@ class StatementYearHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text ?? '2024',
-      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-          fontWeight: FontWeight.w900, color: AppColors.kSecondaryColor),
+      style: Theme.of(context)
+          .textTheme
+          .bodyLarge!
+          .copyWith(fontWeight: FontWeight.w900, color: AppColors.kGrey700),
     );
   }
 }

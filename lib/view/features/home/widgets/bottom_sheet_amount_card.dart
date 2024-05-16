@@ -40,8 +40,10 @@ class AdditionalFeeText extends StatelessWidget {
         Text('Additional Fee:', style: Theme.of(context).textTheme.bodySmall),
         Text(
           2.50.amountWithCurrency('usd'),
-          style: Theme.of(context).textTheme.bodySmall!.copyWith(
-              color: AppColors.kSecondaryColor, fontWeight: FontWeight.bold),
+          style: Theme.of(context)
+              .textTheme
+              .bodySmall!
+              .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.bold),
         )
       ],
     );

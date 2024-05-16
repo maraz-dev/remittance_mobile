@@ -28,7 +28,7 @@ class MeansOfIDCard extends StatelessWidget {
               text,
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     fontWeight: FontWeight.w500,
-                    color: AppColors.kSecondaryColor,
+                    color: AppColors.kGrey700,
                   ),
             ),
             const Icon(

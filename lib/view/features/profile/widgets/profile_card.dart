@@ -29,7 +29,7 @@ class ProfileCard extends StatelessWidget {
             SvgPicture.asset(
               image ?? '',
               colorFilter: ColorFilter.mode(
-                color ?? AppColors.kSecondaryColor,
+                color ?? AppColors.kGrey700,
                 BlendMode.srcIn,
               ),
             ),
@@ -37,7 +37,7 @@ class ProfileCard extends StatelessWidget {
             Text(
               text ?? '',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: color ?? AppColors.kSecondaryColor,
+                  color: color ?? AppColors.kGrey700,
                   fontWeight: FontWeight.w600),
             ),
             const Spacer(),

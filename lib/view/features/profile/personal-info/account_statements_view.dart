@@ -39,7 +39,7 @@ class _AccountStatementViewState extends State<AccountStatementView> {
                   separatorBuilder: (context, index) {
                     return const Divider(
                       height: 0,
-                      color: AppColors.kCountryDropDownColor,
+                      color: AppColors.kGrey100,
                     );
                   },
                   itemCount: 4,
@@ -59,7 +59,7 @@ class _AccountStatementViewState extends State<AccountStatementView> {
                   separatorBuilder: (context, index) {
                     return const Divider(
                       height: 0,
-                      color: AppColors.kCountryDropDownColor,
+                      color: AppColors.kGrey100,
                     );
                   },
                   itemCount: 12,

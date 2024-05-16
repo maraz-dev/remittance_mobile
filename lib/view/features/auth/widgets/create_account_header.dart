@@ -18,7 +18,7 @@ class CreateAccountHeader extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .displayLarge!
-                .copyWith(color: AppColors.kSecondaryColor),
+                .copyWith(color: AppColors.kGrey700),
           ),
           TextSpan(
             text: "account",

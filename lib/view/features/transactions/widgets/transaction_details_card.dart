@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 
-class TDetailsCard extends StatelessWidget {
+class TUpdateCard extends StatelessWidget {
   final String? title, text;
-  const TDetailsCard({
+  const TUpdateCard({
     super.key,
     this.title,
     this.text,
@@ -18,7 +18,7 @@ class TDetailsCard extends StatelessWidget {
         Text(
           text ?? 'Peter Greene',
           style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: AppColors.kSecondaryColor,
+                color: AppColors.kGrey700,
                 fontWeight: FontWeight.bold,
               ),
         ),

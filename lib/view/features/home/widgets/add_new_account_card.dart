@@ -30,8 +30,7 @@ class AddNewAccountCard extends StatelessWidget {
             Text(
               'Add New \t',
               style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: AppColors.kSecondaryColor,
-                  fontWeight: FontWeight.bold),
+                  color: AppColors.kGrey700, fontWeight: FontWeight.bold),
             )
           ],
         ),

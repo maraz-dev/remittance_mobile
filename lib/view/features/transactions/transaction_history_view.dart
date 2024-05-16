@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:remittance_mobile/view/features/transactions/transaction_details.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/transaction_card.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
@@ -268,7 +269,11 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                     ListView.separated(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemBuilder: (context, index) => const TransactionCard(),
+                      itemBuilder: (context, index) => InkWell(
+                          onTap: () => context.pushNamed(
+                                TransactionDetails.path,
+                              ),
+                          child: const TransactionCard()),
                       separatorBuilder: (context, index) => 24.0.height,
                       itemCount: 10,
                     ),

@@ -31,8 +31,7 @@ class TransactionCard extends StatelessWidget {
               Text(
                 'Peter Greene',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: AppColors.kSecondaryColor,
-                    fontWeight: FontWeight.w500),
+                    color: AppColors.kGrey700, fontWeight: FontWeight.w500),
               ),
               const Text('Send money . 12:21pm'),
             ],
