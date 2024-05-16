@@ -37,7 +37,7 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.kBackgroundColor,
+        backgroundColor: AppColors.kGrey50,
         automaticallyImplyLeading: false,
         title: const HomeAppBarWidget(),
       ),

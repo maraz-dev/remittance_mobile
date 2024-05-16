@@ -14,8 +14,7 @@ class BSAmountCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
       decoration: BoxDecoration(
-          color: AppColors.kBackgroundColor,
-          borderRadius: BorderRadius.circular(8.r)),
+          color: AppColors.kGrey50, borderRadius: BorderRadius.circular(8.r)),
       child: Text(
         500.20.amountWithCurrency('usd'),
         style: Theme.of(context)

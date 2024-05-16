@@ -16,7 +16,7 @@ class BottomNavBarWidget extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(24, 8, 24, 12),
       //height: height ?? 80.h,
       decoration: BoxDecoration(
-        color: AppColors.kBackgroundColor,
+        color: AppColors.kGrey50,
         boxShadow: [
           BoxShadow(
             color: AppColors.kBoxShadowColor,

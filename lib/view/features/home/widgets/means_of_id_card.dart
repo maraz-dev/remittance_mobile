@@ -18,7 +18,7 @@ class MeansOfIDCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: AppColors.kTextfieldColor,
+          color: AppColors.kGrey50,
           borderRadius: BorderRadius.circular(8.r),
         ),
         child: Row(

@@ -17,7 +17,7 @@ class BottomNavBarBalanceInfo extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: AppColors.kTextfieldColor,
+        color: AppColors.kGrey50,
         border: Border.all(color: AppColors.kGrey100),
       ),
       child: Column(

@@ -20,8 +20,7 @@ class KycCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-          color: AppColors.kBackgroundColor,
-          borderRadius: BorderRadius.circular(8.r)),
+          color: AppColors.kGrey50, borderRadius: BorderRadius.circular(8.r)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
