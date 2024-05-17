@@ -4,8 +4,10 @@ abstract class AppColors {
   static const kPrimaryColor = Color(0xFF6254F6);
   static const kGrey50 = Color(0xFFF9FAFB);
   static const kGrey100 = Color(0xFFF2F4F7);
+  static const kGrey300 = Color(0xFFD0D5DD);
   static const kGrey200 = Color(0xFFEAECF0);
   static const kGrey700 = Color(0xFF344054);
+  static const kGrey800 = Color(0xFF1D2939);
   static const kSecondaryColorTwo = Color(0xFF98A2B3);
 
   static const kInactiveColor = Color(0xFF6B7280);
@@ -26,7 +28,6 @@ abstract class AppColors {
   static const kWarningColor = Color(0xFFDC6803);
   static const kWarningColor50 = Color(0xFFFFFAEB);
   static const kErrorColor = Color(0xFFFA3157);
-  static const kBorderColor = Color(0xFFD0D5DD);
   static const kTextBorderColor = Color(0xFFF9F8FF);
   static final kBoxShadowColor = const Color(0xFF101828).withOpacity(0.1);
 }

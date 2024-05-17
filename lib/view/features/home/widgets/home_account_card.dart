@@ -17,9 +17,10 @@ class AccountsCard extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         padding:
-            const EdgeInsets.only(top: 16, left: 16, bottom: 16, right: 50),
+            const EdgeInsets.only(top: 16, left: 16, bottom: 16, right: 30),
         decoration: BoxDecoration(
-            color: AppColors.kCardColor,
+            color: AppColors.kWhiteColor,
+            border: Border.all(color: AppColors.kGrey300),
             borderRadius: BorderRadius.circular(8.r)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,17 +33,21 @@ class AccountsCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  500.21.amountWithCurrency('usd'),
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: AppColors.kWhiteColor,
-                      fontWeight: FontWeight.bold),
+                SizedBox(
+                  width: 100.w,
+                  child: Text(
+                    5000000.amountWithCurrency('usd'),
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: AppColors.kGrey800, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 Text(
                   'USD',
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: AppColors.kWhiteColor,
-                      fontWeight: FontWeight.bold),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall!
+                      .copyWith(color: AppColors.kGrey800),
                 ),
               ],
             )

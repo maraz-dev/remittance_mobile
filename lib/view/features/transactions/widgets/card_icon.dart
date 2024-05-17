@@ -6,11 +6,13 @@ class CardIcon extends StatelessWidget {
   final String image;
   final double? padding;
   final Color? bgColor;
+  final ColorFilter? iconColor;
   const CardIcon({
     super.key,
     required this.image,
     this.padding,
     this.bgColor,
+    this.iconColor,
   });
 
   @override
@@ -21,7 +23,10 @@ class CardIcon extends StatelessWidget {
         shape: BoxShape.circle,
         color: bgColor ?? AppColors.kSuccessColor50,
       ),
-      child: SvgPicture.asset(image),
+      child: SvgPicture.asset(
+        image,
+        colorFilter: iconColor,
+      ),
     );
   }
 }

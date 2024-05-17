@@ -13,7 +13,7 @@ class TransactionDetailsAmountCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 21),
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.kBorderColor),
+        border: Border.all(color: AppColors.kGrey300),
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: Row(

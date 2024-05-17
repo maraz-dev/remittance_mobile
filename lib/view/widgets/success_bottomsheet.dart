@@ -53,7 +53,7 @@ class SuccessBottomSheet extends StatelessWidget {
                 text: 'See Transaction Receipt',
                 color: AppColors.kWhiteColor,
                 textColor: AppColors.kGrey700,
-                borderColor: AppColors.kBorderColor,
+                borderColor: AppColors.kGrey300,
                 onPressed: () {
                   context.pop();
                   context.pushNamed(TransactionDetails.path);

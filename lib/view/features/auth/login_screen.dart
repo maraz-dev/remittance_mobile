@@ -130,7 +130,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                     decoration: BoxDecoration(
                       color: AppColors.kWhiteColor,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: AppColors.kBorderColor),
+                      border: Border.all(color: AppColors.kGrey300),
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.kBoxShadowColor,

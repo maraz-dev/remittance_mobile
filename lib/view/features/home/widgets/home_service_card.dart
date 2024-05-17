@@ -20,7 +20,7 @@ class HomeServiceCard extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: AppColors.kBorderColor)),
+          border: Border.all(color: AppColors.kGrey300)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
