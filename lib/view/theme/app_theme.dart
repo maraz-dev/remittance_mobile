@@ -19,7 +19,7 @@ InputDecorationTheme inputDecorationTheme() {
   );
   OutlineInputBorder defaultInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(8),
-    borderSide: const BorderSide(color: AppColors.kBorderColor, width: 1),
+    borderSide: const BorderSide(color: AppColors.kGrey300, width: 1),
   );
   OutlineInputBorder errorInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(8),

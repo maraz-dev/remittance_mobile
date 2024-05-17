@@ -20,7 +20,7 @@ class RatesCard extends StatelessWidget {
       showContainer: showBorder ?? true,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8.r),
-        border: Border.all(color: AppColors.kBorderColor),
+        border: Border.all(color: AppColors.kGrey300),
       ),
       child: Row(
         children: [

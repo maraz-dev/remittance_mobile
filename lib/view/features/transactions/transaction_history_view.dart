@@ -98,7 +98,7 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                       decoration: BoxDecoration(
                         color: AppColors.kWhiteColor,
                         borderRadius: BorderRadius.circular(8.r),
-                        border: Border.all(color: AppColors.kBorderColor),
+                        border: Border.all(color: AppColors.kGrey300),
                       ),
                       child: SvgPicture.asset(AppImages.filterList),
                     ),

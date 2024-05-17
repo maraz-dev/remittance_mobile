@@ -36,7 +36,7 @@ class AmountInput extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColors.kWhiteColor,
             borderRadius: BorderRadius.circular(12.r),
-            border: Border.all(color: AppColors.kBorderColor),
+            border: Border.all(color: AppColors.kGrey300),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

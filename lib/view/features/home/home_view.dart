@@ -46,6 +46,8 @@ class _HomeViewState extends State<HomeView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            20.0.height,
+
             /// Acounts
             const SectionHeader(text: 'Accounts'),
             12.0.height,

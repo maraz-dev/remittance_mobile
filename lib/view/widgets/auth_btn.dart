@@ -17,7 +17,7 @@ class AuthBtn extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: AppColors.kBorderColor)),
+            border: Border.all(color: AppColors.kGrey300)),
         child: SvgPicture.asset(image),
       ),
     );
