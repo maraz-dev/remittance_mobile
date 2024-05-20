@@ -75,6 +75,7 @@ class AppImages {
   static const transactionStatement = '$path/transaction_statement.svg';
   static const filterList = '$path/filter_list.svg';
   static const timer = '$path/timer.svg';
+  static const dot = '$path/dot.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';

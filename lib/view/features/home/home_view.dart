@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
-import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
-import 'package:remittance_mobile/view/features/home/widgets/add_new_account_card.dart';
-import 'package:remittance_mobile/view/features/home/widgets/home_account_card.dart';
+import 'package:remittance_mobile/view/features/home/account-view/account_widget.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_appbar.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_image.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_service_card.dart';
-import 'package:remittance_mobile/view/features/home/widgets/rates_card.dart';
 import 'package:remittance_mobile/view/utils/bottomsheets/kyc_bottomsheet.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
@@ -35,6 +31,8 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
+    /// Dummy [bool] to test the Accounts Card
+    const bool doesUserHaveAccount = true;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.kGrey50,
@@ -49,26 +47,8 @@ class _HomeViewState extends State<HomeView> {
             20.0.height,
 
             /// Acounts
-            const SectionHeader(text: 'Accounts'),
-            12.0.height,
-            SizedBox(
-              height: 135.h,
-              child: Row(
-                children: [
-                  const AddNewAccountCard(),
-                  10.0.width,
-                  AccountsCard(
-                    onPressed: () =>
-                        context.pushNamed(CurrencyAccountView.path),
-                  )
-                ],
-              ),
-            ),
-            10.0.height,
-
-            /// Rates
-            const RatesCard(),
-            36.0.height,
+            const AccountsWidget(doesUserHaveAccount: doesUserHaveAccount),
+            24.0.height,
 
             /// Services
             const SectionHeader(text: 'Services'),
