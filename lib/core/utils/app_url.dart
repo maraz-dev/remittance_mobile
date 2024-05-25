@@ -21,53 +21,34 @@ class ApiEndpoints {
   }
 
   static const String devURL =
-      "https://c2uj9fd0p3.execute-api.us-east-2.amazonaws.com/dev/api/v1";
+      "https://g7xnbur2kbxtmlze62vooojm5q0urryd.lambda-url.us-east-2.on.aws";
   static const String productionURL = "";
 
   static final baseUrl =
       _environment == Environmentx.prod ? productionURL : devURL;
 
+  ///Partner Code
+  String get partnerCode => "P00001";
+
   /// version
   String get version => "v1";
 
   /// Authentication
-  String get login => "/Authentication/login";
-  String get forgotPassword => "/Authentication/ForgotPassword";
+  String get login => "/api/v1/partner/auth/Login";
 
   /// Onboarding
-  String get createAccount => "/Onboarding/AddUser";
-  String get sendOtp => "/Onboarding/SendOtp";
-  String get validateOtp => "/Onboarding/ValidateOtp";
-
-  /// Transaction
-  String get getBalanceUnit => "/Transaction/BalanceUnit";
-  String get topUp => "/Transaction/Charge";
-  String get submitCardPin => "/Transaction/SubmitPin";
-  String get submitTransationOTP => "/Transaction/SubmitOtp";
-  String get getTransaction => "/Transaction/GetTransaction";
-
-  /// SMS
-  String get sendQuickSMS => "/SmsManagement/SendMessage";
-
-  /// More
-  String get getAccountDetails => "/UserProfile/GetAccountDetails";
-  String get changePassword => "/UserProfile/ChangePassword";
-  String get getUserContactGroup => "/ContactGroup/GetUserContactGroup";
-  String get getContactByContactGroup => "/Contact/GetByContactGroup";
+  String get initiateOnboarding =>
+      "/api/v1/partner/customer/onboarding/InitiateIndividualOnboarding";
+  String get verifyPhoneNumber =>
+      "/api/v1/partner/customer/onboarding/VerifyPhoneNumber";
+  String get createPassword =>
+      "/api/v1/partner/customer/onboarding/CreatePassword";
 
   ///Refresh Token
   String get refresh => "/$version/auth/refresh";
 
   /// Auth Token
   String get token => "token";
-
-  /// Transactions
-  String get allTransactions => "/transactions";
-
-  String userTransactions(String id) => '/users/$id/transactions';
-  String get sentTransactions => "/$version/transactions/sent";
-  String get transactionOtp => "/$version/otp";
-  String get transactionDetails => "/$version/transactions/";
 }
 
 enum Environment { dev, prod }
