@@ -13,14 +13,14 @@ class CurrencyAccountDetails {
 
 List<CurrencyAccountDetails> accountList = [
   CurrencyAccountDetails(
-    accountImage: AppImages.ng,
-    balance: 5000000,
-    accountType: 'NGN',
-  ),
-  CurrencyAccountDetails(
     accountImage: AppImages.us,
     balance: 500,
     accountType: 'USD',
+  ),
+  CurrencyAccountDetails(
+    accountImage: AppImages.ng,
+    balance: 5000000,
+    accountType: 'NGN',
   ),
   CurrencyAccountDetails(
     accountImage: AppImages.uk,
