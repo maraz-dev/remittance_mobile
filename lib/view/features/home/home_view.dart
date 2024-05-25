@@ -53,19 +53,29 @@ class _HomeViewState extends State<HomeView> {
             /// Services
             const SectionHeader(text: 'Services'),
             8.0.height,
-            const HomeServiceCard(),
+            SizedBox(
+              height: 55,
+              child: ListView.separated(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return homeServiceCardList[index];
+                  },
+                  separatorBuilder: (context, index) => 8.0.width,
+                  itemCount: homeServiceCardList.length),
+            ),
             36.0.height,
 
             /// Banner
             const SectionHeader(text: 'For You'),
             8.0.height,
             SizedBox(
-              height: 120.h,
+              height: 200.h,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return const HomeImage();
+                  return forYouList[index];
                 },
                 separatorBuilder: (context, index) => 12.0.width,
                 itemCount: 2,

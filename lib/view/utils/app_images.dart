@@ -22,7 +22,7 @@ class AppImages {
   static const activeProfileIcon = '$path/active_profile_icon.svg';
   static const notification = '$path/notification.svg';
   static const sendMoney = '$path/send_money.svg';
-  static const payBills = '$path/pay_bill.svg';
+  static const payBills = '$path/pay_bills.svg';
   static const addCard = '$path/add_card.svg';
   static const credit = '$path/credit.svg';
   static const debit = '$path/debit.svg';
@@ -90,6 +90,8 @@ class AppImages {
   static const onboardingTwo = '$imagePath/onboarding_two.png';
   static const onboardingThree = '$imagePath/onboarding_three.png';
   static const onboardingFour = '$imagePath/onboarding_four.png';
+  static const forYouOne = '$imagePath/for_you1.png';
+  static const forYouTwo = '$imagePath/for_you2.png';
 
   /// COUNTRY
   static const String imageCountryPath = 'assets/images/country';

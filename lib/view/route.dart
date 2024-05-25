@@ -4,7 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/reset_password_view.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/security_lock_view.dart';
-import 'package:remittance_mobile/view/features/auth/login_screen.dart';
+import 'package:remittance_mobile/view/features/auth/login_view.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/home/add_money_view.dart';

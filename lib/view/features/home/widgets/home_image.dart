@@ -5,40 +5,60 @@ import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class HomeImage extends StatelessWidget {
+  final String? title, description, image;
   const HomeImage({
     super.key,
+    this.title,
+    this.description,
+    this.image,
   });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.asset(
-          AppImages.homeBannerImage,
-          height: 95.h,
+        Container(
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: Image.asset(
+            image ?? AppImages.forYouOne,
+            width: 240.w,
+            fit: BoxFit.cover,
+            color: AppColors.kGrey800.withOpacity(0.5),
+            colorBlendMode: BlendMode.darken,
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 16, left: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
-                'This is an ad banner placement',
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontWeight: FontWeight.bold, color: AppColors.kWhiteColor),
-              ),
-              5.0.height,
               SizedBox(
-                width: 261.w,
+                width: 200.w,
                 child: Text(
-                  'Description goes here. Description goes here. Description goes here. Description goes here. Description goes here. ',
+                  title ?? 'Refer a Friend',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.kWhiteColor),
+                ),
+              ),
+              3.0.height,
+              SizedBox(
+                width: 200.w,
+                height: 40,
+                child: Text(
+                  description ??
+                      'Virtual card services are provided by Mastercard Inc',
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall!
-                      .copyWith(fontSize: 10.sp, color: AppColors.kWhiteColor),
+                      .copyWith(color: AppColors.kWhiteColor),
                 ),
               ),
-              SizedBox(height: 30.h),
+              20.0.height
             ],
           ),
         )
@@ -46,3 +66,16 @@ class HomeImage extends StatelessWidget {
     );
   }
 }
+
+List forYouList = [
+  const HomeImage(
+    title: 'Refer a Friend',
+    description: 'Give \$20, get \$20',
+    image: AppImages.forYouOne,
+  ),
+  const HomeImage(
+    title: 'Virtual Cards | Spend Anywhere',
+    description: 'Virtual card services are provided by Mastercard Inc',
+    image: AppImages.forYouTwo,
+  ),
+];

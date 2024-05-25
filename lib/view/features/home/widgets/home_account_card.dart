@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:remittance_mobile/view/features/home/widgets/custom_radio_button.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
-import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class AccountsCard extends StatelessWidget {
@@ -27,7 +25,7 @@ class AccountsCard extends StatelessWidget {
       onTap: onPressed,
       child: Container(
         padding:
-            const EdgeInsets.only(top: 16, left: 16, bottom: 16, right: 30),
+            const EdgeInsets.only(top: 16, left: 16, bottom: 16, right: 20),
         decoration: BoxDecoration(
             color: AppColors.kWhiteColor,
             border: onclicked
@@ -38,30 +36,22 @@ class AccountsCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CircleAvatar(
-                  radius: 16.r,
-                  backgroundImage: AssetImage(accountImage),
-                ),
-                Visibility(
-                  visible: onclicked,
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: AppColors.kPinInputColor,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.kPrimaryColor),
-                    ),
-                    child: SvgPicture.asset(
-                      AppImages.dot,
-                      colorFilter: AppColors.kPrimaryColor.colorFilterMode(),
-                    ),
+            SizedBox(
+              width: 120.w,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CircleAvatar(
+                    radius: 16.r,
+                    backgroundImage: AssetImage(accountImage),
                   ),
-                )
-              ],
+                  Visibility(
+                    visible: onclicked,
+                    child: const CustomRadioButton(),
+                  )
+                ],
+              ),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
