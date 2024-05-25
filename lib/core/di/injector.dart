@@ -8,6 +8,9 @@ import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dar
 import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/core/third-party/environment.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
+import 'package:remittance_mobile/data/local/user_data_storage.dart';
+import 'package:remittance_mobile/data/remote/auth/auth_impl.dart';
+import 'package:remittance_mobile/data/remote/auth/auth_service.dart';
 
 final inject = GetIt.instance;
 
@@ -43,28 +46,28 @@ final _networkService = Provider<HttpService>((ref) => NetworkService());
 
 /// User Storage
 
-// final userStorageService = Provider<UserStorageService>((ref) {
-//   return UserStorageService(storageService: ref.watch(hiveStorageService));
-// });
+final userStorageService = Provider<UserStorageService>((ref) {
+  return UserStorageService(storageService: ref.watch(hiveStorageService));
+});
 
-// /// Auth Service
+/// Auth Service
 
-// final _authService = Provider<AuthService>((ref) {
-//   var network = ref.watch(_networkService);
-//   var hiveStorage = ref.watch(hiveStorageService);
-//   var secureStorage = ref.watch(secureStorageService);
-//   return AuthService(
-//       networkService: network,
-//       storage: secureStorage,
-//       hivestorage: hiveStorage);
-// });
+final _authService = Provider<AuthService>((ref) {
+  var network = ref.watch(_networkService);
+  var hiveStorage = ref.watch(hiveStorageService);
+  var secureStorage = ref.watch(secureStorageService);
+  return AuthService(
+      networkService: network,
+      storage: secureStorage,
+      hivestorage: hiveStorage);
+});
 
-// final authRepository = Provider<AuthRepository>(
-//   (ref) {
-//     final authService = ref.watch(_authService);
-//     return AuthImpl(authService);
-//   },
-// );
+final authRepository = Provider<AuthRepository>(
+  (ref) {
+    final authService = ref.watch(_authService);
+    return AuthImpl(authService);
+  },
+);
 
 // /// Dashboard Service
 // final _transactionsService = Provider<TransactionsService>((ref) {

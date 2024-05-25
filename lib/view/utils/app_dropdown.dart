@@ -39,6 +39,7 @@ Future<void> platformSpecificDropdown({
                         style: TextStyle(color: AppColors.kPrimaryColor),
                       ),
                       onPressed: () {
+                        onChanged(value);
                         Navigator.pop(context);
                       },
                     )
@@ -48,7 +49,8 @@ Future<void> platformSpecificDropdown({
                   child: CupertinoPicker(
                     itemExtent: 32.0,
                     onSelectedItemChanged: (index) {
-                      onChanged(items[index]);
+                      //onChanged(items[index]);
+                      value = items[index];
                     },
                     scrollController: FixedExtentScrollController(
                       initialItem: items.indexOf(value),

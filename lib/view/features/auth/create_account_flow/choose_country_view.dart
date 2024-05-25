@@ -33,6 +33,7 @@ class ChooseCountryView extends ConsumerStatefulWidget {
 class _ChooseCountryViewState extends ConsumerState<ChooseCountryView> {
   /// Global Keys
   final GlobalKey<State> _key = GlobalKey();
+  final GlobalKey<FormState> _formKey = GlobalKey();
 
   /// Controllers
   final TextEditingController _country = TextEditingController();
@@ -59,74 +60,77 @@ class _ChooseCountryViewState extends ConsumerState<ChooseCountryView> {
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              16.0.height,
-              const BackArrowButton(),
-              18.0.height,
-              Text(
-                'Sign Up',
-                style: Theme.of(context).textTheme.displayLarge,
-              )
-                  .animate()
-                  .fadeIn(
-                    begin: 0,
-                    delay: 400.ms,
-                  )
-                  .slideY(begin: -.5, end: 0),
-              8.0.height,
-              RichTextWidget(
-                text: 'Already have an Account?',
-                hyperlink: ' Log In',
-                onTap: () => context.pop(),
-              )
-                  .animate()
-                  .fadeIn(
-                    begin: 0,
-                    delay: 400.ms,
-                  )
-                  .slideX(begin: -.1, end: 0),
-              32.0.height,
-              TextInput(
-                key: _key,
-                header: 'Country',
-                controller: _country,
-                hint: "Select your Country",
-                inputType: TextInputType.text,
-                validator: validateGeneric,
-                readOnly: true,
-                suffixIcon: SvgPicture.asset(
-                  AppImages.arrowDown,
-                  fit: BoxFit.scaleDown,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                16.0.height,
+                const BackArrowButton(),
+                18.0.height,
+                Text(
+                  'Sign Up',
+                  style: Theme.of(context).textTheme.displayLarge,
+                )
+                    .animate()
+                    .fadeIn(
+                      begin: 0,
+                      delay: 400.ms,
+                    )
+                    .slideY(begin: -.5, end: 0),
+                8.0.height,
+                RichTextWidget(
+                  text: 'Already have an Account?',
+                  hyperlink: ' Log In',
+                  onTap: () => context.pop(),
+                )
+                    .animate()
+                    .fadeIn(
+                      begin: 0,
+                      delay: 400.ms,
+                    )
+                    .slideX(begin: -.1, end: 0),
+                32.0.height,
+                TextInput(
+                  key: _key,
+                  header: 'Country',
+                  controller: _country,
+                  hint: "Select your Country",
+                  inputType: TextInputType.text,
+                  validator: validateGeneric,
+                  readOnly: true,
+                  suffixIcon: SvgPicture.asset(
+                    AppImages.arrowDown,
+                    fit: BoxFit.scaleDown,
+                  ),
+                  onPressed: () async {
+                    final mounted = this.mounted;
+                    List<CountryModel>? items = await ref
+                        .read(chooseCountryProvider.notifier)
+                        .loadCountries();
+                    if (mounted && items != null && items.isNotEmpty) {
+                      List<String> itemList =
+                          items.map((e) => "${e.flag} ${e.name}").toList();
+                      await platformSpecificDropdown(
+                        key: _key,
+                        context: context,
+                        items: itemList,
+                        value: _selectedCountry.name ?? "",
+                        onChanged: (newValue) {
+                          setState(() {
+                            _country.text = newValue ?? "";
+                            _selectedCountry = items
+                                .where((element) =>
+                                    element.flag == newValue!.split(' ').first)
+                                .single;
+                          });
+                        },
+                      );
+                    }
+                  },
                 ),
-                onPressed: () async {
-                  final mounted = this.mounted;
-                  List<CountryModel>? items = await ref
-                      .read(chooseCountryProvider.notifier)
-                      .loadCountries();
-                  if (mounted && items != null && items.isNotEmpty) {
-                    List<String> itemList =
-                        items.map((e) => "${e.flag} ${e.name}").toList();
-                    await platformSpecificDropdown(
-                      key: _key,
-                      context: context,
-                      items: itemList,
-                      value: _selectedCountry.name ?? "",
-                      onChanged: (newValue) {
-                        setState(() {
-                          _country.text = newValue ?? "";
-                          _selectedCountry = items
-                              .where((element) =>
-                                  element.flag == newValue!.split(' ').first)
-                              .single;
-                        });
-                      },
-                    );
-                  }
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: BottomNavBarWidget(
@@ -141,8 +145,10 @@ class _ChooseCountryViewState extends ConsumerState<ChooseCountryView> {
               //isLoading: true,
               text: 'Continue',
               onPressed: () {
-                widget.pressed();
-                selectedCountry.value = _selectedCountry;
+                if (_formKey.currentState!.validate()) {
+                  widget.pressed();
+                  selectedCountry.value = _selectedCountry;
+                }
               },
             )
                 .animate()

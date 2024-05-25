@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
@@ -15,6 +16,7 @@ class TextInput extends StatelessWidget {
   final Function()? onPressed;
   final int? maxLength;
   final int? maxLines;
+  final List<TextInputFormatter>? inputFormatters;
   final Widget? prefixIcon, suffixIcon;
   const TextInput({
     super.key,
@@ -29,6 +31,7 @@ class TextInput extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.maxLines,
+    this.inputFormatters,
   });
 
   @override
@@ -54,6 +57,7 @@ class TextInput extends StatelessWidget {
           readOnly: readOnly,
           onTap: onPressed,
           maxLines: maxLines,
+          inputFormatters: inputFormatters,
           style: Theme.of(context)
               .textTheme
               .bodyMedium!
