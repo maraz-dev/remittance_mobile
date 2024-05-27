@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class AuthTitle extends StatelessWidget {
-  final String title, subtitle;
+  final String title;
+  final String? subtitle;
   const AuthTitle({
     super.key,
     required this.title,
-    required this.subtitle,
+    this.subtitle,
   });
 
   @override
@@ -26,15 +28,18 @@ class AuthTitle extends StatelessWidget {
             )
             .slideX(begin: -.1, end: 0),
         8.0.height,
-        Text(
-          subtitle,
-        )
-            .animate()
-            .fadeIn(
-              begin: 0,
-              delay: 400.ms,
-            )
-            .slideX(begin: -.1, end: 0),
+        Visibility(
+          visible: subtitle != null,
+          child: Text(
+            subtitle ?? '',
+          )
+              .animate()
+              .fadeIn(
+                begin: 0,
+                delay: 400.ms,
+              )
+              .slideX(begin: -.1, end: 0),
+        ),
       ],
     );
   }

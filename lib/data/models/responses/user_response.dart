@@ -16,7 +16,6 @@ class UserResponse {
   String? refreshToken;
   String? onboardingStatus;
   DateTime? tokenExpiresAt;
-  Permissions? permissions;
   bool? changePassword;
   bool? isLiveMode;
 
@@ -38,7 +37,6 @@ class UserResponse {
     this.refreshToken,
     this.onboardingStatus,
     this.tokenExpiresAt,
-    this.permissions,
     this.changePassword,
     this.isLiveMode,
   });
@@ -63,9 +61,6 @@ class UserResponse {
         tokenExpiresAt: json["tokenExpiresAt"] == null
             ? null
             : DateTime.parse(json["tokenExpiresAt"]),
-        permissions: json["permissions"] == null
-            ? null
-            : Permissions.fromJson(json["permissions"]),
         changePassword: json["changePassword"],
         isLiveMode: json["isLiveMode"],
       );
@@ -88,7 +83,6 @@ class UserResponse {
         "refreshToken": refreshToken,
         "onboardingStatus": onboardingStatus,
         "tokenExpiresAt": tokenExpiresAt?.toIso8601String(),
-        "permissions": permissions?.toJson(),
         "changePassword": changePassword,
         "isLiveMode": isLiveMode,
       };

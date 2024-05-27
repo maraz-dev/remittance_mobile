@@ -16,6 +16,9 @@ import 'package:remittance_mobile/view/utils/validator.dart';
 import 'package:remittance_mobile/view/widgets/back_button.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 
+ValueNotifier<String> successfulCreatedEmail = ValueNotifier('');
+ValueNotifier<String> successfulCreatedPhoneNo = ValueNotifier('');
+
 class CreateAccountFormView extends ConsumerStatefulWidget {
   final VoidCallback pressed;
   const CreateAccountFormView({
@@ -52,8 +55,12 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
   @override
   Widget build(BuildContext context) {
     final loading = ref.watch(initiateOnboardingProvider);
+
+    // Endpoint State
     ref.listen(initiateOnboardingProvider, (_, next) {
       if (next is AsyncData<String>) {
+        successfulCreatedEmail.value = _emailAddress.text;
+        successfulCreatedPhoneNo.value = _phoneNumber.text;
         widget.pressed();
       }
       if (next is AsyncError) {
@@ -155,6 +162,8 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
               text: 'Continue',
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
+                  successfulCreatedPhoneNo.value = _phoneNumber.text;
+                  widget.pressed();
                   ref
                       .read(initiateOnboardingProvider.notifier)
                       .initiateOnboardingMethod(

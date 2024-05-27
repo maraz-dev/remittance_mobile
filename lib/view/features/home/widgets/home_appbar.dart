@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:remittance_mobile/data/models/responses/user_response.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class HomeAppBarWidget extends StatelessWidget {
+  final UserResponse response;
   const HomeAppBarWidget({
     super.key,
+    required this.response,
   });
 
   @override
@@ -24,7 +27,8 @@ class HomeAppBarWidget extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyLarge,
           children: [
             TextSpan(
-                text: 'Ella', style: Theme.of(context).textTheme.displaySmall),
+                text: response.firstName?.split(' ').first ?? '',
+                style: Theme.of(context).textTheme.displaySmall),
             TextSpan(
                 text: '👋', style: Theme.of(context).textTheme.displaySmall),
           ],
