@@ -62,7 +62,7 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
                 RichTextWidget(
                   text: 'Enter the 6 digit code sent to ',
                   hyperlink:
-                      '+${selectedCountry.value.dialCode}${successfulCreatedPhoneNo.value.mask()}',
+                      '+${selectedCountry.value.phoneCode}${successfulCreatedPhoneNo.value.mask()}',
                   hyperlinkColor: AppColors.kGrey700,
                 ),
                 32.0.height,

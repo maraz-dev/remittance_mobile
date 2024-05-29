@@ -8,6 +8,7 @@ import 'package:remittance_mobile/data/models/requests/create_password_req.dart'
 import 'package:remittance_mobile/data/models/requests/initiate_onboarding_req.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
 import 'package:remittance_mobile/data/models/requests/verify_phone_number_req.dart';
+import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
 
 class AuthService {
   final HttpService _networkService;
@@ -33,9 +34,13 @@ class AuthService {
         RequestMethod.post,
         data: initiateOnboardingReq.toJson(),
       );
-      final res = response.data;
-      _storage.saveData('requestId', res['requestId'] ?? '');
-      return res['requestId'];
+      if (response.data['message'] != 'Successful') {
+        throw response.data['error']['message'];
+      } else {
+        final res = response.data;
+        _storage.saveData('requestId', res['requestId'] ?? '');
+        return res['requestId'];
+      }
     } catch (e) {
       throw e.toString();
     }
@@ -71,7 +76,6 @@ class AuthService {
         data: verifyPhoneNumberReq.toJson(),
       );
       final res = response.data;
-
       _storage.saveData('requestId', res['requestId'] ?? '');
       return res['requestId'];
     } catch (e) {
@@ -90,6 +94,21 @@ class AuthService {
 
       _storage.saveData('requestId', res['requestId'] ?? '');
       return res['requestId'];
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<List<NewCountryModel>> getCountries() async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.getCountries,
+        RequestMethod.get,
+      );
+      final res = response.data['data'] as List;
+      final responseList =
+          res.map((json) => NewCountryModel.fromJson(json)).toList();
+      return responseList;
     } catch (e) {
       throw e.toString();
     }

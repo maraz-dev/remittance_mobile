@@ -142,7 +142,7 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          hint: "(+${selectedCountry.value.dialCode})",
+                          hint: "(+${selectedCountry.value.phoneCode})",
                           inputType: TextInputType.number,
                           validator: validateGeneric,
                         ),
@@ -162,8 +162,6 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
               text: 'Continue',
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  successfulCreatedPhoneNo.value = _phoneNumber.text;
-                  widget.pressed();
                   ref
                       .read(initiateOnboardingProvider.notifier)
                       .initiateOnboardingMethod(
@@ -174,7 +172,7 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
                           lastName: _lastName.text.trim(),
                           email: _emailAddress.text.trim(),
                           customerType: 'Individual',
-                          countryCode: selectedCountry.value.dialCode,
+                          countryCode: selectedCountry.value.code,
                           phoneNumber: _phoneNumber.text,
                         ),
                       );

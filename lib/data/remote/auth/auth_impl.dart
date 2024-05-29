@@ -2,6 +2,7 @@ import 'package:remittance_mobile/data/models/requests/create_password_req.dart'
 import 'package:remittance_mobile/data/models/requests/initiate_onboarding_req.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
 import 'package:remittance_mobile/data/models/requests/verify_phone_number_req.dart';
+import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
 import 'package:remittance_mobile/data/remote/auth/auth_service.dart';
 
 abstract class AuthRepository {
@@ -10,6 +11,7 @@ abstract class AuthRepository {
   Future<String> loginEndpoint(LoginReq loginReq);
   Future<String> verifyPhoneNo(VerifyPhoneNumberReq verifyPhoneNumberReq);
   Future<String> createPassword(CreatePasswordReq createPasswordReq);
+  Future<List<NewCountryModel>> getCountries();
 }
 
 class AuthImpl implements AuthRepository {
@@ -34,4 +36,8 @@ class AuthImpl implements AuthRepository {
   @override
   Future<String> createPassword(CreatePasswordReq createPasswordReq) async =>
       await _authService.createPassword(createPasswordReq);
+
+  @override
+  Future<List<NewCountryModel>> getCountries() async =>
+      await _authService.getCountries();
 }
