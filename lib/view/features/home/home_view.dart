@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/data/local/user_data_impl.dart';
+import 'package:remittance_mobile/data/models/responses/user_response.dart';
 import 'package:remittance_mobile/view/features/home/account-view/account_widget.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_appbar.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_image.dart';
@@ -10,15 +13,15 @@ import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends ConsumerStatefulWidget {
   static String path = '/home-view';
   const HomeView({super.key});
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  ConsumerState<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeViewState extends ConsumerState<HomeView> {
   @override
   void initState() {
     super.initState();
@@ -33,11 +36,16 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     /// Dummy [bool] to test the Accounts Card
     const bool doesUserHaveAccount = true;
+
+    // Fetch the Saved User Data
+    final user = ref.watch(localUserProvider);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.kGrey50,
         automaticallyImplyLeading: false,
-        title: const HomeAppBarWidget(),
+        title: HomeAppBarWidget(
+          response: user.value ?? UserResponse(),
+        ),
       ),
       body: ScaffoldBody(
           body: SingleChildScrollView(

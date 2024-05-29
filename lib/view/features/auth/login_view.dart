@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
+import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_form_view.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/security_lock_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/login_vm.dart';
@@ -40,6 +42,14 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
   final TextEditingController _password = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _email.text = successfulCreatedEmail.value.isEmpty
+        ? SharedPrefManager.email
+        : successfulCreatedEmail.value;
+  }
+
+  @override
   void dispose() {
     _email.dispose();
     _password.dispose();
@@ -52,6 +62,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
     ref.listen(loginProvider, (_, next) {
       if (next is AsyncData<String>) {
         context.pushNamed(DashboardView.path);
+        SharedPrefManager.email = _email.text;
       }
       if (next is AsyncError) {
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);

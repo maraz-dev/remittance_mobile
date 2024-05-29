@@ -16,6 +16,9 @@ import 'package:remittance_mobile/view/utils/validator.dart';
 import 'package:remittance_mobile/view/widgets/back_button.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 
+ValueNotifier<String> successfulCreatedEmail = ValueNotifier('');
+ValueNotifier<String> successfulCreatedPhoneNo = ValueNotifier('');
+
 class CreateAccountFormView extends ConsumerStatefulWidget {
   final VoidCallback pressed;
   const CreateAccountFormView({
@@ -52,8 +55,12 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
   @override
   Widget build(BuildContext context) {
     final loading = ref.watch(initiateOnboardingProvider);
+
+    // Endpoint State
     ref.listen(initiateOnboardingProvider, (_, next) {
       if (next is AsyncData<String>) {
+        successfulCreatedEmail.value = _emailAddress.text;
+        successfulCreatedPhoneNo.value = _phoneNumber.text;
         widget.pressed();
       }
       if (next is AsyncError) {
@@ -135,7 +142,7 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          hint: "(+${selectedCountry.value.dialCode})",
+                          hint: "(+${selectedCountry.value.phoneCode})",
                           inputType: TextInputType.number,
                           validator: validateGeneric,
                         ),
@@ -165,7 +172,7 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
                           lastName: _lastName.text.trim(),
                           email: _emailAddress.text.trim(),
                           customerType: 'Individual',
-                          countryCode: selectedCountry.value.dialCode,
+                          countryCode: selectedCountry.value.code,
                           phoneNumber: _phoneNumber.text,
                         ),
                       );

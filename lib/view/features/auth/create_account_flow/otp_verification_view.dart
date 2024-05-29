@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pinput/pinput.dart';
+import 'package:remittance_mobile/data/models/requests/verify_phone_number_req.dart';
+import 'package:remittance_mobile/view/features/auth/create_account_flow/choose_country_view.dart';
+import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_form_view.dart';
+import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/verify_phone_number_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
+import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/theme/app_theme.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
+import 'package:remittance_mobile/view/utils/snackbar.dart';
 import 'package:remittance_mobile/view/widgets/back_button.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/richtext_widget.dart';
@@ -23,32 +29,53 @@ class OTPVerificationView extends ConsumerStatefulWidget {
 }
 
 class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
+  // Key to Hold the state of the Form
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
+    final loading = ref.watch(verifyPhoneNumberProvider);
+
+    // Endpoint State
+    ref.listen(verifyPhoneNumberProvider, (_, next) {
+      if (next is AsyncData<String>) {
+        widget.pressed();
+      }
+      if (next is AsyncError) {
+        SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
+      }
+    });
     return AbsorbPointer(
-      absorbing: false,
+      absorbing: loading.isLoading,
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              16.0.height,
-              const BackArrowButton(),
-              18.0.height,
-              const AuthTitle(
-                  title: 'OTP Verification',
-                  subtitle: 'Enter the 6 digit code sent to +1 **** **** 7376'),
-              32.0.height,
-              Center(
-                child: Pinput(
-                  length: 6,
-                  obscureText: true,
-                  defaultPinTheme: defaultPinInputTheme,
-                  focusedPinTheme: focusedPinInputTheme,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                16.0.height,
+                const BackArrowButton(),
+                18.0.height,
+                const AuthTitle(title: 'OTP Verification'),
+                RichTextWidget(
+                  text: 'Enter the 6 digit code sent to ',
+                  hyperlink:
+                      '+${selectedCountry.value.phoneCode}${successfulCreatedPhoneNo.value.mask()}',
+                  hyperlinkColor: AppColors.kGrey700,
                 ),
-              )
-            ],
+                32.0.height,
+                Center(
+                  child: Pinput(
+                    length: 6,
+                    obscureText: true,
+                    defaultPinTheme: defaultPinInputTheme,
+                    focusedPinTheme: focusedPinInputTheme,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: BottomNavBarWidget(
@@ -60,10 +87,14 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
             ),
             12.0.height,
             MainButton(
-              //isLoading: true,
+              isLoading: loading.isLoading,
               text: 'Continue',
               onPressed: () {
-                widget.pressed();
+                if (_formKey.currentState!.validate()) {
+                  ref
+                      .read(verifyPhoneNumberProvider.notifier)
+                      .verifyPhoneNumberMethod(VerifyPhoneNumberReq());
+                }
               },
             )
                 .animate()

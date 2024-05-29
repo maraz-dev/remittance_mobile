@@ -72,3 +72,20 @@ extension SvgColor on Color {
     return ColorFilter.mode(this, BlendMode.srcIn);
   }
 }
+
+// Extension to Mask the Characters of a Phone Number aside the last 4 digits
+extension MaskString on String {
+  // Extension to Mask the Characters of a Phone Number aside the last 4 digits
+  String mask() {
+    if (length <= 4) {
+      // Return the original string if it's 4 characters or less
+      return this;
+    }
+
+    int len = length;
+    String lastFour = substring(len - 4);
+    String masked = '*' * 5;
+
+    return masked + lastFour;
+  }
+}

@@ -81,7 +81,7 @@ class _PersonalDetailsViewState extends State<PersonalDetailsView> {
                     ),
                   ],
                 ),
-                hint: "(+${selectedCountry.value.dialCode})",
+                hint: "(+${selectedCountry.value.phoneCode})",
                 inputType: TextInputType.number,
                 validator: validateGeneric,
                 readOnly: true,
