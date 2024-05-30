@@ -93,6 +93,7 @@ class PasswordInput extends StatefulWidget {
   final String? header;
   final String hint;
   final int? maxLength;
+  final List<TextInputFormatter>? inputFormatters;
   const PasswordInput({
     super.key,
     required this.controller,
@@ -101,6 +102,7 @@ class PasswordInput extends StatefulWidget {
     required this.validator,
     this.maxLength,
     this.header,
+    this.inputFormatters,
   });
 
   @override
@@ -128,6 +130,7 @@ class _PasswordInputState extends State<PasswordInput> {
           cursorColor: AppColors.kGrey700,
           keyboardType: widget.inputType,
           validator: widget.validator,
+          inputFormatters: widget.inputFormatters,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           obscureText: obscureText,
           obscuringCharacter: '*',

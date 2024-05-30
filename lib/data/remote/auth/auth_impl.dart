@@ -1,8 +1,11 @@
 import 'package:remittance_mobile/data/models/requests/create_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_onboarding_req.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
+import 'package:remittance_mobile/data/models/requests/security_questions_req.dart';
+import 'package:remittance_mobile/data/models/requests/set_pin_req.dart';
 import 'package:remittance_mobile/data/models/requests/verify_phone_number_req.dart';
 import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
+import 'package:remittance_mobile/data/models/responses/security_question.dart';
 import 'package:remittance_mobile/data/remote/auth/auth_service.dart';
 
 abstract class AuthRepository {
@@ -12,6 +15,13 @@ abstract class AuthRepository {
   Future<String> verifyPhoneNo(VerifyPhoneNumberReq verifyPhoneNumberReq);
   Future<String> createPassword(CreatePasswordReq createPasswordReq);
   Future<List<NewCountryModel>> getCountries();
+  Future<String> setPinEndpoint(SetPinReq setPinReq);
+  Future<String> validatePinEndpoint(String pin);
+  Future<List<SecurityQuestionItem>> getSecurityQuestionEndpoint();
+  Future<String> setSecurityQuestionEndpoint(
+      SecurityQuestionReq securityQuestionReq);
+  Future<String> validateSecurityQuestionEndpoint(
+      SecurityQuestionReq securityQuestionReq);
 }
 
 class AuthImpl implements AuthRepository {
@@ -31,13 +41,37 @@ class AuthImpl implements AuthRepository {
   @override
   Future<String> verifyPhoneNo(
           VerifyPhoneNumberReq verifyPhoneNumberReq) async =>
-      await _authService.verifyPhoneNo(verifyPhoneNumberReq);
+      await _authService.verifyPhoneNoEndpoint(verifyPhoneNumberReq);
 
   @override
   Future<String> createPassword(CreatePasswordReq createPasswordReq) async =>
-      await _authService.createPassword(createPasswordReq);
+      await _authService.createPasswordEndpoint(createPasswordReq);
 
   @override
   Future<List<NewCountryModel>> getCountries() async =>
-      await _authService.getCountries();
+      await _authService.getCountriesEndpoint();
+
+  @override
+  Future<List<SecurityQuestionItem>> getSecurityQuestionEndpoint() async =>
+      await _authService.getSecurityQuestionEndpoint();
+
+  @override
+  Future<String> setPinEndpoint(SetPinReq setPinReq) async =>
+      await _authService.setPinEndpoint(setPinReq);
+
+  @override
+  Future<String> setSecurityQuestionEndpoint(
+          SecurityQuestionReq securityQuestionReq) async =>
+      await _authService.setSecurityQuestionEndpoint(securityQuestionReq);
+
+  @override
+  Future<String> validatePinEndpoint(String pin) async =>
+      await _authService.validatePinEndpoint(pin);
+
+  @override
+  Future<String> validateSecurityQuestionEndpoint(
+      SecurityQuestionReq securityQuestionReq) async {
+    return await _authService
+        .validateSecurityQuestionEndpoint(securityQuestionReq);
+  }
 }

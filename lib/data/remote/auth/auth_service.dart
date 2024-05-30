@@ -7,8 +7,12 @@ import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/data/models/requests/create_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_onboarding_req.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
+import 'package:remittance_mobile/data/models/requests/security_questions_req.dart';
+import 'package:remittance_mobile/data/models/requests/set_pin_req.dart';
+import 'package:remittance_mobile/data/models/requests/validate_pin_req.dart';
 import 'package:remittance_mobile/data/models/requests/verify_phone_number_req.dart';
 import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
+import 'package:remittance_mobile/data/models/responses/security_question.dart';
 
 class AuthService {
   final HttpService _networkService;
@@ -67,7 +71,7 @@ class AuthService {
     }
   }
 
-  Future<String> verifyPhoneNo(
+  Future<String> verifyPhoneNoEndpoint(
       VerifyPhoneNumberReq verifyPhoneNumberReq) async {
     try {
       final response = await _networkService.request(
@@ -75,40 +79,145 @@ class AuthService {
         RequestMethod.post,
         data: verifyPhoneNumberReq.toJson(),
       );
-      final res = response.data;
-      _storage.saveData('requestId', res['requestId'] ?? '');
-      return res['requestId'];
+      if (response.data['message'] != 'Successful') {
+        throw response.data['error']['message'];
+      } else {
+        final res = response.data;
+        _storage.saveData('requestId', res['requestId'] ?? '');
+        return res['requestId'];
+      }
     } catch (e) {
       throw e.toString();
     }
   }
 
-  Future<String> createPassword(CreatePasswordReq createPasswordReq) async {
+  Future<String> createPasswordEndpoint(
+      CreatePasswordReq createPasswordReq) async {
     try {
       final response = await _networkService.request(
         endpointUrl.createPassword,
         RequestMethod.post,
         data: createPasswordReq.toJson(),
       );
-      final res = response.data;
+      if (response.data['message'] != 'Successful') {
+        throw response.data['error']['message'];
+      } else {
+        final res = response.data;
 
-      _storage.saveData('requestId', res['requestId'] ?? '');
-      return res['requestId'];
+        _storage.saveData('requestId', res['requestId'] ?? '');
+        return res['requestId'];
+      }
     } catch (e) {
       throw e.toString();
     }
   }
 
-  Future<List<NewCountryModel>> getCountries() async {
+  Future<List<NewCountryModel>> getCountriesEndpoint() async {
     try {
       final response = await _networkService.request(
-        endpointUrl.getCountries,
+        endpointUrl.baseUrlTwo + endpointUrl.getCountries,
         RequestMethod.get,
       );
-      final res = response.data['data'] as List;
-      final responseList =
-          res.map((json) => NewCountryModel.fromJson(json)).toList();
-      return responseList;
+      if (response.data['message'] != 'Successful') {
+        throw response.data['error']['message'];
+      } else {
+        final res = response.data['data'] as List;
+        final responseList =
+            res.map((json) => NewCountryModel.fromJson(json)).toList();
+        return responseList;
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<String> setPinEndpoint(SetPinReq setPinReq) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.setPin,
+        RequestMethod.post,
+        data: setPinReq.toJson(),
+      );
+      if (response.data['message'] != 'Successful') {
+        throw response.data['error']['message'];
+      } else {
+        return response.data['message'];
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<String> validatePinEndpoint(String pin) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.validatePin,
+        RequestMethod.post,
+        data: ValidatePinReq(
+          emailAddress: SharedPrefManager.email,
+          pin: pin,
+        ).toJson(),
+      );
+      if (response.data['message'] != 'Successful') {
+        throw response.data['error']['message'];
+      } else {
+        return response.data['message'];
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<List<SecurityQuestionItem>> getSecurityQuestionEndpoint() async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.getSecurityQuestion,
+        RequestMethod.get,
+      );
+      if (response.data['message'] != 'Successful') {
+        throw response.data['error']['message'];
+      } else {
+        final res = response.data['data'] as List;
+        final responseList =
+            res.map((json) => SecurityQuestionItem.fromJson(json)).toList();
+        return responseList;
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<String> setSecurityQuestionEndpoint(
+      SecurityQuestionReq securityQuestionReq) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.setSecurityQuestion,
+        RequestMethod.post,
+        data: securityQuestionReq.toJson(),
+      );
+      if (response.data['message'] != 'Successful') {
+        throw response.data['error']['message'];
+      } else {
+        return response.data['message'];
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<String> validateSecurityQuestionEndpoint(
+      SecurityQuestionReq securityQuestionReq) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.validateSecurityQuestion,
+        RequestMethod.post,
+        data: securityQuestionReq.toJson(),
+      );
+      if (response.data['message'] != 'Successful') {
+        throw response.data['error']['message'];
+      } else {
+        return response.data['message'];
+      }
     } catch (e) {
       throw e.toString();
     }

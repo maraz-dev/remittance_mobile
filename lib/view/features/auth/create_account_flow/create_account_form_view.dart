@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -7,7 +9,7 @@ import 'package:remittance_mobile/data/models/requests/initiate_onboarding_req.d
 import 'package:remittance_mobile/view/features/auth/create_account_flow/choose_country_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/initiate_onboarding_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
-import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:http/http.dart' as http;
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/input_fields.dart' as input;
@@ -41,6 +43,43 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
   final TextEditingController _lastName = TextEditingController();
   final TextEditingController _emailAddress = TextEditingController();
   final TextEditingController _phoneNumber = TextEditingController();
+
+  Future<String> imageToBase64(String imageUrl) async {
+    try {
+      // Fetch the image from the URL
+      final response = await http.get(Uri.parse(imageUrl));
+
+      if (response.statusCode == 200) {
+        // Convert the image bytes to Base64
+        final bytes = response.bodyBytes;
+        final base64String = base64Encode(bytes);
+        return base64String;
+      } else {
+        throw Exception('Failed to load image');
+      }
+    } catch (e) {
+      throw Exception('Error: $e');
+    }
+  }
+
+  String? base64String;
+
+  Future<void> convertImage() async {
+    try {
+      String base64 = await imageToBase64(selectedCountry.value.flagSvg ?? "");
+      setState(() {
+        base64String = base64;
+      });
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    convertImage();
+  }
 
   @override
   void dispose() {
@@ -128,15 +167,18 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
                           prefixIcon: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                selectedCountry.value.code ?? "",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                        color: AppColors.kBlackColor,
-                                        fontWeight: FontWeight.bold),
-                              ),
+                              // SvgPicture.network(
+                              //     selectedCountry.value.flagSvg ?? ''),
+                              Text(base64String ?? '')
+                              // Text(
+                              //   selectedCountry.value.code ?? "",
+                              //   style: Theme.of(context)
+                              //       .textTheme
+                              //       .bodyMedium!
+                              //       .copyWith(
+                              //           color: AppColors.kBlackColor,
+                              //           fontWeight: FontWeight.bold),
+                              // ),
                             ],
                           ),
                           inputFormatters: [
@@ -172,7 +214,7 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
                           lastName: _lastName.text.trim(),
                           email: _emailAddress.text.trim(),
                           customerType: 'Individual',
-                          countryCode: selectedCountry.value.code,
+                          countryCode: selectedCountry.value.phoneCode,
                           phoneNumber: _phoneNumber.text,
                         ),
                       );

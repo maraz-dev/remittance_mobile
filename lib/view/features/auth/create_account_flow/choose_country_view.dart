@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
-import 'package:remittance_mobile/view/features/auth/vm/countries_vm.dart';
+import 'package:remittance_mobile/view/features/auth/vm/auth_providers.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_dropdown.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -120,7 +120,8 @@ class _ChooseCountryViewState extends ConsumerState<ChooseCountryView> {
                       //     .loadCountries();
                       if (mounted && data.isNotEmpty) {
                         List<String> itemList =
-                            data.map((e) => " ${e.name}").toList();
+                            data.map((e) => "${e.name}").toList();
+                        itemList.sort();
                         await platformSpecificDropdown(
                           key: _key,
                           context: context,
@@ -129,8 +130,8 @@ class _ChooseCountryViewState extends ConsumerState<ChooseCountryView> {
                           onChanged: (newValue) {
                             setState(() {
                               _country.text = newValue ?? "";
-                              _selectedCountry = data.elementAt(
-                                  data.indexWhere((element) => true));
+                              _selectedCountry = data.elementAt(data.indexWhere(
+                                  (element) => element.name == newValue));
                             });
                           },
                         );

@@ -22,25 +22,60 @@ class ApiEndpoints {
     _environment = environment;
   }
 
+  String get baseURL {
+    switch (_environment) {
+      case Environmentx.dev:
+        return devURL;
+      case Environmentx.prod:
+        return productionURL;
+      default:
+        return "";
+    }
+  }
+
+  String get baseUrlTwo {
+    switch (_environment) {
+      case Environmentx.dev:
+        return devURLTwo;
+      case Environmentx.prod:
+        return productionURL;
+      default:
+        return "";
+    }
+  }
+
   static const String devURL =
       "https://g7xnbur2kbxtmlze62vooojm5q0urryd.lambda-url.us-east-2.on.aws";
   static const String devURLTwo =
       "https://ezlxlamrm6k2mjma5gvjk5bqge0qomep.lambda-url.us-east-2.on.aws";
   static const String productionURL = "";
 
-  static final baseUrl =
-      _environment == Environmentx.prod ? productionURL : devURLTwo;
+  // static final baseUrl =
+  //     _environment == Environmentx.prod ? productionURL : devURL;
 
-  ///Partner Code
+  // Partner Code
   String get partnerCode => "P00001";
 
   /// version
   String get version => "v1";
 
-  /// Authentication
+  // Authentication
   String get login => "/api/v1/partner/auth/Login";
+  String get setPin => "/api/v1/partner/auth/SetPin";
+  String get validatePin => "/api/v1/partner/auth/ValidatePin";
+  String get changePassword => "/api/v1/partner/auth/ChangePassword";
 
-  /// Onboarding
+  // Security Questions
+  String get getSecurityQuestion =>
+      "/api/v1/SecurityQuestion/GetSecurityQuestions";
+  String get getUserSecurityQuestion =>
+      "/api/v1/SecurityQuestion/GetUserSecurityQuestions";
+  String get setSecurityQuestion =>
+      "/api/v1/SecurityQuestion/SetUserSecurityQuestion";
+  String get validateSecurityQuestion =>
+      "/api/v1/SecurityQuestion/ValidateSecurityQuestion";
+
+  // Onboarding
   String get initiateOnboarding =>
       "/api/v1/partner/customer/onboarding/InitiateIndividualOnboarding";
   String get verifyPhoneNumber =>
@@ -49,10 +84,10 @@ class ApiEndpoints {
       "/api/v1/partner/customer/onboarding/CreatePassword";
   String get getCountries => "/api/v1/Utility/countries?includeFlagImage=true";
 
-  ///Refresh Token
+  // Refresh Token
   String get refresh => "/$version/auth/refresh";
 
-  /// Auth Token
+  // Auth Token
   String get token => "token";
 }
 

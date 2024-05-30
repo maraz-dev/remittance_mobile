@@ -6,3 +6,9 @@ final getCountryProvider = FutureProvider.autoDispose(
     return ref.read(authRepository).getCountries();
   },
 );
+
+final getSecurityQuestionsProvider = FutureProvider.autoDispose(
+  (ref) async {
+    return ref.read(authRepository).getSecurityQuestionEndpoint();
+  },
+);
