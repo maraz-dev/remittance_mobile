@@ -162,16 +162,18 @@ class _LoginViewState extends ConsumerState<SecurityLockView> {
                         readOnly: true,
                         onPressed: () {
                           platformSpecificDropdown(
-                              context: context,
-                              items: itemList,
-                              value: _selectedQuestion.id ?? '',
-                              onChanged: (newValue) {
-                                _question.text = newValue ?? '';
-                                _selectedQuestion = data.elementAt(
-                                    data.indexWhere((element) =>
-                                        element.question == newValue));
-                              },
-                              key: _questionKey);
+                            context: context,
+                            items: itemList,
+                            value: _selectedQuestion.id ?? '',
+                            onChanged: (newValue) {
+                              _question.text = newValue ?? '';
+                              _selectedQuestion = data.elementAt(
+                                data.indexWhere(
+                                    (element) => element.question == newValue),
+                              );
+                            },
+                            key: _questionKey,
+                          );
                         },
                         suffixIcon: SvgPicture.asset(
                           AppImages.arrowDown,
