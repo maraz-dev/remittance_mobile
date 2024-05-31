@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/security_questions_req.dart';
 import 'package:remittance_mobile/data/models/responses/security_question.dart';
-import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
+import 'package:remittance_mobile/view/features/auth/login_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/auth_providers.dart';
 import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/validate_pin_vm.dart';
 import 'package:remittance_mobile/view/features/auth/vm/security_questions_vm/validate_security_question.dart';
@@ -81,7 +81,7 @@ class _LoginViewState extends ConsumerState<SecurityLockView> {
                 text: 'Back to Dashboard',
                 onPressed: () {
                   context.pop();
-                  context.pushNamed(ForgotPasswordView.path);
+                  context.pushNamed(LoginScreen.path);
                 },
               ),
               16.0.height,
@@ -125,7 +125,7 @@ class _LoginViewState extends ConsumerState<SecurityLockView> {
                   18.0.height,
                   const AuthTitle(
                     title: 'Security Lock',
-                    subtitle: 'Enter your security question and answer',
+                    subtitle: 'Enter your Security Question and Answer',
                   ),
                   32.0.height,
                   getSecurityQuestion.maybeWhen(

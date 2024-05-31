@@ -73,7 +73,7 @@ class ApiEndpoints {
   String get setSecurityQuestion =>
       "/api/v1/SecurityQuestion/SetUserSecurityQuestion";
   String get validateSecurityQuestion =>
-      "/api/v1/SecurityQuestion/ValidateSecurityQuestion";
+      "/api/v1/SecurityQuestion/ValidateUseSecurityQuestion";
 
   // Onboarding
   String get initiateOnboarding =>

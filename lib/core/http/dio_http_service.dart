@@ -62,8 +62,8 @@ class NetworkService implements HttpService {
   factory NetworkService() => _instance;
 
   BaseOptions get baseOptions => BaseOptions(
-        connectTimeout: const Duration(milliseconds: 30000),
-        receiveTimeout: const Duration(milliseconds: 30000),
+        connectTimeout: const Duration(milliseconds: 60000),
+        receiveTimeout: const Duration(milliseconds: 60000),
         baseUrl: baseUrl,
         headers: headers,
       );

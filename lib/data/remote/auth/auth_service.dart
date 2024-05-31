@@ -30,26 +30,6 @@ class AuthService {
 // Endpoint URL Instance
   final endpointUrl = ApiEndpoints.instance;
 
-  Future<String> initiateOnboardingEndpoint(
-      InitiateOnboardingReq initiateOnboardingReq) async {
-    try {
-      final response = await _networkService.request(
-        endpointUrl.initiateOnboarding,
-        RequestMethod.post,
-        data: initiateOnboardingReq.toJson(),
-      );
-      if (response.data['message'] != 'Successful') {
-        throw response.data['error']['message'];
-      } else {
-        final res = response.data;
-        _storage.saveData('requestId', res['requestId'] ?? '');
-        return res['requestId'];
-      }
-    } catch (e) {
-      throw e.toString();
-    }
-  }
-
   Future<String> loginEndpoint(LoginReq loginReq) async {
     try {
       final response = await _networkService.request(
@@ -71,20 +51,47 @@ class AuthService {
     }
   }
 
+  Future<String> initiateOnboardingEndpoint(
+      InitiateOnboardingReq initiateOnboardingReq) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.initiateOnboarding,
+        RequestMethod.post,
+        data: initiateOnboardingReq
+            .copyWith(partnerCode: endpointUrl.partnerCode)
+            .toJson(),
+      );
+      if (response.data['message'] != 'Successful') {
+        throw response.data['error']['message'];
+      } else {
+        final res = response.data['data'];
+        _storage.saveData('requestId', res['id'] ?? '');
+        return response.data['message'];
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   Future<String> verifyPhoneNoEndpoint(
       VerifyPhoneNumberReq verifyPhoneNumberReq) async {
     try {
       final response = await _networkService.request(
         endpointUrl.verifyPhoneNumber,
         RequestMethod.post,
-        data: verifyPhoneNumberReq.toJson(),
+        data: verifyPhoneNumberReq
+            .copyWith(
+              partnerCode: endpointUrl.partnerCode,
+              requestId: await _storage.readData('requestId'),
+            )
+            .toJson(),
       );
       if (response.data['message'] != 'Successful') {
         throw response.data['error']['message'];
       } else {
-        final res = response.data;
-        _storage.saveData('requestId', res['requestId'] ?? '');
-        return res['requestId'];
+        final res = response.data['data'];
+        _storage.saveData('requestId', res['id'] ?? '');
+        return response.data['message'];
       }
     } catch (e) {
       throw e.toString();
@@ -97,15 +104,19 @@ class AuthService {
       final response = await _networkService.request(
         endpointUrl.createPassword,
         RequestMethod.post,
-        data: createPasswordReq.toJson(),
+        data: createPasswordReq
+            .copyWith(
+              partnerCode: endpointUrl.partnerCode,
+              requestId: await _storage.readData('requestId'),
+            )
+            .toJson(),
       );
       if (response.data['message'] != 'Successful') {
         throw response.data['error']['message'];
       } else {
-        final res = response.data;
-
-        _storage.saveData('requestId', res['requestId'] ?? '');
-        return res['requestId'];
+        final res = response.data['data'];
+        _storage.saveData('requestId', res['id'] ?? '');
+        return response.data['message'];
       }
     } catch (e) {
       throw e.toString();

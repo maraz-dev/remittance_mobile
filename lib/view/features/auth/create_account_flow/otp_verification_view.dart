@@ -32,6 +32,15 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
   // Key to Hold the state of the Form
   final GlobalKey<FormState> _formKey = GlobalKey();
 
+  // Text Editing Controllers
+  final TextEditingController _otp = TextEditingController();
+
+  @override
+  void dispose() {
+    _otp.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final loading = ref.watch(verifyPhoneNumberProvider);
@@ -68,6 +77,7 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
                 32.0.height,
                 Center(
                   child: Pinput(
+                    controller: _otp,
                     length: 6,
                     obscureText: true,
                     defaultPinTheme: defaultPinInputTheme,
@@ -93,7 +103,8 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
                 if (_formKey.currentState!.validate()) {
                   ref
                       .read(verifyPhoneNumberProvider.notifier)
-                      .verifyPhoneNumberMethod(VerifyPhoneNumberReq());
+                      .verifyPhoneNumberMethod(
+                          VerifyPhoneNumberReq(otp: _otp.text));
                 }
               },
             )

@@ -8,7 +8,7 @@ import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_form_view.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
-import 'package:remittance_mobile/view/features/auth/forgot-password/security_lock_view.dart';
+import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/login_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
@@ -102,7 +102,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                 ),
                 10.0.height,
                 InkWell(
-                  onTap: () => context.pushNamed(SecurityLockView.path),
+                  onTap: () => context.pushNamed(ForgotPasswordView.path),
                   child: Text(
                     'Forgot Password?',
                     style: Theme.of(context)

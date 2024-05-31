@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_onboarding_req.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/choose_country_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/initiate_onboarding_vm.dart';
@@ -208,13 +207,12 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
                       .read(initiateOnboardingProvider.notifier)
                       .initiateOnboardingMethod(
                         InitiateOnboardingReq(
-                          partnerCode: ApiEndpoints.instance.partnerCode,
                           firstName: _firstName.text.trim(),
                           middleName: _middleName.text.trim(),
                           lastName: _lastName.text.trim(),
                           email: _emailAddress.text.trim(),
                           customerType: 'Individual',
-                          countryCode: selectedCountry.value.phoneCode,
+                          countryCode: selectedCountry.value.code,
                           phoneNumber: _phoneNumber.text,
                         ),
                       );

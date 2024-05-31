@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pinput/pinput.dart';
 import 'package:remittance_mobile/data/models/requests/create_password_req.dart';
+import 'package:remittance_mobile/view/features/auth/create_account_flow/create_transaction_pin.dart';
 import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/create_password_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/bottomsheet_title.dart';
-import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
-import 'package:remittance_mobile/view/theme/app_theme.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
@@ -78,63 +75,7 @@ class _CreateAccountPasswordFormViewState
                   AppBottomSheet.showBottomSheet(
                     context,
                     isDismissible: false,
-                    widget: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset(AppImages.security),
-                        16.0.height,
-                        const BottomSheetTitle(
-                          title: 'Create Transaction PIN',
-                          subtitle: 'Enter your desired Transaction PIN',
-                        ),
-                        24.0.height,
-                        Center(
-                          child: Pinput(
-                            length: 4,
-                            obscureText: true,
-                            defaultPinTheme: defaultPinInputTheme.copyWith(
-                                height: 70.h, width: 70.w),
-                            focusedPinTheme: focusedPinInputTheme.copyWith(
-                                height: 70.h, width: 70.w),
-                          ),
-                        ),
-                        40.0.height,
-                        MainButton(
-                          text: 'Create PIN',
-                          onPressed: () {
-                            context.pop();
-                            AppBottomSheet.showBottomSheet(
-                              context,
-                              isDismissible: false,
-                              widget: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SvgPicture.asset(AppImages.success),
-                                  16.0.height,
-                                  const BottomSheetTitle(
-                                    title: 'Transaction PIN Created',
-                                    subtitle:
-                                        'Great job! You have successfully created your Transaction PIN',
-                                  ),
-                                  40.0.height,
-                                  MainButton(
-                                    text: 'Start Transacting',
-                                    onPressed: () {
-                                      context.pushReplacementNamed(
-                                          DashboardView.path);
-                                    },
-                                  ),
-                                  12.0.height
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                        12.0.height
-                      ],
-                    ),
+                    widget: const CreateTransactionPINSheet(),
                   );
                 },
               ),
@@ -209,7 +150,9 @@ class _CreateAccountPasswordFormViewState
                 if (_formKey.currentState!.validate()) {
                   ref
                       .read(createPasswordProvider.notifier)
-                      .createPasswordMethod(CreatePasswordReq());
+                      .createPasswordMethod(CreatePasswordReq(
+                        password: _password.text,
+                      ));
                 }
               },
             )
