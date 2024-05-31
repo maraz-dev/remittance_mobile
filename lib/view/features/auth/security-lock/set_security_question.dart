@@ -83,7 +83,7 @@ class _LoginViewState extends ConsumerState<SetSecurityQuestionView> {
               ),
               40.0.height,
               MainButton(
-                text: 'Back to Dashboard',
+                text: 'Back to Login',
                 onPressed: () {
                   context.pop();
                   context.pushNamed(LoginScreen.path);
@@ -268,7 +268,7 @@ class _LoginViewState extends ConsumerState<SetSecurityQuestionView> {
           children: [
             MainButton(
               isLoading: setQuestionLoading.isLoading || pinLoading.isLoading,
-              text: 'Continue',
+              text: 'Done',
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   ref
