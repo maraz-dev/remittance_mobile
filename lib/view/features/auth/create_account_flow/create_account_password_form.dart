@@ -21,6 +21,8 @@ import 'package:remittance_mobile/view/widgets/password_validator.dart';
 
 class CreateAccountPasswordFormView extends ConsumerStatefulWidget {
   final VoidCallback pressed;
+  static String path = 'create-password-form-view';
+
   const CreateAccountPasswordFormView({
     super.key,
     required this.pressed,

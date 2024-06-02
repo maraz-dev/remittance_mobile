@@ -17,6 +17,8 @@ import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/richtext_widget.dart';
 
 class OTPVerificationView extends ConsumerStatefulWidget {
+  static String path = 'otp-verification-view';
+
   final VoidCallback pressed;
   const OTPVerificationView({
     super.key,

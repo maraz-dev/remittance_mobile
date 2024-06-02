@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:remittance_mobile/core/http/http_service.dart';
 import 'package:remittance_mobile/core/storage/hive-storage/hive_storage.dart';
 import 'package:remittance_mobile/core/storage/hive-storage/hive_storage_service.dart';
@@ -27,22 +30,57 @@ class AuthService {
         _storage = storage,
         _hivestorage = hivestorage;
 
-// Endpoint URL Instance
+  // Endpoint URL Instance
   final endpointUrl = ApiEndpoints.instance;
 
+  /// This Method is to get the device details for Security Purposes
+  Future<List<String?>> _getDeviceDetails() async {
+    String? deviceType;
+    String? deviceToken;
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    if (Platform.isIOS) {
+      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+      deviceType = iosInfo.utsname.nodename;
+      deviceToken = iosInfo.identifierForVendor;
+    } else if (Platform.isAndroid) {
+      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+      deviceType = androidInfo.model;
+      deviceToken = androidInfo.id;
+    }
+    return [deviceType, deviceToken];
+  }
+
   Future<String> loginEndpoint(LoginReq loginReq) async {
+    // Device Details Variable
+    String? deviceType;
+    String? deviceToken;
+
     try {
+      // Get Device Details
+      await _getDeviceDetails().then((value) {
+        deviceType = value[0];
+        deviceToken = value[1];
+      });
+
+      // Make Request
       final response = await _networkService.request(
         endpointUrl.login,
         RequestMethod.post,
-        data: loginReq.toJson(),
+        data: loginReq
+            .copyWith(
+              deviceType: deviceType,
+              deviceToken: deviceToken,
+            )
+            .toJson(),
       );
       if (response.data['message'] != 'Successful') {
         throw response.data['error']['message'];
       } else {
         final res = response.data['data'];
-        _storage.saveData('token', res['token'] ?? '');
         SharedPrefManager.userId = res['userId'];
+        SharedPrefManager.isNewLogin = res['isNewLogin'];
+        SharedPrefManager.isPINSet = res['isPINSet'];
+        _storage.saveData('token', res['token'] ?? '');
         _hivestorage.set(StorageKey.userProfile.name, res);
         return response.data['message'];
       }
@@ -126,7 +164,7 @@ class AuthService {
   Future<List<NewCountryModel>> getCountriesEndpoint() async {
     try {
       final response = await _networkService.request(
-        endpointUrl.baseUrlTwo + endpointUrl.getCountries,
+        endpointUrl.getCountries,
         RequestMethod.get,
       );
       if (response.data['message'] != 'Successful') {

@@ -21,6 +21,8 @@ ValueNotifier<String> successfulCreatedEmail = ValueNotifier('');
 ValueNotifier<String> successfulCreatedPhoneNo = ValueNotifier('');
 
 class CreateAccountFormView extends ConsumerStatefulWidget {
+  static String path = 'create-account-form-view';
+
   final VoidCallback pressed;
   const CreateAccountFormView({
     super.key,
@@ -166,18 +168,11 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
                           prefixIcon: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              // SvgPicture.network(
-                              //     selectedCountry.value.flagSvg ?? ''),
-                              Text(base64String ?? '')
-                              // Text(
-                              //   selectedCountry.value.code ?? "",
-                              //   style: Theme.of(context)
-                              //       .textTheme
-                              //       .bodyMedium!
-                              //       .copyWith(
-                              //           color: AppColors.kBlackColor,
-                              //           fontWeight: FontWeight.bold),
-                              // ),
+                              Image.network(
+                                selectedCountry.value.flagPng ?? '',
+                                fit: BoxFit.contain,
+                                width: 30,
+                              ),
                             ],
                           ),
                           inputFormatters: [

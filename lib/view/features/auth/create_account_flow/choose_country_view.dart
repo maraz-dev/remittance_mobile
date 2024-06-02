@@ -21,6 +21,7 @@ ValueNotifier<NewCountryModel> selectedCountry =
     ValueNotifier(NewCountryModel());
 
 class ChooseCountryView extends ConsumerStatefulWidget {
+  static String path = 'choose-country-view';
   final VoidCallback pressed;
 
   const ChooseCountryView({
