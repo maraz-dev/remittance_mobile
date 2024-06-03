@@ -12,6 +12,7 @@ import 'package:remittance_mobile/data/models/requests/initiate_onboarding_req.d
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
 import 'package:remittance_mobile/data/models/requests/security_questions_req.dart';
 import 'package:remittance_mobile/data/models/requests/set_pin_req.dart';
+import 'package:remittance_mobile/data/models/requests/set_security_question_req.dart';
 import 'package:remittance_mobile/data/models/requests/validate_pin_req.dart';
 import 'package:remittance_mobile/data/models/requests/verify_phone_number_req.dart';
 import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
@@ -239,12 +240,12 @@ class AuthService {
   }
 
   Future<String> setSecurityQuestionEndpoint(
-      SecurityQuestionReq securityQuestionReq) async {
+      SetSecurityQuestionReq setQuestionReq) async {
     try {
       final response = await _networkService.request(
         endpointUrl.setSecurityQuestion,
         RequestMethod.post,
-        data: securityQuestionReq.toJson(),
+        data: setQuestionReq.toJson(),
       );
       if (response.data['message'] != 'Successful') {
         throw response.data['error']['message'];

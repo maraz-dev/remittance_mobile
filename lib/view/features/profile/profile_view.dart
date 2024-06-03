@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/data/local/user_data_impl.dart';
 import 'package:remittance_mobile/view/features/profile/profile_options.dart';
 import 'package:remittance_mobile/view/features/profile/widgets/profile_card.dart';
 import 'package:remittance_mobile/view/features/profile/widgets/profile_title.dart';
@@ -11,17 +13,18 @@ import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 
-class ProfileView extends StatefulWidget {
+class ProfileView extends ConsumerStatefulWidget {
   static String path = '/profile-view';
   const ProfileView({super.key});
 
   @override
-  State<ProfileView> createState() => _ProfileViewState();
+  ConsumerState<ProfileView> createState() => _ProfileViewState();
 }
 
-class _ProfileViewState extends State<ProfileView> {
+class _ProfileViewState extends ConsumerState<ProfileView> {
   @override
   Widget build(BuildContext context) {
+    final userProfile = ref.watch(localUserProvider);
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -66,7 +69,7 @@ class _ProfileViewState extends State<ProfileView> {
                       children: [
                         20.0.height,
                         Text(
-                          'Adebola Sanni',
+                          '${userProfile.value?.firstName!.split(' ').first} ${userProfile.value?.lastName!.split(' ').last}',
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
@@ -74,7 +77,7 @@ class _ProfileViewState extends State<ProfileView> {
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.kBlackColor),
                         ),
-                        const Text('@pinkybolar'),
+                        Text(userProfile.value?.email ?? ''),
                       ],
                     )
                   ],
@@ -92,6 +95,7 @@ class _ProfileViewState extends State<ProfileView> {
                   body: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // PERSONAL INFORMATION
                       const ProfileTitle(title: 'PERSONAL INFORMATION'),
                       8.0.height,
                       Container(
@@ -119,6 +123,8 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       ),
                       24.0.height,
+
+                      // SECURITY
                       const ProfileTitle(title: 'SECURITY'),
                       8.0.height,
                       Container(
@@ -146,6 +152,8 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                       ),
                       24.0.height,
+
+                      // MORE
                       const ProfileTitle(title: 'MORE'),
                       8.0.height,
                       Container(

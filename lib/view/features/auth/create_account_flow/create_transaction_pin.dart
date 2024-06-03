@@ -6,7 +6,7 @@ import 'package:pinput/pinput.dart';
 import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/data/models/requests/set_pin_req.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_form_view.dart';
-import 'package:remittance_mobile/view/features/auth/security-lock/set_security_question.dart';
+import 'package:remittance_mobile/view/features/auth/login_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/set_pin_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/bottomsheet_title.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
@@ -77,7 +77,7 @@ class _CreateTransactionPINSheetState
                 MainButton(
                   text: 'Start Transacting',
                   onPressed: () {
-                    context.pushReplacementNamed(SetSecurityQuestionView.path);
+                    context.pushReplacementNamed(LoginScreen.path);
                   },
                 ),
                 12.0.height
