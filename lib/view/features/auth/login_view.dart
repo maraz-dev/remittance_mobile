@@ -4,11 +4,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/core/storage/share_pref.dart';
-import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_form_view.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
+import 'package:remittance_mobile/view/features/auth/security-lock/security_lock_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/login_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
@@ -61,8 +61,14 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
     final loading = ref.watch(loginProvider);
     ref.listen(loginProvider, (_, next) {
       if (next is AsyncData<String>) {
-        context.pushNamed(DashboardView.path);
         SharedPrefManager.email = _email.text;
+
+        // Check if the User is logging in on a new device
+        if (SharedPrefManager.isNewLogin) {
+          context.pushNamed(SecurityLockView.path);
+        } else {
+          context.pushNamed(DashboardView.path);
+        }
       }
       if (next is AsyncError) {
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
@@ -139,7 +145,6 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                       if (_formKey.currentState!.validate()) {
                         ref.read(loginProvider.notifier).loginMethod(
                               LoginReq(
-                                partnerCode: ApiEndpoints.instance.partnerCode,
                                 emailAddress: _email.text.trim(),
                                 password: _password.text,
                               ),

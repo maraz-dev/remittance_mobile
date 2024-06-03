@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/data/local/user_data_impl.dart';
 import 'package:remittance_mobile/data/models/responses/user_response.dart';
+import 'package:remittance_mobile/view/features/auth/create_account_flow/create_transaction_pin.dart';
 import 'package:remittance_mobile/view/features/home/account-view/account_widget.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_appbar.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_image.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_service_card.dart';
+import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/bottomsheets/kyc_bottomsheet.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
@@ -25,9 +28,21 @@ class _HomeViewState extends ConsumerState<HomeView> {
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
-        kycBottomSheet(context);
+        // Check if the User has set his Transaction PIN and then Check if the User has done KYC
+        if (!SharedPrefManager.isPINSet) {
+          AppBottomSheet.showBottomSheet(
+            context,
+            isDismissible: false,
+            widget: const CreateTransactionPINSheet(
+              fromHomeView: true,
+            ),
+          );
+        } else if (!SharedPrefManager.isKycComplete) {
+          kycBottomSheet(context);
+        }
       },
     );
   }

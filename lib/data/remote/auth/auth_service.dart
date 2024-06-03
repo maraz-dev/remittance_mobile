@@ -68,6 +68,7 @@ class AuthService {
         RequestMethod.post,
         data: loginReq
             .copyWith(
+              partnerCode: endpointUrl.partnerCode,
               deviceType: deviceType,
               deviceToken: deviceToken,
             )
@@ -80,6 +81,7 @@ class AuthService {
         SharedPrefManager.userId = res['userId'];
         SharedPrefManager.isNewLogin = res['isNewLogin'];
         SharedPrefManager.isPINSet = res['isPINSet'];
+        SharedPrefManager.isKycComplete = res['isKycComplete'];
         _storage.saveData('token', res['token'] ?? '');
         _hivestorage.set(StorageKey.userProfile.name, res);
         return response.data['message'];

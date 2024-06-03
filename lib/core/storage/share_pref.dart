@@ -20,6 +20,10 @@ class SharedPrefManager {
   static set isPINSet(bool isPINSet) => prefs.setBool("isPINSet", isPINSet);
   static bool get isPINSet => prefs.getBool("isPINSet") ?? false;
 
+  static set isKycComplete(bool isKycComplete) =>
+      prefs.setBool("isKycComplete", isKycComplete);
+  static bool get isKycComplete => prefs.getBool("isKycComplete") ?? false;
+
   static void clear() {
     //prefs.clear();
     SharedPrefManager.isFirstLaunch = false;
