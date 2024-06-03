@@ -116,12 +116,11 @@ class _ChooseCountryViewState extends ConsumerState<ChooseCountryView> {
                     ),
                     onPressed: () async {
                       final mounted = this.mounted;
-                      // List<CountryModel>? items = await ref
-                      //     .read(chooseCountryProvider.notifier)
-                      //     .loadCountries();
                       if (mounted && data.isNotEmpty) {
-                        List<String> itemList =
-                            data.map((e) => "${e.name}").toList();
+                        List<String> itemList = data
+                            .where((element) => element.phoneCode != null)
+                            .map((e) => "${e.name}")
+                            .toList();
                         itemList.sort();
                         await platformSpecificDropdown(
                           key: _key,
