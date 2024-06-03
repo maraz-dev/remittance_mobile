@@ -5,12 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/security_questions_req.dart';
 import 'package:remittance_mobile/data/models/responses/security_question.dart';
-import 'package:remittance_mobile/view/features/auth/login_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/auth_providers.dart';
 import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/validate_pin_vm.dart';
 import 'package:remittance_mobile/view/features/auth/vm/security_questions_vm/validate_security_question.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/bottomsheet_title.dart';
+import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_dropdown.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -81,7 +81,7 @@ class _LoginViewState extends ConsumerState<SecurityLockView> {
                 text: 'Back to Dashboard',
                 onPressed: () {
                   context.pop();
-                  context.pushNamed(LoginScreen.path);
+                  context.pushNamed(DashboardView.path);
                 },
               ),
               16.0.height,

@@ -79,12 +79,14 @@ class AuthService {
         throw response.data['error']['message'];
       } else {
         final res = response.data['data'];
+        _storage.saveData('token', res['token'] ?? '');
+        _hivestorage.set(StorageKey.userProfile.name, res);
         SharedPrefManager.userId = res['userId'];
+        SharedPrefManager.email = res['email'];
         SharedPrefManager.isNewLogin = res['isNewLogin'];
         SharedPrefManager.isPINSet = res['isPINSet'];
         SharedPrefManager.isKycComplete = res['isKycComplete'];
-        _storage.saveData('token', res['token'] ?? '');
-        _hivestorage.set(StorageKey.userProfile.name, res);
+        SharedPrefManager.isSecurityQuestionSet = res['isSecurityQuestionSet'];
         return response.data['message'];
       }
     } catch (e) {

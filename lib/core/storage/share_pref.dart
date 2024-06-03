@@ -24,6 +24,11 @@ class SharedPrefManager {
       prefs.setBool("isKycComplete", isKycComplete);
   static bool get isKycComplete => prefs.getBool("isKycComplete") ?? false;
 
+  static set isSecurityQuestionSet(bool isSecurityQuestionSet) =>
+      prefs.setBool("isSecurityQuestionSet", isKycComplete);
+  static bool get isSecurityQuestionSet =>
+      prefs.getBool("isSecurityQuestionSet") ?? false;
+
   static void clear() {
     //prefs.clear();
     SharedPrefManager.isFirstLaunch = false;
