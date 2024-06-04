@@ -83,6 +83,12 @@ class ApiEndpoints {
   String get createPassword =>
       "/api/v1/partner/customer/onboarding/CreatePassword";
   String get getCountries => "/api/v1/Utility/countries?includeFlagImage=true";
+  String get initiateForgotPassword =>
+      "/api/v1/partner/customer/onboarding/InitiateForgotPassword";
+  String get verifyForgotPasswordOtp =>
+      "/api/v1/partner/customer/onboarding/VerifyOtp";
+  String get completeForgotPassword =>
+      "/api/v1/partner/customer/onboarding/CompleteForgotPassword";
 
   // Refresh Token
   String get refresh => "/$version/auth/refresh";

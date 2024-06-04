@@ -7,7 +7,9 @@ import 'package:remittance_mobile/core/storage/hive-storage/hive_storage_service
 import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
 import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
+import 'package:remittance_mobile/data/models/requests/complete_forgot_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_password_req.dart';
+import 'package:remittance_mobile/data/models/requests/initiate_forgot_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_onboarding_req.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
 import 'package:remittance_mobile/data/models/requests/security_questions_req.dart';
@@ -75,7 +77,7 @@ class AuthService {
             )
             .toJson(),
       );
-      if (response.data['message'] != 'Successful') {
+      if (response.data['code'] != '200') {
         throw response.data['error']['message'];
       } else {
         final res = response.data['data'];
@@ -104,7 +106,7 @@ class AuthService {
             .copyWith(partnerCode: endpointUrl.partnerCode)
             .toJson(),
       );
-      if (response.data['message'] != 'Successful') {
+      if (response.data['code'] != '200') {
         throw response.data['error']['message'];
       } else {
         final res = response.data['data'];
@@ -129,7 +131,7 @@ class AuthService {
             )
             .toJson(),
       );
-      if (response.data['message'] != 'Successful') {
+      if (response.data['code'] != '200') {
         throw response.data['error']['message'];
       } else {
         final res = response.data['data'];
@@ -154,7 +156,7 @@ class AuthService {
             )
             .toJson(),
       );
-      if (response.data['message'] != 'Successful') {
+      if (response.data['code'] != '200') {
         throw response.data['error']['message'];
       } else {
         final res = response.data['data'];
@@ -172,7 +174,7 @@ class AuthService {
         endpointUrl.getCountries,
         RequestMethod.get,
       );
-      if (response.data['message'] != 'Successful') {
+      if (response.data['code'] != '200') {
         throw response.data['error']['message'];
       } else {
         final res = response.data['data'] as List;
@@ -192,7 +194,7 @@ class AuthService {
         RequestMethod.post,
         data: setPinReq.toJson(),
       );
-      if (response.data['message'] != 'Successful') {
+      if (response.data['code'] != '200') {
         throw response.data['error']['message'];
       } else {
         return response.data['message'];
@@ -212,7 +214,7 @@ class AuthService {
           pin: pin,
         ).toJson(),
       );
-      if (response.data['message'] != 'Successful') {
+      if (response.data['code'] != '200') {
         throw response.data['error']['message'];
       } else {
         return response.data['message'];
@@ -228,7 +230,7 @@ class AuthService {
         endpointUrl.getSecurityQuestion,
         RequestMethod.get,
       );
-      if (response.data['message'] != 'Successful') {
+      if (response.data['code'] != '200') {
         throw response.data['error']['message'];
       } else {
         final res = response.data['data'] as List;
@@ -249,7 +251,7 @@ class AuthService {
         RequestMethod.post,
         data: setQuestionReq.toJson(),
       );
-      if (response.data['message'] != 'Successful') {
+      if (response.data['code'] != '200') {
         throw response.data['error']['message'];
       } else {
         return response.data['message'];
@@ -267,10 +269,83 @@ class AuthService {
         RequestMethod.post,
         data: securityQuestionReq.toJson(),
       );
-      if (response.data['message'] != 'Successful') {
+      if (response.data['code'] != '200') {
         throw response.data['error']['message'];
       } else {
         return response.data['message'];
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<String> initiateForgotPasswordEndpoint(
+      InitiateForgotPassReq initiateForgotPassReq) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.initiateForgotPassword,
+        RequestMethod.post,
+        data: initiateForgotPassReq
+            .copyWith(partnerCode: endpointUrl.partnerCode)
+            .toJson(),
+      );
+      if (response.data['code'] != '200') {
+        throw response.data['error']['message'];
+      } else {
+        final requestId = response.data["requestId"];
+        _storage.saveData('forgotPassRequestId', requestId);
+        return requestId;
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<String> verifyForgotPasswordOTPEndpoint(
+      VerifyPhoneNumberReq verifyPhoneNumberReq) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.verifyForgotPasswordOtp,
+        RequestMethod.post,
+        data: verifyPhoneNumberReq
+            .copyWith(
+              partnerCode: endpointUrl.partnerCode,
+              requestId: await _storage.readData('forgotPassRequestId'),
+            )
+            .toJson(),
+      );
+      if (response.data['code'] != '200') {
+        throw response.data['error']['message'];
+      } else {
+        final requestId = response.data["requestId"];
+        _storage.saveData('forgotPassRequestId', requestId);
+        return requestId;
+      }
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<String> completeForgotPasswordEndpoint(
+      CompleteForgotPassReq completeForgotPassReq) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.completeForgotPassword,
+        RequestMethod.post,
+        data: completeForgotPassReq
+            .copyWith(
+                partnerCode: endpointUrl.partnerCode,
+                requestId: await _storage.readData(
+                  'forgotPassRequestId',
+                ))
+            .toJson(),
+      );
+      if (response.data['code'] != '200') {
+        throw response.data['error']['message'];
+      } else {
+        final requestId = response.data["requestId"];
+        _storage.saveData('forgotPassRequestId', requestId);
+        return requestId;
       }
     } catch (e) {
       throw e.toString();

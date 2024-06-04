@@ -86,16 +86,18 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
             //isLoading: true,
             text: 'Change Password',
             onPressed: () {
-              AppBottomSheet.showBottomSheet(context,
-                  widget: SuccessBottomSheet(
-                    title: 'Password Reset Successfully',
-                    subtitle: 'You’ve successfully reset your password',
-                    buttonText: 'Back to Login',
-                    action: () =>
-                        context.pushReplacementNamed(LoginScreen.path),
-                  ));
+              AppBottomSheet.showBottomSheet(
+                context,
+                isDismissible: false,
+                widget: SuccessBottomSheet(
+                  title: 'Password Reset Successfully',
+                  subtitle: 'You’ve successfully reset your password',
+                  buttonText: 'Back to Login',
+                  action: () => context.pushReplacement(LoginScreen.path),
+                ),
+              );
             },
-            color: AppColors.kPrimaryColor.withOpacity(0.3),
+            color: AppColors.kPrimaryColor,
           )
               .animate()
               .fadeIn(begin: 0, delay: 1000.ms)
