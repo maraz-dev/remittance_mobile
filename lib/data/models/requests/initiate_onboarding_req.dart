@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-InitiateOnboardingReq countryModelFromJson(String str) =>
+InitiateOnboardingReq initiateOnboardingReqFromJson(String str) =>
     InitiateOnboardingReq.fromJson(json.decode(str));
 
-String countryModelToJson(InitiateOnboardingReq data) =>
+String initiateOnboardingReqToJson(InitiateOnboardingReq data) =>
     json.encode(data.toJson());
 
 class InitiateOnboardingReq {
@@ -13,6 +13,7 @@ class InitiateOnboardingReq {
   String? middleName;
   String? email;
   String? customerType;
+  String? channel;
   String? countryCode;
   String? phoneNumber;
 
@@ -23,6 +24,7 @@ class InitiateOnboardingReq {
     this.middleName,
     this.email,
     this.customerType,
+    this.channel,
     this.countryCode,
     this.phoneNumber,
   });
@@ -34,6 +36,7 @@ class InitiateOnboardingReq {
     String? middleName,
     String? email,
     String? customerType,
+    String? channel,
     String? countryCode,
     String? phoneNumber,
   }) =>
@@ -44,6 +47,7 @@ class InitiateOnboardingReq {
         middleName: middleName ?? this.middleName,
         email: email ?? this.email,
         customerType: customerType ?? this.customerType,
+        channel: channel ?? this.channel,
         countryCode: countryCode ?? this.countryCode,
         phoneNumber: phoneNumber ?? this.phoneNumber,
       );
@@ -56,6 +60,7 @@ class InitiateOnboardingReq {
         middleName: json["middleName"],
         email: json["email"],
         customerType: json["customerType"],
+        channel: json["channel"],
         countryCode: json["countryCode"],
         phoneNumber: json["phoneNumber"],
       );
@@ -67,6 +72,7 @@ class InitiateOnboardingReq {
         "middleName": middleName,
         "email": email,
         "customerType": customerType,
+        "channel": channel,
         "countryCode": countryCode,
         "phoneNumber": phoneNumber,
       };

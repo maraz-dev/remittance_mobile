@@ -1,4 +1,6 @@
+import 'package:remittance_mobile/data/models/requests/complete_forgot_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_password_req.dart';
+import 'package:remittance_mobile/data/models/requests/initiate_forgot_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_onboarding_req.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
 import 'package:remittance_mobile/data/models/requests/security_questions_req.dart';
@@ -23,6 +25,12 @@ abstract class AuthRepository {
       SetSecurityQuestionReq setQuestionReq);
   Future<String> validateSecurityQuestionEndpoint(
       SecurityQuestionReq securityQuestionReq);
+  Future<String> initiateForgotPasswordEndpoint(
+      InitiateForgotPassReq initiateForgotPassReq);
+  Future<String> verifyForgotPasswordOTPEndpoint(
+      VerifyPhoneNumberReq verifyPhoneNumberReq);
+  Future<String> completeForgotPasswordEndpoint(
+      CompleteForgotPassReq completeForgotPassReq);
 }
 
 class AuthImpl implements AuthRepository {
@@ -71,8 +79,21 @@ class AuthImpl implements AuthRepository {
 
   @override
   Future<String> validateSecurityQuestionEndpoint(
-      SecurityQuestionReq securityQuestionReq) async {
-    return await _authService
-        .validateSecurityQuestionEndpoint(securityQuestionReq);
-  }
+          SecurityQuestionReq securityQuestionReq) async =>
+      await _authService.validateSecurityQuestionEndpoint(securityQuestionReq);
+
+  @override
+  Future<String> completeForgotPasswordEndpoint(
+          CompleteForgotPassReq completeForgotPassReq) async =>
+      await _authService.completeForgotPasswordEndpoint(completeForgotPassReq);
+
+  @override
+  Future<String> initiateForgotPasswordEndpoint(
+          InitiateForgotPassReq initiateForgotPassReq) async =>
+      await _authService.initiateForgotPasswordEndpoint(initiateForgotPassReq);
+
+  @override
+  Future<String> verifyForgotPasswordOTPEndpoint(
+          VerifyPhoneNumberReq verifyPhoneNumberReq) async =>
+      await _authService.verifyForgotPasswordOTPEndpoint(verifyPhoneNumberReq);
 }

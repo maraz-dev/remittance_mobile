@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:remittance_mobile/core/http/http_service.dart';
+import 'package:remittance_mobile/core/http/response_body_handler.dart';
 import 'package:remittance_mobile/core/storage/hive-storage/hive_storage.dart';
 import 'package:remittance_mobile/core/storage/hive-storage/hive_storage_service.dart';
 import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
@@ -35,6 +36,9 @@ class AuthService {
 
   // Endpoint URL Instance
   final endpointUrl = ApiEndpoints.instance;
+
+  // Class to Handle API Response
+  final ResponseHandler _responseHandler = ResponseHandler();
 
   /// This Method is to get the device details for Security Purposes
   Future<List<String?>> _getDeviceDetails() async {
@@ -77,20 +81,24 @@ class AuthService {
             )
             .toJson(),
       );
-      if (response.data['code'] != '200') {
-        throw response.data['error']['message'];
-      } else {
-        final res = response.data['data'];
-        _storage.saveData('token', res['token'] ?? '');
-        _hivestorage.set(StorageKey.userProfile.name, res);
-        SharedPrefManager.userId = res['userId'];
-        SharedPrefManager.email = res['email'];
-        SharedPrefManager.isNewLogin = res['isNewLogin'];
-        SharedPrefManager.isPINSet = res['isPINSet'];
-        SharedPrefManager.isKycComplete = res['isKycComplete'];
-        SharedPrefManager.isSecurityQuestionSet = res['isSecurityQuestionSet'];
-        return response.data['message'];
-      }
+
+      // Handle the Response
+      _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'];
+          _storage.saveData('token', res['token'] ?? '');
+          _hivestorage.set(StorageKey.userProfile.name, res);
+          SharedPrefManager.userId = res['userId'];
+          SharedPrefManager.email = res['email'];
+          SharedPrefManager.isNewLogin = res['isNewLogin'];
+          SharedPrefManager.isPINSet = res['isPINSet'];
+          SharedPrefManager.isKycComplete = res['isKycComplete'];
+          SharedPrefManager.isSecurityQuestionSet =
+              res['isSecurityQuestionSet'];
+        },
+      );
+      return response.data['message'];
     } catch (e) {
       throw e.toString();
     }
@@ -99,20 +107,27 @@ class AuthService {
   Future<String> initiateOnboardingEndpoint(
       InitiateOnboardingReq initiateOnboardingReq) async {
     try {
+      // Make Request
       final response = await _networkService.request(
         endpointUrl.initiateOnboarding,
         RequestMethod.post,
         data: initiateOnboardingReq
-            .copyWith(partnerCode: endpointUrl.partnerCode)
+            .copyWith(
+              partnerCode: endpointUrl.partnerCode,
+              channel: 'Mobile',
+            )
             .toJson(),
       );
-      if (response.data['code'] != '200') {
-        throw response.data['error']['message'];
-      } else {
-        final res = response.data['data'];
-        _storage.saveData('requestId', res['id'] ?? '');
-        return response.data['message'];
-      }
+
+      // Handle the Response
+      _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'];
+          _storage.saveData('requestId', res['id'] ?? '');
+        },
+      );
+      return response.data['message'];
     } catch (e) {
       throw e.toString();
     }
@@ -131,13 +146,16 @@ class AuthService {
             )
             .toJson(),
       );
-      if (response.data['code'] != '200') {
-        throw response.data['error']['message'];
-      } else {
-        final res = response.data['data'];
-        _storage.saveData('requestId', res['id'] ?? '');
-        return response.data['message'];
-      }
+
+      // Handle the Response
+      _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'];
+          _storage.saveData('requestId', res['id'] ?? '');
+        },
+      );
+      return response.data['message'];
     } catch (e) {
       throw e.toString();
     }
@@ -156,13 +174,16 @@ class AuthService {
             )
             .toJson(),
       );
-      if (response.data['code'] != '200') {
-        throw response.data['error']['message'];
-      } else {
-        final res = response.data['data'];
-        _storage.saveData('requestId', res['id'] ?? '');
-        return response.data['message'];
-      }
+
+      // Handle the Response
+      _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'];
+          _storage.saveData('requestId', res['id'] ?? '');
+        },
+      );
+      return response.data['message'];
     } catch (e) {
       throw e.toString();
     }
@@ -174,14 +195,18 @@ class AuthService {
         endpointUrl.getCountries,
         RequestMethod.get,
       );
-      if (response.data['code'] != '200') {
-        throw response.data['error']['message'];
-      } else {
-        final res = response.data['data'] as List;
-        final responseList =
-            res.map((json) => NewCountryModel.fromJson(json)).toList();
-        return responseList;
-      }
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'] as List;
+          final responseList =
+              res.map((json) => NewCountryModel.fromJson(json)).toList();
+          return responseList;
+        },
+      );
+      return result;
     } catch (e) {
       throw e.toString();
     }
@@ -194,11 +219,15 @@ class AuthService {
         RequestMethod.post,
         data: setPinReq.toJson(),
       );
-      if (response.data['code'] != '200') {
-        throw response.data['error']['message'];
-      } else {
-        return response.data['message'];
-      }
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          return response.data['message'];
+        },
+      );
+      return result;
     } catch (e) {
       throw e.toString();
     }
@@ -214,11 +243,15 @@ class AuthService {
           pin: pin,
         ).toJson(),
       );
-      if (response.data['code'] != '200') {
-        throw response.data['error']['message'];
-      } else {
-        return response.data['message'];
-      }
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          return response.data['message'];
+        },
+      );
+      return result;
     } catch (e) {
       throw e.toString();
     }
@@ -230,14 +263,18 @@ class AuthService {
         endpointUrl.getSecurityQuestion,
         RequestMethod.get,
       );
-      if (response.data['code'] != '200') {
-        throw response.data['error']['message'];
-      } else {
-        final res = response.data['data'] as List;
-        final responseList =
-            res.map((json) => SecurityQuestionItem.fromJson(json)).toList();
-        return responseList;
-      }
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'] as List;
+          final responseList =
+              res.map((json) => SecurityQuestionItem.fromJson(json)).toList();
+          return responseList;
+        },
+      );
+      return result;
     } catch (e) {
       throw e.toString();
     }
@@ -251,11 +288,15 @@ class AuthService {
         RequestMethod.post,
         data: setQuestionReq.toJson(),
       );
-      if (response.data['code'] != '200') {
-        throw response.data['error']['message'];
-      } else {
-        return response.data['message'];
-      }
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          return response.data['message'];
+        },
+      );
+      return result;
     } catch (e) {
       throw e.toString();
     }
@@ -269,11 +310,15 @@ class AuthService {
         RequestMethod.post,
         data: securityQuestionReq.toJson(),
       );
-      if (response.data['code'] != '200') {
-        throw response.data['error']['message'];
-      } else {
-        return response.data['message'];
-      }
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          return response.data['message'];
+        },
+      );
+      return result;
     } catch (e) {
       throw e.toString();
     }
@@ -289,13 +334,17 @@ class AuthService {
             .copyWith(partnerCode: endpointUrl.partnerCode)
             .toJson(),
       );
-      if (response.data['code'] != '200') {
-        throw response.data['error']['message'];
-      } else {
-        final requestId = response.data["requestId"];
-        _storage.saveData('forgotPassRequestId', requestId);
-        return requestId;
-      }
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final requestId = response.data["requestId"];
+          _storage.saveData('forgotPassRequestId', requestId);
+          return requestId;
+        },
+      );
+      return result;
     } catch (e) {
       throw e.toString();
     }
@@ -314,13 +363,17 @@ class AuthService {
             )
             .toJson(),
       );
-      if (response.data['code'] != '200') {
-        throw response.data['error']['message'];
-      } else {
-        final requestId = response.data["requestId"];
-        _storage.saveData('forgotPassRequestId', requestId);
-        return requestId;
-      }
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final requestId = response.data["requestId"];
+          _storage.saveData('forgotPassRequestId', requestId);
+          return requestId;
+        },
+      );
+      return result;
     } catch (e) {
       throw e.toString();
     }
@@ -340,13 +393,17 @@ class AuthService {
                 ))
             .toJson(),
       );
-      if (response.data['code'] != '200') {
-        throw response.data['error']['message'];
-      } else {
-        final requestId = response.data["requestId"];
-        _storage.saveData('forgotPassRequestId', requestId);
-        return requestId;
-      }
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final requestId = response.data["requestId"];
+          _storage.saveData('forgotPassRequestId', requestId);
+          return requestId;
+        },
+      );
+      return result;
     } catch (e) {
       throw e.toString();
     }
