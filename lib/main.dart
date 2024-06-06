@@ -11,6 +11,8 @@ import 'package:remittance_mobile/core/utils/logger.dart';
 import 'package:remittance_mobile/view/route.dart';
 import 'package:remittance_mobile/view/theme/app_theme.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 void main() {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +54,7 @@ class MyApp extends ConsumerWidget {
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,
           theme: themeData(),
+          key: navigatorKey,
           routerConfig: appRouteProvider,
           builder: (context, child) {
             return MediaQuery(

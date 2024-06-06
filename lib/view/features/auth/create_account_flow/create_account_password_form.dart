@@ -58,6 +58,7 @@ class _CreateAccountPasswordFormViewState
       if (next is AsyncData<String>) {
         AppBottomSheet.showBottomSheet(
           context,
+          enableDrag: false,
           isDismissible: false,
           widget: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,6 +77,7 @@ class _CreateAccountPasswordFormViewState
                   context.pop();
                   AppBottomSheet.showBottomSheet(
                     context,
+                    enableDrag: false,
                     isDismissible: false,
                     widget: const CreateTransactionPINSheet(),
                   );

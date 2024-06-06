@@ -12,6 +12,7 @@ import 'package:remittance_mobile/view/theme/app_theme.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/snackbar.dart';
+import 'package:remittance_mobile/view/utils/validator.dart';
 import 'package:remittance_mobile/view/widgets/back_button.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/richtext_widget.dart';
@@ -84,6 +85,7 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
                     obscureText: true,
                     defaultPinTheme: defaultPinInputTheme,
                     focusedPinTheme: focusedPinInputTheme,
+                    validator: validateGeneric,
                   ),
                 )
               ],

@@ -181,6 +181,7 @@ class AuthService {
         onSuccess: () {
           final res = response.data['data'];
           _storage.saveData('requestId', res['id'] ?? '');
+          SharedPrefManager.email = res['modifiedBy'];
         },
       );
       return response.data['message'];
