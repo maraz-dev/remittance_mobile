@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/create_password_req.dart';
-import 'package:remittance_mobile/view/features/auth/create_account_flow/create_transaction_pin.dart';
 import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/create_password_vm.dart';
+import 'package:remittance_mobile/view/features/auth/widgets/account_create_success.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
-import 'package:remittance_mobile/view/features/auth/widgets/bottomsheet_title.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
-import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/input_fields.dart';
@@ -60,32 +56,7 @@ class _CreateAccountPasswordFormViewState
           context,
           enableDrag: false,
           isDismissible: false,
-          widget: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(AppImages.accountCreated),
-              16.0.height,
-              const BottomSheetTitle(
-                title: 'Account Created',
-                subtitle: 'Welcome to BorderPal. Let’s shake the world!',
-              ),
-              40.0.height,
-              MainButton(
-                text: 'Create Transaction PIN',
-                onPressed: () {
-                  context.pop();
-                  AppBottomSheet.showBottomSheet(
-                    context,
-                    enableDrag: false,
-                    isDismissible: false,
-                    widget: const CreateTransactionPINSheet(),
-                  );
-                },
-              ),
-              12.0.height
-            ],
-          ),
+          widget: const AccountCreateSuccess(),
         );
       }
       if (next is AsyncError) {
@@ -130,7 +101,7 @@ class _CreateAccountPasswordFormViewState
                             if (value!.isEmpty) {
                               return 'Field cannot be empty';
                             } else if (value != _password.text) {
-                              return "Password doesn't match";
+                              return "Password doesn't Match";
                             }
                             return null;
                           },

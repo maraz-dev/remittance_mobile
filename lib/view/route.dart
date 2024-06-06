@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_otp_form.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/reset_password_view.dart';
 import 'package:remittance_mobile/view/features/auth/security-lock/security_lock_view.dart';
@@ -70,6 +71,11 @@ final routeProvider = Provider<GoRouter>((ref) {
               path: ForgotPasswordView.path,
               name: ForgotPasswordView.path,
               builder: (context, state) => const ForgotPasswordView(),
+            ),
+            GoRoute(
+              path: ForgotPasswordOtpForm.path,
+              name: ForgotPasswordOtpForm.path,
+              builder: (context, state) => const ForgotPasswordOtpForm(),
             ),
             GoRoute(
               path: ResetPasswordView.path,

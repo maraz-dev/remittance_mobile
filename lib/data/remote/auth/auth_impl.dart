@@ -1,5 +1,6 @@
 import 'package:remittance_mobile/data/models/requests/complete_forgot_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_password_req.dart';
+import 'package:remittance_mobile/data/models/requests/forgot_pass_verify_otp.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_forgot_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_onboarding_req.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
@@ -28,7 +29,7 @@ abstract class AuthRepository {
   Future<String> initiateForgotPasswordEndpoint(
       InitiateForgotPassReq initiateForgotPassReq);
   Future<String> verifyForgotPasswordOTPEndpoint(
-      VerifyPhoneNumberReq verifyPhoneNumberReq);
+      ForgotPasswordOtpReq forgotPasswordOtpReq);
   Future<String> completeForgotPasswordEndpoint(
       CompleteForgotPassReq completeForgotPassReq);
 }
@@ -94,6 +95,6 @@ class AuthImpl implements AuthRepository {
 
   @override
   Future<String> verifyForgotPasswordOTPEndpoint(
-          VerifyPhoneNumberReq verifyPhoneNumberReq) async =>
-      await _authService.verifyForgotPasswordOTPEndpoint(verifyPhoneNumberReq);
+          ForgotPasswordOtpReq forgotPasswordOtpReq) async =>
+      await _authService.verifyForgotPasswordOTPEndpoint(forgotPasswordOtpReq);
 }

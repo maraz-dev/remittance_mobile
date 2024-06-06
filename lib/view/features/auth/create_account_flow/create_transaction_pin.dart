@@ -8,7 +8,7 @@ import 'package:remittance_mobile/data/models/requests/set_pin_req.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_form_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/set_pin_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/bottomsheet_title.dart';
-import 'package:remittance_mobile/view/features/auth/widgets/successful_pin_create.dart';
+import 'package:remittance_mobile/view/features/auth/widgets/successful_pin_created.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/theme/app_theme.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';

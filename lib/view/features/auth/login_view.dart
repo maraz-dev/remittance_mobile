@@ -8,7 +8,6 @@ import 'package:remittance_mobile/data/models/requests/login_req.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_form_view.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
-import 'package:remittance_mobile/view/features/auth/security-lock/security_lock_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/login_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
@@ -64,11 +63,12 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
         SharedPrefManager.email = _email.text;
 
         // Check if the User is logging in on a new device
-        if (SharedPrefManager.isNewLogin) {
-          context.pushNamed(SecurityLockView.path);
-        } else {
-          context.pushNamed(DashboardView.path);
-        }
+        // if (SharedPrefManager.isNewLogin) {
+        //   context.pushNamed(SecurityLockView.path);
+        // } else {
+        //   context.pushNamed(DashboardView.path);
+        // }
+        context.pushNamed(DashboardView.path);
       }
       if (next is AsyncError) {
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);

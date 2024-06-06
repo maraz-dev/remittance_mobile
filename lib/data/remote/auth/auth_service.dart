@@ -10,6 +10,7 @@ import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/data/models/requests/complete_forgot_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_password_req.dart';
+import 'package:remittance_mobile/data/models/requests/forgot_pass_verify_otp.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_forgot_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_onboarding_req.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
@@ -225,6 +226,7 @@ class AuthService {
       final result = _responseHandler.handleResponse(
         response: response.data,
         onSuccess: () {
+          SharedPrefManager.isPINSet = true;
           return response.data['message'];
         },
       );
@@ -340,7 +342,7 @@ class AuthService {
       final result = _responseHandler.handleResponse(
         response: response.data,
         onSuccess: () {
-          final requestId = response.data["requestId"];
+          final requestId = response.data["data"]["requestId"];
           _storage.saveData('forgotPassRequestId', requestId);
           return requestId;
         },
@@ -352,14 +354,13 @@ class AuthService {
   }
 
   Future<String> verifyForgotPasswordOTPEndpoint(
-      VerifyPhoneNumberReq verifyPhoneNumberReq) async {
+      ForgotPasswordOtpReq forgotPasswordOtpReq) async {
     try {
       final response = await _networkService.request(
         endpointUrl.verifyForgotPasswordOtp,
         RequestMethod.post,
-        data: verifyPhoneNumberReq
+        data: forgotPasswordOtpReq
             .copyWith(
-              partnerCode: endpointUrl.partnerCode,
               requestId: await _storage.readData('forgotPassRequestId'),
             )
             .toJson(),
@@ -369,7 +370,7 @@ class AuthService {
       final result = _responseHandler.handleResponse(
         response: response.data,
         onSuccess: () {
-          final requestId = response.data["requestId"];
+          final requestId = response.data["data"]["requestId"];
           _storage.saveData('forgotPassRequestId', requestId);
           return requestId;
         },
@@ -399,7 +400,7 @@ class AuthService {
       final result = _responseHandler.handleResponse(
         response: response.data,
         onSuccess: () {
-          final requestId = response.data["requestId"];
+          final requestId = response.data["data"]["requestId"];
           _storage.saveData('forgotPassRequestId', requestId);
           return requestId;
         },
