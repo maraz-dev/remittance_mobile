@@ -13,6 +13,7 @@ import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/theme/app_theme.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
+import 'package:remittance_mobile/view/utils/bottomsheets/kyc_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/snackbar.dart';
@@ -61,6 +62,7 @@ class _CreateTransactionPINSheetState
                 'PIN Created Successfully',
                 context,
               );
+              kycBottomSheet(context);
             } else {
               context.pop();
               AppBottomSheet.showBottomSheet(

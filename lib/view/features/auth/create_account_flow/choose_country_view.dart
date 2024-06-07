@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
+import 'package:remittance_mobile/view/features/auth/login_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/auth_providers.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_dropdown.dart';
@@ -80,7 +81,7 @@ class _ChooseCountryViewState extends ConsumerState<ChooseCountryView> {
                 RichTextWidget(
                   text: 'Already have an Account?',
                   hyperlink: ' Log In',
-                  onTap: () => context.pop(),
+                  onTap: () => context.pushReplacementNamed(LoginScreen.path),
                 )
                     .animate()
                     .fadeIn(

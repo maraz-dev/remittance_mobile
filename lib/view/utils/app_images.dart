@@ -84,6 +84,7 @@ class AppImages {
   static const accountViewImage = '$imagePath/account_view_background.png';
   static const profileBackground = '$imagePath/profile_background.png';
   static const selfieImage = '$imagePath/temp_selfie.png';
+  static const selfieImageTwo = '$imagePath/temp_image.jpeg';
   static const splashImage = '$imagePath/splash_image.png';
   static const remittanceLogo = '$imagePath/remittance_logo.png';
   static const onboardingOne = '$imagePath/onboarding_one.png';

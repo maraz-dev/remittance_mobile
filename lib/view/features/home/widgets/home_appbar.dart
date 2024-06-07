@@ -18,7 +18,7 @@ class HomeAppBarWidget extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 20.r,
-          backgroundImage: const AssetImage(AppImages.tempProfileImage),
+          backgroundImage: const AssetImage(AppImages.selfieImageTwo),
         ),
         8.0.width,
         RichText(
