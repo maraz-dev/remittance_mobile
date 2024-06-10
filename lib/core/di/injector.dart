@@ -50,7 +50,7 @@ final userStorageService = Provider<UserStorageService>((ref) {
   return UserStorageService(storageService: ref.watch(hiveStorageService));
 });
 
-/// Auth Service
+// Auth Service Dependency Injection
 
 final _authService = Provider<AuthService>((ref) {
   var network = ref.watch(_networkService);
