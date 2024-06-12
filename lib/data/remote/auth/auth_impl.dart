@@ -11,28 +11,7 @@ import 'package:remittance_mobile/data/models/requests/verify_phone_number_req.d
 import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
 import 'package:remittance_mobile/data/models/responses/security_question.dart';
 import 'package:remittance_mobile/data/remote/auth/auth_service.dart';
-
-abstract class AuthRepository {
-  Future<String> initiateOnboardingMethod(
-      InitiateOnboardingReq initiateOnboardingReq);
-  Future<String> loginEndpoint(LoginReq loginReq);
-  Future<String> verifyPhoneNo(VerifyPhoneNumberReq verifyPhoneNumberReq);
-  Future<String> createPassword(CreatePasswordReq createPasswordReq);
-  Future<List<NewCountryModel>> getCountries();
-  Future<String> setPinEndpoint(SetPinReq setPinReq);
-  Future<String> validatePinEndpoint(String pin);
-  Future<List<SecurityQuestionItem>> getSecurityQuestionEndpoint();
-  Future<String> setSecurityQuestionEndpoint(
-      SetSecurityQuestionReq setQuestionReq);
-  Future<String> validateSecurityQuestionEndpoint(
-      SecurityQuestionReq securityQuestionReq);
-  Future<String> initiateForgotPasswordEndpoint(
-      InitiateForgotPassReq initiateForgotPassReq);
-  Future<String> verifyForgotPasswordOTPEndpoint(
-      ForgotPasswordOtpReq forgotPasswordOtpReq);
-  Future<String> completeForgotPasswordEndpoint(
-      CompleteForgotPassReq completeForgotPassReq);
-}
+import 'package:remittance_mobile/domain/auth_repo.dart';
 
 class AuthImpl implements AuthRepository {
   final AuthService _authService;

@@ -11,6 +11,7 @@ import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/data/local/user_data_storage.dart';
 import 'package:remittance_mobile/data/remote/auth/auth_impl.dart';
 import 'package:remittance_mobile/data/remote/auth/auth_service.dart';
+import 'package:remittance_mobile/domain/auth_repo.dart';
 
 final inject = GetIt.instance;
 
