@@ -11,7 +11,6 @@ import 'package:remittance_mobile/view/features/home/widgets/home_appbar.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_image.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_service_card.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
-import 'package:remittance_mobile/view/utils/bottomsheets/kyc_bottomsheet.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -41,8 +40,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
               fromHomeView: true,
             ),
           );
-        } else if (!SharedPrefManager.isKycComplete) {
-          kycBottomSheet(context);
         }
       },
     );
@@ -68,8 +65,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            16.0.height,
-
             // KYC Info Card
             const KycInfoCard(),
 

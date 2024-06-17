@@ -14,28 +14,31 @@ class HomeAppBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        CircleAvatar(
-          radius: 20.r,
-          backgroundImage: const AssetImage(AppImages.selfieImageTwo),
-        ),
-        8.0.width,
-        RichText(
-            text: TextSpan(
-          text: 'Welcome ',
-          style: Theme.of(context).textTheme.bodyLarge,
-          children: [
-            TextSpan(
-                text: response.firstName?.split(' ').first ?? '',
-                style: Theme.of(context).textTheme.displaySmall),
-            TextSpan(
-                text: '👋', style: Theme.of(context).textTheme.displaySmall),
-          ],
-        )),
-        const Spacer(),
-        SvgPicture.asset(AppImages.notification)
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 20.r,
+            backgroundImage: const AssetImage(AppImages.selfieImageTwo),
+          ),
+          8.0.width,
+          RichText(
+              text: TextSpan(
+            text: 'Welcome ',
+            style: Theme.of(context).textTheme.bodyLarge,
+            children: [
+              TextSpan(
+                  text: response.firstName?.split(' ').first ?? '',
+                  style: Theme.of(context).textTheme.displaySmall),
+              TextSpan(
+                  text: '👋', style: Theme.of(context).textTheme.displaySmall),
+            ],
+          )),
+          const Spacer(),
+          SvgPicture.asset(AppImages.notification)
+        ],
+      ),
     );
   }
 }

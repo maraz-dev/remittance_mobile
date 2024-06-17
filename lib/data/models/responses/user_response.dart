@@ -2,7 +2,7 @@ class UserResponse {
   String? userId;
   String? firstName;
   String? lastName;
-  dynamic middleName;
+  String? middleName;
   String? partnerCode;
   dynamic businessCode;
   String? roleId;
@@ -15,9 +15,15 @@ class UserResponse {
   String? token;
   String? refreshToken;
   String? onboardingStatus;
+  String? kycProgress;
+  String? onboardingRequestId;
   DateTime? tokenExpiresAt;
   bool? changePassword;
   bool? isLiveMode;
+  dynamic deviceType;
+  dynamic deviceToken;
+  bool? isNewLogin;
+  bool? isSecurityQuestionSet;
 
   UserResponse({
     this.userId,
@@ -36,9 +42,15 @@ class UserResponse {
     this.token,
     this.refreshToken,
     this.onboardingStatus,
+    this.kycProgress,
+    this.onboardingRequestId,
     this.tokenExpiresAt,
     this.changePassword,
     this.isLiveMode,
+    this.deviceType,
+    this.deviceToken,
+    this.isNewLogin,
+    this.isSecurityQuestionSet,
   });
 
   factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
@@ -58,11 +70,17 @@ class UserResponse {
         token: json["token"],
         refreshToken: json["refreshToken"],
         onboardingStatus: json["onboardingStatus"],
+        kycProgress: json["kycProgress"],
+        onboardingRequestId: json["onboardingRequestId"],
         tokenExpiresAt: json["tokenExpiresAt"] == null
             ? null
             : DateTime.parse(json["tokenExpiresAt"]),
         changePassword: json["changePassword"],
         isLiveMode: json["isLiveMode"],
+        deviceType: json["deviceType"],
+        deviceToken: json["deviceToken"],
+        isNewLogin: json["isNewLogin"],
+        isSecurityQuestionSet: json["isSecurityQuestionSet"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -82,34 +100,14 @@ class UserResponse {
         "token": token,
         "refreshToken": refreshToken,
         "onboardingStatus": onboardingStatus,
+        "kycProgress": kycProgress,
+        "onboardingRequestId": onboardingRequestId,
         "tokenExpiresAt": tokenExpiresAt?.toIso8601String(),
         "changePassword": changePassword,
         "isLiveMode": isLiveMode,
-      };
-}
-
-class Permissions {
-  List<String>? backoffice;
-  List<String>? auth;
-
-  Permissions({
-    this.backoffice,
-    this.auth,
-  });
-
-  factory Permissions.fromJson(Map<String, dynamic> json) => Permissions(
-        backoffice: json["Backoffice"] == null
-            ? []
-            : List<String>.from(json["Backoffice"]!.map((x) => x)),
-        auth: json["Auth"] == null
-            ? []
-            : List<String>.from(json["Auth"]!.map((x) => x)),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "Backoffice": backoffice == null
-            ? []
-            : List<dynamic>.from(backoffice!.map((x) => x)),
-        "Auth": auth == null ? [] : List<dynamic>.from(auth!.map((x) => x)),
+        "deviceType": deviceType,
+        "deviceToken": deviceToken,
+        "isNewLogin": isNewLogin,
+        "isSecurityQuestionSet": isSecurityQuestionSet,
       };
 }

@@ -5,6 +5,7 @@ import 'package:remittance_mobile/view/features/home/vm/home_providers.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
+import 'package:remittance_mobile/view/utils/bottomsheets/kyc_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class KycInfoCard extends ConsumerStatefulWidget {
@@ -30,6 +31,13 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
           switch (data.validationStatus) {
             case "Pending":
               return KYCInfo(
+                onPressed: () {
+                  WidgetsBinding.instance.addPostFrameCallback(
+                    (timeStamp) {
+                      kycBottomSheet(context);
+                    },
+                  );
+                },
                 bgColor: AppColors.kGrey200,
                 iconColor: AppColors.kGrey700.colorFilterMode(),
                 text: "Submit your KYC",
@@ -81,6 +89,7 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
 }
 
 class KYCInfo extends StatelessWidget {
+  final Function()? onPressed;
   final Color? bgColor;
   final ColorFilter? iconColor;
   final String? text;
@@ -91,36 +100,39 @@ class KYCInfo extends StatelessWidget {
     this.text,
     this.textColor,
     this.bgColor,
+    this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-        color: bgColor ?? AppColors.kWarningColor50,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          CardIcon(
-            padding: 8,
-            image: AppImages.timer,
-            iconColor:
-                iconColor ?? AppColors.kWarningColor700.colorFilterMode(),
-            bgColor: AppColors.kWhiteColor,
-          ),
-          8.0.width,
-          Expanded(
-            child: Text(
-              text ?? 'Your Profile is Pending Approval.',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(color: textColor ?? AppColors.kWarningColor700),
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          color: bgColor ?? AppColors.kWarningColor50,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            CardIcon(
+              padding: 8,
+              image: AppImages.timer,
+              iconColor:
+                  iconColor ?? AppColors.kWarningColor700.colorFilterMode(),
+              bgColor: AppColors.kWhiteColor,
             ),
-          )
-        ],
+            8.0.width,
+            Expanded(
+              child: Text(
+                text ?? 'Your Profile is Pending Approval.',
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: textColor ?? AppColors.kWarningColor700,
+                    fontWeight: FontWeight.w500),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
