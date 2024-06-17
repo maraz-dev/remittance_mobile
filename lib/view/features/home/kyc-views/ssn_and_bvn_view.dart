@@ -21,7 +21,7 @@ class SsnAndKycView extends StatefulWidget {
 class _SsnAndKycViewState extends State<SsnAndKycView> {
   final TextEditingController _ssnOrBvn = TextEditingController();
   final TextEditingController _dateOfBirth = TextEditingController();
-  DateTime _currentDate = DateTime.now();
+  DateTime _currentDate = DateTime(DateTime.now().year - 16);
 
   @override
   void dispose() {
@@ -61,6 +61,7 @@ class _SsnAndKycViewState extends State<SsnAndKycView> {
                 final value = await showPlatformDatePicker(
                   context: context,
                   initialDate: _currentDate,
+                  maximumYear: _currentDate.year,
                   firstDate: DateTime(1900),
                   lastDate: _currentDate,
                 );

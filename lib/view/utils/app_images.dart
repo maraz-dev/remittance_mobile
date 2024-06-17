@@ -27,7 +27,7 @@ class AppImages {
   static const credit = '$path/credit.svg';
   static const debit = '$path/debit.svg';
   static const homeViewAdd = '$path/add_home_view.svg';
-  static const details = '$path/details.svg';
+  static const more = '$path/more.svg';
   static const exchange = '$path/exchange.svg';
   static const statment = '$path/statement.svg';
   static const add = '$path/add.svg';
@@ -76,6 +76,10 @@ class AppImages {
   static const filterList = '$path/filter_list.svg';
   static const timer = '$path/timer.svg';
   static const dot = '$path/dot.svg';
+  static const accountDetails = '$path/account_details.svg';
+  static const accountStatement = '$path/account_statement.svg';
+  static const deactivate = '$path/deactivate.svg';
+  static const withdraw = '$path/withdraw.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';

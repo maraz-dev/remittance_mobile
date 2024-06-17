@@ -3,11 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/home/add_money_view.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/latest_transaction_box.dart';
+import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/widgets/account_options.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
+import 'package:remittance_mobile/view/widgets/section_header.dart';
 
 class CurrencyAccountView extends StatefulWidget {
   static String path = 'currency-account-screen';
@@ -23,80 +25,91 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
     return Scaffold(
       appBar: innerAppBar(title: 'USD Account'),
       body: SafeArea(
-        child: Column(
-          children: [
-            Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                Image.asset(
-                  AppImages.accountViewImage,
-                  fit: BoxFit.fitWidth,
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              20.0.height,
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppColors.kWhiteColor,
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                Column(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                          color: AppColors.kCardColor,
-                          borderRadius: BorderRadius.circular(16.r)),
-                      child: Text(
-                        'Balance',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: AppColors.kWhiteColor,
-                            fontWeight: FontWeight.bold),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text('Total Balance'),
+                        Image.asset(AppImages.us, width: 32, height: 32)
+                      ],
                     ),
                     10.0.height,
-                    Text(
-                      500.21.amountWithCurrency('usd'),
-                      style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.kWhiteColor,
-                          fontSize: 40.sp),
+                    SizedBox(
+                      width: 300,
+                      child: Text(
+                        5000000.21.amountWithCurrency('usd'),
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayLarge!
+                            .copyWith(
+                                fontWeight: FontWeight.bold, fontSize: 36.sp),
+                      ),
                     ),
-                    65.0.height,
+                    24.0.height,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         AccountOptions(
-                          text: 'Add',
+                          text: 'Add Money',
                           image: AppImages.add,
                           onPressed: () => context.pushNamed(AddMoneyView.path),
                         ),
+                        16.0.width,
                         const AccountOptions(
                           text: 'Exchange',
                           image: AppImages.exchange,
                         ),
-                        const AccountOptions(
-                          text: 'Details',
-                          image: AppImages.details,
-                        ),
-                        const AccountOptions(
-                          text: 'Statement',
-                          image: AppImages.statment,
+                        16.0.width,
+                        AccountOptions(
+                          text: 'More',
+                          image: AppImages.more,
+                          onPressed: () {
+                            AppBottomSheet.showBottomSheet(context,
+                                widget: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SectionHeader(text: 'More'),
+                                    24.0.height,
+                                    ListView.separated(
+                                      shrinkWrap: true,
+                                      itemBuilder: (context, index) {
+                                        return currencyAccountList[index];
+                                      },
+                                      separatorBuilder: (context, index) =>
+                                          24.0.height,
+                                      itemCount: currencyAccountList.length,
+                                    )
+                                  ],
+                                ));
+                          },
                         ),
                       ],
-                    )
-                  ],
-                ),
-              ],
-            ),
-            30.0.height,
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    /// Transactions
-                    /// Transactions
-                    12.0.height,
-                    const LatestTransactionsBox(),
-                    30.0.height,
+                    ),
                   ],
                 ),
               ),
-            )
-          ],
+              20.0.height,
+
+              // Latest Transactions
+              const LatestTransactionsBox(),
+              30.0.height,
+            ],
+          ),
         ),
       ),
     );
