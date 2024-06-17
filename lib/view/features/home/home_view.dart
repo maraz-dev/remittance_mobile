@@ -65,6 +65,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            10.0.height,
+
             // KYC Info Card
             const KycInfoCard(),
 

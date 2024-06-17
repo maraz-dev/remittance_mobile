@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_skeleton_ui/flutter_skeleton_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/view/features/home/vm/home_providers.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
@@ -24,8 +25,11 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
     final kycStatus = ref.watch(getKycStatusProvider);
 
     return kycStatus.maybeWhen(
-        orElse: () => const Center(
-              child: Text('Loading...'),
+        orElse: () => SkeletonLine(
+              style: SkeletonLineStyle(
+                height: 45,
+                borderRadius: BorderRadius.circular(16),
+              ),
             ),
         data: (data) {
           switch (data.validationStatus) {
@@ -40,7 +44,7 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
                 },
                 bgColor: AppColors.kGrey200,
                 iconColor: AppColors.kGrey700.colorFilterMode(),
-                text: "Submit your KYC",
+                text: "Submit Your KYC",
                 textColor: AppColors.kGrey700,
               );
             case "Initiated":
