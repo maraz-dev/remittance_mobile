@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/security_questions_req.dart';
-import 'package:remittance_mobile/data/models/responses/security_question.dart';
+import 'package:remittance_mobile/data/models/responses/security_question_item_model.dart';
 import 'package:remittance_mobile/view/features/auth/vm/auth_providers.dart';
 import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/validate_pin_vm.dart';
 import 'package:remittance_mobile/view/features/auth/vm/security_questions_vm/validate_security_question.dart';

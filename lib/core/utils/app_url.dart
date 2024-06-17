@@ -90,6 +90,14 @@ class ApiEndpoints {
   String get completeForgotPassword =>
       "/api/v1/partner/customer/onboarding/CompleteForgotPassword";
 
+  // KYC
+  String get kycStatus => "/api/v1/kyc/customer/GetStatus";
+  String get initiateKYC => "/api/v1/kyc/customer/Initiate";
+  String get resubmitBvnOrSsn => "/api/v1/kyc/customer/ResubmitBvnOrSsn";
+  String get resubmitMeansOfId => "/api/v1/kyc/customer/ResubmitMeansOfId";
+  String get resubmitProofOfAddress =>
+      "/api/v1/kyc/customer/ResubmitProofOfAddress";
+
   // Refresh Token
   String get refresh => "/$version/auth/refresh";
 

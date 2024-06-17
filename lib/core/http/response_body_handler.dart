@@ -7,7 +7,7 @@ class ResponseHandler {
       if (response['code'] != '200') {
         throw response['error']['message'];
       } else {
-        return onSuccess();
+        return onSuccess;
       }
     } catch (e) {
       throw e.toString();
