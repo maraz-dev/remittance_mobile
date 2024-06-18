@@ -49,11 +49,11 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
               );
             case "Initiated":
               return const KYCInfo();
-            case "Rejected":
+            case "Failed":
               return KYCInfo(
                 bgColor: AppColors.kErrorColor.withOpacity(0.2),
                 iconColor: AppColors.kErrorColor.colorFilterMode(),
-                text: "KYC Rejected. ${data.comment}",
+                text: "KYC Failed. ${data.comment}",
                 textColor: AppColors.kErrorColor,
               );
             default:
