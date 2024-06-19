@@ -8,10 +8,9 @@ import 'package:remittance_mobile/data/models/requests/security_questions_req.da
 import 'package:remittance_mobile/data/models/requests/set_pin_req.dart';
 import 'package:remittance_mobile/data/models/requests/set_security_question_req.dart';
 import 'package:remittance_mobile/data/models/requests/verify_phone_number_req.dart';
-import 'package:remittance_mobile/data/models/responses/kyc_status_model.dart';
 import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
 import 'package:remittance_mobile/data/models/responses/security_question_item_model.dart';
-import 'package:remittance_mobile/data/remote/auth/auth_service.dart';
+import 'package:remittance_mobile/data/remote/auth-remote/auth_service.dart';
 import 'package:remittance_mobile/domain/auth_repo.dart';
 
 class AuthImpl implements AuthRepository {
@@ -77,7 +76,4 @@ class AuthImpl implements AuthRepository {
   Future<String> verifyForgotPasswordOTPEndpoint(
           ForgotPasswordOtpReq forgotPasswordOtpReq) async =>
       await _authService.verifyForgotPasswordOTPEndpoint(forgotPasswordOtpReq);
-
-  @override
-  Future<KycStatus> getKycStatus() async => await _authService.getKycStatus();
 }

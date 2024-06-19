@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:dio/dio.dart';
 import 'package:remittance_mobile/core/http/http_service.dart';
 import 'package:remittance_mobile/core/http/response_body_handler.dart';
 import 'package:remittance_mobile/core/storage/hive-storage/hive_storage.dart';
@@ -20,8 +19,6 @@ import 'package:remittance_mobile/data/models/requests/set_pin_req.dart';
 import 'package:remittance_mobile/data/models/requests/set_security_question_req.dart';
 import 'package:remittance_mobile/data/models/requests/validate_pin_req.dart';
 import 'package:remittance_mobile/data/models/requests/verify_phone_number_req.dart';
-import 'package:remittance_mobile/data/models/responses/kyc_status_model.dart';
-import 'package:remittance_mobile/data/models/responses/kyc_submission_model.dart';
 import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
 import 'package:remittance_mobile/data/models/responses/security_question_item_model.dart';
 
@@ -413,30 +410,4 @@ class AuthService {
       throw e.toString();
     }
   }
-
-  Future<KycStatus> getKycStatus() async {
-    try {
-      final response = await _networkService.request(
-          endpointUrl.kycStatus, RequestMethod.get);
-
-      _responseHandler.handleResponse(
-          response: response.data,
-          onSuccess: () {
-            KycStatus.fromJson(response.data['data']);
-          });
-      return KycStatus.fromJson(response.data['data']);
-    } catch (e) {
-      throw e.toString();
-    }
-  }
-
-  // Future<void> initiateKyc() async {
-  //   try {
-  //     final response = await _networkService.request(
-  //         endpointUrl.initiateKYC, RequestMethod.upload,
-  //         data: );
-  //   } catch (e) {
-  //     throw e.toString();
-  //   }
-  // }
 }

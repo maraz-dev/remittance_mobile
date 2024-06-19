@@ -97,6 +97,9 @@ class ApiEndpoints {
   String get resubmitMeansOfId => "/api/v1/kyc/customer/ResubmitMeansOfId";
   String get resubmitProofOfAddress =>
       "/api/v1/kyc/customer/ResubmitProofOfAddress";
+  String get getIdDocumentsTypes => "/api/v1/partner/kyc/GetIdDocumentTypes";
+  String get getProofOfAddressTypes =>
+      "/api/v1/partner/kyc/GetProofOfAddressTypes";
 
   // Refresh Token
   String get refresh => "/$version/auth/refresh";

@@ -8,7 +8,6 @@ import 'package:remittance_mobile/data/models/requests/security_questions_req.da
 import 'package:remittance_mobile/data/models/requests/set_pin_req.dart';
 import 'package:remittance_mobile/data/models/requests/set_security_question_req.dart';
 import 'package:remittance_mobile/data/models/requests/verify_phone_number_req.dart';
-import 'package:remittance_mobile/data/models/responses/kyc_status_model.dart';
 import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
 import 'package:remittance_mobile/data/models/responses/security_question_item_model.dart';
 
@@ -32,5 +31,4 @@ abstract class AuthRepository {
       ForgotPasswordOtpReq forgotPasswordOtpReq);
   Future<String> completeForgotPasswordEndpoint(
       CompleteForgotPassReq completeForgotPassReq);
-  Future<KycStatus> getKycStatus();
 }
