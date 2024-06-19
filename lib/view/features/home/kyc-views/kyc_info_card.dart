@@ -111,6 +111,7 @@ class KYCInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
+      splashColor: Colors.transparent,
       child: Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(

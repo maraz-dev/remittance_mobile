@@ -36,16 +36,14 @@ class KycService {
   Future<List<IdTypesItem>> getIdTypesEndpoint() async {
     try {
       final response = await _networkService.request(
-          endpointUrl.getIdDocumentsTypes, RequestMethod.get);
+          "${endpointUrl.getIdDocumentsTypes}?countryCode=", RequestMethod.get);
 
-      return _responseHandler.handleResponse(
-          response: response.data['data'],
-          onSuccess: () {
-            final res = response.data['data'] as List;
-            final responseList =
-                res.map((json) => IdTypesItem.fromJson(json)).toList();
-            return responseList;
-          });
+      _responseHandler.handleResponse(
+          response: response.data, onSuccess: () {});
+      final res = response.data['data'] as List;
+      final responseList =
+          res.map((json) => IdTypesItem.fromJson(json)).toList();
+      return responseList;
     } catch (e) {
       throw e.toString();
     }
@@ -54,16 +52,21 @@ class KycService {
   Future<List<IdTypesItem>> getProofOfAddressEndpoint() async {
     try {
       final response = await _networkService.request(
-          endpointUrl.getProofOfAddressTypes, RequestMethod.get);
+          "${endpointUrl.getProofOfAddressTypes}?countryCode=",
+          RequestMethod.get);
 
-      return _responseHandler.handleResponse(
-          response: response.data['data'],
+      _responseHandler.handleResponse(
+          response: response.data,
           onSuccess: () {
             final res = response.data['data'] as List;
             final responseList =
                 res.map((json) => IdTypesItem.fromJson(json)).toList();
             return responseList;
           });
+      final res = response.data['data'] as List;
+      final responseList =
+          res.map((json) => IdTypesItem.fromJson(json)).toList();
+      return responseList;
     } catch (e) {
       throw e.toString();
     }

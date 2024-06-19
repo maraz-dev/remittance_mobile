@@ -9,28 +9,28 @@ import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
-class MeansOfIdView extends ConsumerStatefulWidget {
-  static String path = '/means-of-id-view';
-  const MeansOfIdView({super.key});
+class ProofOfAddressView extends ConsumerStatefulWidget {
+  static String path = '/proof-of-address-view';
+  const ProofOfAddressView({super.key});
 
   @override
-  ConsumerState<MeansOfIdView> createState() => _MeansOfIdViewState();
+  ConsumerState<ProofOfAddressView> createState() => _ProofOfAddressViewState();
 }
 
-class _MeansOfIdViewState extends ConsumerState<MeansOfIdView> {
+class _ProofOfAddressViewState extends ConsumerState<ProofOfAddressView> {
   @override
   Widget build(BuildContext context) {
-    // Get the Means of ID
-    final meansOfIDList = ref.watch(getMeansOfIDProvider);
+    // Get Proof of Address List
+    final proofOfAddressList = ref.watch(getProofOfAddressProvider);
 
     return Scaffold(
-      appBar: innerAppBar(title: 'Means of ID'),
+      appBar: innerAppBar(title: 'Proof Of Address'),
       body: ScaffoldBody(
           body: SingleChildScrollView(
         child: Column(
           children: [
             20.0.height,
-            meansOfIDList.maybeWhen(
+            proofOfAddressList.maybeWhen(
               orElse: () => ListView.separated(
                 shrinkWrap: true,
                 itemBuilder: (context, index) {

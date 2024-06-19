@@ -1,5 +1,5 @@
 import 'package:remittance_mobile/view/features/home/kyc-views/means_of_id_view.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/proof_of_address.dart';
+import 'package:remittance_mobile/view/features/home/kyc-views/proof_of_address_view.dart';
 import 'package:remittance_mobile/view/features/home/kyc-views/selfle_view.dart';
 import 'package:remittance_mobile/view/features/home/kyc-views/ssn_and_bvn_view.dart';
 

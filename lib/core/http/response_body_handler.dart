@@ -1,7 +1,7 @@
 class ResponseHandler {
   dynamic handleResponse({
     required Map<String, dynamic> response,
-    required Function onSuccess,
+    required Function() onSuccess,
   }) {
     try {
       if (response['code'] != '200') {
