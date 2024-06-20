@@ -46,7 +46,7 @@ class MainButton extends StatelessWidget {
             : Center(
                 child: Text(
                   text,
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
                         color: textColor ?? AppColors.kWhiteColor,
                       ),

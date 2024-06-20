@@ -12,7 +12,9 @@ import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/home/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/home_view.dart';
+import 'package:remittance_mobile/view/features/home/kyc-views/means_of_id_capture_view.dart';
 import 'package:remittance_mobile/view/features/home/kyc-views/means_of_id_view.dart';
+import 'package:remittance_mobile/view/features/home/kyc-views/proof_of_address_upload_view.dart';
 import 'package:remittance_mobile/view/features/home/kyc-views/proof_of_address_view.dart';
 import 'package:remittance_mobile/view/features/home/kyc-views/selfle_view.dart';
 import 'package:remittance_mobile/view/features/home/kyc-views/ssn_and_bvn_view.dart';
@@ -227,15 +229,27 @@ final routeProvider = Provider<GoRouter>((ref) {
           builder: (context, state) => const SsnAndKycView(),
         ),
         GoRoute(
-          path: MeansOfIdView.path,
-          name: MeansOfIdView.path,
-          builder: (context, state) => const MeansOfIdView(),
-        ),
+            path: MeansOfIdView.path,
+            name: MeansOfIdView.path,
+            builder: (context, state) => const MeansOfIdView(),
+            routes: [
+              GoRoute(
+                path: MeansOfIdCaptureView.path,
+                name: MeansOfIdCaptureView.path,
+                builder: (context, state) => const MeansOfIdCaptureView(),
+              ),
+            ]),
         GoRoute(
-          path: ProofOfAddressView.path,
-          name: ProofOfAddressView.path,
-          builder: (context, state) => const ProofOfAddressView(),
-        ),
+            path: ProofOfAddressView.path,
+            name: ProofOfAddressView.path,
+            builder: (context, state) => const ProofOfAddressView(),
+            routes: [
+              GoRoute(
+                path: ProofOfAddressUploadView.path,
+                name: ProofOfAddressUploadView.path,
+                builder: (context, state) => const ProofOfAddressUploadView(),
+              ),
+            ]),
         GoRoute(
           path: SelfieView.path,
           name: SelfieView.path,

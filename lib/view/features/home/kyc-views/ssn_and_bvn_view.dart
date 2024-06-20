@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:remittance_mobile/view/utils/app_date_picker.dart';
+import 'package:remittance_mobile/view/utils/bottomsheets/kyc_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/input_fields.dart';
@@ -83,7 +85,14 @@ class _SsnAndKycViewState extends State<SsnAndKycView> {
           MainButton(
             //isLoading: true,
             text: 'Continue',
-            onPressed: () {},
+            onPressed: () {
+              context.pop();
+              kycPosition.value += 1;
+              kycBottomSheet(
+                context: context,
+                current: 1,
+              );
+            },
           )
               .animate()
               .fadeIn(begin: 0, delay: 1000.ms)

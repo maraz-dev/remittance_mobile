@@ -2,7 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_skeleton_ui/flutter_skeleton_ui.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/view/features/home/kyc-views/proof_of_address_upload_view.dart';
 import 'package:remittance_mobile/view/features/home/vm/home_providers.dart';
 import 'package:remittance_mobile/view/features/home/widgets/means_of_id_card.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -49,12 +51,15 @@ class _ProofOfAddressViewState extends ConsumerState<ProofOfAddressView> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   var value = data[index];
-                  return MeansOfIDCard(
-                    text: value.friendlyName ?? "",
-                  )
-                      .animate()
-                      .fadeIn()
-                      .slideX(begin: 1, delay: 100.ms + (index * 30).ms);
+                  return InkWell(
+                    splashColor: Colors.transparent,
+                    onTap: () {
+                      context.pushNamed(ProofOfAddressUploadView.path);
+                    },
+                    child: MeansOfIDCard(
+                      text: value.friendlyName ?? "",
+                    ).animate().fadeIn(),
+                  );
                 },
                 separatorBuilder: (context, index) => 16.0.height,
                 itemCount: data.length,

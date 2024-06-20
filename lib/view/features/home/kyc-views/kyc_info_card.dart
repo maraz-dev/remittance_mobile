@@ -38,7 +38,10 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
                 onPressed: () {
                   WidgetsBinding.instance.addPostFrameCallback(
                     (timeStamp) {
-                      kycBottomSheet(context);
+                      kycBottomSheet(
+                        context: context,
+                        current: kycPosition.value,
+                      );
                     },
                   );
                 },

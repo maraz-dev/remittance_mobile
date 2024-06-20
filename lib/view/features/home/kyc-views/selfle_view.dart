@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
+import 'package:remittance_mobile/view/utils/bottomsheets/kyc_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
@@ -65,7 +67,14 @@ class _SelfieViewState extends State<SelfieView> {
           MainButton(
             //isLoading: true,
             text: 'Continue',
-            onPressed: () {},
+            onPressed: () {
+              context.pop();
+              kycPosition.value += 1;
+              kycBottomSheet(
+                context: context,
+                current: kycPosition.value,
+              );
+            },
           )
               .animate()
               .fadeIn(begin: 0, delay: 1000.ms)

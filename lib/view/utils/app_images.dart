@@ -80,6 +80,9 @@ class AppImages {
   static const accountStatement = '$path/account_statement.svg';
   static const deactivate = '$path/deactivate.svg';
   static const withdraw = '$path/withdraw.svg';
+  static const uploadIdIcon = '$path/upload_id_icon.svg';
+  static const uploadPoaIcon = '$path/upload_poa_icon.svg';
+  static const resendIdIcon = '$path/resend_id_icon.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';
