@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' as services;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
@@ -55,6 +56,9 @@ class _SsnAndBvnViewState extends State<SsnAndBvnView> {
                 controller: _ssnOrBvn,
                 hint: "Enter Number",
                 inputType: TextInputType.number,
+                inputFormatters: [
+                  services.FilteringTextInputFormatter.digitsOnly,
+                ],
                 validator: validateGeneric,
               ),
               16.0.height,

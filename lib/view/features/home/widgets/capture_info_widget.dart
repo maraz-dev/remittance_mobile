@@ -29,22 +29,22 @@ class CaptureInfoWidget extends StatelessWidget {
         ),
         16.0.height,
         Text(
-          text ?? 'How to Capture Front ID',
+          text ?? 'How to Capture ID',
           style:
               Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 16),
         ),
         5.0.height,
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50),
+          padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Text(
             subtitle ??
-                'Place your ID on a flat surface and Avoid taking blurry photos',
+                'Place your ID with the on a flat surface with the front side facing the camera. and Avoid taking blurry photos',
             textAlign: TextAlign.center,
           ),
         ),
         24.0.height,
         MainButton(
-          text: buttonText ?? 'Capture ID Photo',
+          text: buttonText ?? 'Capture Fronf of ID Photo',
           onPressed: onPressed,
         ),
       ],

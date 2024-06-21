@@ -12,8 +12,7 @@ import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/home/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/home_view.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/means_of_id_capture_view.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/means_of_id_view.dart';
+import 'package:remittance_mobile/view/features/home/kyc-views/means_of_id/means_of_id_view.dart';
 import 'package:remittance_mobile/view/features/home/kyc-views/proof_of_address_upload_view.dart';
 import 'package:remittance_mobile/view/features/home/kyc-views/proof_of_address_view.dart';
 import 'package:remittance_mobile/view/features/home/kyc-views/selfle_view.dart';
@@ -233,11 +232,11 @@ final routeProvider = Provider<GoRouter>((ref) {
             name: MeansOfIdView.path,
             builder: (context, state) => const MeansOfIdView(),
             routes: [
-              GoRoute(
-                path: MeansOfIdCaptureView.path,
-                name: MeansOfIdCaptureView.path,
-                builder: (context, state) => const MeansOfIdCaptureView(),
-              ),
+              // GoRoute(
+              //   path: IdFrontCaptureView.path,
+              //   name: IdFrontCaptureView.path,
+              //   builder: (context, state) => const IdFrontCaptureView(),
+              // ),
             ]),
         GoRoute(
             path: ProofOfAddressView.path,

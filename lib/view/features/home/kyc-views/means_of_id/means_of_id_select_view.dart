@@ -2,33 +2,34 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_skeleton_ui/flutter_skeleton_ui.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/means_of_id_capture_view.dart';
 import 'package:remittance_mobile/view/features/home/vm/home_providers.dart';
 import 'package:remittance_mobile/view/features/home/widgets/means_of_id_card.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
-import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
-class MeansOfIdView extends ConsumerStatefulWidget {
-  static String path = '/means-of-id-view';
-  const MeansOfIdView({super.key});
+class MeansOfIdSelectView extends ConsumerStatefulWidget {
+  static String path = 'means-of-id-select-view.dart';
+  final VoidCallback pressed;
+
+  const MeansOfIdSelectView({
+    super.key,
+    required this.pressed,
+  });
 
   @override
-  ConsumerState<MeansOfIdView> createState() => _MeansOfIdViewState();
+  ConsumerState<MeansOfIdSelectView> createState() =>
+      _MeansOfIdSelectViewState();
 }
 
-class _MeansOfIdViewState extends ConsumerState<MeansOfIdView> {
+class _MeansOfIdSelectViewState extends ConsumerState<MeansOfIdSelectView> {
   @override
   Widget build(BuildContext context) {
     // Get the Means of ID
     final meansOfIDList = ref.watch(getMeansOfIDProvider);
 
-    return Scaffold(
-      appBar: innerAppBar(title: 'Means of ID'),
-      body: ScaffoldBody(
-          body: SingleChildScrollView(
+    return ScaffoldBody(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             20.0.height,
@@ -51,15 +52,12 @@ class _MeansOfIdViewState extends ConsumerState<MeansOfIdView> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   var value = data[index];
-                  return InkWell(
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      context.pushNamed(MeansOfIdCaptureView.path);
+                  return MeansOfIDCard(
+                    text: value.friendlyName ?? "",
+                    onPressed: () {
+                      widget.pressed();
                     },
-                    child: MeansOfIDCard(
-                      text: value.friendlyName ?? "",
-                    ).animate().fadeIn(),
-                  );
+                  ).animate().fadeIn();
                 },
                 separatorBuilder: (context, index) => 16.0.height,
                 itemCount: data.length,
@@ -76,7 +74,7 @@ class _MeansOfIdViewState extends ConsumerState<MeansOfIdView> {
             ),
           ],
         ),
-      )),
+      ),
     );
   }
 }

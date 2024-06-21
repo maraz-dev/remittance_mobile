@@ -22,7 +22,7 @@ class _CreateAccountViewState extends ConsumerState<CreateAccountView> {
   final PageController _createAccountPageController =
       PageController(viewportFraction: 1.0, keepPage: true);
   final PageStorageKey<String> _pageStorageKey =
-      const PageStorageKey<String>('myPageViewKey');
+      const PageStorageKey<String>('creatAccountPageViewKey');
 
   int pageCount = 0;
 
