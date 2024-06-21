@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 
@@ -72,7 +71,7 @@ Future<DateTime?> showPlatformDatePicker({
                 children: [
                   Expanded(
                     child: MainButton(
-                      color: AppColors.kBlackColor,
+                      color: AppColors.kErrorColor,
                       onPressed: () => Navigator.pop(context),
                       text: "Cancel",
                     ),
@@ -89,29 +88,6 @@ Future<DateTime?> showPlatformDatePicker({
                       text: "Ok",
                     ),
                   ),
-                  // ClickableText(
-                  //     height: 30,
-                  //     bgColor: AppColors.primaryColor,
-                  //     color: Colors.white,
-                  //     textSize: 20,
-                  //     text: "Ok",
-                  //     onPressed: () {
-                  //       keep ??= DateTime.now();
-                  //       Navigator.pop(context);
-                  //     }),
-                  // const SizedBox(
-                  //   width: 30,
-                  // ),
-                  // ClickableText(
-                  //     height: 30,
-                  //     horizontal: 50,
-                  //     color: Colors.white,
-                  //     bgColor: AppColors.primaryColor,
-                  //     textSize: 20,
-                  //     text: "Cancel",
-                  //     onPressed: () {
-                  //       Navigator.pop(context);
-                  //     }),
                 ],
               ),
             ),
@@ -171,81 +147,24 @@ Future<TimeOfDay?> showPlatformTimePicker({
     await showModalBottomSheet(
       context: context,
       builder: (BuildContext builder) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              height: 200.h,
-              child: CupertinoDatePicker(
-                key: key,
-                mode: mode,
-                onDateTimeChanged: (date) =>
-                    keep = TimeOfDay.fromDateTime(date),
-                backgroundColor: backgroundColor,
-                // backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
-                initialDateTime: DateTime(
-                  now.year,
-                  now.month,
-                  now.day,
-                  initialTime.hour,
-                  initialTime.minute,
-                ),
-                minuteInterval: minuteInterval,
-                use24hFormat: use24hFormat,
-              ),
+        return SizedBox(
+          height: height ?? MediaQuery.of(context).copyWith().size.height / 2,
+          child: CupertinoDatePicker(
+            key: key,
+            mode: mode,
+            onDateTimeChanged: (date) => keep = TimeOfDay.fromDateTime(date),
+            backgroundColor: backgroundColor,
+            // backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+            initialDateTime: DateTime(
+              now.year,
+              now.month,
+              now.day,
+              initialTime.hour,
+              initialTime.minute,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 30, right: 30, bottom: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: MainButton(
-                      color: AppColors.kBlackColor,
-                      onPressed: () => Navigator.pop(context),
-                      text: "Cancel",
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  Expanded(
-                    child: MainButton(
-                      onPressed: () {
-                        keep ??= TimeOfDay.now();
-                        Navigator.pop(context);
-                      },
-                      text: "Ok",
-                    ),
-                  ),
-                  // ClickableText(
-                  //     height: 30,
-                  //     bgColor: AppColors.primaryColor,
-                  //     color: Colors.white,
-                  //     textSize: 20,
-                  //     text: "Ok",
-                  //     onPressed: () {
-                  //       keep ??= DateTime.now();
-                  //       Navigator.pop(context);
-                  //     }),
-                  // const SizedBox(
-                  //   width: 30,
-                  // ),
-                  // ClickableText(
-                  //     height: 30,
-                  //     horizontal: 50,
-                  //     color: Colors.white,
-                  //     bgColor: AppColors.primaryColor,
-                  //     textSize: 20,
-                  //     text: "Cancel",
-                  //     onPressed: () {
-                  //       Navigator.pop(context);
-                  //     }),
-                ],
-              ),
-            ),
-            SizedBox(height: 30.h)
-          ],
+            minuteInterval: minuteInterval,
+            use24hFormat: use24hFormat,
+          ),
         );
       },
     );

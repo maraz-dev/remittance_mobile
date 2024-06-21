@@ -224,9 +224,9 @@ final routeProvider = Provider<GoRouter>((ref) {
           ],
         ),
         GoRoute(
-          path: SsnAndKycView.path,
-          name: SsnAndKycView.path,
-          builder: (context, state) => const SsnAndKycView(),
+          path: SsnAndBvnView.path,
+          name: SsnAndBvnView.path,
+          builder: (context, state) => const SsnAndBvnView(),
         ),
         GoRoute(
             path: MeansOfIdView.path,

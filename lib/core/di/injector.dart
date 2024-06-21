@@ -60,9 +60,10 @@ final _authService = Provider<AuthService>((ref) {
   var hiveStorage = ref.watch(hiveStorageService);
   var secureStorage = ref.watch(secureStorageService);
   return AuthService(
-      networkService: network,
-      storage: secureStorage,
-      hivestorage: hiveStorage);
+    networkService: network,
+    storage: secureStorage,
+    hivestorage: hiveStorage,
+  );
 });
 
 final authRepository = Provider<AuthRepository>(
@@ -75,7 +76,11 @@ final authRepository = Provider<AuthRepository>(
 // KYC Service Dependency Injection
 final _kycService = Provider<KycService>((ref) {
   var network = ref.watch(_networkService);
-  return KycService(networkService: network);
+  var secureStorage = ref.watch(secureStorageService);
+  return KycService(
+    networkService: network,
+    storage: secureStorage,
+  );
 });
 
 final kycRepository = Provider<KycRepository>((ref) {

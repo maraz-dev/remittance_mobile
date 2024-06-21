@@ -1,15 +1,23 @@
+import 'package:dio/dio.dart';
 import 'package:remittance_mobile/core/http/http_service.dart';
 import 'package:remittance_mobile/core/http/response_body_handler.dart';
+import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/data/models/responses/id_types_item_model.dart';
 import 'package:remittance_mobile/data/models/responses/kyc_status_model.dart';
+import 'package:remittance_mobile/data/models/responses/kyc_submission_model.dart';
+
+Map<String, dynamic> kycData = {};
 
 class KycService {
   final HttpService _networkService;
+  final SecureStorageBase _storage;
 
   KycService({
     required HttpService networkService,
-  }) : _networkService = networkService;
+    required SecureStorageBase storage,
+  })  : _networkService = networkService,
+        _storage = storage;
 
   // Endpoint URL Instance
   final endpointUrl = ApiEndpoints.instance;
@@ -22,12 +30,12 @@ class KycService {
       final response = await _networkService.request(
           endpointUrl.kycStatus, RequestMethod.get);
 
-      _responseHandler.handleResponse(
-          response: response.data,
-          onSuccess: () {
-            KycStatus.fromJson(response.data['data']);
-          });
-      return KycStatus.fromJson(response.data['data']);
+      return _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          return KycStatus.fromJson(response.data['data']);
+        },
+      );
     } catch (e) {
       throw e.toString();
     }
@@ -38,12 +46,15 @@ class KycService {
       final response = await _networkService.request(
           "${endpointUrl.getIdDocumentsTypes}?countryCode=", RequestMethod.get);
 
-      _responseHandler.handleResponse(
-          response: response.data, onSuccess: () {});
-      final res = response.data['data'] as List;
-      final responseList =
-          res.map((json) => IdTypesItem.fromJson(json)).toList();
-      return responseList;
+      return _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'] as List;
+          final responseList =
+              res.map((json) => IdTypesItem.fromJson(json)).toList();
+          return responseList;
+        },
+      );
     } catch (e) {
       throw e.toString();
     }
@@ -55,18 +66,42 @@ class KycService {
           "${endpointUrl.getProofOfAddressTypes}?countryCode=",
           RequestMethod.get);
 
-      _responseHandler.handleResponse(
-          response: response.data,
-          onSuccess: () {
-            final res = response.data['data'] as List;
-            final responseList =
-                res.map((json) => IdTypesItem.fromJson(json)).toList();
-            return responseList;
-          });
-      final res = response.data['data'] as List;
-      final responseList =
-          res.map((json) => IdTypesItem.fromJson(json)).toList();
-      return responseList;
+      return _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'] as List;
+          final responseList =
+              res.map((json) => IdTypesItem.fromJson(json)).toList();
+          return responseList;
+        },
+      );
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<KycSubmission> initiateKycEndpoint() async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.initiateKYC,
+        RequestMethod.upload,
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${await _storage.readData('token')} ",
+            "Content-Disposition": "form-data",
+            "Content-Type": "multipart/form-data",
+            'Accept': 'application/json'
+          },
+        ),
+        formData: FormData.fromMap(kycData),
+      );
+
+      return _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          return KycSubmission.fromJson(response.data['data']);
+        },
+      );
     } catch (e) {
       throw e.toString();
     }

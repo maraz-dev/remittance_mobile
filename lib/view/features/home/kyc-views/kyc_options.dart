@@ -22,7 +22,7 @@ List<KycOptions> kycOptionList = [
   KycOptions(
     title: 'Social Security Number/BVN',
     subtitle: 'Provide your social security number or BVN',
-    optionPath: SsnAndKycView.path,
+    optionPath: SsnAndBvnView.path,
   ),
   KycOptions(
     title: 'Means of ID',
