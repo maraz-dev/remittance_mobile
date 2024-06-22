@@ -231,7 +231,7 @@ final routeProvider = Provider<GoRouter>((ref) {
             path: MeansOfIdView.path,
             name: MeansOfIdView.path,
             builder: (context, state) => const MeansOfIdView(),
-            routes: [
+            routes: const [
               // GoRoute(
               //   path: IdFrontCaptureView.path,
               //   name: IdFrontCaptureView.path,

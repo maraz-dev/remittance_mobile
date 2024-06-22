@@ -52,6 +52,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
     // Fetch the Saved User Data
     final user = ref.watch(localUserProvider);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.kGrey50,

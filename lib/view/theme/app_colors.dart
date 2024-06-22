@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 abstract class AppColors {
   static const kPrimaryColor = Color(0xFF6254F6);
+  static const kGreyInput = Color(0xFFEFF1F4);
   static const kGrey50 = Color(0xFFF9FAFB);
   static const kGrey100 = Color(0xFFF2F4F7);
   static const kGrey300 = Color(0xFFD0D5DD);
@@ -27,6 +28,7 @@ abstract class AppColors {
   static const kLightSuccessColor = Color(0xFFECFDF3);
   static const kWarningColor = Color(0xFFDC6803);
   static const kWarningColor50 = Color(0xFFFFFAEB);
+  static const kWarningColor100 = Color(0xFFFEF0C7);
   static const kWarningColor700 = Color(0xFFB54708);
 
   static const kErrorColor = Color(0xFFD92D20);
