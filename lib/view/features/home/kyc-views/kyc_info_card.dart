@@ -46,7 +46,7 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
                     },
                   );
                 },
-                text: "Profile Incomplete",
+                text: "Profile Incomplete!",
                 subText: 'Complete your profile to enjoy all our features',
                 textColor: AppColors.kGrey700,
               );
@@ -58,7 +58,7 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
             case "Failed":
               return KYCInfo(
                 bgColor: AppColors.kWarningColor700,
-                text: "Profile Rejected",
+                text: "Profile Rejected!",
                 subText: "${data.comment}",
                 textColor: AppColors.kWarningColor50,
                 arrowColor: AppColors.kWarningColor50,
@@ -146,7 +146,7 @@ class KYCInfo extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    text ?? 'Your Profile is Pending Approval',
+                    text ?? 'Your Profile is Pending Approval!',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           color: textColor ?? AppColors.kWarningColor700,
                           fontSize: 13.5,
