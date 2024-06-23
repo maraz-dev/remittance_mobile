@@ -1,31 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/means_of_id/id_back_capture_view.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/means_of_id/means_of_id_select_view.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/means_of_id/id_front_capture_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/prood-of-address-flow/proof_of_address_select_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/prood-of-address-flow/proof_of_address_upload_view.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 
-class MeansOfIdView extends ConsumerStatefulWidget {
-  static String path = '/means-of-id-view';
-  const MeansOfIdView({super.key});
+class ProofOfAddressView extends ConsumerStatefulWidget {
+  static String path = 'proof-of-address-view';
+  const ProofOfAddressView({super.key});
 
   @override
-  ConsumerState<MeansOfIdView> createState() => _MeansOfIdViewState();
+  ConsumerState<ProofOfAddressView> createState() => _ProofOfAddressViewState();
 }
 
-class _MeansOfIdViewState extends ConsumerState<MeansOfIdView> {
+class _ProofOfAddressViewState extends ConsumerState<ProofOfAddressView> {
   /// Controllers
-  final PageController _meansOfIdPageController =
+  final PageController _poaPageController =
       PageController(viewportFraction: 1.0, keepPage: true);
   final PageStorageKey<String> _pageStorageKey =
-      const PageStorageKey<String>('meansOfIdPageViewKey');
+      const PageStorageKey<String>('poaPageViewKey');
 
   int pageCount = 0;
 
   @override
   void dispose() {
-    _meansOfIdPageController.dispose();
+    _poaPageController.dispose();
     super.dispose();
   }
 
@@ -33,11 +32,11 @@ class _MeansOfIdViewState extends ConsumerState<MeansOfIdView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: innerAppBar(
-        title: 'Means of ID',
+        title: 'Proof of Address',
         backOnPressed: () {
           pageCount == 0
               ? context.pop()
-              : _meansOfIdPageController.previousPage(
+              : _poaPageController.previousPage(
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.ease,
                 );
@@ -48,37 +47,29 @@ class _MeansOfIdViewState extends ConsumerState<MeansOfIdView> {
         child: PageStorage(
           bucket: PageStorageBucket(),
           child: PageView(
-            controller: _meansOfIdPageController,
+            controller: _poaPageController,
             key: _pageStorageKey,
             physics: const NeverScrollableScrollPhysics(),
             onPageChanged: (value) {
               setState(() => pageCount = value);
             },
             children: [
-              MeansOfIdSelectView(
+              ProofOfAddressSelectView(
                 pressed: () {
-                  _meansOfIdPageController.nextPage(
+                  _poaPageController.nextPage(
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.ease,
                   );
                 },
               ),
-              IdFrontCaptureView(
+              ProofOfAddressUploadView(
                 pressed: () {
-                  _meansOfIdPageController.nextPage(
+                  _poaPageController.nextPage(
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.ease,
                   );
                 },
-              ),
-              IdBackCaptureView(
-                pressed: () {
-                  _meansOfIdPageController.nextPage(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.ease,
-                  );
-                },
-              ),
+              )
             ],
           ),
         ),

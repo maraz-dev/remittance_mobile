@@ -5,35 +5,45 @@ import 'package:flutter_skeleton_ui/flutter_skeleton_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/view/features/home/vm/home_providers.dart';
 import 'package:remittance_mobile/view/features/home/widgets/means_of_id_card.dart';
+import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
-class MeansOfIdSelectView extends ConsumerStatefulWidget {
-  static String path = 'means-of-id-select-view.dart';
-  final VoidCallback pressed;
-
-  const MeansOfIdSelectView({
+class ProofOfAddressSelectView extends ConsumerStatefulWidget {
+  static String path = 'proof-of-address-select-view';
+  const ProofOfAddressSelectView({
     super.key,
     required this.pressed,
   });
 
+  final VoidCallback pressed;
+
   @override
-  ConsumerState<MeansOfIdSelectView> createState() =>
-      _MeansOfIdSelectViewState();
+  ConsumerState<ProofOfAddressSelectView> createState() =>
+      _ProofOfAddressViewState();
 }
 
-class _MeansOfIdSelectViewState extends ConsumerState<MeansOfIdSelectView> {
+class _ProofOfAddressViewState extends ConsumerState<ProofOfAddressSelectView> {
   @override
   Widget build(BuildContext context) {
-    // Get the Means of ID
-    final meansOfIDList = ref.watch(getMeansOfIDProvider);
+    // Get Proof of Address List
+    final proofOfAddressList = ref.watch(getProofOfAddressProvider);
 
     return ScaffoldBody(
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            20.0.height,
-            meansOfIDList.maybeWhen(
+            16.0.height,
+            Text(
+              'Choose your Preferred Means of Proof of Address.',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: AppColors.kGrey700),
+            ),
+            24.0.height,
+            proofOfAddressList.maybeWhen(
               orElse: () => ListView.separated(
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
@@ -52,12 +62,15 @@ class _MeansOfIdSelectViewState extends ConsumerState<MeansOfIdSelectView> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   var value = data[index];
-                  return MeansOfIDCard(
-                    text: value.friendlyName ?? "",
-                    onPressed: () {
+                  return InkWell(
+                    splashColor: Colors.transparent,
+                    onTap: () {
                       widget.pressed();
                     },
-                  ).animate().fadeIn();
+                    child: MeansOfIDCard(
+                      text: value.friendlyName ?? "",
+                    ).animate().fadeIn(),
+                  );
                 },
                 separatorBuilder: (context, index) => 16.0.height,
                 itemCount: data.length,

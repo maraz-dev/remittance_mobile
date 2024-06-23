@@ -12,11 +12,11 @@ import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/home/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/home_view.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/means_of_id/means_of_id_view.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/proof_of_address_upload_view.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/proof_of_address_view.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/selfle_view.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/ssn_and_bvn_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/complete_profile_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/means_of_id_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/prood-of-address-flow/proof_of_address_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/selfie-flow/selfle_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/ssn_and_bvn_view.dart';
 import 'package:remittance_mobile/view/features/onboarding/onboarding_screen.dart';
 import 'package:remittance_mobile/view/features/profile/more/help_and_support_view.dart';
 import 'package:remittance_mobile/view/features/profile/more/privacy_policy_view.dart';
@@ -223,37 +223,44 @@ final routeProvider = Provider<GoRouter>((ref) {
           ],
         ),
         GoRoute(
-          path: SsnAndBvnView.path,
-          name: SsnAndBvnView.path,
-          builder: (context, state) => const SsnAndBvnView(),
-        ),
-        GoRoute(
-            path: MeansOfIdView.path,
-            name: MeansOfIdView.path,
-            builder: (context, state) => const MeansOfIdView(),
-            routes: const [
-              // GoRoute(
-              //   path: IdFrontCaptureView.path,
-              //   name: IdFrontCaptureView.path,
-              //   builder: (context, state) => const IdFrontCaptureView(),
-              // ),
-            ]),
-        GoRoute(
-            path: ProofOfAddressView.path,
-            name: ProofOfAddressView.path,
-            builder: (context, state) => const ProofOfAddressView(),
+            path: CompleteProfileView.path,
+            name: CompleteProfileView.path,
+            builder: (context, state) => const CompleteProfileView(),
             routes: [
               GoRoute(
-                path: ProofOfAddressUploadView.path,
-                name: ProofOfAddressUploadView.path,
-                builder: (context, state) => const ProofOfAddressUploadView(),
+                path: SsnAndBvnView.path,
+                name: SsnAndBvnView.path,
+                builder: (context, state) => const SsnAndBvnView(),
               ),
+              GoRoute(
+                  path: MeansOfIdView.path,
+                  name: MeansOfIdView.path,
+                  builder: (context, state) => const MeansOfIdView(),
+                  routes: const [
+                    // GoRoute(
+                    //   path: IdFrontCaptureView.path,
+                    //   name: IdFrontCaptureView.path,
+                    //   builder: (context, state) => const IdFrontCaptureView(),
+                    // ),
+                  ]),
+              GoRoute(
+                  path: ProofOfAddressView.path,
+                  name: ProofOfAddressView.path,
+                  builder: (context, state) => const ProofOfAddressView(),
+                  routes: const [
+                    // GoRoute(
+                    //   path: ProofOfAddressUploadView.path,
+                    //   name: ProofOfAddressUploadView.path,
+                    //   builder: (context, state) =>
+                    //       const ProofOfAddressUploadView(),
+                    // ),
+                  ]),
+              GoRoute(
+                path: SelfieView.path,
+                name: SelfieView.path,
+                builder: (context, state) => const SelfieView(),
+              )
             ]),
-        GoRoute(
-          path: SelfieView.path,
-          name: SelfieView.path,
-          builder: (context, state) => const SelfieView(),
-        )
 
         // GoRoute(
         //     path: SMSScreen.path,

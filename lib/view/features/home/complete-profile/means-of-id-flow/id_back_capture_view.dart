@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/selfie-flow/selfle_view.dart';
 import 'package:remittance_mobile/view/features/home/widgets/capture_info_widget.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
-import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
-import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
-class IdFrontCaptureView extends StatefulWidget {
-  static String path = "id-front-capture-view";
-  const IdFrontCaptureView({super.key, required this.pressed});
+class IdBackCaptureView extends StatefulWidget {
+  static String path = "id-back-capture-view";
+  const IdBackCaptureView({super.key, required this.pressed});
   final VoidCallback pressed;
 
   @override
-  State<IdFrontCaptureView> createState() => _IdFrontCaptureViewState();
+  State<IdBackCaptureView> createState() => _IdBackCaptureViewState();
 }
 
-class _IdFrontCaptureViewState extends State<IdFrontCaptureView> {
+class _IdBackCaptureViewState extends State<IdBackCaptureView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +24,10 @@ class _IdFrontCaptureViewState extends State<IdFrontCaptureView> {
           child: Column(
             children: [
               20.0.height,
-              const CaptureInfoWidget(),
+              const CaptureInfoWidget(
+                text: 'How to Capture Back of ID',
+                buttonText: 'Capture Back of ID Photo',
+              ),
               24.0.height,
               Text(
                 'OR',
@@ -34,7 +36,9 @@ class _IdFrontCaptureViewState extends State<IdFrontCaptureView> {
               ),
               16.0.height,
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  context.pushNamed(SelfieView.path);
+                },
                 child: Text(
                   'Upload From Gallery',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -46,21 +50,6 @@ class _IdFrontCaptureViewState extends State<IdFrontCaptureView> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavBarWidget(
-        children: [
-          MainButton(
-            //isLoading: true,
-            text: 'Continue',
-            onPressed: () {
-              widget.pressed;
-            },
-          )
-              .animate()
-              .fadeIn(begin: 0, delay: 1000.ms)
-              // .then(delay: 200.ms)
-              .slideY(begin: .1, end: 0),
-        ],
       ),
     );
   }

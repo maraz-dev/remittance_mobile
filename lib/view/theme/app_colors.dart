@@ -7,6 +7,7 @@ abstract class AppColors {
   static const kGrey100 = Color(0xFFF2F4F7);
   static const kGrey300 = Color(0xFFD0D5DD);
   static const kGrey200 = Color(0xFFEAECF0);
+  static const kGrey500 = Color(0xFF667085);
   static const kGrey700 = Color(0xFF344054);
   static const kGrey800 = Color(0xFF1D2939);
   static const kSecondaryColorTwo = Color(0xFF98A2B3);

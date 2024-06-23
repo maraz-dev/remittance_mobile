@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/bottomsheet_title.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/kyc_options.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/kyc_options.dart';
 import 'package:remittance_mobile/view/features/home/widgets/kyc_card.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';

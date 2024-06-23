@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_skeleton_ui/flutter_skeleton_ui.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/complete_profile_view.dart';
 import 'package:remittance_mobile/view/features/home/vm/home_providers.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
-import 'package:remittance_mobile/view/utils/bottomsheets/kyc_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class KycInfoCard extends ConsumerStatefulWidget {
@@ -28,7 +28,7 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
     return kycStatus.maybeWhen(
         orElse: () => SkeletonLine(
               style: SkeletonLineStyle(
-                height: 45,
+                height: 60,
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
@@ -37,14 +37,7 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
             case "Pending":
               return KYCInfo(
                 onPressed: () {
-                  WidgetsBinding.instance.addPostFrameCallback(
-                    (timeStamp) {
-                      kycBottomSheet(
-                        context: context,
-                        current: kycPosition.value,
-                      );
-                    },
-                  );
+                  context.pushNamed(CompleteProfileView.path);
                 },
                 text: "Profile Incomplete!",
                 subText: 'Complete your profile to enjoy all our features',

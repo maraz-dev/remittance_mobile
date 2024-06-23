@@ -3,10 +3,9 @@ import 'package:flutter/services.dart' as services;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:remittance_mobile/core/storage/share_pref.dart';
-import 'package:remittance_mobile/data/remote/kyc-remote/kyc_service.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/means_of_id_view.dart';
+import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_date_picker.dart';
-import 'package:remittance_mobile/view/utils/bottomsheets/kyc_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/input_fields.dart';
@@ -16,7 +15,7 @@ import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
 class SsnAndBvnView extends StatefulWidget {
-  static String path = '/ssn-and-bvn-view';
+  static String path = 'ssn-and-bvn-view';
   const SsnAndBvnView({super.key});
 
   @override
@@ -49,6 +48,14 @@ class _SsnAndBvnViewState extends State<SsnAndBvnView> {
           child: Column(
             children: [
               16.0.height,
+              Text(
+                'Provide your social security number and date of birth. This is for identification purposes only!',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: AppColors.kGrey700),
+              ),
+              24.0.height,
 
               /// SSN or BVN
               TextInput(
@@ -107,17 +114,7 @@ class _SsnAndBvnViewState extends State<SsnAndBvnView> {
             text: 'Continue',
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                context.pop();
-                kycData.addAll({
-                  'RequestId': SharedPrefManager.userId,
-                  'BvnOrSsn': _ssnOrBvn.text,
-                  'DateOfBirth': _selectedDOB,
-                });
-                kycPosition.value += 1;
-                kycBottomSheet(
-                  context: context,
-                  current: 1,
-                );
+                context.pushNamed(MeansOfIdView.path);
               }
             },
           )

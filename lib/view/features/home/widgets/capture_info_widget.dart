@@ -23,13 +23,14 @@ class CaptureInfoWidget extends StatelessWidget {
     return Column(
       children: [
         CardIcon(
-          image: image ?? AppImages.uploadIdIcon,
+          image: image ?? AppImages.idIcon,
+          size: 56,
           padding: 32,
           bgColor: AppColors.kGrey100,
         ),
         16.0.height,
         Text(
-          text ?? 'How to Capture ID',
+          text ?? 'How to Capture Front of ID',
           style:
               Theme.of(context).textTheme.displaySmall!.copyWith(fontSize: 16),
         ),

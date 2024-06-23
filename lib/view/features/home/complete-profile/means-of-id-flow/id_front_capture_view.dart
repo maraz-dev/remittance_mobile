@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/home/widgets/capture_info_widget.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
-import 'package:remittance_mobile/view/utils/bottomsheets/kyc_bottomsheet.dart';
-import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
-import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
-class IdBackCaptureView extends StatefulWidget {
-  static String path = "id-back-capture-view";
-  const IdBackCaptureView({super.key, required this.pressed});
+class IdFrontCaptureView extends StatefulWidget {
+  static String path = "id-front-capture-view";
+  const IdFrontCaptureView({super.key, required this.pressed});
   final VoidCallback pressed;
 
   @override
-  State<IdBackCaptureView> createState() => _IdBackCaptureViewState();
+  State<IdFrontCaptureView> createState() => _IdFrontCaptureViewState();
 }
 
-class _IdBackCaptureViewState extends State<IdBackCaptureView> {
+class _IdFrontCaptureViewState extends State<IdFrontCaptureView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +31,10 @@ class _IdBackCaptureViewState extends State<IdBackCaptureView> {
               ),
               16.0.height,
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  widget.pressed();
+                },
+                splashColor: Colors.transparent,
                 child: Text(
                   'Upload From Gallery',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -48,26 +46,6 @@ class _IdBackCaptureViewState extends State<IdBackCaptureView> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavBarWidget(
-        children: [
-          MainButton(
-            //isLoading: true,
-            text: 'Continue',
-            onPressed: () {
-              context.pop();
-              kycPosition.value += 1;
-              kycBottomSheet(
-                context: context,
-                current: kycPosition.value,
-              );
-            },
-          )
-              .animate()
-              .fadeIn(begin: 0, delay: 1000.ms)
-              // .then(delay: 200.ms)
-              .slideY(begin: .1, end: 0),
-        ],
       ),
     );
   }

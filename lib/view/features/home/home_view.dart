@@ -6,7 +6,7 @@ import 'package:remittance_mobile/data/local/user_data_impl.dart';
 import 'package:remittance_mobile/data/models/responses/user_response.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_transaction_pin.dart';
 import 'package:remittance_mobile/view/features/home/account-view/account_widget.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/kyc_info_card.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/kyc_info_card.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_appbar.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_image.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_service_card.dart';
