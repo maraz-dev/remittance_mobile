@@ -18,81 +18,80 @@ class CompleteProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: innerAppBar(title: 'Complete Your Profile'),
-        body: ScaffoldBody(
-          body: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                16.0.height,
-                Text(
-                  'We will be asking you to provide the information below to complete your account.',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: AppColors.kGrey700),
-                ),
-                24.0.height,
-                ListView.separated(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    var value = kycOptionList[index];
-                    return Row(
-                      children: [
-                        CardIcon(
-                          image: value.imagePath,
-                          bgColor: AppColors.kBrandColor,
-                        ),
-                        12.0.width,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              value.title,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    color: AppColors.kGrey700,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                            ),
-                            5.0.height,
-                            Text(
-                              value.subtitle,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                    color: AppColors.kGrey500,
-                                  ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ).animate().slideY(begin: -1, end: 0);
-                  },
-                  separatorBuilder: (context, index) => 24.0.height,
-                  itemCount: kycOptionList.length,
-                )
-              ],
-            ),
+      appBar: innerAppBar(title: 'Complete Your Profile'),
+      body: ScaffoldBody(
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              16.0.height,
+              Text(
+                'We will be asking you to provide the information below to complete your account.',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: AppColors.kGrey700),
+              ),
+              24.0.height,
+              ListView.separated(
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  var value = kycOptionList[index];
+                  return Row(
+                    children: [
+                      CardIcon(
+                        image: value.imagePath,
+                        bgColor: AppColors.kBrandColor,
+                      ),
+                      12.0.width,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            value.title,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  color: AppColors.kGrey700,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                          ),
+                          5.0.height,
+                          Text(
+                            value.subtitle,
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      color: AppColors.kGrey500,
+                                    ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ).animate().fadeIn().slideY(begin: -1, end: 0);
+                },
+                separatorBuilder: (context, index) => 24.0.height,
+                itemCount: kycOptionList.length,
+              )
+            ],
           ),
         ),
-        bottomNavigationBar: BottomNavBarWidget(
-          children: [
-            MainButton(
-              //isLoading: true,
-              text: 'Start',
-              onPressed: () {
-                context.pushNamed(SsnAndBvnView.path);
-              },
-            )
-                .animate()
-                .fadeIn(begin: 0, delay: 500.ms)
-                // .then(delay: 200.ms)
-                .slideY(begin: .1, end: 0),
-          ],
-        ));
+      ),
+      bottomNavigationBar: BottomNavBarWidget(
+        children: [
+          MainButton(
+            //isLoading: true,
+            text: 'Start',
+            onPressed: () {
+              context.pushNamed(SsnAndBvnView.path);
+            },
+          )
+              .animate()
+              .fadeIn(begin: 0, delay: 500.ms)
+              // .then(delay: 200.ms)
+              .slideY(begin: .1, end: 0),
+        ],
+      ),
+    );
   }
 }

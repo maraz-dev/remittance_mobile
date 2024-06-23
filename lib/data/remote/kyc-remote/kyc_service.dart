@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:remittance_mobile/core/http/http_service.dart';
 import 'package:remittance_mobile/core/http/response_body_handler.dart';
 import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
+import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/data/models/responses/id_types_item_model.dart';
 import 'package:remittance_mobile/data/models/responses/kyc_status_model.dart';
@@ -81,6 +82,11 @@ class KycService {
   }
 
   Future<KycSubmission> initiateKycEndpoint() async {
+    // Add the User ID which is the Request ID
+    kycData.addAll({
+      'RequestId': SharedPrefManager.userId,
+    });
+
     try {
       final response = await _networkService.request(
         endpointUrl.initiateKYC,

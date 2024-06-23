@@ -45,7 +45,7 @@ class CaptureInfoWidget extends StatelessWidget {
         ),
         24.0.height,
         MainButton(
-          text: buttonText ?? 'Capture Fronf of ID Photo',
+          text: buttonText ?? 'Capture Front of ID Photo',
           onPressed: onPressed,
         ),
       ],

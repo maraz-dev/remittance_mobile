@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:remittance_mobile/view/features/home/complete-profile/selfie-flow/selfle_view.dart';
 import 'package:remittance_mobile/view/features/home/widgets/capture_info_widget.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
+import 'package:remittance_mobile/view/utils/file_and_image_picker.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
+
+ValueNotifier<File> idBackImagePath = ValueNotifier(File(''));
 
 class IdBackCaptureView extends StatefulWidget {
   static String path = "id-back-capture-view";
@@ -24,9 +27,13 @@ class _IdBackCaptureViewState extends State<IdBackCaptureView> {
           child: Column(
             children: [
               20.0.height,
-              const CaptureInfoWidget(
+              CaptureInfoWidget(
                 text: 'How to Capture Back of ID',
                 buttonText: 'Capture Back of ID Photo',
+                onPressed: () async {
+                  idBackImagePath.value = await pickImageFromCamera();
+                  widget.pressed();
+                },
               ),
               24.0.height,
               Text(
@@ -36,8 +43,9 @@ class _IdBackCaptureViewState extends State<IdBackCaptureView> {
               ),
               16.0.height,
               InkWell(
-                onTap: () {
-                  context.pushNamed(SelfieView.path);
+                onTap: () async {
+                  idBackImagePath.value = await pickImageFromGallery();
+                  widget.pressed();
                 },
                 child: Text(
                   'Upload From Gallery',

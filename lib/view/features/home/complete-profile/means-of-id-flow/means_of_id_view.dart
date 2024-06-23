@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/id_back_capture_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/id_back_captured_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/id_front_captured_view.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/means_of_id_select_view.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/id_front_capture_view.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
@@ -71,7 +73,23 @@ class _MeansOfIdViewState extends ConsumerState<MeansOfIdView> {
                   );
                 },
               ),
+              IdFrontCapturedView(
+                pressed: () {
+                  _meansOfIdPageController.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                  );
+                },
+              ),
               IdBackCaptureView(
+                pressed: () {
+                  _meansOfIdPageController.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                  );
+                },
+              ),
+              IdBackCapturedView(
                 pressed: () {
                   _meansOfIdPageController.nextPage(
                     duration: const Duration(milliseconds: 500),

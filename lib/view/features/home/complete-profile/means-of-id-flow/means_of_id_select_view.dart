@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_skeleton_ui/flutter_skeleton_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/data/remote/kyc-remote/kyc_service.dart';
 import 'package:remittance_mobile/view/features/home/vm/home_providers.dart';
 import 'package:remittance_mobile/view/features/home/widgets/means_of_id_card.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
@@ -65,6 +66,8 @@ class _MeansOfIdSelectViewState extends ConsumerState<MeansOfIdSelectView> {
                   return MeansOfIDCard(
                     text: value.friendlyName ?? "",
                     onPressed: () {
+                      // Add the Type Code to the KYC Data Map
+                      kycData.addAll({'MeansOfIdTypeCode': value.code});
                       widget.pressed();
                     },
                   ).animate().fadeIn();

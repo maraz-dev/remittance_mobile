@@ -3,6 +3,7 @@ import 'package:flutter/services.dart' as services;
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:remittance_mobile/data/remote/kyc-remote/kyc_service.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/means_of_id_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_date_picker.dart';
@@ -114,6 +115,11 @@ class _SsnAndBvnViewState extends State<SsnAndBvnView> {
             text: 'Continue',
             onPressed: () {
               if (_formKey.currentState!.validate()) {
+                // Add the BVN/SSN to the KYC Data map
+                kycData.addAll({
+                  'BvnOrSsn': _ssnOrBvn.text,
+                  'DateOfBirth': _selectedDOB,
+                });
                 context.pushNamed(MeansOfIdView.path);
               }
             },

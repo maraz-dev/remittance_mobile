@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:remittance_mobile/view/features/home/widgets/capture_info_widget.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
+import 'package:remittance_mobile/view/utils/file_and_image_picker.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
+
+ValueNotifier<File> idFrontImagePath = ValueNotifier(File(''));
 
 class IdFrontCaptureView extends StatefulWidget {
   static String path = "id-front-capture-view";
@@ -22,7 +27,12 @@ class _IdFrontCaptureViewState extends State<IdFrontCaptureView> {
           child: Column(
             children: [
               20.0.height,
-              const CaptureInfoWidget(),
+              CaptureInfoWidget(
+                onPressed: () async {
+                  idFrontImagePath.value = await pickImageFromCamera();
+                  widget.pressed();
+                },
+              ),
               24.0.height,
               Text(
                 'OR',
@@ -31,7 +41,8 @@ class _IdFrontCaptureViewState extends State<IdFrontCaptureView> {
               ),
               16.0.height,
               InkWell(
-                onTap: () {
+                onTap: () async {
+                  idFrontImagePath.value = await pickImageFromGallery();
                   widget.pressed();
                 },
                 splashColor: Colors.transparent,

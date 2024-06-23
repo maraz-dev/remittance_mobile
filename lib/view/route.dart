@@ -223,44 +223,45 @@ final routeProvider = Provider<GoRouter>((ref) {
           ],
         ),
         GoRoute(
-            path: CompleteProfileView.path,
-            name: CompleteProfileView.path,
-            builder: (context, state) => const CompleteProfileView(),
-            routes: [
-              GoRoute(
-                path: SsnAndBvnView.path,
-                name: SsnAndBvnView.path,
-                builder: (context, state) => const SsnAndBvnView(),
-              ),
-              GoRoute(
-                  path: MeansOfIdView.path,
-                  name: MeansOfIdView.path,
-                  builder: (context, state) => const MeansOfIdView(),
-                  routes: const [
-                    // GoRoute(
-                    //   path: IdFrontCaptureView.path,
-                    //   name: IdFrontCaptureView.path,
-                    //   builder: (context, state) => const IdFrontCaptureView(),
-                    // ),
-                  ]),
-              GoRoute(
-                  path: ProofOfAddressView.path,
-                  name: ProofOfAddressView.path,
-                  builder: (context, state) => const ProofOfAddressView(),
-                  routes: const [
-                    // GoRoute(
-                    //   path: ProofOfAddressUploadView.path,
-                    //   name: ProofOfAddressUploadView.path,
-                    //   builder: (context, state) =>
-                    //       const ProofOfAddressUploadView(),
-                    // ),
-                  ]),
-              GoRoute(
-                path: SelfieView.path,
-                name: SelfieView.path,
-                builder: (context, state) => const SelfieView(),
-              )
-            ]),
+          path: CompleteProfileView.path,
+          name: CompleteProfileView.path,
+          builder: (context, state) => const CompleteProfileView(),
+          routes: [
+            GoRoute(
+              path: SsnAndBvnView.path,
+              name: SsnAndBvnView.path,
+              builder: (context, state) => const SsnAndBvnView(),
+            ),
+            GoRoute(
+                path: MeansOfIdView.path,
+                name: MeansOfIdView.path,
+                builder: (context, state) => const MeansOfIdView(),
+                routes: const [
+                  // GoRoute(
+                  //   path: IdFrontCaptureView.path,
+                  //   name: IdFrontCaptureView.path,
+                  //   builder: (context, state) => const IdFrontCaptureView(),
+                  // ),
+                ]),
+            GoRoute(
+                path: ProofOfAddressView.path,
+                name: ProofOfAddressView.path,
+                builder: (context, state) => const ProofOfAddressView(),
+                routes: const [
+                  // GoRoute(
+                  //   path: ProofOfAddressUploadView.path,
+                  //   name: ProofOfAddressUploadView.path,
+                  //   builder: (context, state) =>
+                  //       const ProofOfAddressUploadView(),
+                  // ),
+                ]),
+            GoRoute(
+              path: SelfieView.path,
+              name: SelfieView.path,
+              builder: (context, state) => const SelfieView(),
+            )
+          ],
+        ),
 
         // GoRoute(
         //     path: SMSScreen.path,
