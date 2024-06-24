@@ -14,7 +14,7 @@ import 'package:remittance_mobile/view/features/home/currency_account_view.dart'
 import 'package:remittance_mobile/view/features/home/home_view.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/complete_profile_view.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/means_of_id_view.dart';
-import 'package:remittance_mobile/view/features/home/complete-profile/prood-of-address-flow/proof_of_address_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/proof-of-address-flow/proof_of_address_view.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/selfie-flow/selfle_view.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/ssn_and_bvn_view.dart';
 import 'package:remittance_mobile/view/features/onboarding/onboarding_screen.dart';

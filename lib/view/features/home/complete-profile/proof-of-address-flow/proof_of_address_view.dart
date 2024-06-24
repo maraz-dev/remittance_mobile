@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:remittance_mobile/view/features/home/complete-profile/prood-of-address-flow/proof_of_address_select_view.dart';
-import 'package:remittance_mobile/view/features/home/complete-profile/prood-of-address-flow/proof_of_address_upload_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/proof-of-address-flow/proof_of_address_captured_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/proof-of-address-flow/proof_of_address_select_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/proof-of-address-flow/proof_of_address_upload_view.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 
 class ProofOfAddressView extends ConsumerStatefulWidget {
@@ -69,7 +70,16 @@ class _ProofOfAddressViewState extends ConsumerState<ProofOfAddressView> {
                     curve: Curves.ease,
                   );
                 },
-              )
+              ),
+              ProofOfAddressCapturedView(
+                controller: _poaPageController,
+                pressed: () {
+                  _poaPageController.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                  );
+                },
+              ),
             ],
           ),
         ),

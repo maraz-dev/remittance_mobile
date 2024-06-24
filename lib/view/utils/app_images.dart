@@ -85,6 +85,7 @@ class AppImages {
   static const selfieIcon = '$path/selfie_icon.svg';
   static const locationIcon = '$path/location_icon.svg';
   static const resendIdIcon = '$path/resend_id_icon.svg';
+  static const uploadingIcon = '$path/uploading_icon.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';

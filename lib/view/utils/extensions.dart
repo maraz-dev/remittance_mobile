@@ -89,3 +89,13 @@ extension MaskString on String {
     return masked + lastFour;
   }
 }
+
+extension ByteFormat on int {
+  String formatBytes(int bytes) {
+    if (bytes <= 0) return "0 B";
+    const suffixes = ["B", "KB", "MB", "GB", "TB"];
+    final i = (bytes ~/ 10).clamp(0, suffixes.length - 1);
+    final size = bytes / (1 << (10 * i));
+    return "${size.toStringAsFixed(2)} ${suffixes[i]}";
+  }
+}

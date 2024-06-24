@@ -74,6 +74,7 @@ class _MeansOfIdViewState extends ConsumerState<MeansOfIdView> {
                 },
               ),
               IdFrontCapturedView(
+                controller: _meansOfIdPageController,
                 pressed: () {
                   _meansOfIdPageController.nextPage(
                     duration: const Duration(milliseconds: 500),
@@ -90,6 +91,7 @@ class _MeansOfIdViewState extends ConsumerState<MeansOfIdView> {
                 },
               ),
               IdBackCapturedView(
+                controller: _meansOfIdPageController,
                 pressed: () {
                   _meansOfIdPageController.nextPage(
                     duration: const Duration(milliseconds: 500),

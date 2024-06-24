@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
@@ -16,8 +17,10 @@ class IdBackCapturedView extends StatefulWidget {
   const IdBackCapturedView({
     super.key,
     required this.pressed,
+    required this.controller,
   });
   final VoidCallback pressed;
+  final PageController controller;
 
   @override
   State<IdBackCapturedView> createState() => _IdBackCapturedViewState();
@@ -29,40 +32,60 @@ class _IdBackCapturedViewState extends State<IdBackCapturedView> {
     return Scaffold(
         body: ScaffoldBody(
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-                20.0.height,
-                Image.memory(
-                  idBackImagePath.value.readAsBytesSync(),
-                  width: 340,
-                  height: 210,
-                ),
-                24.0.height,
-                Text(
-                  'Front ID Captured!',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.kBlackColor),
-                ),
-                16.0.height,
-                InkWell(
-                  onTap: () {},
-                  splashColor: Colors.transparent,
-                  child: Text(
-                    'Remove Photo',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: AppColors.kPrimaryColor,
-                          fontWeight: FontWeight.w500,
-                        ),
+            child: Center(
+              child: Column(
+                children: [
+                  20.0.height,
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: AppColors.kPrimaryColor,
+                        width: 3,
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.memory(
+                        idBackImagePath.value.readAsBytesSync(),
+                        width: 300,
+                        height: 300,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
-                ),
-                40.0.height,
-                const RichTextWidget(
-                  text: 'Click Continue Below to ',
-                  hyperlink: 'Proof of Address',
-                  hyperlinkColor: AppColors.kGrey700,
-                ),
-              ],
+                  24.0.height,
+                  Text(
+                    'Back of ID Captured!',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.kBlackColor),
+                  ),
+                  16.0.height,
+                  InkWell(
+                    onTap: () {
+                      widget.controller.previousPage(
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.ease,
+                      );
+                    },
+                    splashColor: Colors.transparent,
+                    child: Text(
+                      'Remove Photo',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: AppColors.kPrimaryColor,
+                            fontWeight: FontWeight.w500,
+                          ),
+                    ),
+                  ),
+                  40.0.height,
+                  const RichTextWidget(
+                    text: 'Click Continue Below to ',
+                    hyperlink: 'Selfie',
+                    hyperlinkColor: AppColors.kGrey700,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -71,8 +94,13 @@ class _IdBackCapturedViewState extends State<IdBackCapturedView> {
             MainButton(
               //isLoading: true,
               text: 'Continue',
-              onPressed: () {
-                kycData.addAll({'MeansOfIdDocBack': idBackImagePath.value});
+              onPressed: () async {
+                kycData.addAll({
+                  'MeansOfIdDocBack': await MultipartFile.fromFile(
+                    idBackImagePath.value.path,
+                    filename: idBackImagePath.value.path.split('/').last,
+                  )
+                });
                 context.pushNamed(SelfieView.path);
               },
             )

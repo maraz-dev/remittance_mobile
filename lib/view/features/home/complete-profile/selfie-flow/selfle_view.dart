@@ -63,6 +63,7 @@ class _SelfieViewState extends ConsumerState<SelfieView> {
                 },
               ),
               SelfieCapturedView(
+                controller: _selfiePageController,
                 pressed: () {
                   _selfiePageController.nextPage(
                     duration: const Duration(milliseconds: 500),
