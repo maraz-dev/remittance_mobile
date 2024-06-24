@@ -60,10 +60,10 @@ class ApiEndpoints {
   String get version => "v1";
 
   // Authentication
-  String get login => "/api/v1/partner/auth/Login";
-  String get setPin => "/api/v1/partner/auth/SetPin";
-  String get validatePin => "/api/v1/partner/auth/ValidatePin";
-  String get changePassword => "/api/v1/partner/auth/ChangePassword";
+  String get login => "/api/v1/auth/customer/Login";
+  String get setPin => "/api/v1/auth/customer/SetPin";
+  String get validatePin => "/api/v1/auth/customer/ValidatePin";
+  String get changePassword => "/api/v1/auth/customer/ChangePassword";
 
   // Security Questions
   String get getSecurityQuestion =>

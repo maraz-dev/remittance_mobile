@@ -36,6 +36,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
           AppBottomSheet.showBottomSheet(
             context,
             isDismissible: false,
+            enableDrag: false,
             widget: const CreateTransactionPINSheet(
               fromHomeView: true,
             ),

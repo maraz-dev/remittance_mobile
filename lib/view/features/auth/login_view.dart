@@ -68,7 +68,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
         // } else {
         //   context.pushNamed(DashboardView.path);
         // }
-        context.pushNamed(DashboardView.path);
+        context.goNamed(DashboardView.path);
       }
       if (next is AsyncError) {
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);

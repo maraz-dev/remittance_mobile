@@ -40,6 +40,10 @@ import 'package:remittance_mobile/view/features/transactions/transaction_history
 import 'package:remittance_mobile/view/features/transactions/transactions_view.dart';
 
 final GlobalKey<NavigatorState> rootNavigation = GlobalKey(debugLabel: "root");
+final GlobalKey<NavigatorState> dashboardNavigation =
+    GlobalKey(debugLabel: "dashboard");
+final GlobalKey<NavigatorState> completeProfileNavigation =
+    GlobalKey(debugLabel: "completeProfile");
 final GlobalKey<NavigatorState> shellNavigation =
     GlobalKey(debugLabel: "shell");
 
@@ -98,6 +102,7 @@ final routeProvider = Provider<GoRouter>((ref) {
             ]),
         GoRoute(
           path: DashboardView.path,
+          parentNavigatorKey: dashboardNavigation,
           name: DashboardView.path,
           builder: (context, state) => const DashboardView(),
         ),
@@ -225,6 +230,7 @@ final routeProvider = Provider<GoRouter>((ref) {
         GoRoute(
           path: CompleteProfileView.path,
           name: CompleteProfileView.path,
+          parentNavigatorKey: completeProfileNavigation,
           builder: (context, state) => const CompleteProfileView(),
           routes: [
             GoRoute(
