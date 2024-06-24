@@ -29,9 +29,10 @@ class SharedPrefManager {
   static bool get isSecurityQuestionSet =>
       prefs.getBool("isSecurityQuestionSet") ?? false;
 
-  static set kycPosition(String kycPosition) =>
-      prefs.setString("kycPosition", kycPosition);
-  static String get kycPosition => prefs.getString("kycPosition") ?? '';
+  static set onboardingRequestId(String onboardingRequestId) =>
+      prefs.setString("onboardingRequestId", onboardingRequestId);
+  static String get onboardingRequestId =>
+      prefs.getString("onboardingRequestId") ?? '';
 
   static void clear() {
     //prefs.clear();

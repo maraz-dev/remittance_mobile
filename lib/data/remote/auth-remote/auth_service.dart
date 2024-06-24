@@ -97,6 +97,7 @@ class AuthService {
           SharedPrefManager.isKycComplete = res['isKycComplete'];
           SharedPrefManager.isSecurityQuestionSet =
               res['isSecurityQuestionSet'];
+          SharedPrefManager.onboardingRequestId = res['onboardingRequestId'];
         },
       );
       return response.data['message'];

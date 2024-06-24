@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/data/models/responses/kyc_submission_model.dart';
 import 'package:remittance_mobile/data/remote/kyc-remote/kyc_service.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/proof-of-address-flow/proof_of_address_upload_view.dart';
@@ -64,7 +65,7 @@ class _ProofOfAddressCapturedViewState
   Widget build(BuildContext context) {
     final loading = ref.watch(initiateKycProvider);
     ref.listen(initiateKycProvider, (_, next) {
-      if (next is AsyncData) {
+      if (next is AsyncData<KycSubmission>) {
         context.pushNamed(DashboardView.path);
       }
       if (next is AsyncError) {
@@ -117,15 +118,18 @@ class _ProofOfAddressCapturedViewState
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              proofOfAddressDoc.value.path.split('/').last,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    color: AppColors.kGrey700,
-                                  ),
+                            SizedBox(
+                              width: 210,
+                              child: Text(
+                                proofOfAddressDoc.value.path.split('/').last,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.kGrey700,
+                                    ),
+                              ),
                             ),
                             Text(fileSize),
                           ],

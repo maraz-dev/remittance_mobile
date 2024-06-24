@@ -84,7 +84,7 @@ class KycService {
   Future<KycSubmission> initiateKycEndpoint() async {
     // Add the User ID which is the Request ID
     kycData.addAll({
-      'RequestId': SharedPrefManager.userId,
+      'RequestId': SharedPrefManager.onboardingRequestId,
     });
 
     try {
