@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -91,11 +93,11 @@ extension MaskString on String {
 }
 
 extension ByteFormat on int {
-  String formatBytes(int bytes) {
-    if (bytes <= 0) return "0 B";
+  String formatBytes() {
+    if (this <= 0) return "0 B";
     const suffixes = ["B", "KB", "MB", "GB", "TB"];
-    final i = (bytes ~/ 10).clamp(0, suffixes.length - 1);
-    final size = bytes / (1 << (10 * i));
-    return "${size.toStringAsFixed(2)} ${suffixes[i]}";
+    final i = (log(this) / log(1024)).floor();
+    final size = this / pow(1024, i);
+    return "${size.toInt()} ${suffixes[i]}";
   }
 }

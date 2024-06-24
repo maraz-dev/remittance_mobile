@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -34,6 +36,30 @@ class ProofOfAddressCapturedView extends ConsumerStatefulWidget {
 
 class _ProofOfAddressCapturedViewState
     extends ConsumerState<ProofOfAddressCapturedView> {
+  String fileSize = '';
+  Future<String> calculateFileSize(String filePath) async {
+    try {
+      final file = File(filePath);
+      int size = await file.length();
+      return size.formatBytes();
+    } catch (e) {
+      return 'Error: ${e.toString()}';
+    }
+  }
+
+  Future<void> getFileSize() async {
+    final size = await calculateFileSize(proofOfAddressDoc.value.path);
+    setState(() {
+      fileSize = size;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getFileSize();
+  }
+
   @override
   Widget build(BuildContext context) {
     final loading = ref.watch(initiateKycProvider);
@@ -50,7 +76,7 @@ class _ProofOfAddressCapturedViewState
             body: Center(
               child: Column(
                 children: [
-                  40.0.height,
+                  50.0.height,
                   const CardIcon(
                     image: AppImages.uploadingIcon,
                     size: 56,
@@ -101,7 +127,7 @@ class _ProofOfAddressCapturedViewState
                                     color: AppColors.kGrey700,
                                   ),
                             ),
-                            const Text('2MB'),
+                            Text(fileSize),
                           ],
                         ),
                         const Spacer(),
