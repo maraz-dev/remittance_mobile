@@ -29,7 +29,7 @@ class AccountCreateSuccess extends StatelessWidget {
           text: 'Go To Login',
           onPressed: () {
             context.pop();
-            context.pushReplacementNamed(LoginScreen.path);
+            context.goNamed(LoginScreen.path);
           },
         ),
         12.0.height

@@ -3,13 +3,16 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/responses/kyc_submission_model.dart';
 import 'package:remittance_mobile/data/remote/kyc-remote/kyc_service.dart';
+import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/complete_profile_view.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/proof-of-address-flow/proof_of_address_upload_view.dart';
+import 'package:remittance_mobile/view/features/home/vm/home_providers.dart';
 import 'package:remittance_mobile/view/features/home/vm/initiate_kyc_vm.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
-import 'package:remittance_mobile/view/route.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
@@ -65,10 +68,12 @@ class _ProofOfAddressCapturedViewState
     final loading = ref.watch(initiateKycProvider);
     ref.listen(initiateKycProvider, (_, next) {
       if (next is AsyncData<KycSubmission>) {
-        dashboardNavigation.currentState?.pop();
+        ref.invalidate(getKycStatusProvider);
+        context.goNamed(DashboardView.path);
       }
       if (next is AsyncError) {
-        completeProfileNavigation.currentState?.pop();
+        Navigator.popUntil(
+            context, ModalRoute.withName(CompleteProfileView.path));
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
       }
     });

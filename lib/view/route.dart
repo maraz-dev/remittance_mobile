@@ -40,245 +40,228 @@ import 'package:remittance_mobile/view/features/transactions/transaction_history
 import 'package:remittance_mobile/view/features/transactions/transactions_view.dart';
 
 final GlobalKey<NavigatorState> rootNavigation = GlobalKey(debugLabel: "root");
-final GlobalKey<NavigatorState> dashboardNavigation =
-    GlobalKey(debugLabel: "dashboard");
-final GlobalKey<NavigatorState> completeProfileNavigation =
-    GlobalKey(debugLabel: "completeProfile");
 final GlobalKey<NavigatorState> shellNavigation =
     GlobalKey(debugLabel: "shell");
 
 final routeProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-      initialLocation: "/",
-      navigatorKey: rootNavigation,
-      debugLogDiagnostics: true,
-      restorationScopeId: "app",
-      redirect: (context, state) {
-        return null;
-      },
-      routes: [
-        GoRoute(
-          path: "/",
-          name: OnboardingScreen.path,
-          builder: (context, state) => const OnboardingScreen(),
-        ),
-        GoRoute(
-          path: LoginScreen.path,
-          name: LoginScreen.path,
-          builder: (context, state) => const LoginScreen(),
+    initialLocation: "/",
+    navigatorKey: rootNavigation,
+    debugLogDiagnostics: true,
+    restorationScopeId: "app",
+    redirect: (context, state) {
+      return null;
+    },
+    routes: [
+      GoRoute(
+        path: "/",
+        name: OnboardingScreen.path,
+        builder: (context, state) => const OnboardingScreen(),
+      ),
+      GoRoute(
+        path: LoginScreen.path,
+        name: LoginScreen.path,
+        builder: (context, state) => const LoginScreen(),
+        routes: [
+          GoRoute(
+            path: SecurityLockView.path,
+            name: SecurityLockView.path,
+            builder: (context, state) => const SecurityLockView(),
+          ),
+          GoRoute(
+            path: ForgotPasswordView.path,
+            name: ForgotPasswordView.path,
+            builder: (context, state) => const ForgotPasswordView(),
+          ),
+          GoRoute(
+            path: ForgotPasswordOtpForm.path,
+            name: ForgotPasswordOtpForm.path,
+            builder: (context, state) => const ForgotPasswordOtpForm(),
+          ),
+          GoRoute(
+            path: ResetPasswordView.path,
+            name: ResetPasswordView.path,
+            builder: (context, state) => const ResetPasswordView(),
+          )
+        ],
+      ),
+      GoRoute(
+          path: CreateAccountView.path,
+          name: CreateAccountView.path,
+          builder: (context, state) => const CreateAccountView(),
           routes: [
             GoRoute(
-              path: SecurityLockView.path,
-              name: SecurityLockView.path,
-              builder: (context, state) => const SecurityLockView(),
+              path: SetSecurityQuestionView.path,
+              name: SetSecurityQuestionView.path,
+              builder: (context, state) => const SetSecurityQuestionView(),
+            ),
+          ]),
+      GoRoute(
+        path: DashboardView.path,
+        name: DashboardView.path,
+        builder: (context, state) => const DashboardView(),
+      ),
+      GoRoute(
+          path: HomeView.path,
+          name: HomeView.path,
+          builder: (context, state) => const HomeView(),
+          routes: [
+            GoRoute(
+              path: CurrencyAccountView.path,
+              name: CurrencyAccountView.path,
+              builder: (context, state) => const CurrencyAccountView(),
             ),
             GoRoute(
-              path: ForgotPasswordView.path,
-              name: ForgotPasswordView.path,
-              builder: (context, state) => const ForgotPasswordView(),
+              path: AddMoneyView.path,
+              name: AddMoneyView.path,
+              builder: (context, state) => const AddMoneyView(),
             ),
             GoRoute(
-              path: ForgotPasswordOtpForm.path,
-              name: ForgotPasswordOtpForm.path,
-              builder: (context, state) => const ForgotPasswordOtpForm(),
+              path: TransactionDetails.path,
+              name: TransactionDetails.path,
+              builder: (context, state) => const TransactionDetails(),
             ),
+          ]),
+      GoRoute(
+        path: ServicesView.path,
+        name: ServicesView.path,
+        builder: (context, state) => const ServicesView(),
+        routes: [
+          GoRoute(
+            path: BettingView.path,
+            name: BettingView.path,
+            builder: (context, state) => const BettingView(),
+          ),
+          GoRoute(
+            path: ElectricityView.path,
+            name: ElectricityView.path,
+            builder: (context, state) => const ElectricityView(),
+          ),
+          GoRoute(
+            path: CableTvView.path,
+            name: CableTvView.path,
+            builder: (context, state) => const CableTvView(),
+          ),
+          GoRoute(
+            path: AirtimeView.path,
+            name: AirtimeView.path,
+            builder: (context, state) => const AirtimeView(),
+          ),
+          GoRoute(
+            path: InternetView.path,
+            name: InternetView.path,
+            builder: (context, state) => const InternetView(),
+          ),
+          GoRoute(
+            path: SendMoneyInitialView.path,
+            name: SendMoneyInitialView.path,
+            builder: (context, state) => const SendMoneyInitialView(),
+          ),
+          GoRoute(
+            path: SendMoneyFinalView.path,
+            name: SendMoneyFinalView.path,
+            builder: (context, state) => const SendMoneyFinalView(),
+          ),
+          GoRoute(
+            path: ReceiveMoneyView.path,
+            name: ReceiveMoneyView.path,
+            builder: (context, state) => const ReceiveMoneyView(),
+          ),
+          GoRoute(
+            path: VirtualCardEmptyView.path,
+            name: VirtualCardEmptyView.path,
+            builder: (context, state) => const VirtualCardEmptyView(),
+          ),
+        ],
+      ),
+      GoRoute(
+          path: TransactionsView.path,
+          name: TransactionsView.path,
+          builder: (context, state) => const TransactionsView(),
+          routes: [
             GoRoute(
-              path: ResetPasswordView.path,
-              name: ResetPasswordView.path,
-              builder: (context, state) => const ResetPasswordView(),
+              path: TransactionHistoryView.path,
+              name: TransactionHistoryView.path,
+              builder: (context, state) => const TransactionHistoryView(),
             )
-          ],
-        ),
-        GoRoute(
-            path: CreateAccountView.path,
-            name: CreateAccountView.path,
-            builder: (context, state) => const CreateAccountView(),
-            routes: [
-              GoRoute(
-                path: SetSecurityQuestionView.path,
-                name: SetSecurityQuestionView.path,
-                builder: (context, state) => const SetSecurityQuestionView(),
-              ),
-            ]),
-        GoRoute(
-          path: DashboardView.path,
-          parentNavigatorKey: dashboardNavigation,
-          name: DashboardView.path,
-          builder: (context, state) => const DashboardView(),
-        ),
-        GoRoute(
-            path: HomeView.path,
-            name: HomeView.path,
-            builder: (context, state) => const HomeView(),
-            routes: [
-              GoRoute(
-                path: CurrencyAccountView.path,
-                name: CurrencyAccountView.path,
-                builder: (context, state) => const CurrencyAccountView(),
-              ),
-              GoRoute(
-                path: AddMoneyView.path,
-                name: AddMoneyView.path,
-                builder: (context, state) => const AddMoneyView(),
-              ),
-              GoRoute(
-                path: TransactionDetails.path,
-                name: TransactionDetails.path,
-                builder: (context, state) => const TransactionDetails(),
-              ),
-            ]),
-        GoRoute(
-          path: ServicesView.path,
-          name: ServicesView.path,
-          builder: (context, state) => const ServicesView(),
-          routes: [
-            GoRoute(
-              path: BettingView.path,
-              name: BettingView.path,
-              builder: (context, state) => const BettingView(),
-            ),
-            GoRoute(
-              path: ElectricityView.path,
-              name: ElectricityView.path,
-              builder: (context, state) => const ElectricityView(),
-            ),
-            GoRoute(
-              path: CableTvView.path,
-              name: CableTvView.path,
-              builder: (context, state) => const CableTvView(),
-            ),
-            GoRoute(
-              path: AirtimeView.path,
-              name: AirtimeView.path,
-              builder: (context, state) => const AirtimeView(),
-            ),
-            GoRoute(
-              path: InternetView.path,
-              name: InternetView.path,
-              builder: (context, state) => const InternetView(),
-            ),
-            GoRoute(
-              path: SendMoneyInitialView.path,
-              name: SendMoneyInitialView.path,
-              builder: (context, state) => const SendMoneyInitialView(),
-            ),
-            GoRoute(
-              path: SendMoneyFinalView.path,
-              name: SendMoneyFinalView.path,
-              builder: (context, state) => const SendMoneyFinalView(),
-            ),
-            GoRoute(
-              path: ReceiveMoneyView.path,
-              name: ReceiveMoneyView.path,
-              builder: (context, state) => const ReceiveMoneyView(),
-            ),
-            GoRoute(
-              path: VirtualCardEmptyView.path,
-              name: VirtualCardEmptyView.path,
-              builder: (context, state) => const VirtualCardEmptyView(),
-            ),
-          ],
-        ),
-        GoRoute(
-            path: TransactionsView.path,
-            name: TransactionsView.path,
-            builder: (context, state) => const TransactionsView(),
-            routes: [
-              GoRoute(
-                path: TransactionHistoryView.path,
-                name: TransactionHistoryView.path,
-                builder: (context, state) => const TransactionHistoryView(),
-              )
-            ]),
-        GoRoute(
-          path: ProfileView.path,
-          name: ProfileView.path,
-          builder: (context, state) => const ProfileView(),
-          routes: [
-            GoRoute(
-              path: PersonalDetailsView.path,
-              name: PersonalDetailsView.path,
-              builder: (context, state) => const PersonalDetailsView(),
-            ),
-            GoRoute(
-              path: ChangePasswordView.path,
-              name: ChangePasswordView.path,
-              builder: (context, state) => const ChangePasswordView(),
-            ),
-            GoRoute(
-              path: AccountStatementView.path,
-              name: AccountStatementView.path,
-              builder: (context, state) => const AccountStatementView(),
-            ),
-            GoRoute(
-              path: PrivacyPolicyView.path,
-              name: PrivacyPolicyView.path,
-              builder: (context, state) => const PrivacyPolicyView(),
-            ),
-            GoRoute(
-              path: TermsAndConditionsView.path,
-              name: TermsAndConditionsView.path,
-              builder: (context, state) => const TermsAndConditionsView(),
-            ),
-            GoRoute(
-              path: HelpAndSupportView.path,
-              name: HelpAndSupportView.path,
-              builder: (context, state) => const HelpAndSupportView(),
-            )
-          ],
-        ),
-        GoRoute(
-          path: CompleteProfileView.path,
-          name: CompleteProfileView.path,
-          parentNavigatorKey: completeProfileNavigation,
-          builder: (context, state) => const CompleteProfileView(),
-          routes: [
-            GoRoute(
-              path: SsnAndBvnView.path,
-              name: SsnAndBvnView.path,
-              builder: (context, state) => const SsnAndBvnView(),
-            ),
-            GoRoute(
-                path: MeansOfIdView.path,
-                name: MeansOfIdView.path,
-                builder: (context, state) => const MeansOfIdView(),
-                routes: const [
-                  // GoRoute(
-                  //   path: IdFrontCaptureView.path,
-                  //   name: IdFrontCaptureView.path,
-                  //   builder: (context, state) => const IdFrontCaptureView(),
-                  // ),
-                ]),
-            GoRoute(
-                path: ProofOfAddressView.path,
-                name: ProofOfAddressView.path,
-                builder: (context, state) => const ProofOfAddressView(),
-                routes: const [
-                  // GoRoute(
-                  //   path: ProofOfAddressUploadView.path,
-                  //   name: ProofOfAddressUploadView.path,
-                  //   builder: (context, state) =>
-                  //       const ProofOfAddressUploadView(),
-                  // ),
-                ]),
-            GoRoute(
-              path: SelfieView.path,
-              name: SelfieView.path,
-              builder: (context, state) => const SelfieView(),
-            )
-          ],
-        ),
-
-        // GoRoute(
-        //     path: SMSScreen.path,
-        //     name: SMSScreen.path,
-        //     builder: (context, state) => const SMSScreen(),
-        //     routes: [
-        //       GoRoute(
-        //         path: SMSDetailsScreen.path,
-        //         name: SMSDetailsScreen.path,
-        //         builder: (context, state) => const SMSDetailsScreen(),
-        //       ),
-        //     ]),
-      ]);
+          ]),
+      GoRoute(
+        path: ProfileView.path,
+        name: ProfileView.path,
+        builder: (context, state) => const ProfileView(),
+        routes: [
+          GoRoute(
+            path: PersonalDetailsView.path,
+            name: PersonalDetailsView.path,
+            builder: (context, state) => const PersonalDetailsView(),
+          ),
+          GoRoute(
+            path: ChangePasswordView.path,
+            name: ChangePasswordView.path,
+            builder: (context, state) => const ChangePasswordView(),
+          ),
+          GoRoute(
+            path: AccountStatementView.path,
+            name: AccountStatementView.path,
+            builder: (context, state) => const AccountStatementView(),
+          ),
+          GoRoute(
+            path: PrivacyPolicyView.path,
+            name: PrivacyPolicyView.path,
+            builder: (context, state) => const PrivacyPolicyView(),
+          ),
+          GoRoute(
+            path: TermsAndConditionsView.path,
+            name: TermsAndConditionsView.path,
+            builder: (context, state) => const TermsAndConditionsView(),
+          ),
+          GoRoute(
+            path: HelpAndSupportView.path,
+            name: HelpAndSupportView.path,
+            builder: (context, state) => const HelpAndSupportView(),
+          )
+        ],
+      ),
+      GoRoute(
+        path: CompleteProfileView.path,
+        name: CompleteProfileView.path,
+        builder: (context, state) => const CompleteProfileView(),
+        routes: [
+          GoRoute(
+            path: SsnAndBvnView.path,
+            name: SsnAndBvnView.path,
+            builder: (context, state) => const SsnAndBvnView(),
+          ),
+          GoRoute(
+              path: MeansOfIdView.path,
+              name: MeansOfIdView.path,
+              builder: (context, state) => const MeansOfIdView(),
+              routes: const [
+                // GoRoute(
+                //   path: IdFrontCaptureView.path,
+                //   name: IdFrontCaptureView.path,
+                //   builder: (context, state) => const IdFrontCaptureView(),
+                // ),
+              ]),
+          GoRoute(
+              path: ProofOfAddressView.path,
+              name: ProofOfAddressView.path,
+              builder: (context, state) => const ProofOfAddressView(),
+              routes: const [
+                // GoRoute(
+                //   path: ProofOfAddressUploadView.path,
+                //   name: ProofOfAddressUploadView.path,
+                //   builder: (context, state) =>
+                //       const ProofOfAddressUploadView(),
+                // ),
+              ]),
+          GoRoute(
+            path: SelfieView.path,
+            name: SelfieView.path,
+            builder: (context, state) => const SelfieView(),
+          )
+        ],
+      ),
+    ],
+  );
 });
