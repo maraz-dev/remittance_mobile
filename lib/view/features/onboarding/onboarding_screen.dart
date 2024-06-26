@@ -96,15 +96,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       textColor: AppColors.kPrimaryColor,
                       borderColor: AppColors.kPrimaryColor,
                       color: Colors.white,
-                      onPressed: () => context.pushNamed(LoginScreen.path),
+                      onPressed: () => context.goNamed(LoginScreen.path),
                     ),
                   ),
                   10.0.width,
                   Expanded(
                     child: MainButton(
                       text: "Get Started",
-                      onPressed: () =>
-                          context.pushNamed(CreateAccountView.path),
+                      onPressed: () => context.goNamed(CreateAccountView.path),
                     ),
                   ),
                 ],
