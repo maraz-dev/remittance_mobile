@@ -8,6 +8,7 @@ import 'package:remittance_mobile/core/storage/hive-storage/hive_storage_service
 import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
 import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
+import 'package:remittance_mobile/core/utils/constants.dart';
 import 'package:remittance_mobile/data/models/requests/complete_forgot_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/forgot_pass_verify_otp.dart';
@@ -88,7 +89,7 @@ class AuthService {
         response: response.data,
         onSuccess: () {
           final res = response.data['data'];
-          _storage.saveData('token', res['token'] ?? '');
+          _storage.saveData(PrefKeys.token, res['token'] ?? '');
           _hivestorage.set(StorageKey.userProfile.name, res);
           SharedPrefManager.userId = res['userId'];
           SharedPrefManager.email = res['email'];
@@ -98,6 +99,8 @@ class AuthService {
           SharedPrefManager.isSecurityQuestionSet =
               res['isSecurityQuestionSet'];
           SharedPrefManager.onboardingRequestId = res['onboardingRequestId'];
+
+          // Save the Username/Email Address and Password for Biometrics Login
         },
       );
       return response.data['message'];
@@ -126,7 +129,7 @@ class AuthService {
         response: response.data,
         onSuccess: () {
           final res = response.data['data'];
-          _storage.saveData('requestId', res['id'] ?? '');
+          _storage.saveData(PrefKeys.requestId, res['id'] ?? '');
         },
       );
       return response.data['message'];
@@ -144,7 +147,7 @@ class AuthService {
         data: verifyPhoneNumberReq
             .copyWith(
               partnerCode: endpointUrl.partnerCode,
-              requestId: await _storage.readData('requestId'),
+              requestId: await _storage.readData(PrefKeys.requestId),
             )
             .toJson(),
       );
@@ -154,7 +157,7 @@ class AuthService {
         response: response.data,
         onSuccess: () {
           final res = response.data['data'];
-          _storage.saveData('requestId', res['id'] ?? '');
+          _storage.saveData(PrefKeys.requestId, res['id'] ?? '');
         },
       );
       return response.data['message'];
@@ -172,7 +175,7 @@ class AuthService {
         data: createPasswordReq
             .copyWith(
               partnerCode: endpointUrl.partnerCode,
-              requestId: await _storage.readData('requestId'),
+              requestId: await _storage.readData(PrefKeys.requestId),
             )
             .toJson(),
       );
@@ -182,7 +185,7 @@ class AuthService {
         response: response.data,
         onSuccess: () {
           final res = response.data['data'];
-          _storage.saveData('requestId', res['id'] ?? '');
+          _storage.saveData(PrefKeys.requestId, res['id'] ?? '');
           SharedPrefManager.email = res['modifiedBy'];
         },
       );

@@ -13,6 +13,10 @@ class SharedPrefManager {
   static set userId(String userId) => prefs.setString("userId", userId);
   static String get userId => prefs.getString("userId") ?? '';
 
+  static set hasBiometrics(bool hasBiometrics) =>
+      prefs.setBool("hasBiometrics", hasBiometrics);
+  static bool get hasBiometrics => prefs.getBool("hasBiometrics") ?? false;
+
   static set isNewLogin(bool isNewLogin) =>
       prefs.setBool("isNewLogin", isNewLogin);
   static bool get isNewLogin => prefs.getBool("isNewLogin") ?? false;

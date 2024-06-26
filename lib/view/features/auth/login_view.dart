@@ -3,8 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/core/di/injector.dart';
+import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
 import 'package:remittance_mobile/core/storage/share_pref.dart';
+import 'package:remittance_mobile/core/utils/constants.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
+import 'package:remittance_mobile/view/features/auth/biometrics/biometrics_controller.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_form_view.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
@@ -46,6 +50,19 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
     _email.text = successfulCreatedEmail.value.isEmpty
         ? SharedPrefManager.email
         : successfulCreatedEmail.value;
+  }
+
+  Future<bool> showBiometrics() async {
+    return await Biometrics.hasBiometrics();
+  }
+
+  void handleLoginReq(String email, String password) {
+    ref.read(loginProvider.notifier).loginMethod(
+          LoginReq(
+            emailAddress: email,
+            password: password,
+          ),
+        );
   }
 
   @override
@@ -143,12 +160,10 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                     text: 'Log In',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        ref.read(loginProvider.notifier).loginMethod(
-                              LoginReq(
-                                emailAddress: _email.text.trim(),
-                                password: _password.text,
-                              ),
-                            );
+                        handleLoginReq(
+                          _email.text.trim(),
+                          _password.text,
+                        );
                       }
                     },
                   )
@@ -158,31 +173,45 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                       .slideY(begin: .1, end: 0),
                 ),
                 8.0.width,
-                Expanded(
-                  flex: 1,
-                  child: InkWell(
-                    splashColor: Colors.transparent,
-                    radius: 0,
-                    onTap: null,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: AppColors.kWhiteColor,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: AppColors.kGrey300),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.kBoxShadowColor,
-                            blurRadius: 2,
-                            offset: const Offset(0, 1),
-                          )
-                        ],
-                      ),
-                      child: SvgPicture.asset(
-                        Theme.of(context).platform == TargetPlatform.iOS
-                            ? AppImages.faceID
-                            : AppImages.fingerprint,
-                        fit: BoxFit.contain,
+                Visibility(
+                  visible: SharedPrefManager.hasBiometrics,
+                  child: Expanded(
+                    flex: 1,
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      radius: 0,
+                      onTap: () async {
+                        final storage = inject.get<SecureStorageBase>();
+                        if (await Biometrics.authenticate()) {
+                          var password =
+                              await storage.readData(PrefKeys.password);
+
+                          handleLoginReq(
+                            SharedPrefManager.email,
+                            password,
+                          );
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColors.kWhiteColor,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: AppColors.kGrey300),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.kBoxShadowColor,
+                              blurRadius: 2,
+                              offset: const Offset(0, 1),
+                            )
+                          ],
+                        ),
+                        child: SvgPicture.asset(
+                          Theme.of(context).platform == TargetPlatform.iOS
+                              ? AppImages.faceID
+                              : AppImages.fingerprint,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
