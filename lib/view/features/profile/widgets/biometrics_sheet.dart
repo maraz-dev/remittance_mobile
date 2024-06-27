@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:remittance_mobile/view/features/home/vm/home_providers.dart';
+import 'package:remittance_mobile/core/di/injector.dart';
+import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
+import 'package:remittance_mobile/core/storage/share_pref.dart';
+import 'package:remittance_mobile/view/features/auth/biometrics/biometrics_controller.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -21,6 +24,8 @@ class EnableBiometricsSheet extends ConsumerStatefulWidget {
 class _EnableBiometricsSheetState extends ConsumerState<EnableBiometricsSheet> {
   @override
   Widget build(BuildContext context) {
+    final storage = inject.get<SecureStorageBase>();
+
     return StatefulBuilder(builder: (context, setState) {
       return Column(
         mainAxisSize: MainAxisSize.min,
@@ -28,6 +33,7 @@ class _EnableBiometricsSheetState extends ConsumerState<EnableBiometricsSheet> {
           Align(
             alignment: AlignmentDirectional.centerEnd,
             child: IconButton(
+              splashColor: Colors.transparent,
               onPressed: () {
                 context.pop();
               },
@@ -59,18 +65,28 @@ class _EnableBiometricsSheetState extends ConsumerState<EnableBiometricsSheet> {
           BiometricsOptionCard(
             text: 'Account Login',
             image: AppImages.keyIcon,
-            value: ref.watch(loginSwitchProvider),
+            value: SharedPrefManager.hasBiometrics,
             onChanged: (value) {
-              ref.read(loginSwitchProvider.notifier).state = value;
+              setState(() async {
+                SharedPrefManager.hasBiometrics = value;
+                // if (await Biometrics.deviceEnrolledBiometric()) {
+                //   if (await Biometrics.reqAuthenticate()) {
+                //     await storage.saveData(PrefKey.passCode, widget.passcode);
+                //     SharedPrefManager.hasBiometrics = true;
+                //   }
+                // }
+              });
             },
           ),
           16.0.height,
           BiometricsOptionCard(
             text: 'Transactions',
             image: AppImages.convertShapeIcon,
-            value: ref.watch(transxSwitchProvider),
+            value: SharedPrefManager.hasBiometricsTranx,
             onChanged: (value) {
-              ref.read(transxSwitchProvider.notifier).state = value;
+              setState(() {
+                SharedPrefManager.hasBiometricsTranx = value;
+              });
             },
           ),
           30.0.height,

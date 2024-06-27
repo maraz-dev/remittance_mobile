@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/local/user_data_impl.dart';
+import 'package:remittance_mobile/view/features/auth/login_view.dart';
 import 'package:remittance_mobile/view/features/profile/profile_options.dart';
 import 'package:remittance_mobile/view/features/profile/widgets/biometrics_sheet.dart';
 import 'package:remittance_mobile/view/features/profile/widgets/profile_card.dart';
@@ -139,19 +140,20 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                             return ProfileCard(
                               image: value.image,
                               text: value.text,
-                              onPressed: () {
-                                return value.optionPath == null
-                                    ? null
-                                    : value.text == 'Biometrics'
-                                        ? AppBottomSheet.showBottomSheet(
-                                            context,
-                                            isDismissible: false,
-                                            enableDrag: false,
-                                            widget:
-                                                const EnableBiometricsSheet(),
-                                          )
-                                        : context.pushNamed(value.optionPath);
-                              },
+                              onPressed: value.optionPath == null &&
+                                      value.text != 'Biometrics'
+                                  ? () {}
+                                  : () {
+                                      value.text == 'Biometrics'
+                                          ? AppBottomSheet.showBottomSheet(
+                                              context,
+                                              isDismissible: false,
+                                              enableDrag: false,
+                                              widget:
+                                                  const EnableBiometricsSheet(),
+                                            )
+                                          : context.pushNamed(value.optionPath);
+                                    },
                             );
                           },
                           separatorBuilder: (context, index) {
@@ -179,8 +181,8 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                               image: value.image,
                               text: value.text,
                               color: value.color,
-                              onPressed: () => value.optionPath == null
-                                  ? null
+                              onPressed: () => value.text == 'Log Out'
+                                  ? context.goNamed(LoginScreen.path)
                                   : context.pushNamed(value.optionPath),
                             );
                           },

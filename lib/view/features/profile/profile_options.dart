@@ -84,5 +84,8 @@ List profileMoreItems = [
     optionPath: HelpAndSupportView.path,
   ),
   ProfileOption(
-      image: AppImages.logout, text: 'Log Out', color: AppColors.kErrorColor),
+    image: AppImages.logout,
+    text: 'Log Out',
+    color: AppColors.kErrorColor,
+  ),
 ];
