@@ -4,9 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/local/user_data_impl.dart';
 import 'package:remittance_mobile/view/features/profile/profile_options.dart';
+import 'package:remittance_mobile/view/features/profile/widgets/biometrics_sheet.dart';
 import 'package:remittance_mobile/view/features/profile/widgets/profile_card.dart';
 import 'package:remittance_mobile/view/features/profile/widgets/profile_title.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/box_decoration.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -137,9 +139,19 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                             return ProfileCard(
                               image: value.image,
                               text: value.text,
-                              onPressed: () => value.optionPath == null
-                                  ? null
-                                  : context.pushNamed(value.optionPath),
+                              onPressed: () {
+                                return value.optionPath == null
+                                    ? null
+                                    : value.text == 'Biometrics'
+                                        ? AppBottomSheet.showBottomSheet(
+                                            context,
+                                            isDismissible: false,
+                                            enableDrag: false,
+                                            widget:
+                                                const EnableBiometricsSheet(),
+                                          )
+                                        : context.pushNamed(value.optionPath);
+                              },
                             );
                           },
                           separatorBuilder: (context, index) {

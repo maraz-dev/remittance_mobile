@@ -81,80 +81,82 @@ class _CreateTransactionPINSheetState
       );
     });
 
-    return StatefulBuilder(builder: (context, setState) {
-      return Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(AppImages.security),
-            16.0.height,
-            const BottomSheetTitle(
-              title: 'Create Transaction PIN',
-              subtitle: 'Enter your desired Transaction PIN',
-            ),
-            24.0.height,
-            Center(
-              child: Pinput(
-                controller: _pin,
-                length: 4,
-                obscureText: true,
-                defaultPinTheme:
-                    defaultPinInputTheme.copyWith(height: 70, width: 70),
-                focusedPinTheme:
-                    focusedPinInputTheme.copyWith(height: 70, width: 70),
-                validator: validateGeneric,
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(AppImages.security),
+              16.0.height,
+              const BottomSheetTitle(
+                title: 'Create Transaction PIN',
+                subtitle: 'Enter your desired Transaction PIN',
               ),
-            ),
-            16.0.height,
-            Text(
-              'Confirm Transaction PIN',
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontWeight: FontWeight.bold, color: AppColors.kBlackColor),
-            ),
-            16.0.height,
-            Center(
-              child: Pinput(
-                controller: _confirmPin,
-                length: 4,
-                obscureText: true,
-                defaultPinTheme:
-                    defaultPinInputTheme.copyWith(height: 70, width: 70),
-                focusedPinTheme:
-                    focusedPinInputTheme.copyWith(height: 70, width: 70),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Field cannot be empty';
-                  } else if (value != _pin.text) {
-                    return "PIN doesn't match";
+              24.0.height,
+              Center(
+                child: Pinput(
+                  controller: _pin,
+                  length: 4,
+                  obscureText: true,
+                  defaultPinTheme:
+                      defaultPinInputTheme.copyWith(height: 70, width: 70),
+                  focusedPinTheme:
+                      focusedPinInputTheme.copyWith(height: 70, width: 70),
+                  validator: validateGeneric,
+                ),
+              ),
+              16.0.height,
+              Text(
+                'Confirm Transaction PIN',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontWeight: FontWeight.bold, color: AppColors.kBlackColor),
+              ),
+              16.0.height,
+              Center(
+                child: Pinput(
+                  controller: _confirmPin,
+                  length: 4,
+                  obscureText: true,
+                  defaultPinTheme:
+                      defaultPinInputTheme.copyWith(height: 70, width: 70),
+                  focusedPinTheme:
+                      focusedPinInputTheme.copyWith(height: 70, width: 70),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Field cannot be empty';
+                    } else if (value != _pin.text) {
+                      return "PIN doesn't match";
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              40.0.height,
+              MainButton(
+                isLoading: loading.isLoading,
+                text: 'Create PIN',
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    ref.read(setPINProvider.notifier).setPINMethod(
+                          SetPinReq(
+                            emailAddress: widget.fromHomeView
+                                ? SharedPrefManager.email
+                                : successfulCreatedEmail.value,
+                            pin: _pin.text,
+                            confirmPin: _confirmPin.text,
+                          ),
+                        );
                   }
-                  return null;
                 },
               ),
-            ),
-            40.0.height,
-            MainButton(
-              isLoading: loading.isLoading,
-              text: 'Create PIN',
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  ref.read(setPINProvider.notifier).setPINMethod(
-                        SetPinReq(
-                          emailAddress: widget.fromHomeView
-                              ? SharedPrefManager.email
-                              : successfulCreatedEmail.value,
-                          pin: _pin.text,
-                          confirmPin: _confirmPin.text,
-                        ),
-                      );
-                }
-              },
-            ),
-            12.0.height
-          ],
-        ),
-      );
-    });
+              12.0.height
+            ],
+          ),
+        );
+      },
+    );
   }
 }

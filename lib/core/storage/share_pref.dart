@@ -17,6 +17,11 @@ class SharedPrefManager {
       prefs.setBool("hasBiometrics", hasBiometrics);
   static bool get hasBiometrics => prefs.getBool("hasBiometrics") ?? false;
 
+  static set hasBiometricsTranx(bool hasBiometricsTranx) =>
+      prefs.setBool("hasBiometricsTranx", hasBiometricsTranx);
+  static bool get hasBiometricsTranx =>
+      prefs.getBool("hasBiometricsTranx") ?? false;
+
   static set isNewLogin(bool isNewLogin) =>
       prefs.setBool("isNewLogin", isNewLogin);
   static bool get isNewLogin => prefs.getBool("isNewLogin") ?? false;

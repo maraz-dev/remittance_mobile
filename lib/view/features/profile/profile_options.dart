@@ -48,11 +48,22 @@ List profileSecurityItems = [
     text: 'Change Password',
     optionPath: ChangePasswordView.path,
   ),
-  ProfileOption(image: AppImages.shieldSecurity, text: 'Change PIN'),
-  ProfileOption(image: AppImages.smsNotification, text: 'SMS Notifications'),
   ProfileOption(
-      image: AppImages.directNotification, text: 'In-app Notifications'),
-  ProfileOption(image: AppImages.fingerScan, text: 'Biometrics'),
+    image: AppImages.shieldSecurity,
+    text: 'Change PIN',
+  ),
+  ProfileOption(
+    image: AppImages.smsNotification,
+    text: 'SMS Notifications',
+  ),
+  ProfileOption(
+    image: AppImages.directNotification,
+    text: 'In-app Notifications',
+  ),
+  ProfileOption(
+    image: AppImages.fingerScan,
+    text: 'Biometrics',
+  ),
 ];
 
 // More Items
