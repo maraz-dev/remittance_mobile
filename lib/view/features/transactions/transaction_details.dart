@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
@@ -29,6 +27,8 @@ class TransactionDetails extends StatefulWidget {
 class _TransactionDetailsState extends State<TransactionDetails>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+
+  final int length = 5;
 
   @override
   void initState() {
@@ -87,83 +87,140 @@ class _TransactionDetailsState extends State<TransactionDetails>
                           20.0.height,
 
                           // Tab Body
-
-                          20.0.height,
                           Expanded(
                             child: TabBarView(
                               controller: _tabController,
                               physics: const NeverScrollableScrollPhysics(),
                               children: [
+                                // Updates Tab
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 16),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      FixedTimeline.tileBuilder(
-                                        mainAxisSize: MainAxisSize.min,
-                                        theme: TimelineThemeData(
-                                          nodePosition: 0,
-                                          indicatorPosition: 0,
-                                          connectorTheme:
-                                              const ConnectorThemeData(
-                                            indent: 7,
-                                            color: AppColors.kGrey200,
-                                            thickness: 1,
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        FixedTimeline.tileBuilder(
+                                          mainAxisSize: MainAxisSize.min,
+                                          theme: TimelineThemeData(
+                                            nodePosition: 0,
+                                            indicatorPosition: 0,
+                                            connectorTheme:
+                                                const ConnectorThemeData(
+                                              indent: 7,
+                                              color: AppColors.kGrey200,
+                                              thickness: 1,
+                                            ),
+                                          ),
+                                          builder:
+                                              TimelineTileBuilder.connected(
+                                            contentsAlign: ContentsAlign.basic,
+                                            contentsBuilder: (context, index) {
+                                              final conditionOne =
+                                                  index == length - 1;
+                                              final conditionTwo =
+                                                  widget.status ==
+                                                      TransactionStatusUpdate
+                                                          .sending;
+                                              final bothConditions =
+                                                  conditionOne && conditionTwo;
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                  bottom: conditionOne ? 0 : 30,
+                                                ),
+                                                child: Column(
+                                                  children: [
+                                                    UpdateText(
+                                                      textColor: bothConditions
+                                                          ? AppColors
+                                                              .kWarningColor500
+                                                          : null,
+                                                    ),
+
+                                                    // Show Query Transaction Button
+                                                    if (bothConditions) ...[
+                                                      8.0.height,
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                right: 120),
+                                                        child: MainButton(
+                                                          text:
+                                                              "Requery Transaction",
+                                                          textColor: AppColors
+                                                              .kPrimaryColor,
+                                                          borderColor: AppColors
+                                                              .kPrimaryColor,
+                                                          color: Colors.white,
+                                                          borderRadius: 32,
+                                                          fontSize: 12,
+                                                          padding: 8,
+                                                          onPressed: () {},
+                                                        ),
+                                                      )
+                                                    ]
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                            connectorBuilder:
+                                                (context, index, type) {
+                                              return const SolidLineConnector(
+                                                color: AppColors.kGrey200,
+                                              );
+                                            },
+                                            indicatorBuilder: (context, index) {
+                                              if (index != length - 1) {
+                                                return const TransactionIndicator();
+                                              } else {
+                                                switch (widget.status) {
+                                                  case TransactionStatusUpdate
+                                                        .sent:
+                                                    return const TransactionIndicator(
+                                                      padding: 6,
+                                                      backColor:
+                                                          AppColors.kBrandColor,
+                                                      image: AppImages.dot,
+                                                      borderColor: AppColors
+                                                          .kPrimaryColor,
+                                                    );
+                                                  case TransactionStatusUpdate
+                                                        .sending:
+                                                    return const TransactionIndicator(
+                                                      image:
+                                                          AppImages.closeIcon,
+                                                      borderColor: AppColors
+                                                          .kWarningColor500,
+                                                    );
+                                                }
+                                              }
+                                            },
+                                            itemCount: length,
                                           ),
                                         ),
-                                        builder: TimelineTileBuilder.connected(
-                                          contentsAlign: ContentsAlign.basic,
-                                          contentsBuilder: (context, index) {
-                                            return Padding(
-                                              padding: EdgeInsets.only(
-                                                bottom: index == 2 ? 0 : 30,
-                                              ),
-                                              child: const UpdateText(),
-                                            );
-                                          },
-                                          connectorBuilder:
-                                              (context, index, type) {
-                                            return const SolidLineConnector(
-                                              color: AppColors.kGrey200,
-                                            );
-                                          },
-                                          indicatorBuilder: (context, index) {
-                                            if (index != 2) {
-                                              return const TransactionIndicator();
-                                            } else {
-                                              switch (widget.status) {
-                                                case TransactionStatusUpdate
-                                                      .sent:
-                                                  return const TransactionIndicator(
-                                                    padding: 6,
-                                                    backColor:
-                                                        AppColors.kBrandColor,
-                                                    image: AppImages.dot,
-                                                    borderColor:
-                                                        AppColors.kPrimaryColor,
-                                                  );
-                                                case TransactionStatusUpdate
-                                                      .sending:
-                                                  return const TransactionIndicator(
-                                                    image: AppImages.closeIcon,
-                                                    borderColor: AppColors
-                                                        .kWarningColor500,
-                                                  );
-                                              }
-                                            }
-                                          },
-                                          itemCount: 3,
-                                        ),
-                                      ),
-                                    ],
+
+                                        // Show Share Receipt Button
+                                        if (widget.status ==
+                                            TransactionStatusUpdate.sent) ...[
+                                          24.0.height,
+                                          GestureDetector(
+                                            onTap: () {},
+                                            child: const ButtonWithIcon(),
+                                          ),
+                                        ]
+                                      ],
+                                    ),
                                   ),
                                 ),
+
+                                // Details Tab
                                 const Text('Details'),
                               ],
                             ),
                           ),
+                          20.0.height,
                         ],
                       ),
                     ),
@@ -183,6 +240,42 @@ class _TransactionDetailsState extends State<TransactionDetails>
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ButtonWithIcon extends StatelessWidget {
+  const ButtonWithIcon({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: AppColors.kGrey300,
+        ),
+        borderRadius: BorderRadius.circular(32),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(
+            AppImages.accountsIcon,
+            colorFilter: AppColors.kGrey700.colorFilterMode(),
+          ),
+          8.0.width,
+          Text(
+            'Share Receipt',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: AppColors.kGrey700,
+                  fontWeight: FontWeight.w500,
+                ),
+          )
+        ],
       ),
     );
   }

@@ -9,7 +9,7 @@ class MainButton extends StatelessWidget {
   final Color? textColor;
   final Color? borderColor;
   final bool? isLoading;
-  final double? padding, borderRadius;
+  final double? fontSize, padding, borderRadius;
   final Function()? onPressed;
   const MainButton({
     super.key,
@@ -21,6 +21,7 @@ class MainButton extends StatelessWidget {
     this.borderColor,
     this.borderRadius,
     this.padding,
+    this.fontSize,
   });
 
   @override
@@ -53,6 +54,7 @@ class MainButton extends StatelessWidget {
                   text,
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
+                        fontSize: fontSize ?? 14,
                         color: textColor ?? AppColors.kWhiteColor,
                       ),
                 ),

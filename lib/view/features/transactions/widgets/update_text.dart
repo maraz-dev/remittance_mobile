@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
-import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class UpdateText extends StatelessWidget {
   final String? date, time, desc;
+  final Color? textColor;
 
   const UpdateText({
     super.key,
     this.date,
     this.time,
     this.desc,
+    this.textColor,
   });
 
   @override
@@ -39,18 +40,11 @@ class UpdateText extends StatelessWidget {
           ),
           Text(
             desc ?? 'You started a Transfer',
-            style: Theme.of(context).textTheme.bodySmall,
+            style: Theme.of(context)
+                .textTheme
+                .bodySmall!
+                .copyWith(color: textColor),
           ),
-          4.0.height,
-          MainButton(
-            text: "Requery Transaction",
-            textColor: AppColors.kPrimaryColor,
-            borderColor: AppColors.kPrimaryColor,
-            color: Colors.white,
-            borderRadius: 32,
-            padding: 8,
-            onPressed: () {},
-          )
         ],
       ),
     );
