@@ -49,7 +49,7 @@ class AuthService {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      deviceType = iosInfo.utsname.nodename;
+      deviceType = iosInfo.utsname.machine;
       deviceToken = iosInfo.identifierForVendor;
     } else if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
