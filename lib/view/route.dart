@@ -119,7 +119,12 @@ final routeProvider = Provider<GoRouter>((ref) {
             GoRoute(
               path: TransactionDetails.path,
               name: TransactionDetails.path,
-              builder: (context, state) => const TransactionDetails(),
+              builder: (context, state) {
+                final status = state.extra as TransactionStatusUpdate;
+                return TransactionDetails(
+                  status: status,
+                );
+              },
             ),
           ]),
       GoRoute(

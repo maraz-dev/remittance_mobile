@@ -22,7 +22,6 @@ import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/input_fields.dart';
 import 'package:remittance_mobile/view/utils/snackbar.dart';
 import 'package:remittance_mobile/view/utils/validator.dart';
-import 'package:remittance_mobile/view/widgets/back_button.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/richtext_widget.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
@@ -78,13 +77,6 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
     ref.listen(loginProvider, (_, next) {
       if (next is AsyncData<String>) {
         SharedPrefManager.email = _email.text;
-
-        // Check if the User is logging in on a new device
-        // if (SharedPrefManager.isNewLogin) {
-        //   context.pushNamed(SecurityLockView.path);
-        // } else {
-        //   context.pushNamed(DashboardView.path);
-        // }
         context.goNamed(DashboardView.path);
       }
       if (next is AsyncError) {
@@ -101,7 +93,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 32.0.height,
-                const BackArrowButton(),
+                // const BackArrowButton(),
                 18.0.height,
                 const AuthTitle(
                   title: 'Log In',

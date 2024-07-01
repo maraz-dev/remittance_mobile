@@ -47,6 +47,7 @@ dependencies:
   pretty_dio_logger: ^1.1.1
   shared_preferences: ^2.2.2
   smooth_page_indicator: ^1.1.0
+  timelines: ^0.1.0
 
 dev_dependencies:
   flutter_lints: ^3.0.0

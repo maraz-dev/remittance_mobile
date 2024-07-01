@@ -30,6 +30,7 @@ abstract class AppColors {
   static const kWarningColor = Color(0xFFDC6803);
   static const kWarningColor50 = Color(0xFFFFFAEB);
   static const kWarningColor100 = Color(0xFFFEF0C7);
+  static const kWarningColor500 = Color(0xFFF79009);
   static const kWarningColor700 = Color(0xFFB54708);
 
   static const kErrorColor = Color(0xFFD92D20);

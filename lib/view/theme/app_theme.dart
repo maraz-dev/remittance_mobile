@@ -81,19 +81,19 @@ TextTheme textTheme() {
       fontSize: 16.sp,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.3,
-      color: AppColors.kSecondaryColorTwo,
+      color: AppColors.kGrey500,
     ),
     bodyMedium: TextStyle(
       fontSize: 14.sp,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.3,
-      color: AppColors.kSecondaryColorTwo,
+      color: AppColors.kGrey500,
     ),
     bodySmall: TextStyle(
       fontSize: 12.sp,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.3,
-      color: AppColors.kSecondaryColorTwo,
+      color: AppColors.kGrey500,
     ),
   );
 }

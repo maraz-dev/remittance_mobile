@@ -88,6 +88,8 @@ class AppImages {
   static const uploadingIcon = '$path/uploading_icon.svg';
   static const keyIcon = '$path/key.svg';
   static const convertShapeIcon = '$path/convert_shape.svg';
+  static const check = '$path/check.svg';
+  static const closeIcon = '$path/close.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';

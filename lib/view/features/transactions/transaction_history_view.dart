@@ -124,9 +124,15 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, index) => InkWell(
-                          onTap: () => context.pushNamed(
-                                TransactionDetails.path,
-                              ),
+                          onTap: () => index % 2 == 0
+                              ? context.pushNamed(
+                                  TransactionDetails.path,
+                                  extra: TransactionStatusUpdate.sent,
+                                )
+                              : context.pushNamed(
+                                  TransactionDetails.path,
+                                  extra: TransactionStatusUpdate.sending,
+                                ),
                           child: const TransactionCard()),
                       separatorBuilder: (context, index) => 24.0.height,
                       itemCount: 10,

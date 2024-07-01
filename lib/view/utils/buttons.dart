@@ -9,6 +9,7 @@ class MainButton extends StatelessWidget {
   final Color? textColor;
   final Color? borderColor;
   final bool? isLoading;
+  final double? padding, borderRadius;
   final Function()? onPressed;
   const MainButton({
     super.key,
@@ -18,6 +19,8 @@ class MainButton extends StatelessWidget {
     required this.onPressed,
     this.isLoading,
     this.borderColor,
+    this.borderRadius,
+    this.padding,
   });
 
   @override
@@ -25,11 +28,13 @@ class MainButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 12.h),
+        //width: double.infinity,
+        padding: padding == null
+            ? const EdgeInsets.symmetric(vertical: 12)
+            : EdgeInsets.symmetric(vertical: 4, horizontal: padding!),
         decoration: BoxDecoration(
             color: color ?? AppColors.kPrimaryColor,
-            borderRadius: BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.circular(borderRadius ?? 8.r),
             border: Border.all(color: borderColor ?? Colors.transparent),
             boxShadow: [
               BoxShadow(
