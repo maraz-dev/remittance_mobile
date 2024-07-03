@@ -17,6 +17,8 @@ void main() {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
     // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
+    // Switch the Working Environment for the Endpoints
     await initializeCore(environment: Environmentx.dev);
 
     final HiveStorageBase initializeStorageService = HiveStorageService();
