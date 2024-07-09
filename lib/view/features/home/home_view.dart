@@ -10,11 +10,11 @@ import 'package:remittance_mobile/view/features/home/complete-profile/kyc_info_c
 import 'package:remittance_mobile/view/features/home/widgets/home_appbar.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_image.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_service_card.dart';
+import 'package:remittance_mobile/view/features/transactions/widgets/latest_transaction_box.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
-import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
 class HomeView extends ConsumerStatefulWidget {
   static String path = '/home-view';
@@ -62,15 +62,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
           response: user.value ?? UserResponse(),
         ),
       ),
-      body: ScaffoldBody(
-          body: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            10.0.height,
+            20.0.height,
 
             // KYC Info Card
-            const KycInfoCard(),
+            const KycInfoCard().widgetPadding(l: 24, r: 24.0),
 
             16.0.height,
 
@@ -79,8 +78,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
             24.0.height,
 
             /// Services
-            const SectionHeader(text: 'Services'),
-            8.0.height,
+            // const SectionHeader(text: 'Services').widgetPadding(l: 24, r: 24.0),
+            // 8.0.height,
             SizedBox(
               height: 50,
               child: MediaQuery.removePadding(
@@ -95,11 +94,17 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     separatorBuilder: (context, index) => 8.0.width,
                     itemCount: homeServiceCardList.length),
               ),
-            ),
-            36.0.height,
+            ).widgetPadding(l: 24),
+            20.0.height,
+
+            // Latest Transactions
+            const LatestTransactionsBox(
+              length: 3,
+            ).widgetPadding(l: 24, r: 24.0),
+            20.0.height,
 
             /// Banner
-            const SectionHeader(text: 'For You'),
+            const SectionHeader(text: 'For You').widgetPadding(l: 24, r: 24.0),
             8.0.height,
             SizedBox(
               height: 200.h,
@@ -112,13 +117,13 @@ class _HomeViewState extends ConsumerState<HomeView> {
                 separatorBuilder: (context, index) => 12.0.width,
                 itemCount: 2,
               ),
-            ),
+            ).widgetPadding(l: 24),
             16.0.height,
 
             30.0.height,
           ],
         ),
-      )),
+      ),
     );
   }
 }

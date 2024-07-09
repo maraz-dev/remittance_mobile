@@ -89,11 +89,24 @@ List<AccountOptionsAlt> currencyAccountList = [
     image: AppImages.add,
     onPressed: AddMoneyView.path,
   ),
-  const AccountOptionsAlt(text: 'Exchange', image: AppImages.exchange),
-  const AccountOptionsAlt(text: 'Withdraw', image: AppImages.withdraw),
   const AccountOptionsAlt(
-      text: 'Account Statement', image: AppImages.accountStatement),
+    text: 'Exchange',
+    image: AppImages.exchange,
+  ),
   const AccountOptionsAlt(
-      text: 'Account Details', image: AppImages.accountDetails),
-  const AccountOptionsAlt(text: 'Deactivate', image: AppImages.deactivate),
+    text: 'Withdraw',
+    image: AppImages.withdraw,
+  ),
+  const AccountOptionsAlt(
+    text: 'Account Statement',
+    image: AppImages.accountStatement,
+  ),
+  const AccountOptionsAlt(
+    text: 'Account Details',
+    image: AppImages.accountDetails,
+  ),
+  const AccountOptionsAlt(
+    text: 'Deactivate',
+    image: AppImages.deactivate,
+  ),
 ];

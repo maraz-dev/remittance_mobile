@@ -101,3 +101,17 @@ extension ByteFormat on int {
     return "${size.toInt()} ${suffixes[i]}";
   }
 }
+
+extension WidgetPadding on Widget {
+  Widget widgetPadding({
+    double l = 0.0,
+    t = 0.0,
+    r = 0.0,
+    b = 0.0,
+  }) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(l, t, r, b),
+      child: this,
+    );
+  }
+}

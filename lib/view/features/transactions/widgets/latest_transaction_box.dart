@@ -6,8 +6,10 @@ import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class LatestTransactionsBox extends StatelessWidget {
+  final int? length;
   const LatestTransactionsBox({
     super.key,
+    this.length,
   });
 
   @override
@@ -28,7 +30,7 @@ class LatestTransactionsBox extends StatelessWidget {
             shrinkWrap: true,
             itemBuilder: (context, index) => const TransactionCard(),
             separatorBuilder: (context, index) => 24.0.height,
-            itemCount: 5,
+            itemCount: length ?? 5,
           ),
         ],
       ),

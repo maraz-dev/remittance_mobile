@@ -21,7 +21,8 @@ class AccountsWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AccountsTitle(isCardListEmpty: doesUserHaveAccount),
+        AccountsTitle(isCardListEmpty: doesUserHaveAccount)
+            .widgetPadding(l: 24, r: 24.0),
         12.0.height,
         SizedBox(
           height: 135.h,
@@ -50,7 +51,7 @@ class AccountsWidget extends StatelessWidget {
                   itemCount: accountList.length,
                 )
               : const AddNewAccountCard(),
-        ),
+        ).widgetPadding(l: 24),
       ],
     );
   }

@@ -31,7 +31,7 @@ InputDecorationTheme inputDecorationTheme() {
     focusedBorder: focusInputBorder,
     errorBorder: errorInputBorder,
     border: defaultInputBorder,
-    fillColor: AppColors.kGreyInput,
+    fillColor: AppColors.kGrey200,
     filled: true,
     suffixIconColor: AppColors.kInactiveColor,
   );
