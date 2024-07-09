@@ -26,9 +26,9 @@ class HomeServiceCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-            color: AppColors.kWhiteColor,
-            borderRadius: BorderRadius.circular(30),
-            border: Border.all(color: AppColors.kGrey300)),
+          color: AppColors.kWhiteColor,
+          borderRadius: BorderRadius.circular(30),
+        ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

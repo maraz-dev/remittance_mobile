@@ -6,7 +6,7 @@ import 'package:remittance_mobile/view/theme/app_colors.dart';
 ThemeData themeData() {
   return ThemeData(
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      scaffoldBackgroundColor: AppColors.kGrey50,
+      scaffoldBackgroundColor: AppColors.kGrey100,
       fontFamily: 'SFPro',
       textTheme: textTheme(),
       inputDecorationTheme: inputDecorationTheme());

@@ -82,15 +82,19 @@ class _HomeViewState extends ConsumerState<HomeView> {
             const SectionHeader(text: 'Services'),
             8.0.height,
             SizedBox(
-              height: 55,
-              child: ListView.separated(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return homeServiceCardList[index];
-                  },
-                  separatorBuilder: (context, index) => 8.0.width,
-                  itemCount: homeServiceCardList.length),
+              height: 50,
+              child: MediaQuery.removePadding(
+                context: context,
+                removeRight: true,
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return homeServiceCardList[index];
+                    },
+                    separatorBuilder: (context, index) => 8.0.width,
+                    itemCount: homeServiceCardList.length),
+              ),
             ),
             36.0.height,
 

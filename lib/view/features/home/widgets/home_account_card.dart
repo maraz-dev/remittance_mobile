@@ -30,7 +30,7 @@ class AccountsCard extends StatelessWidget {
             color: AppColors.kWhiteColor,
             border: onclicked
                 ? Border.all(color: AppColors.kPrimaryColor, width: 2)
-                : Border.all(color: AppColors.kGrey300),
+                : null,
             borderRadius: BorderRadius.circular(8.r)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
