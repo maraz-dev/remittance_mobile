@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:remittance_mobile/view/features/home/account-view/payments_methods_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
@@ -84,7 +86,9 @@ class _AddMoneyViewState extends State<AddMoneyView> {
             MainButton(
               //isLoading: true,
               text: 'Next',
-              onPressed: () {},
+              onPressed: () {
+                context.pushNamed(PaymentMethodView.path);
+              },
             )
                 .animate()
                 .fadeIn(begin: 0, delay: 1000.ms)

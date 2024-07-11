@@ -90,6 +90,7 @@ class AppImages {
   static const convertShapeIcon = '$path/convert_shape.svg';
   static const check = '$path/check.svg';
   static const closeIcon = '$path/close.svg';
+  static const card = '$path/card.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';
