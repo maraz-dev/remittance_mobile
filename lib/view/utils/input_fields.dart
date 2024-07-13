@@ -13,6 +13,7 @@ class TextInput extends StatelessWidget {
   final String? header;
   final String hint;
   final bool readOnly;
+  final bool animate;
   final Function()? onPressed;
   final int? maxLength;
   final int? maxLines;
@@ -32,57 +33,59 @@ class TextInput extends StatelessWidget {
     this.suffixIcon,
     this.maxLines,
     this.inputFormatters,
+    this.animate = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          header ?? "",
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium!
-              .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.bold),
-        ),
-        header != null ? 6.0.height : 0.0.height,
-        TextFormField(
-          controller: controller,
-          keyboardType: inputType,
-          maxLength: maxLength,
-          cursorColor: AppColors.kGrey700,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: validator,
-          readOnly: readOnly,
-          onTap: onPressed,
-          maxLines: maxLines,
-          inputFormatters: inputFormatters,
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium!
-              .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.w500),
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(color: AppColors.kHintColor),
-            suffixIcon: suffixIcon,
-            prefixIcon: prefixIcon,
+    return Animate(
+      effects: animate
+          ? [
+              FadeEffect(
+                begin: 0,
+                delay: 200.ms,
+              ),
+              const SlideEffect(
+                begin: Offset(0, .5),
+                end: Offset(0, 0),
+              )
+            ]
+          : [],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            header ?? "",
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: AppColors.kGrey700, fontWeight: FontWeight.bold),
           ),
-        )
-      ],
-    )
-        .animate()
-        .fadeIn(
-          begin: 0,
-          delay: 500.ms,
-        )
-        .slideY(
-          begin: .5,
-          end: 0,
-        );
+          header != null ? 6.0.height : 0.0.height,
+          TextFormField(
+            controller: controller,
+            keyboardType: inputType,
+            maxLength: maxLength,
+            cursorColor: AppColors.kGrey700,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: validator,
+            readOnly: readOnly,
+            onTap: onPressed,
+            maxLines: maxLines,
+            inputFormatters: inputFormatters,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: AppColors.kGrey700, fontWeight: FontWeight.w500),
+            decoration: InputDecoration(
+              hintText: hint,
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: AppColors.kHintColor),
+              suffixIcon: suffixIcon,
+              prefixIcon: prefixIcon,
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
 

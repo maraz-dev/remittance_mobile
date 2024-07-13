@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:remittance_mobile/view/features/home/account-view/bank_transfer_sheet.dart';
+import 'package:remittance_mobile/view/features/home/account-view/debit_card_sheet.dart';
+import 'package:remittance_mobile/view/features/home/account-view/platform_pay_sheet.dart';
 import 'package:remittance_mobile/view/features/home/widgets/payment_method_card.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
@@ -35,7 +38,9 @@ class PaymentMethodView extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        methodBottomSheet(index, context);
+                      },
                       child: paymentMethods[index],
                     );
                   },
@@ -56,9 +61,20 @@ class PaymentMethodView extends StatelessWidget {
       case 0:
         AppBottomSheet.showBottomSheet(
           context,
-          widget: Container(),
+          widget: const DebitCardSheet(),
         );
       case 1:
+        AppBottomSheet.showBottomSheet(
+          context,
+          widget: const BankTransferSheet(
+            transferCountry: TransferCountry.ngn,
+          ),
+        );
+      case 2:
+        AppBottomSheet.showBottomSheet(
+          context,
+          widget: const PlatformPaySheet(),
+        );
     }
   }
 }

@@ -76,6 +76,7 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                       hint: "Search Transactions by Name or Amount",
                       inputType: TextInputType.emailAddress,
                       validator: null,
+                      animate: false,
                     ),
                   ),
                   8.0.width,

@@ -10,107 +10,116 @@ import 'package:remittance_mobile/view/utils/validator.dart';
 
 class AmountInput extends StatelessWidget {
   final TextEditingController controller;
-  final String header;
+  final String? header;
+  final bool? readOnly;
+  final bool animate;
+
   const AmountInput({
     super.key,
     required this.controller,
-    required this.header,
+    this.header,
+    this.readOnly,
+    this.animate = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          header,
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium!
-              .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.bold),
-        ),
-        6.0.height,
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-          decoration: BoxDecoration(
-            color: AppColors.kGrey200,
-            borderRadius: BorderRadius.circular(12.r),
+    return Animate(
+      effects: animate
+          ? [
+              FadeEffect(
+                begin: 0,
+                delay: 200.ms,
+              ),
+              const SlideEffect(
+                begin: Offset(0, .5),
+                end: Offset(0, 0),
+              )
+            ]
+          : [],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            header ?? '',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: AppColors.kGrey700, fontWeight: FontWeight.bold),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: TextFormField(
-                  controller: controller,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  cursorColor: AppColors.kGrey700,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  validator: validateGeneric,
-                  style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                      color: AppColors.kGrey700,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 40.sp),
-                  decoration: InputDecoration(
-                    hintText: '0.00',
-                    border: InputBorder.none,
-                    contentPadding: EdgeInsets.zero,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    errorBorder: InputBorder.none,
-                    hintStyle: Theme.of(context)
-                        .textTheme
-                        .displayLarge!
-                        .copyWith(
-                            color: AppColors.kHintColor,
-                            fontSize: 40.sp,
-                            fontWeight: FontWeight.w500),
+          6.0.height,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
+            decoration: BoxDecoration(
+              color: AppColors.kGrey200,
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    readOnly: readOnly ?? false,
+                    controller: controller,
+                    keyboardType:
+                        const TextInputType.numberWithOptions(decimal: true),
+                    cursorColor: AppColors.kGrey700,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: validateGeneric,
+                    style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                        color: AppColors.kGrey700,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 40.sp),
+                    decoration: InputDecoration(
+                      hintText: '0.00',
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      hintStyle: Theme.of(context)
+                          .textTheme
+                          .displayLarge!
+                          .copyWith(
+                              color: AppColors.kHintColor,
+                              fontSize: 40.sp,
+                              fontWeight: FontWeight.w500),
+                    ),
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(17),
+                      NumberTextInputFormatter(
+                        integerDigits: 12,
+                        decimalDigits: 2,
+                        prefix: '',
+                        maxValue: '1000000000.00',
+                        decimalSeparator: '.',
+                        groupDigits: 3,
+                        groupSeparator: ',',
+                        allowNegative: false,
+                        overrideDecimalPoint: true,
+                        insertDecimalPoint: true,
+                        insertDecimalDigits: true,
+                      ),
+                    ],
                   ),
-                  inputFormatters: [
-                    LengthLimitingTextInputFormatter(17),
-                    NumberTextInputFormatter(
-                      integerDigits: 12,
-                      decimalDigits: 2,
-                      prefix: '',
-                      maxValue: '1000000000.00',
-                      decimalSeparator: '.',
-                      groupDigits: 3,
-                      groupSeparator: ',',
-                      allowNegative: false,
-                      overrideDecimalPoint: true,
-                      insertDecimalPoint: true,
-                      insertDecimalDigits: true,
+                ),
+                16.0.width,
+                Row(
+                  children: [
+                    Image.asset(AppImages.us, width: 32, height: 32),
+                    5.0.width,
+                    Text(
+                      'USD',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.kGrey700,
+                          ),
                     ),
                   ],
                 ),
-              ),
-              16.0.width,
-              Row(
-                children: [
-                  Image.asset(AppImages.us, width: 32, height: 32),
-                  5.0.width,
-                  Text(
-                    'USD',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.kGrey700,
-                        ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ],
-    )
-        .animate()
-        .fadeIn(
-          begin: 0,
-          delay: 500.ms,
-        )
-        .slideY(
-          begin: .5,
-          end: 0,
-        );
+        ],
+      ),
+    );
   }
 }
