@@ -92,6 +92,8 @@ class AppImages {
   static const closeIcon = '$path/close.svg';
   static const card = '$path/card.svg';
   static const mastercard = '$path/mastercard.svg';
+  static const visa = '$path/visa.svg';
+  static const amex = '$path/amex.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';

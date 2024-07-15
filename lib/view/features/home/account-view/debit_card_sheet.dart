@@ -85,7 +85,7 @@ class _DebitCardSheetState extends State<DebitCardSheet> {
   Widget _getPrefixIcon(String cardType) {
     return switch (cardType) {
       'Visa' => SvgPicture.asset(
-          AppImages.mastercard,
+          AppImages.visa,
           fit: BoxFit.scaleDown,
         ),
       'MasterCard' => SvgPicture.asset(
@@ -97,7 +97,7 @@ class _DebitCardSheetState extends State<DebitCardSheet> {
           fit: BoxFit.scaleDown,
         ),
       'American Express' => SvgPicture.asset(
-          AppImages.mastercard,
+          AppImages.amex,
           fit: BoxFit.scaleDown,
         ),
       _ => const SizedBox.shrink()
