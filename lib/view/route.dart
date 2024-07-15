@@ -10,7 +10,8 @@ import 'package:remittance_mobile/view/features/auth/create_account_flow/create_
 import 'package:remittance_mobile/view/features/auth/security-lock/set_security_question_view.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/payments_methods_view.dart';
-import 'package:remittance_mobile/view/features/home/add_money_view.dart';
+import 'package:remittance_mobile/view/features/home/account-view/add-money/add_money_view.dart';
+import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdraw_money_view.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/home_view.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/complete_profile_view.dart';
@@ -116,6 +117,11 @@ final routeProvider = Provider<GoRouter>((ref) {
               path: AddMoneyView.path,
               name: AddMoneyView.path,
               builder: (context, state) => const AddMoneyView(),
+            ),
+            GoRoute(
+              path: WithdrawMoneyView.path,
+              name: WithdrawMoneyView.path,
+              builder: (context, state) => const WithdrawMoneyView(),
             ),
             GoRoute(
               path: PaymentMethodView.path,

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:remittance_mobile/view/features/home/add_money_view.dart';
+import 'package:remittance_mobile/view/features/home/account-view/add-money/add_money_view.dart';
+import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdraw_money_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -93,9 +94,10 @@ List<AccountOptionsAlt> currencyAccountList = [
     text: 'Exchange',
     image: AppImages.exchange,
   ),
-  const AccountOptionsAlt(
+  AccountOptionsAlt(
     text: 'Withdraw',
     image: AppImages.withdraw,
+    onPressed: WithdrawMoneyView.path,
   ),
   const AccountOptionsAlt(
     text: 'Account Statement',

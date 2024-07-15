@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:remittance_mobile/view/features/home/account-view/bank_transfer_sheet.dart';
-import 'package:remittance_mobile/view/features/home/account-view/debit_card_sheet.dart';
-import 'package:remittance_mobile/view/features/home/account-view/platform_pay_sheet.dart';
+import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/bank_transfer_sheet.dart';
+import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/debit_card_sheet.dart';
+import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/platform_pay_sheet.dart';
 import 'package:remittance_mobile/view/features/home/widgets/payment_method_card.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';

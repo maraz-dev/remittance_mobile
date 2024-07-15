@@ -3,25 +3,28 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/home/account-view/payments_methods_view.dart';
+import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdrawal-sheet/local_withdrwal_sheet.dart';
+import 'package:remittance_mobile/view/features/home/widgets/add_withdraw_acct_card.dart';
+import 'package:remittance_mobile/view/features/home/widgets/balance_widget.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
-import 'package:remittance_mobile/view/utils/input_fields.dart';
-import 'package:remittance_mobile/view/utils/validator.dart';
 import 'package:remittance_mobile/view/widgets/amount_input.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
+import 'package:remittance_mobile/view/widgets/section_header.dart';
 
-class AddMoneyView extends StatefulWidget {
-  static String path = 'add-money-view.dart';
-  const AddMoneyView({super.key});
+class WithdrawMoneyView extends StatefulWidget {
+  static String path = 'withdraw-money-view.dart';
+  const WithdrawMoneyView({super.key});
 
   @override
-  State<AddMoneyView> createState() => _AddMoneyViewState();
+  State<WithdrawMoneyView> createState() => _WithdrawMoneyViewState();
 }
 
-class _AddMoneyViewState extends State<AddMoneyView> {
+class _WithdrawMoneyViewState extends State<WithdrawMoneyView> {
   final TextEditingController _paymentType = TextEditingController();
   final TextEditingController _bank = TextEditingController();
   final TextEditingController _accountNumber = TextEditingController();
@@ -41,7 +44,7 @@ class _AddMoneyViewState extends State<AddMoneyView> {
     return AbsorbPointer(
       absorbing: false,
       child: Scaffold(
-        appBar: innerAppBar(title: 'Add Money'),
+        appBar: innerAppBar(title: 'Withdraw Money'),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
@@ -61,21 +64,17 @@ class _AddMoneyViewState extends State<AddMoneyView> {
                     header: 'Amount',
                     controller: _amount,
                   ),
-                  24.0.height,
+                  16.0.height,
 
-                  // Payment Type
-                  TextInput(
-                    header: 'Fund Account With',
-                    controller: _paymentType,
-                    hint: 'Select Method',
-                    inputType: TextInputType.text,
-                    validator: validateGeneric,
-                    readOnly: true,
-                    suffixIcon: SvgPicture.asset(
-                      AppImages.arrowDown,
-                      fit: BoxFit.scaleDown,
-                    ),
-                  ),
+                  // Add Withdrawal Bank
+                  AddWithdrawalBankAccountCard(
+                    onPressed: () {
+                      AppBottomSheet.showBottomSheet(
+                        context,
+                        widget: const AddBankAccountSheet(),
+                      );
+                    },
+                  )
                 ],
               ),
             ),
@@ -85,7 +84,7 @@ class _AddMoneyViewState extends State<AddMoneyView> {
           children: [
             MainButton(
               //isLoading: true,
-              text: 'Next',
+              text: 'Withdraw',
               onPressed: () {
                 context.pushNamed(PaymentMethodView.path);
               },
@@ -98,34 +97,6 @@ class _AddMoneyViewState extends State<AddMoneyView> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class BalanceWidget extends StatelessWidget {
-  final String balance;
-  const BalanceWidget({
-    super.key,
-    required this.balance,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          'Balance: ',
-          style: Theme.of(context)
-              .textTheme
-              .displayMedium!
-              .copyWith(color: AppColors.kGrey500),
-        ),
-        4.0.width,
-        Text(
-          balance,
-          style: Theme.of(context).textTheme.displayMedium!.copyWith(),
-        ),
-      ],
     );
   }
 }
