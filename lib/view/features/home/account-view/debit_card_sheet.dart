@@ -93,7 +93,7 @@ class _DebitCardSheetState extends State<DebitCardSheet> {
           fit: BoxFit.scaleDown,
         ),
       'Verve' => SvgPicture.asset(
-          AppImages.mastercard,
+          AppImages.verve,
           fit: BoxFit.scaleDown,
         ),
       'American Express' => SvgPicture.asset(
