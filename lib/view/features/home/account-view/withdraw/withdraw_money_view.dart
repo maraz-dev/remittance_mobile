@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/home/account-view/payments_methods_view.dart';
-import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdrawal-sheet/local_withdrwal_sheet.dart';
+import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdrawal-sheet/add_withdrawal_account.dart';
 import 'package:remittance_mobile/view/features/home/widgets/add_withdraw_acct_card.dart';
 import 'package:remittance_mobile/view/features/home/widgets/balance_widget.dart';
-import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
-import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/amount_input.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
-import 'package:remittance_mobile/view/widgets/section_header.dart';
 
 class WithdrawMoneyView extends StatefulWidget {
   static String path = 'withdraw-money-view.dart';

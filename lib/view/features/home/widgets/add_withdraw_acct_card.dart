@@ -25,6 +25,7 @@ class AddWithdrawalBankAccountCard extends StatelessWidget {
         child: Row(
           children: [
             const CardIcon(
+              padding: 8,
               image: AppImages.accountDetails,
               bgColor: AppColors.kGrey200,
             ),
