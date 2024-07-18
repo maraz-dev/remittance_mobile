@@ -17,6 +17,7 @@ class WithdrawalTabBar extends StatelessWidget {
           color: AppColors.kGrey100, borderRadius: BorderRadius.circular(32)),
       child: TabBar(
         controller: _bankOptionTabController,
+        physics: const NeverScrollableScrollPhysics(),
         labelStyle: Theme.of(context)
             .textTheme
             .bodyMedium!

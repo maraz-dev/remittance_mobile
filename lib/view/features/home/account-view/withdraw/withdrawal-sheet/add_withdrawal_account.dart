@@ -32,48 +32,50 @@ class _AddBankAccountSheetState extends State<AddBankAccountSheet>
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      // mainAxisSize: MainAxisSize.min,
-      // crossAxisAlignment: CrossAxisAlignment.start,
-      shrinkWrap: true,
-      children: [
-        5.0.height,
+    return FractionallySizedBox(
+      heightFactor: 0.6,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          5.0.height,
 
-        // Heading
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const SectionHeader(text: 'Add Withdrawal Bank Account'),
-            InkWell(
-              onTap: () => context.pop(),
-              child: SvgPicture.asset(
-                AppImages.closeIcon,
-                colorFilter: AppColors.kGrey700.colorFilterMode(),
-                width: 24,
-                height: 24,
-              ),
-            )
-          ],
-        ),
-        27.0.height,
-
-        // Bank Tab Controller
-        WithdrawalTabBar(bankOptionTabController: _bankOptionTabController),
-        24.0.height,
-
-        // View Per Tab
-        Expanded(
-          child: TabBarView(
-            controller: _bankOptionTabController,
-            children: const [
-              Expanded(child: LocalBankForm()),
-              Expanded(child: InternationalBankForm()),
+          // Heading
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SectionHeader(text: 'Add Withdrawal Bank Account'),
+              InkWell(
+                onTap: () => context.pop(),
+                child: SvgPicture.asset(
+                  AppImages.closeIcon,
+                  colorFilter: AppColors.kGrey700.colorFilterMode(),
+                  width: 24,
+                  height: 24,
+                ),
+              )
             ],
           ),
-        ),
+          27.0.height,
 
-        24.0.height,
-      ],
+          // Bank Tab Controller
+          WithdrawalTabBar(bankOptionTabController: _bankOptionTabController),
+          24.0.height,
+
+          // View Per Tab
+          Expanded(
+            child: TabBarView(
+              controller: _bankOptionTabController,
+              children: const [
+                SingleChildScrollView(child: LocalBankForm()),
+                SingleChildScrollView(child: InternationalBankForm()),
+              ],
+            ),
+          ),
+
+          24.0.height,
+        ],
+      ),
     );
   }
 }
