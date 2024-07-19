@@ -59,6 +59,7 @@ class _WithdrawMoneyViewState extends State<WithdrawMoneyView> {
                   AmountInput(
                     header: 'Amount',
                     controller: _amount,
+                    animate: false,
                   ),
                   16.0.height,
 

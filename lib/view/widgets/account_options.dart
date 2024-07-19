@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/add_money_view.dart';
+import 'package:remittance_mobile/view/features/home/account-view/deactivate/deactivate_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdraw_money_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
@@ -59,7 +61,13 @@ class AccountOptionsAlt extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.pushNamed(onPressed ?? '');
+        context.pop();
+        if (text == 'Deactivate') {
+          AppBottomSheet.showBottomSheet(context,
+              widget: const DeactivateSheet());
+        } else {
+          context.pushNamed(onPressed ?? '');
+        }
       },
       child: Row(
         children: [
@@ -109,6 +117,6 @@ List<AccountOptionsAlt> currencyAccountList = [
   ),
   const AccountOptionsAlt(
     text: 'Deactivate',
-    image: AppImages.deactivate,
+    image: AppImages.delete,
   ),
 ];

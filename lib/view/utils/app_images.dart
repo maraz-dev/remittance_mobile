@@ -78,6 +78,7 @@ class AppImages {
   static const dot = '$path/dot.svg';
   static const accountDetails = '$path/account_details.svg';
   static const accountStatement = '$path/account_statement.svg';
+  static const delete = '$path/delete.svg';
   static const deactivate = '$path/deactivate.svg';
   static const withdraw = '$path/withdraw.svg';
   static const idIcon = '$path/id_icon.svg';
