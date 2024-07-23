@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdrawal-sheet/intl_bank_form.dart';
 import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdrawal-sheet/local_bank_form.dart';
-import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdrawal-sheet/withdrawal_tab_bar.dart';
+import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdrawal-sheet/custom_tab_bar.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -26,6 +26,12 @@ class _AddBankAccountSheetState extends State<AddBankAccountSheet>
   void initState() {
     super.initState();
     _bankOptionTabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _bankOptionTabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -57,7 +63,13 @@ class _AddBankAccountSheetState extends State<AddBankAccountSheet>
           27.0.height,
 
           // Bank Tab Controller
-          WithdrawalTabBar(bankOptionTabController: _bankOptionTabController),
+          CustomTabBar(
+            tabController: _bankOptionTabController,
+            tabs: const [
+              Tab(text: 'Local'),
+              Tab(text: 'International'),
+            ],
+          ),
           24.0.height,
 
           // View Per Tab

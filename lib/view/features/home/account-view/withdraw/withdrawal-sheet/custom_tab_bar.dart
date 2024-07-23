@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 
-class WithdrawalTabBar extends StatelessWidget {
-  const WithdrawalTabBar({
+class CustomTabBar extends StatelessWidget {
+  const CustomTabBar({
     super.key,
-    required TabController bankOptionTabController,
-  }) : _bankOptionTabController = bankOptionTabController;
+    required TabController tabController,
+    required this.tabs,
+  }) : _tabController = tabController;
 
-  final TabController _bankOptionTabController;
+  final TabController _tabController;
+  final List<Widget> tabs;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(2),
       decoration: BoxDecoration(
-          color: AppColors.kGrey100, borderRadius: BorderRadius.circular(32)),
+          color: AppColors.kGrey200, borderRadius: BorderRadius.circular(32)),
       child: TabBar(
-        controller: _bankOptionTabController,
+        controller: _tabController,
         physics: const NeverScrollableScrollPhysics(),
         labelStyle: Theme.of(context)
             .textTheme
@@ -42,10 +44,7 @@ class WithdrawalTabBar extends StatelessWidget {
         overlayColor: MaterialStateProperty.resolveWith<Color?>(
           (states) => AppColors.kBlackColor,
         ),
-        tabs: const [
-          Tab(text: 'Local'),
-          Tab(text: 'International'),
-        ],
+        tabs: tabs,
       ),
     );
   }

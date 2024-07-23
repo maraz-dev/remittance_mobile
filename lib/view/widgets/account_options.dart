@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/deactivate/deactivate_view.dart';
+import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_initial_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdraw_money_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
@@ -101,6 +102,7 @@ List<AccountOptionsAlt> currencyAccountList = [
   const AccountOptionsAlt(
     text: 'Exchange',
     image: AppImages.exchange,
+    onPressed: ExchangeInitialView.path,
   ),
   AccountOptionsAlt(
     text: 'Withdraw',

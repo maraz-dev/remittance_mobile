@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/add_money_view.dart';
+import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_initial_view.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/latest_transaction_box.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/widgets/account_options.dart';
@@ -69,9 +70,11 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                           onPressed: () => context.pushNamed(AddMoneyView.path),
                         ),
                         16.0.width,
-                        const AccountOptions(
+                        AccountOptions(
                           text: 'Exchange',
                           image: AppImages.exchange,
+                          onPressed: () =>
+                              context.pushNamed(ExchangeInitialView.path),
                         ),
                         16.0.width,
                         AccountOptions(
