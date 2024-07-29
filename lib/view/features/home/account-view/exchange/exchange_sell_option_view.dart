@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
+import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_receive_money_view.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 
@@ -21,7 +23,9 @@ class _ExchangeSellOptionViewState extends State<ExchangeSellOptionView> {
         children: [
           MainButton(
             text: 'Next',
-            onPressed: () {},
+            onPressed: () {
+              context.pushNamed(ExchangeReceiveMoneyOptionsView.path);
+            },
           )
               .animate()
               .fadeIn(begin: 0, delay: 1000.ms)

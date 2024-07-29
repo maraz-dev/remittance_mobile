@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
+import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_send_money_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -28,30 +30,35 @@ class _ExchangeBuyOptionViewState extends State<ExchangeBuyOptionView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AmountInput(
-            controller: _amount,
-            header: 'You Buy',
-          ),
-          24.0.height,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AmountInput(
+              controller: _amount,
+              header: 'You Buy',
+            ),
+            24.0.height,
 
-          // Seller's Amount
-          const SectionHeader(text: 'Seller receives'),
-          8.0.height,
-          RichTextWidget(
-            text: 'The amount equivalent you will need to be able to buy ',
-            hyperlink: '${_amount.text} USD.',
-            hyperlinkColor: AppColors.kBlackColor,
-          )
-        ],
+            // Seller's Amount
+            const SectionHeader(text: 'Seller receives'),
+            8.0.height,
+            RichTextWidget(
+              text: 'The amount equivalent you will need to be able to buy ',
+              hyperlink: '${_amount.text} USD.',
+              hyperlinkColor: AppColors.kBlackColor,
+            )
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavBarWidget(
         children: [
           MainButton(
             text: 'Next',
-            onPressed: () {},
+            onPressed: () {
+              context.pushNamed(ExchangeSendMoneyOptionsView.path);
+            },
           )
               .animate()
               .fadeIn(begin: 0, delay: 1000.ms)

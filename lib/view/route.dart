@@ -10,6 +10,8 @@ import 'package:remittance_mobile/view/features/auth/create_account_flow/create_
 import 'package:remittance_mobile/view/features/auth/security-lock/set_security_question_view.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_initial_view.dart';
+import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_receive_money_view.dart';
+import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_send_money_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/payments_methods_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdraw_money_view.dart';
@@ -130,10 +132,23 @@ final routeProvider = Provider<GoRouter>((ref) {
               builder: (context, state) => const PaymentMethodView(),
             ),
             GoRoute(
-              path: ExchangeInitialView.path,
-              name: ExchangeInitialView.path,
-              builder: (context, state) => const ExchangeInitialView(),
-            ),
+                path: ExchangeInitialView.path,
+                name: ExchangeInitialView.path,
+                builder: (context, state) => const ExchangeInitialView(),
+                routes: [
+                  GoRoute(
+                    path: ExchangeSendMoneyOptionsView.path,
+                    name: ExchangeSendMoneyOptionsView.path,
+                    builder: (context, state) =>
+                        const ExchangeSendMoneyOptionsView(),
+                  ),
+                  GoRoute(
+                    path: ExchangeReceiveMoneyOptionsView.path,
+                    name: ExchangeReceiveMoneyOptionsView.path,
+                    builder: (context, state) =>
+                        const ExchangeReceiveMoneyOptionsView(),
+                  )
+                ]),
             GoRoute(
               path: TransactionDetails.path,
               name: TransactionDetails.path,
