@@ -48,7 +48,7 @@ class RatesCard extends StatelessWidget {
           Text(
             "Today's Rate",
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: AppColors.kBlueColor, fontWeight: FontWeight.bold),
+                color: AppColors.kBlueColor500, fontWeight: FontWeight.bold),
           ),
           const Spacer(),
           Row(

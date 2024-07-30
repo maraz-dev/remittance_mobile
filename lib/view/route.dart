@@ -12,6 +12,7 @@ import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_initial_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_receive_money_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_send_money_view.dart';
+import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_transaction_detail.dart';
 import 'package:remittance_mobile/view/features/home/account-view/payments_methods_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdraw_money_view.dart';
@@ -147,7 +148,13 @@ final routeProvider = Provider<GoRouter>((ref) {
                     name: ExchangeReceiveMoneyOptionsView.path,
                     builder: (context, state) =>
                         const ExchangeReceiveMoneyOptionsView(),
-                  )
+                  ),
+                  GoRoute(
+                    path: ExchangeTransactionDetailView.path,
+                    name: ExchangeTransactionDetailView.path,
+                    builder: (context, state) =>
+                        const ExchangeTransactionDetailView(),
+                  ),
                 ]),
             GoRoute(
               path: TransactionDetails.path,

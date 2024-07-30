@@ -21,7 +21,9 @@ abstract class AppColors {
 
   static const kBlackColor = Color(0xFF000000);
   static const kWhiteColor = Color(0xFFFFFFFF);
-  static const kBlueColor = Color(0xFF151076);
+  static const kTealColor100 = Color(0xFFF0F9FF);
+  static const kTealColor200 = Color(0xFF026AA2);
+  static const kBlueColor500 = Color(0xFF151076);
   static const kPurpleColor = Color(0xFFE1DDFE);
 
   static const kSuccessColor = Color(0xFF039855);

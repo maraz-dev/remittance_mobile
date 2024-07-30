@@ -97,6 +97,9 @@ class AppImages {
   static const amex = '$path/amex.svg';
   static const verve = '$path/verve.svg';
   static const wallet = '$path/wallet.svg';
+  static const location = '$path/location.svg';
+  static const seller = '$path/seller.svg';
+  static const swapAlt = '$path/swap_alt.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';

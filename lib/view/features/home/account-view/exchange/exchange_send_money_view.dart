@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/bank_transfer_sheet.dart';
-import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/debit_card_sheet.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/platform_pay_sheet.dart';
+import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_method_sheet/bank_deposit_sheet.dart';
+import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_method_sheet/cash_drop_off_sheet.dart';
 import 'package:remittance_mobile/view/features/home/widgets/payment_method_card.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
@@ -65,14 +65,12 @@ class ExchangeSendMoneyOptionsView extends StatelessWidget {
       case 0:
         AppBottomSheet.showBottomSheet(
           context,
-          widget: const DebitCardSheet(),
+          widget: const CashDropOffSheet(),
         );
       case 1:
         AppBottomSheet.showBottomSheet(
           context,
-          widget: const BankTransferSheet(
-            transferCountry: TransferCountry.ngn,
-          ),
+          widget: const BankDepositSheet(),
         );
       case 2:
         AppBottomSheet.showBottomSheet(

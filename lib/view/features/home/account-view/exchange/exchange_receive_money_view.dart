@@ -89,18 +89,17 @@ List<PaymentMethodCard> exchangeMethods = [
     methodImage: AppImages.card,
     methodName: 'Cash Pick Up',
     methodDescription:
-        'Choose from a list of verified drop off locations to drop the cash.',
+        'Choose from a list of verified pick up locations to get the cash.',
   ),
   const PaymentMethodCard(
     methodImage: AppImages.accountDetails,
     methodName: 'Bank Transfer',
     methodDescription:
-        'Choose a preferred bank to deposit the money into the sellers account.',
+        'Provide details of your account to receive money from the seller.',
   ),
   const PaymentMethodCard(
     methodImage: AppImages.homeIcon,
     methodName: 'Home Delivery',
-    methodDescription:
-        'Use your main balance, the money will be debited directly from this account.',
+    methodDescription: 'Get your money delivered to you at home.',
   ),
 ];

@@ -28,7 +28,7 @@ class _ExchangeSellOptionViewState extends State<ExchangeSellOptionView> {
             },
           )
               .animate()
-              .fadeIn(begin: 0, delay: 1000.ms)
+              .fadeIn(begin: 0, delay: 500.ms)
               // .then(delay: 200.ms)
               .slideY(begin: .1, end: 0),
         ],
