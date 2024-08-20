@@ -166,6 +166,28 @@ class AuthService {
     }
   }
 
+  Future<String> resendViaEmailEndpoint() async {
+    try {
+      final requestId = await _storage.readData(PrefKeys.requestId);
+
+      final response = await _networkService.request(
+        "${endpointUrl.resendOtpViaEmail}?requestId=$requestId",
+        RequestMethod.post,
+      );
+
+      // Handle the Response
+      _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          response.data['data'];
+        },
+      );
+      return response.data['message'];
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   Future<String> createPasswordEndpoint(
       CreatePasswordReq createPasswordReq) async {
     try {

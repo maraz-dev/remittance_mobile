@@ -5,6 +5,7 @@ import 'package:pinput/pinput.dart';
 import 'package:remittance_mobile/data/models/requests/verify_phone_number_req.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/choose_country_view.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_form_view.dart';
+import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/resend_otp_email_vm.dart';
 import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/verify_phone_number_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
@@ -47,18 +48,38 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
   @override
   Widget build(BuildContext context) {
     final loading = ref.watch(verifyPhoneNumberProvider);
+    final resendLoading = ref.watch(resendOtpViaEmailProvider);
 
     // Endpoint State
-    ref.listen(verifyPhoneNumberProvider, (_, next) {
-      if (next is AsyncData<String>) {
-        widget.pressed();
-      }
-      if (next is AsyncError) {
-        SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
-      }
-    });
+    ref.listen(
+      verifyPhoneNumberProvider,
+      (_, next) {
+        if (next is AsyncData<String>) {
+          widget.pressed();
+        }
+        if (next is AsyncError) {
+          SnackBarDialog.showErrorFlushBarMessage(
+              next.error.toString(), context);
+        }
+      },
+    );
+
+    // Endpoint State
+    ref.listen(
+      resendOtpViaEmailProvider,
+      (_, next) {
+        if (next is AsyncData<String>) {
+          SnackBarDialog.showSuccessFlushBarMessage(
+              'OTP has been sent Successfully', context);
+        }
+        if (next is AsyncError) {
+          SnackBarDialog.showErrorFlushBarMessage(
+              next.error.toString(), context);
+        }
+      },
+    );
     return AbsorbPointer(
-      absorbing: loading.isLoading,
+      absorbing: loading.isLoading || resendLoading.isLoading,
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -94,14 +115,18 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
         ),
         bottomNavigationBar: BottomNavBarWidget(
           children: [
-            const RichTextWidget(
+            RichTextWidget(
               text: "Didn't receive a code? ",
               hyperlink: 'Send to Email',
-              onTap: null,
+              onTap: () {
+                ref
+                    .read(resendOtpViaEmailProvider.notifier)
+                    .resendOtpEmailMethod();
+              },
             ),
             12.0.height,
             MainButton(
-              isLoading: loading.isLoading,
+              isLoading: loading.isLoading || resendLoading.isLoading,
               text: 'Continue',
               onPressed: () {
                 if (_formKey.currentState!.validate()) {

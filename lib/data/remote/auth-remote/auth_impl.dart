@@ -76,4 +76,8 @@ class AuthImpl implements AuthRepository {
   Future<String> verifyForgotPasswordOTPEndpoint(
           ForgotPasswordOtpReq forgotPasswordOtpReq) async =>
       await _authService.verifyForgotPasswordOTPEndpoint(forgotPasswordOtpReq);
+
+  @override
+  Future<String> resendViaEmailEndpoint() async =>
+      await _authService.resendViaEmailEndpoint();
 }

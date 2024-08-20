@@ -31,4 +31,5 @@ abstract class AuthRepository {
       ForgotPasswordOtpReq forgotPasswordOtpReq);
   Future<String> completeForgotPasswordEndpoint(
       CompleteForgotPassReq completeForgotPassReq);
+  Future<String> resendViaEmailEndpoint();
 }

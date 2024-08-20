@@ -54,7 +54,7 @@ class ApiEndpoints {
   //     _environment == Environmentx.prod ? productionURL : devURL;
 
   // Partner Code
-  String get partnerCode => "P00001";
+  String get partnerCode => "P00020";
 
   /// version
   String get version => "v1";
@@ -82,6 +82,8 @@ class ApiEndpoints {
       "/api/v1/partner/customer/onboarding/VerifyPhoneNumber";
   String get createPassword =>
       "/api/v1/partner/customer/onboarding/CreatePassword";
+  String get resendOtpViaEmail =>
+      "/api/v1/partner/customer/onboarding/ResendOtpViaEmail";
   String get getCountries => "/api/v1/Utility/countries?includeFlagImage=true";
   String get initiateForgotPassword =>
       "/api/v1/partner/customer/onboarding/InitiateForgotPassword";
