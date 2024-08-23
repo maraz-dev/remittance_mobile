@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/core/di/injector.dart';
 import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
 import 'package:remittance_mobile/core/storage/share_pref.dart';
-import 'package:remittance_mobile/view/features/auth/biometrics/biometrics_controller.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -134,8 +133,8 @@ class BiometricsOptionCard extends StatelessWidget {
             activeTrackColor: AppColors.kPrimaryColor,
             inactiveTrackColor: AppColors.kGrey300,
             inactiveThumbColor: AppColors.kWhiteColor,
-            trackOutlineColor: MaterialStateProperty.resolveWith<Color?>(
-              (Set<MaterialState> states) {
+            trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
+              (Set<WidgetState> states) {
                 return Colors.transparent;
               },
             ),

@@ -41,7 +41,7 @@ class CustomTabBar extends StatelessWidget {
             ]),
         indicatorSize: TabBarIndicatorSize.tab,
         dividerColor: Colors.transparent,
-        overlayColor: MaterialStateProperty.resolveWith<Color?>(
+        overlayColor: WidgetStateProperty.resolveWith<Color?>(
           (states) => Colors.transparent,
         ),
         tabs: tabs,

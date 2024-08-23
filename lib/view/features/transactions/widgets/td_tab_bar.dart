@@ -25,7 +25,7 @@ class TDTabBar extends StatelessWidget {
           .copyWith(fontWeight: FontWeight.bold),
       indicatorColor: AppColors.kPrimaryColor,
       indicatorSize: TabBarIndicatorSize.label,
-      overlayColor: MaterialStateProperty.resolveWith<Color?>(
+      overlayColor: WidgetStateProperty.resolveWith<Color?>(
         (states) => Colors.transparent,
       ),
       tabs: const [

@@ -9,10 +9,13 @@ import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/core/third-party/environment.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/data/local/user_data_storage.dart';
+import 'package:remittance_mobile/data/remote/account-remote/account_impl.dart';
+import 'package:remittance_mobile/data/remote/account-remote/account_service.dart';
 import 'package:remittance_mobile/data/remote/auth-remote/auth_impl.dart';
 import 'package:remittance_mobile/data/remote/auth-remote/auth_service.dart';
 import 'package:remittance_mobile/data/remote/kyc-remote/kyc_impl.dart';
 import 'package:remittance_mobile/data/remote/kyc-remote/kyc_service.dart';
+import 'package:remittance_mobile/domain/account_repo.dart';
 import 'package:remittance_mobile/domain/auth_repo.dart';
 import 'package:remittance_mobile/domain/kyc_repo.dart';
 
@@ -86,6 +89,23 @@ final _kycService = Provider<KycService>((ref) {
 final kycRepository = Provider<KycRepository>((ref) {
   final kycService = ref.watch(_kycService);
   return KycImpl(kycService);
+});
+
+// Account Service Dependency Injection
+final _accountService = Provider<AccountService>((ref) {
+  var network = ref.watch(_networkService);
+  var secureStorage = ref.watch(secureStorageService);
+  var hiveStorage = ref.watch(hiveStorageService);
+  return AccountService(
+    networkService: network,
+    storage: secureStorage,
+    hivestorage: hiveStorage,
+  );
+});
+
+final accountRepository = Provider<AccountRepository>((ref) {
+  final accountService = ref.watch(_accountService);
+  return AccountImpl(accountService);
 });
 
 // /// Dashboard Service
