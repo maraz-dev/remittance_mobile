@@ -99,9 +99,13 @@ class ApiEndpoints {
   String get resubmitMeansOfId => "/api/v1/kyc/customer/ResubmitMeansOfId";
   String get resubmitProofOfAddress =>
       "/api/v1/kyc/customer/ResubmitProofOfAddress";
-  String get getIdDocumentsTypes => "/api/v1/partner/kyc/GetIdDocumentTypes";
-  String get getProofOfAddressTypes =>
-      "/api/v1/partner/kyc/GetProofOfAddressTypes";
+  String get getIdDocumentsTypes => "/api/v1/internal/idDocumentTypes";
+  String get getProofOfAddressTypes => "/api/v1/internal/proofOfAddressTypes";
+
+  // Accounts
+  String get getAccounts => "/api/v1/accounts/customer/GetAccounts";
+  String get createIndividualAccount =>
+      "/api/v1/accounts/customer/Individual/CreateNewAccount";
 
   // Refresh Token
   String get refresh => "/$version/auth/refresh";

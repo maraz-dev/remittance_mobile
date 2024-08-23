@@ -10,6 +10,8 @@ import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
+final ValueNotifier<String> idSelected = ValueNotifier('');
+
 class MeansOfIdSelectView extends ConsumerStatefulWidget {
   static String path = 'means-of-id-select-view.dart';
   final VoidCallback pressed;
@@ -68,6 +70,7 @@ class _MeansOfIdSelectViewState extends ConsumerState<MeansOfIdSelectView> {
                     onPressed: () {
                       // Add the Type Code to the KYC Data Map
                       kycData.addAll({'MeansOfIdTypeCode': value.code});
+                      idSelected.value = value.friendlyName ?? '';
                       widget.pressed();
                     },
                   ).animate().fadeIn();

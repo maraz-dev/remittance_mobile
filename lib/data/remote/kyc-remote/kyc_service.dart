@@ -45,7 +45,7 @@ class KycService {
   Future<List<IdTypesItem>> getIdTypesEndpoint() async {
     try {
       final response = await _networkService.request(
-          "${endpointUrl.getIdDocumentsTypes}?countryCode=", RequestMethod.get);
+          "${endpointUrl.getIdDocumentsTypes}/NG", RequestMethod.get);
 
       return _responseHandler.handleResponse(
         response: response.data,
@@ -64,8 +64,7 @@ class KycService {
   Future<List<IdTypesItem>> getProofOfAddressEndpoint() async {
     try {
       final response = await _networkService.request(
-          "${endpointUrl.getProofOfAddressTypes}?countryCode=",
-          RequestMethod.get);
+          "${endpointUrl.getProofOfAddressTypes}/NG", RequestMethod.get);
 
       return _responseHandler.handleResponse(
         response: response.data,

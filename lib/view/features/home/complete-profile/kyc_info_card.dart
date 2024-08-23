@@ -34,7 +34,7 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
             ),
         data: (data) {
           switch (data.validationStatus) {
-            case "Pending":
+            case "Pending" || null:
               return KYCInfo(
                 onPressed: () {
                   context.pushNamed(CompleteProfileView.path);

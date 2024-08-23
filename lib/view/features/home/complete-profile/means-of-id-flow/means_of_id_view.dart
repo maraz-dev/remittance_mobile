@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/id_back_capture_view.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/id_back_captured_view.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/id_front_captured_view.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/id_number_view.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/means_of_id_select_view.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/id_front_capture_view.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
@@ -58,6 +59,14 @@ class _MeansOfIdViewState extends ConsumerState<MeansOfIdView> {
             },
             children: [
               MeansOfIdSelectView(
+                pressed: () {
+                  _meansOfIdPageController.nextPage(
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.ease,
+                  );
+                },
+              ),
+              IdNumberView(
                 pressed: () {
                   _meansOfIdPageController.nextPage(
                     duration: const Duration(milliseconds: 500),
