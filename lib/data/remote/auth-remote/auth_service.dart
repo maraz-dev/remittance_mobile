@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:remittance_mobile/core/http/http_service.dart';
 import 'package:remittance_mobile/core/http/response_body_handler.dart';
 import 'package:remittance_mobile/core/storage/hive-storage/hive_storage.dart';
@@ -9,6 +6,8 @@ import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dar
 import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/core/utils/constants.dart';
+import 'package:remittance_mobile/core/utils/device_details.dart';
+import 'package:remittance_mobile/core/utils/location_services.dart';
 import 'package:remittance_mobile/data/models/requests/complete_forgot_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/forgot_pass_verify_otp.dart';
@@ -42,23 +41,6 @@ class AuthService {
   // Class to Handle API Response
   final ResponseHandler _responseHandler = ResponseHandler();
 
-  /// This Method is to get the device details for Security Purposes
-  Future<List<String?>> _getDeviceDetails() async {
-    String? deviceType;
-    String? deviceToken;
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    if (Platform.isIOS) {
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      deviceType = iosInfo.utsname.machine;
-      deviceToken = iosInfo.identifierForVendor;
-    } else if (Platform.isAndroid) {
-      AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      deviceType = androidInfo.model;
-      deviceToken = androidInfo.id;
-    }
-    return [deviceType, deviceToken];
-  }
-
   Future<String> loginEndpoint(LoginReq loginReq) async {
     // Device Details Variable
     String? deviceType;
@@ -66,7 +48,7 @@ class AuthService {
 
     try {
       // Get Device Details
-      await _getDeviceDetails().then((value) {
+      await getDeviceDetails().then((value) {
         deviceType = value[0];
         deviceToken = value[1];
       });
@@ -78,6 +60,7 @@ class AuthService {
         data: loginReq
             .copyWith(
               partnerCode: endpointUrl.partnerCode,
+              channel: "Mobile",
               deviceType: deviceType,
               deviceToken: deviceToken,
             )
@@ -190,7 +173,23 @@ class AuthService {
 
   Future<String> createPasswordEndpoint(
       CreatePasswordReq createPasswordReq) async {
+    String? deviceType, deviceToken, latitude, longitude, location;
+    bool? isPlatformAndroid;
+
     try {
+      // Get Device Details
+      await getDeviceDetails().then((value) {
+        deviceType = value[0];
+        deviceToken = value[1];
+        isPlatformAndroid = value[2];
+      });
+
+      // Get Location
+      await determineDeviceLocation().then((value) async {
+        latitude = value.latitude.toString();
+        longitude = value.longitude.toString();
+        location = await getLocationAddress(value.latitude, value.longitude);
+      });
       final response = await _networkService.request(
         endpointUrl.createPassword,
         RequestMethod.post,
@@ -198,6 +197,13 @@ class AuthService {
             .copyWith(
               partnerCode: endpointUrl.partnerCode,
               requestId: await _storage.readData(PrefKeys.requestId),
+              channel: "Mobile",
+              deviceType: deviceType,
+              deviceToken: deviceToken,
+              isAndroidDevice: isPlatformAndroid,
+              location: location,
+              latitude: latitude,
+              longitude: longitude,
             )
             .toJson(),
       );

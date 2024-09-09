@@ -43,6 +43,10 @@ PODS:
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
+  - geocoding_ios (1.0.5):
+    - Flutter
+  - geolocator_apple (1.2.0):
+    - Flutter
   - image_picker_ios (0.0.1):
     - Flutter
   - local_auth_darwin (0.0.1):
@@ -68,6 +72,8 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
+  - geolocator_apple (from `.symlinks/plugins/geolocator_apple/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
   - local_auth_darwin (from `.symlinks/plugins/local_auth_darwin/darwin`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
@@ -95,6 +101,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
+  geocoding_ios:
+    :path: ".symlinks/plugins/geocoding_ios/ios"
+  geolocator_apple:
+    :path: ".symlinks/plugins/geolocator_apple/ios"
   image_picker_ios:
     :path: ".symlinks/plugins/image_picker_ios/ios"
   local_auth_darwin:
@@ -115,6 +125,8 @@ SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_secure_storage: 23fc622d89d073675f2eaa109381aefbcf5a49be
   fluttertoast: 31b00dabfa7fb7bacd9e7dbee580d7a2ff4bf265
+  geocoding_ios: d7460f56e80e118d57678efe5c2cdc888739ff18
+  geolocator_apple: 6cbaf322953988e009e5ecb481f07efece75c450
   image_picker_ios: c560581cceedb403a6ff17f2f816d7fea1421fc1
   local_auth_darwin: 4d56c90c2683319835a61274b57620df9c4520ab
   path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c

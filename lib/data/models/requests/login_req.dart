@@ -8,6 +8,7 @@ class LoginReq {
   String? partnerCode;
   String? emailAddress;
   String? password;
+  String? channel;
   String? deviceType;
   String? deviceToken;
 
@@ -15,6 +16,7 @@ class LoginReq {
     this.partnerCode,
     this.emailAddress,
     this.password,
+    this.channel,
     this.deviceType,
     this.deviceToken,
   });
@@ -23,6 +25,7 @@ class LoginReq {
     String? partnerCode,
     String? emailAddress,
     String? password,
+    String? channel,
     String? deviceType,
     String? deviceToken,
   }) =>
@@ -30,6 +33,7 @@ class LoginReq {
         partnerCode: partnerCode ?? this.partnerCode,
         emailAddress: emailAddress ?? this.emailAddress,
         password: password ?? this.password,
+        channel: channel ?? this.password,
         deviceType: deviceType ?? this.deviceType,
         deviceToken: deviceToken ?? this.deviceToken,
       );
@@ -38,6 +42,7 @@ class LoginReq {
         partnerCode: json["partnerCode"],
         emailAddress: json["emailAddress"],
         password: json["password"],
+        channel: json["Channel"],
         deviceType: json["deviceType"],
         deviceToken: json["deviceToken"],
       );
@@ -46,6 +51,7 @@ class LoginReq {
         "partnerCode": partnerCode,
         "emailAddress": emailAddress,
         "password": password,
+        "Channel": channel,
         "deviceType": deviceType,
         "deviceToken": deviceToken,
       };
