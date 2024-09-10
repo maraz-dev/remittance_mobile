@@ -7,6 +7,7 @@ import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/core/utils/constants.dart';
 import 'package:remittance_mobile/core/utils/device_details.dart';
+import 'package:remittance_mobile/core/utils/get_ip_address.dart';
 import 'package:remittance_mobile/core/utils/location_services.dart';
 import 'package:remittance_mobile/data/models/requests/complete_forgot_password_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_password_req.dart';
@@ -43,14 +44,25 @@ class AuthService {
 
   Future<String> loginEndpoint(LoginReq loginReq) async {
     // Device Details Variable
-    String? deviceType;
-    String? deviceToken;
+    String? deviceType, deviceToken, ipAddress, latitude, longitude, location;
 
     try {
       // Get Device Details
       await getDeviceDetails().then((value) {
         deviceType = value[0];
         deviceToken = value[1];
+      });
+
+      // Get Device IP Address
+      await getDeviceIP().then((value) {
+        ipAddress = value;
+      });
+
+      // Get Location
+      await determineDeviceLocation().then((value) async {
+        latitude = value.latitude.toString();
+        longitude = value.longitude.toString();
+        location = await getLocationAddress(value.latitude, value.longitude);
       });
 
       // Make Request
@@ -63,6 +75,10 @@ class AuthService {
               channel: "Mobile",
               deviceType: deviceType,
               deviceToken: deviceToken,
+              ipAddress: ipAddress,
+              latitude: latitude,
+              longitude: longitude,
+              location: location,
             )
             .toJson(),
       );
