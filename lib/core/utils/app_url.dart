@@ -104,6 +104,7 @@ class ApiEndpoints {
 
   // Accounts
   String get getAccounts => "/api/v1/accounts/customer/GetAccounts";
+  String get getAccountsCurrencies => "/api/v1/account-opening/currencies";
   String get createIndividualAccount =>
       "/api/v1/accounts/customer/Individual/CreateNewAccount";
 

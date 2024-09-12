@@ -213,7 +213,7 @@ class AuthService {
             .copyWith(
               partnerCode: endpointUrl.partnerCode,
               requestId: await _storage.readData(PrefKeys.requestId),
-              channel: "Mobile",
+              clientChannel: "Mobile",
               deviceType: deviceType,
               deviceToken: deviceToken,
               isAndroidDevice: isPlatformAndroid,

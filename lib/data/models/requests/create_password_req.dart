@@ -10,9 +10,10 @@ class CreatePasswordReq {
   final String? partnerCode;
   final String? password;
   final String? requestId;
-  final String? channel;
+  final String? clientChannel;
   final String? deviceType;
   final String? deviceToken;
+  final String? userAgent;
   final bool? isAndroidDevice;
   final String? location;
   final String? longitude;
@@ -22,9 +23,10 @@ class CreatePasswordReq {
     this.partnerCode,
     this.password,
     this.requestId,
-    this.channel,
+    this.clientChannel,
     this.deviceType,
     this.deviceToken,
+    this.userAgent,
     this.isAndroidDevice,
     this.location,
     this.longitude,
@@ -35,9 +37,10 @@ class CreatePasswordReq {
     String? partnerCode,
     String? password,
     String? requestId,
-    String? channel,
+    String? clientChannel,
     String? deviceType,
     String? deviceToken,
+    String? userAgent,
     bool? isAndroidDevice,
     String? location,
     String? longitude,
@@ -47,9 +50,10 @@ class CreatePasswordReq {
         partnerCode: partnerCode ?? this.partnerCode,
         password: password ?? this.password,
         requestId: requestId ?? this.requestId,
-        channel: channel ?? this.channel,
+        clientChannel: clientChannel ?? this.clientChannel,
         deviceType: deviceType ?? this.deviceType,
         deviceToken: deviceToken ?? this.deviceToken,
+        userAgent: userAgent ?? this.userAgent,
         isAndroidDevice: isAndroidDevice ?? this.isAndroidDevice,
         location: location ?? this.location,
         longitude: longitude ?? this.longitude,
@@ -61,9 +65,10 @@ class CreatePasswordReq {
         partnerCode: json["partnerCode"],
         password: json["password"],
         requestId: json["requestId"],
-        channel: json["Channel"],
+        clientChannel: json["ClientChannel"],
         deviceType: json["DeviceType"],
         deviceToken: json["DeviceToken"],
+        userAgent: json["userAgent"],
         isAndroidDevice: json["IsAndroidDevice"],
         location: json["Location"],
         longitude: json["Longitude"],
@@ -74,9 +79,10 @@ class CreatePasswordReq {
         "partnerCode": partnerCode,
         "password": password,
         "requestId": requestId,
-        "Channel": channel,
+        "ClientChannel": clientChannel,
         "DeviceType": deviceType,
         "DeviceToken": deviceToken,
+        "userAgent": userAgent,
         "IsAndroidDevice": isAndroidDevice,
         "Location": location,
         "Longitude": longitude,
