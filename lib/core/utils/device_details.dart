@@ -5,6 +5,7 @@ import 'package:device_info_plus/device_info_plus.dart';
 Future<List<dynamic>> getDeviceDetails() async {
   String? deviceType;
   String? deviceToken;
+
   bool? isPlatformAndroid;
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
   if (Platform.isIOS) {

@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:remittance_mobile/view/features/home/account-view/dummy_account.dart';
+import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/widgets/accounts_title.dart';
 import 'package:remittance_mobile/view/features/home/widgets/add_new_account_card.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_account_card.dart';
+import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class AccountsWidget extends StatelessWidget {
   const AccountsWidget({
     super.key,
     required this.doesUserHaveAccount,
+    required this.accounts,
   });
 
   final bool doesUserHaveAccount;
+  final List<AccountModel> accounts;
 
   @override
   Widget build(BuildContext context) {
@@ -31,24 +34,25 @@ class AccountsWidget extends StatelessWidget {
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    var value = accountList[index];
+                    var value = accounts[index];
                     return InkWell(
-                      onTap: index == 0
-                          ? () {
-                              context.pushNamed(CurrencyAccountView.path);
-                            }
-                          : () {},
+                      onTap: () {
+                        context.pushNamed(
+                          CurrencyAccountView.path,
+                          extra: value,
+                        );
+                      },
                       child: AccountsCard(
                         // You will change this later
                         onclicked: index == 0 ? true : false,
-                        accountImage: value.accountImage,
-                        balance: value.balance,
-                        accountType: value.accountType,
+                        accountImage: AppImages.ng,
+                        balance: value.balance ?? 0.0,
+                        accountType: value.currency ?? "",
                       ),
                     );
                   },
                   separatorBuilder: (context, index) => 8.0.width,
-                  itemCount: accountList.length,
+                  itemCount: accounts.length,
                 )
               : const AddNewAccountCard(),
         ).widgetPadding(l: 24),

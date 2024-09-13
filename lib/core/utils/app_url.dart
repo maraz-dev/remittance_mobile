@@ -22,10 +22,10 @@ class ApiEndpoints {
     _environment = environment;
   }
 
-  String get baseURL {
+  String get baseUserURL {
     switch (_environment) {
       case Environmentx.dev:
-        return devURL;
+        return devUserURL;
       case Environmentx.prod:
         return productionURL;
       default:
@@ -33,10 +33,10 @@ class ApiEndpoints {
     }
   }
 
-  String get baseUrlTwo {
+  String get baseAccountUrl {
     switch (_environment) {
       case Environmentx.dev:
-        return devURLTwo;
+        return devAccountURLTwo;
       case Environmentx.prod:
         return productionURL;
       default:
@@ -44,10 +44,23 @@ class ApiEndpoints {
     }
   }
 
-  static const String devURL =
+  String get baseFundingUrl {
+    switch (_environment) {
+      case Environmentx.dev:
+        return devFundingURLTwo;
+      case Environmentx.prod:
+        return productionURL;
+      default:
+        return "";
+    }
+  }
+
+  static const String devUserURL =
       "https://g7xnbur2kbxtmlze62vooojm5q0urryd.lambda-url.us-east-2.on.aws";
-  static const String devURLTwo =
-      "https://ezlxlamrm6k2mjma5gvjk5bqge0qomep.lambda-url.us-east-2.on.aws";
+  static const String devAccountURLTwo =
+      "https://22y3f33f4xmnhndkfuy3twcaqq0cxgyx.lambda-url.us-east-2.on.aws";
+  static const String devFundingURLTwo =
+      "https://5tnq43dghln7b2fv7fjchntbja0ztuvy.lambda-url.us-east-2.on.aws";
   static const String productionURL = "";
 
   // static final baseUrl =
@@ -107,6 +120,11 @@ class ApiEndpoints {
   String get getAccountsCurrencies => "/api/v1/account-opening/currencies";
   String get createIndividualAccount =>
       "/api/v1/accounts/customer/Individual/CreateNewAccount";
+
+  // Funding
+  String get getBanks => "/api/v1/bank/NG/bank";
+  String get initiateCardFunding => "/api/v1/funding/flutterwave/card/initiate";
+  String get initiateUSSDFunding => "/api/v1/funding/flutterwave/ussd/initiate";
 
   // Refresh Token
   String get refresh => "/$version/auth/refresh";

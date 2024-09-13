@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:remittance_mobile/view/features/home/account-view/create_account_sheet.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
@@ -35,26 +37,37 @@ class AccountsTitle extends StatelessWidget {
                   child: SvgPicture.asset(AppImages.swap),
                 ),
                 8.0.width,
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
-                  decoration: BoxDecoration(
-                    color: AppColors.kPrimaryColor,
-                    borderRadius: BorderRadius.circular(32.r),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Add',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: AppColors.kWhiteColor,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      SvgPicture.asset(
-                        AppImages.add,
-                        colorFilter: AppColors.kWhiteColor.colorFilterMode(),
-                      ),
-                    ],
+                InkWell(
+                  onTap: () {
+                    AppBottomSheet.showBottomSheet(
+                      context,
+                      widget: const CreateCustomerAccountSheet(),
+                    );
+                  },
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+                    decoration: BoxDecoration(
+                      color: AppColors.kPrimaryColor,
+                      borderRadius: BorderRadius.circular(32.r),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Add',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .copyWith(
+                                  color: AppColors.kWhiteColor,
+                                  fontWeight: FontWeight.bold),
+                        ),
+                        SvgPicture.asset(
+                          AppImages.add,
+                          colorFilter: AppColors.kWhiteColor.colorFilterMode(),
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],

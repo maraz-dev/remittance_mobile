@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_skeleton_ui/flutter_skeleton_ui.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/data/local/user_data_impl.dart';
@@ -7,6 +8,7 @@ import 'package:remittance_mobile/data/models/responses/user_response.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_transaction_pin.dart';
 import 'package:remittance_mobile/view/features/home/account-view/account_widget.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/kyc_info_card.dart';
+import 'package:remittance_mobile/view/features/home/vm/accounts-vm/account_providers.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_appbar.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_image.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_service_card.dart';
@@ -48,11 +50,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    /// Dummy [bool] to test the Accounts Card
-    const bool doesUserHaveAccount = true;
-
     // Fetch the Saved User Data
     final user = ref.watch(localUserProvider);
+    final userAccounts = ref.watch(getCustomerAccountsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -74,12 +74,28 @@ class _HomeViewState extends ConsumerState<HomeView> {
             16.0.height,
 
             /// Acounts
-            const AccountsWidget(doesUserHaveAccount: doesUserHaveAccount),
+            userAccounts.maybeWhen(
+              orElse: () => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SectionHeader(text: 'Accounts'),
+                  12.0.height,
+                  SkeletonLine(
+                    style: SkeletonLineStyle(
+                      height: 100,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                ],
+              ).widgetPadding(l: 24, r: 24.0),
+              data: (data) => AccountsWidget(
+                doesUserHaveAccount: data.isEmpty ? false : true,
+                accounts: data,
+              ),
+            ),
             24.0.height,
 
             /// Services
-            // const SectionHeader(text: 'Services').widgetPadding(l: 24, r: 24.0),
-            // 8.0.height,
             SizedBox(
               height: 50,
               child: MediaQuery.removePadding(

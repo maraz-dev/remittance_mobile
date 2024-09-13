@@ -189,7 +189,7 @@ class AuthService {
 
   Future<String> createPasswordEndpoint(
       CreatePasswordReq createPasswordReq) async {
-    String? deviceType, deviceToken, latitude, longitude, location;
+    String? deviceType, deviceToken, latitude, longitude, location, ipAddress;
     bool? isPlatformAndroid;
 
     try {
@@ -206,6 +206,12 @@ class AuthService {
         longitude = value.longitude.toString();
         location = await getLocationAddress(value.latitude, value.longitude);
       });
+
+      // Get Device IP Address
+      await getDeviceIP().then((value) {
+        ipAddress = value;
+      });
+
       final response = await _networkService.request(
         endpointUrl.createPassword,
         RequestMethod.post,
@@ -215,7 +221,9 @@ class AuthService {
               requestId: await _storage.readData(PrefKeys.requestId),
               clientChannel: "Mobile",
               deviceType: deviceType,
+              deviceId: deviceToken,
               deviceToken: deviceToken,
+              ipAddress: ipAddress,
               isAndroidDevice: isPlatformAndroid,
               location: location,
               latitude: latitude,

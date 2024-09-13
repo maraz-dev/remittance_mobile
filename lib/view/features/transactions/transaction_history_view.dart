@@ -73,7 +73,7 @@ class _TransactionHistoryViewState extends State<TransactionHistoryView> {
                   Expanded(
                     child: TextInput(
                       controller: _searchController,
-                      hint: "Search Transactions by Name or Amount",
+                      hint: "Search Transactions",
                       inputType: TextInputType.emailAddress,
                       validator: null,
                       animate: false,

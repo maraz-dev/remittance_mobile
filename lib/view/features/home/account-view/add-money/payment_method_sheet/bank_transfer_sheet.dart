@@ -143,10 +143,12 @@ class _BankTransferSheetState extends State<BankTransferSheet> {
 
 class AccountDetailsCard extends StatelessWidget {
   final String? title, value;
+  final bool showCopy;
   const AccountDetailsCard({
     super.key,
     this.title,
     this.value,
+    this.showCopy = true,
   });
 
   @override
@@ -169,11 +171,13 @@ class AccountDetailsCard extends StatelessWidget {
             ),
           ],
         ),
-        const CardIcon(
-          image: AppImages.copy,
-          padding: 8,
-          bgColor: AppColors.kGrey100,
-        )
+        if (showCopy) ...[
+          const CardIcon(
+            image: AppImages.copy,
+            padding: 8,
+            bgColor: AppColors.kGrey100,
+          )
+        ]
       ],
     );
   }

@@ -69,7 +69,7 @@ class NetworkService implements HttpService {
       );
 
   @override
-  String get baseUrl => ApiEndpoints.instance.baseURL;
+  String get baseUrl => ApiEndpoints.instance.baseUserURL;
 
   @override
   Map<String, String> get headers => {

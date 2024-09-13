@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_otp_form.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/reset_password_view.dart';
@@ -9,6 +10,7 @@ import 'package:remittance_mobile/view/features/auth/login_view.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 import 'package:remittance_mobile/view/features/auth/security-lock/set_security_question_view.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
+import 'package:remittance_mobile/view/features/home/account-view/confirm_create_account.dart';
 import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_initial_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_receive_money_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_send_money_view.dart';
@@ -113,9 +115,24 @@ final routeProvider = Provider<GoRouter>((ref) {
           builder: (context, state) => const HomeView(),
           routes: [
             GoRoute(
+              path: ConfirmCreateAccountView.path,
+              name: ConfirmCreateAccountView.path,
+              builder: (context, state) {
+                final accountDetails = state.extra as AccountModel;
+                return ConfirmCreateAccountView(
+                  accountDetails: accountDetails,
+                );
+              },
+            ),
+            GoRoute(
               path: CurrencyAccountView.path,
               name: CurrencyAccountView.path,
-              builder: (context, state) => const CurrencyAccountView(),
+              builder: (context, state) {
+                final accountDetails = state.extra as AccountModel;
+                return CurrencyAccountView(
+                  accountDetails: accountDetails,
+                );
+              },
             ),
             GoRoute(
               path: AddMoneyView.path,

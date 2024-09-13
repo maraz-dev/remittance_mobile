@@ -23,15 +23,11 @@ class AddMoneyView extends StatefulWidget {
 
 class _AddMoneyViewState extends State<AddMoneyView> {
   final TextEditingController _paymentType = TextEditingController();
-  final TextEditingController _bank = TextEditingController();
-  final TextEditingController _accountNumber = TextEditingController();
   final TextEditingController _amount = TextEditingController();
 
   @override
   void dispose() {
     _paymentType.dispose();
-    _bank.dispose();
-    _accountNumber.dispose();
     _amount.dispose();
     super.dispose();
   }

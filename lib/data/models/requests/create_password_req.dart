@@ -12,9 +12,10 @@ class CreatePasswordReq {
   final String? requestId;
   final String? clientChannel;
   final String? deviceType;
+  final String? deviceId;
   final String? deviceToken;
-  final String? userAgent;
   final bool? isAndroidDevice;
+  final String? ipAddress;
   final String? location;
   final String? longitude;
   final String? latitude;
@@ -25,9 +26,10 @@ class CreatePasswordReq {
     this.requestId,
     this.clientChannel,
     this.deviceType,
+    this.deviceId,
     this.deviceToken,
-    this.userAgent,
     this.isAndroidDevice,
+    this.ipAddress,
     this.location,
     this.longitude,
     this.latitude,
@@ -39,9 +41,10 @@ class CreatePasswordReq {
     String? requestId,
     String? clientChannel,
     String? deviceType,
+    String? deviceId,
     String? deviceToken,
-    String? userAgent,
     bool? isAndroidDevice,
+    String? ipAddress,
     String? location,
     String? longitude,
     String? latitude,
@@ -52,9 +55,10 @@ class CreatePasswordReq {
         requestId: requestId ?? this.requestId,
         clientChannel: clientChannel ?? this.clientChannel,
         deviceType: deviceType ?? this.deviceType,
+        deviceId: deviceId ?? this.deviceId,
         deviceToken: deviceToken ?? this.deviceToken,
-        userAgent: userAgent ?? this.userAgent,
         isAndroidDevice: isAndroidDevice ?? this.isAndroidDevice,
+        ipAddress: ipAddress ?? this.ipAddress,
         location: location ?? this.location,
         longitude: longitude ?? this.longitude,
         latitude: latitude ?? this.latitude,
@@ -65,27 +69,29 @@ class CreatePasswordReq {
         partnerCode: json["partnerCode"],
         password: json["password"],
         requestId: json["requestId"],
-        clientChannel: json["ClientChannel"],
-        deviceType: json["DeviceType"],
-        deviceToken: json["DeviceToken"],
-        userAgent: json["userAgent"],
-        isAndroidDevice: json["IsAndroidDevice"],
-        location: json["Location"],
-        longitude: json["Longitude"],
-        latitude: json["Latitude"],
+        clientChannel: json["clientChannel"],
+        deviceType: json["deviceType"],
+        deviceId: json["deviceId"],
+        deviceToken: json["deviceToken"],
+        isAndroidDevice: json["isAndroidDevice"],
+        ipAddress: json["ipAddress"],
+        location: json["location"],
+        longitude: json["longitude"],
+        latitude: json["latitude"],
       );
 
   Map<String, dynamic> toJson() => {
         "partnerCode": partnerCode,
         "password": password,
         "requestId": requestId,
-        "ClientChannel": clientChannel,
-        "DeviceType": deviceType,
-        "DeviceToken": deviceToken,
-        "userAgent": userAgent,
-        "IsAndroidDevice": isAndroidDevice,
-        "Location": location,
-        "Longitude": longitude,
-        "Latitude": latitude,
+        "clientChannel": clientChannel,
+        "deviceType": deviceType,
+        "deviceId": deviceId,
+        "deviceToken": deviceToken,
+        "isAndroidDevice": isAndroidDevice,
+        "ipAddress": ipAddress,
+        "location": location,
+        "longitude": longitude,
+        "latitude": latitude,
       };
 }

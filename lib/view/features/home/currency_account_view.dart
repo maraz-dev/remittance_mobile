@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_initial_view.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/latest_transaction_box.dart';
@@ -13,8 +14,12 @@ import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 
 class CurrencyAccountView extends StatefulWidget {
+  final AccountModel accountDetails;
   static String path = 'currency-account-screen';
-  const CurrencyAccountView({super.key});
+  const CurrencyAccountView({
+    super.key,
+    required this.accountDetails,
+  });
 
   @override
   State<CurrencyAccountView> createState() => _CurrencyAccountViewState();
@@ -24,7 +29,7 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: innerAppBar(title: 'USD Account'),
+      appBar: innerAppBar(title: '${widget.accountDetails.currency} Account'),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -51,7 +56,9 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                     SizedBox(
                       width: 300,
                       child: Text(
-                        5000000.21.amountWithCurrency('usd'),
+                        widget.accountDetails.balance
+                                ?.amountWithCurrency('ngn') ??
+                            0.amountWithCurrency('ngn'),
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme
