@@ -15,6 +15,7 @@ class TextInput extends StatelessWidget {
   final bool readOnly;
   final bool animate;
   final Function()? onPressed;
+  final Function(String)? onChanged;
   final int? maxLength;
   final int? maxLines;
   final List<TextInputFormatter>? inputFormatters;
@@ -34,6 +35,7 @@ class TextInput extends StatelessWidget {
     this.maxLines,
     this.inputFormatters,
     this.animate = true,
+    this.onChanged,
   });
 
   @override
@@ -69,6 +71,7 @@ class TextInput extends StatelessWidget {
             validator: validator,
             readOnly: readOnly,
             onTap: onPressed,
+            onChanged: onChanged,
             maxLines: maxLines,
             inputFormatters: inputFormatters,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(

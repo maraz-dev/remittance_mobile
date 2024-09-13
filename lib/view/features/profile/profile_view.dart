@@ -54,10 +54,17 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                     Stack(
                       clipBehavior: Clip.none,
                       children: [
-                        const CircleAvatar(
-                          radius: 45,
-                          backgroundImage:
-                              AssetImage(AppImages.tempProfileImage),
+                        Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: AppColors.kGrey100,
+                          ),
+                          child: const CircleAvatar(
+                            radius: 35,
+                            backgroundImage:
+                                AssetImage(AppImages.selfieImageTwo),
+                          ),
                         ),
                         Positioned(
                           right: -2,

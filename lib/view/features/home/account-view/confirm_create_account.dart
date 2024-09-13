@@ -48,7 +48,8 @@ class _ConfirmCreateAccountViewState extends State<ConfirmCreateAccountView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Total Balance'),
+                          // TODO: Come back to this
+                          const Text('Account'),
                           Image.asset(AppImages.us, width: 32, height: 32)
                         ],
                       ),
@@ -83,7 +84,7 @@ class _ConfirmCreateAccountViewState extends State<ConfirmCreateAccountView> {
                         24.0.height,
                         const AccountDetailsCard(
                           title: 'Sort Code',
-                          value: '357585735399',
+                          value: '098-832-98',
                           showCopy: false,
                         ),
                       ]

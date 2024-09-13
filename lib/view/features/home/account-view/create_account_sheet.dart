@@ -30,7 +30,7 @@ class _CreateCustomerAccountSheetState
   final TextEditingController _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    // Account Currenciy Endpoint
+    // Account Currency Endpoint
     final accountCurrenciesProvider = ref.watch(getAccountsCurrencyProvider);
     final createAccountLoading =
         ref.watch(createCustomerAccountProvider).isLoading;
@@ -57,71 +57,78 @@ class _CreateCustomerAccountSheetState
             size: 100,
             lineWidth: 3,
           )
-        : Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SectionHeader(text: 'Add New'),
-              TextInput(
-                controller: _searchController,
-                hint: "Search...",
-                inputType: TextInputType.emailAddress,
-                validator: null,
-                animate: false,
-              ),
-              32.0.height,
-              accountCurrenciesProvider.maybeWhen(
-                orElse: () => const SpinKitRing(
-                  color: AppColors.kPrimaryColor,
-                  size: 100,
-                  lineWidth: 3,
-                ),
-                error: (error, stackTrace) => const SpinKitRing(
-                  color: AppColors.kPrimaryColor,
-                  size: 100,
-                  lineWidth: 3,
-                ),
-                data: (data) => ListView.separated(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    var value = data[index];
-                    return CurrencyItem(
-                      onPressed: () async {
-                        // Confirm the User Picked that Currency
-                        final result = await ShowAlertDialog.showAlertDialog(
-                          context,
-                          title: 'Add Currency',
-                          content:
-                              'You are creating an Account in ${value.currencyCode} ',
-                          defaultActionText: 'Ok',
-                          cancelActionText: 'Cancel',
+        : SizedBox(
+            height: 500,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SectionHeader(text: 'Add New'),
+                  TextInput(
+                    controller: _searchController,
+                    hint: "Search...",
+                    inputType: TextInputType.emailAddress,
+                    validator: null,
+                    animate: false,
+                  ),
+                  32.0.height,
+                  accountCurrenciesProvider.maybeWhen(
+                    orElse: () => const SpinKitRing(
+                      color: AppColors.kPrimaryColor,
+                      size: 100,
+                      lineWidth: 3,
+                    ),
+                    error: (error, stackTrace) => const SpinKitRing(
+                      color: AppColors.kPrimaryColor,
+                      size: 100,
+                      lineWidth: 3,
+                    ),
+                    data: (data) => ListView.separated(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        var value = data[index];
+                        return CurrencyItem(
+                          onPressed: () async {
+                            // Confirm the User Picked that Currency
+                            final result =
+                                await ShowAlertDialog.showAlertDialog(
+                              context,
+                              title: 'Add Currency',
+                              content:
+                                  'You are creating an Account in ${value.currencyCode} ',
+                              defaultActionText: 'Ok',
+                              cancelActionText: 'Cancel',
+                            );
+                            if (result == null) {
+                              return;
+                            } else if (result == true) {
+                              if (context.mounted) {
+                                //context.pop();
+                                ref
+                                    .read(
+                                        createCustomerAccountProvider.notifier)
+                                    .createAccountMethod(
+                                      CreateCustomerAccountReq(
+                                        currencyCode: value.currencyCode,
+                                      ),
+                                    );
+                              }
+                            }
+                          },
+                          name: value.currencyName,
+                          code: value.currencyCode,
+                          image: value.flagPng,
                         );
-                        if (result == null) {
-                          return;
-                        } else if (result == true) {
-                          if (context.mounted) {
-                            //context.pop();
-                            ref
-                                .read(createCustomerAccountProvider.notifier)
-                                .createAccountMethod(
-                                  CreateCustomerAccountReq(
-                                    currencyCode: value.currencyCode,
-                                  ),
-                                );
-                          }
-                        }
                       },
-                      name: value.currencyName,
-                      code: value.currencyCode,
-                      image: value.flagPng,
-                    );
-                  },
-                  separatorBuilder: (context, index) => 24.0.height,
-                  itemCount: data.length,
-                ),
+                      separatorBuilder: (context, index) => 24.0.height,
+                      itemCount: data.length,
+                    ),
+                  ),
+                  30.0.height,
+                ],
               ),
-              30.0.height,
-            ],
+            ),
           );
   }
 }

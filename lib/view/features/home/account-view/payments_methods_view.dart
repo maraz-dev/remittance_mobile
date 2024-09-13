@@ -45,7 +45,7 @@ class PaymentMethodView extends StatelessWidget {
                     );
                   },
                   separatorBuilder: (context, index) => 24.0.height,
-                  itemCount: paymentMethods.length,
+                  itemCount: 2,
                 ),
                 20.0.height,
               ],

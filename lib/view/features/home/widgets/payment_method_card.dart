@@ -55,11 +55,11 @@ class PaymentMethodCard extends StatelessWidget {
 List<PaymentMethodCard> paymentMethods = [
   const PaymentMethodCard(
     methodImage: AppImages.card,
-    methodName: 'Debit Card',
+    methodName: 'Card',
   ),
   const PaymentMethodCard(
     methodImage: AppImages.accountDetails,
-    methodName: 'Bank Transfer',
+    methodName: 'USSD',
   ),
   const PaymentMethodCard(
     methodImage: AppImages.add,

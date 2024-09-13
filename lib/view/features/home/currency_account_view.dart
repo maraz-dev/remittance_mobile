@@ -56,9 +56,11 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                     SizedBox(
                       width: 300,
                       child: Text(
-                        widget.accountDetails.balance
-                                ?.amountWithCurrency('ngn') ??
-                            0.amountWithCurrency('ngn'),
+                        widget.accountDetails.balance?.amountWithCurrency(widget
+                                .accountDetails.currency!
+                                .toLowerCase()) ??
+                            0.amountWithCurrency(
+                                widget.accountDetails.currency!.toLowerCase()),
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme

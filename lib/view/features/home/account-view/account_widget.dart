@@ -43,9 +43,11 @@ class AccountsWidget extends StatelessWidget {
                         );
                       },
                       child: AccountsCard(
-                        // You will change this later
+                        // TODO: You will change this later
                         onclicked: index == 0 ? true : false,
-                        accountImage: AppImages.ng,
+                        accountImage: value.currency == "NGN"
+                            ? AppImages.ng
+                            : AppImages.us,
                         balance: value.balance ?? 0.0,
                         accountType: value.currency ?? "",
                       ),

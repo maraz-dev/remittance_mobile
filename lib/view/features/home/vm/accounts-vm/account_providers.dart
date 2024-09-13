@@ -8,3 +8,7 @@ final getCustomerAccountsProvider = FutureProvider.autoDispose((ref) async {
 final getAccountsCurrencyProvider = FutureProvider.autoDispose((ref) async {
   return ref.read(accountRepository).getAccountOpeningCurrenciesEndpoint();
 });
+
+final getBanksProvider = FutureProvider.autoDispose((ref) async {
+  return ref.read(accountRepository).getBanksEndpoint();
+});

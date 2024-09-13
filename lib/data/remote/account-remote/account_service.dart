@@ -5,22 +5,22 @@ import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dar
 import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/data/models/requests/create_customer_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_card_funding_req.dart';
+import 'package:remittance_mobile/data/models/requests/inititiate_ussd_funding_req.dart';
 import 'package:remittance_mobile/data/models/responses/account_currencies_model.dart';
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
+import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
 
 class AccountService {
   final HttpService _networkService;
   final SecureStorageBase _storage;
-  final HiveStorageBase _hivestorage;
 
   AccountService(
       {required HttpService networkService,
       required SecureStorageBase storage,
       required HiveStorageBase hivestorage})
       : _networkService = networkService,
-        _storage = storage,
-        _hivestorage = hivestorage;
+        _storage = storage;
 
   // Endpoint URL Instance
   final endpointUrl = ApiEndpoints.instance;
@@ -125,10 +125,11 @@ class AccountService {
   }
 
   // Fund with Card Endpoint
-  Future<AccountModel> fundWithCardEndpoint(InitiateCardFundingReq req) async {
+  Future<CardFundingResponseModel> fundWithCardEndpoint(
+      InitiateCardFundingReq req) async {
     try {
       final response = await _networkService.request(
-        endpointUrl.baseAccountUrl + endpointUrl.createIndividualAccount,
+        endpointUrl.baseFundingUrl + endpointUrl.initiateCardFunding,
         RequestMethod.post,
         data: req.toJson(),
       );
@@ -138,7 +139,31 @@ class AccountService {
         response: response.data,
         onSuccess: () {
           final res = response.data['data'];
-          return AccountModel.fromJson(res);
+          return CardFundingResponseModel.fromJson(res);
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  // Fund with USSD Endpoint
+  Future<CardFundingResponseModel> fundWithUssdEndpoint(
+      InitiateUssdFundingReq req) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.baseFundingUrl + endpointUrl.initiateUSSDFunding,
+        RequestMethod.post,
+        data: req.toJson(),
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'];
+          return CardFundingResponseModel.fromJson(res);
         },
       );
       return result;

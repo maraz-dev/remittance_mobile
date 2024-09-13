@@ -13,7 +13,7 @@ class InitiateCardFundingReq {
   final String? cvv;
   final String? currency;
   final String? redirectUrl;
-  final int? amount;
+  final double? amount;
   final int? charge;
 
   InitiateCardFundingReq({
@@ -34,8 +34,9 @@ class InitiateCardFundingReq {
     String? cvv,
     String? currency,
     String? redirectUrl,
-    int? amount,
+    double? amount,
     int? charge,
+    dynamic authorization,
   }) =>
       InitiateCardFundingReq(
         cardNumber: cardNumber ?? this.cardNumber,
@@ -56,7 +57,7 @@ class InitiateCardFundingReq {
         cvv: json["cvv"],
         currency: json["currency"],
         redirectUrl: json["redirectUrl"],
-        amount: json["amount"],
+        amount: json["amount"].toDouble(),
         charge: json["charge"],
       );
 
@@ -69,5 +70,63 @@ class InitiateCardFundingReq {
         "redirectUrl": redirectUrl,
         "amount": amount,
         "charge": charge,
+      };
+}
+
+class CardPinAuthorization {
+  final String? mode;
+  final String? pin;
+
+  CardPinAuthorization({
+    this.mode,
+    this.pin,
+  });
+
+  factory CardPinAuthorization.fromJson(Map<String, dynamic> json) =>
+      CardPinAuthorization(
+        mode: json["mode"],
+        pin: json["pin"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "mode": mode,
+        "pin": pin,
+      };
+}
+
+class CardAvsAuthorization {
+  final String? mode;
+  final String? city;
+  final String? address;
+  final String? state;
+  final String? country;
+  final String? zipcode;
+
+  CardAvsAuthorization({
+    this.mode,
+    this.city,
+    this.address,
+    this.state,
+    this.country,
+    this.zipcode,
+  });
+
+  factory CardAvsAuthorization.fromJson(Map<String, dynamic> json) =>
+      CardAvsAuthorization(
+        mode: json["mode"],
+        city: json["city"],
+        address: json["address"],
+        state: json["state"],
+        country: json["country"],
+        zipcode: json["zipcode"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "mode": mode,
+        "city": city,
+        "address": address,
+        "state": state,
+        "country": country,
+        "zipcode": zipcode,
       };
 }
