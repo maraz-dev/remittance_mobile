@@ -57,16 +57,16 @@ class _IdNumberViewState extends State<IdNumberView> {
               ),
               24.0.height,
 
-              /// SSN or BVN
+              /// ID Number
               TextInput(
                 header: 'ID Number',
                 controller: _idNumber,
                 hint: "Enter Number",
-                inputType: TextInputType.number,
-                inputFormatters: [
-                  services.FilteringTextInputFormatter.digitsOnly,
-                ],
+                inputType: TextInputType.text,
                 validator: validateGeneric,
+                inputFormatters: [
+                  services.FilteringTextInputFormatter.deny(" ")
+                ],
               ),
               16.0.height,
             ],

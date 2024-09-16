@@ -243,7 +243,7 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
                       _expiryDate.text.split('/');
                   ref.read(fundWithCardProvider.notifier).fundWithCardMethod(
                         InitiateCardFundingReq(
-                          cardNumber: _cardNumber.text,
+                          cardNumber: _cardNumber.text.trim(),
                           cvv: _cvv.text,
                           amount: double.parse(
                               addMoneyAmount.value.replaceAll(',', '')),

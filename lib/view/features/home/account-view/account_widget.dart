@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
@@ -28,7 +27,7 @@ class AccountsWidget extends StatelessWidget {
             .widgetPadding(l: 24, r: 24.0),
         12.0.height,
         SizedBox(
-          height: 135.h,
+          height: 135,
           child: doesUserHaveAccount
               ? ListView.separated(
                   shrinkWrap: true,
@@ -42,14 +41,20 @@ class AccountsWidget extends StatelessWidget {
                           extra: value,
                         );
                       },
-                      child: AccountsCard(
-                        // TODO: You will change this later
-                        onclicked: index == 0 ? true : false,
-                        accountImage: value.currency == "NGN"
-                            ? AppImages.ng
-                            : AppImages.us,
-                        balance: value.balance ?? 0.0,
-                        accountType: value.currency ?? "",
+                      child: Row(
+                        children: [
+                          AccountsCard(
+                            onclicked: false,
+                            accountImage: value.currency == "NGN"
+                                ? AppImages.ng
+                                : AppImages.us,
+                            balance: value.balance ?? 0.0,
+                            accountCurrency: value.currency ?? "",
+                          ),
+                          if (index == accounts.length - 1) ...[
+                            24.0.width,
+                          ]
+                        ],
                       ),
                     );
                   },

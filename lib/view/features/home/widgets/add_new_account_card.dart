@@ -24,9 +24,9 @@ class AddNewAccountCard extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-            color: AppColors.kWhiteColor,
-            borderRadius: BorderRadius.circular(8.r),
-            border: Border.all(color: AppColors.kGrey300)),
+          color: AppColors.kWhiteColor,
+          borderRadius: BorderRadius.circular(8.r),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,7 +41,7 @@ class AddNewAccountCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 100.w,
+                  width: 120,
                   child: Text(
                     'Add New',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(

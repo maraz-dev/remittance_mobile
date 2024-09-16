@@ -28,6 +28,27 @@ class _CreateCustomerAccountSheetState
     extends ConsumerState<CreateCustomerAccountSheet> {
   /// Controller to Search
   final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  void _onSearchChanged() {
+    setState(() {
+      _searchQuery = _searchController.text.toLowerCase();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _searchController.removeListener(_onSearchChanged);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Account Currency Endpoint
@@ -57,9 +78,9 @@ class _CreateCustomerAccountSheetState
             size: 100,
             lineWidth: 3,
           )
-        : SizedBox(
-            height: 500,
-            child: SingleChildScrollView(
+        : SafeArea(
+            child: SizedBox(
+              height: 500,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,57 +93,73 @@ class _CreateCustomerAccountSheetState
                     validator: null,
                     animate: false,
                   ),
-                  32.0.height,
-                  accountCurrenciesProvider.maybeWhen(
-                    orElse: () => const SpinKitRing(
-                      color: AppColors.kPrimaryColor,
-                      size: 100,
-                      lineWidth: 3,
-                    ),
-                    error: (error, stackTrace) => const SpinKitRing(
-                      color: AppColors.kPrimaryColor,
-                      size: 100,
-                      lineWidth: 3,
-                    ),
-                    data: (data) => ListView.separated(
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        var value = data[index];
-                        return CurrencyItem(
-                          onPressed: () async {
-                            // Confirm the User Picked that Currency
-                            final result =
-                                await ShowAlertDialog.showAlertDialog(
-                              context,
-                              title: 'Add Currency',
-                              content:
-                                  'You are creating an Account in ${value.currencyCode} ',
-                              defaultActionText: 'Ok',
-                              cancelActionText: 'Cancel',
-                            );
-                            if (result == null) {
-                              return;
-                            } else if (result == true) {
-                              if (context.mounted) {
-                                //context.pop();
-                                ref
-                                    .read(
-                                        createCustomerAccountProvider.notifier)
-                                    .createAccountMethod(
-                                      CreateCustomerAccountReq(
-                                        currencyCode: value.currencyCode,
-                                      ),
-                                    );
-                              }
-                            }
-                          },
-                          name: value.currencyName,
-                          code: value.currencyCode,
-                          image: value.flagPng,
-                        );
-                      },
-                      separatorBuilder: (context, index) => 24.0.height,
-                      itemCount: data.length,
+                  24.0.height,
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: accountCurrenciesProvider.maybeWhen(
+                        orElse: () => const SpinKitRing(
+                          color: AppColors.kPrimaryColor,
+                          size: 100,
+                          lineWidth: 3,
+                        ),
+                        error: (error, stackTrace) => const SpinKitRing(
+                          color: AppColors.kPrimaryColor,
+                          size: 100,
+                          lineWidth: 3,
+                        ),
+                        data: (data) {
+                          final filteredData = data
+                              .where((currency) =>
+                                  currency.currencyName!
+                                      .toLowerCase()
+                                      .contains(_searchQuery) ||
+                                  currency.currencyCode!
+                                      .toLowerCase()
+                                      .contains(_searchQuery))
+                              .toList();
+                          return ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              var value = filteredData[index];
+                              return CurrencyItem(
+                                onPressed: () async {
+                                  // Confirm the User Picked that Currency
+                                  final result =
+                                      await ShowAlertDialog.showAlertDialog(
+                                    context,
+                                    title: 'Add Currency',
+                                    content:
+                                        'You are creating an Account in ${value.currencyCode} ',
+                                    defaultActionText: 'Ok',
+                                    cancelActionText: 'Cancel',
+                                  );
+                                  if (result == null) {
+                                    return;
+                                  } else if (result == true) {
+                                    if (context.mounted) {
+                                      //context.pop();
+                                      ref
+                                          .read(createCustomerAccountProvider
+                                              .notifier)
+                                          .createAccountMethod(
+                                            CreateCustomerAccountReq(
+                                              currencyCode: value.currencyCode,
+                                            ),
+                                          );
+                                    }
+                                  }
+                                },
+                                name: value.currencyName,
+                                code: value.currencyCode,
+                                image: value.flagPng,
+                              );
+                            },
+                            separatorBuilder: (context, index) => 24.0.height,
+                            itemCount: filteredData.length,
+                          );
+                        },
+                      ),
                     ),
                   ),
                   30.0.height,
