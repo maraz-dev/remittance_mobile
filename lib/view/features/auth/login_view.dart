@@ -9,7 +9,6 @@ import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/core/utils/constants.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
 import 'package:remittance_mobile/view/features/auth/biometrics/biometrics_controller.dart';
-import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_form_view.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/login_vm.dart';
@@ -46,9 +45,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _email.text = successfulCreatedEmail.value.isEmpty
-        ? SharedPrefManager.email
-        : successfulCreatedEmail.value;
+    _email.text = SharedPrefManager.email;
   }
 
   Future<bool> showBiometrics() async {
@@ -153,7 +150,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         handleLoginReq(
-                          _email.text.trim(),
+                          _email.text.toLowerCase().trim(),
                           _password.text,
                         );
                       }

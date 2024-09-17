@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/data/models/requests/create_password_req.dart';
+import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_form_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/create_password_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/account_create_success.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
@@ -51,6 +53,7 @@ class _CreateAccountPasswordFormViewState
 
     /// Endpoint State
     ref.listen(createPasswordProvider, (_, next) {
+      SharedPrefManager.email = successfulCreatedEmail.value;
       if (next is AsyncData<String>) {
         AppBottomSheet.showBottomSheet(
           context,

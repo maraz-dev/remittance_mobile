@@ -86,9 +86,9 @@ class AuthService {
       // Handle the Response
       _responseHandler.handleResponse(
         response: response.data,
-        onSuccess: () {
+        onSuccess: () async {
           final res = response.data['data'];
-          _storage.saveData(PrefKeys.token, res['token'] ?? '');
+          await _storage.saveData(PrefKeys.token, res['token'] ?? '');
           _hivestorage.set(StorageKey.userProfile.name, res);
           SharedPrefManager.userId = res['userId'];
           SharedPrefManager.email = res['email'];
@@ -99,7 +99,8 @@ class AuthService {
               res['isSecurityQuestionSet'];
           SharedPrefManager.onboardingRequestId = res['onboardingRequestId'];
 
-          // Save the Username/Email Address and Password for Biometrics Login
+          // Save the Password for Biometrics Login
+          await _storage.saveData(PrefKeys.password, loginReq.password ?? "");
         },
       );
       return response.data['message'];
@@ -126,9 +127,9 @@ class AuthService {
       // Handle the Response
       _responseHandler.handleResponse(
         response: response.data,
-        onSuccess: () {
+        onSuccess: () async {
           final res = response.data['data'];
-          _storage.saveData(PrefKeys.requestId, res['id'] ?? '');
+          await _storage.saveData(PrefKeys.requestId, res['id'] ?? '');
         },
       );
       return response.data['message'];
@@ -154,9 +155,9 @@ class AuthService {
       // Handle the Response
       _responseHandler.handleResponse(
         response: response.data,
-        onSuccess: () {
+        onSuccess: () async {
           final res = response.data['data'];
-          _storage.saveData(PrefKeys.requestId, res['id'] ?? '');
+          await _storage.saveData(PrefKeys.requestId, res['id'] ?? '');
         },
       );
       return response.data['message'];
@@ -235,9 +236,9 @@ class AuthService {
       // Handle the Response
       _responseHandler.handleResponse(
         response: response.data,
-        onSuccess: () {
+        onSuccess: () async {
           final res = response.data['data'];
-          _storage.saveData(PrefKeys.requestId, res['id'] ?? '');
+          await _storage.saveData(PrefKeys.requestId, res['id'] ?? '');
           SharedPrefManager.email = res['modifiedBy'];
         },
       );
@@ -397,9 +398,9 @@ class AuthService {
       // Handle the Response
       final result = _responseHandler.handleResponse(
         response: response.data,
-        onSuccess: () {
+        onSuccess: () async {
           final requestId = response.data["data"]["requestId"];
-          _storage.saveData('forgotPassRequestId', requestId);
+          await _storage.saveData('forgotPassRequestId', requestId);
           return requestId;
         },
       );
@@ -425,9 +426,9 @@ class AuthService {
       // Handle the Response
       final result = _responseHandler.handleResponse(
         response: response.data,
-        onSuccess: () {
+        onSuccess: () async {
           final requestId = response.data["data"]["requestId"];
-          _storage.saveData('forgotPassRequestId', requestId);
+          await _storage.saveData('forgotPassRequestId', requestId);
           return requestId;
         },
       );
@@ -455,9 +456,9 @@ class AuthService {
       // Handle the Response
       final result = _responseHandler.handleResponse(
         response: response.data,
-        onSuccess: () {
+        onSuccess: () async {
           final requestId = response.data["data"]["requestId"];
-          _storage.saveData('forgotPassRequestId', requestId);
+          await _storage.saveData('forgotPassRequestId', requestId);
           return requestId;
         },
       );

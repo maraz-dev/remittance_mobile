@@ -103,7 +103,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   Expanded(
                     child: MainButton(
                       text: "Get Started",
-                      onPressed: () => context.goNamed(CreateAccountView.path),
+                      onPressed: () =>
+                          context.pushNamed(CreateAccountView.path),
                     ),
                   ),
                 ],

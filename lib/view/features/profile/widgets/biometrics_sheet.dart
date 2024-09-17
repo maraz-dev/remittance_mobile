@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:remittance_mobile/core/di/injector.dart';
-import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
 import 'package:remittance_mobile/core/storage/share_pref.dart';
+import 'package:remittance_mobile/view/features/auth/biometrics/biometrics_controller.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/alert_dialog.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
@@ -23,7 +23,7 @@ class EnableBiometricsSheet extends ConsumerStatefulWidget {
 class _EnableBiometricsSheetState extends ConsumerState<EnableBiometricsSheet> {
   @override
   Widget build(BuildContext context) {
-    final storage = inject.get<SecureStorageBase>();
+    //final storage = inject.get<SecureStorageBase>();
 
     return StatefulBuilder(builder: (context, setState) {
       return Column(
@@ -65,16 +65,26 @@ class _EnableBiometricsSheetState extends ConsumerState<EnableBiometricsSheet> {
             text: 'Account Login',
             image: AppImages.keyIcon,
             value: SharedPrefManager.hasBiometrics,
-            onChanged: (value) {
-              setState(() async {
-                SharedPrefManager.hasBiometrics = value;
-                // if (await Biometrics.deviceEnrolledBiometric()) {
-                //   if (await Biometrics.reqAuthenticate()) {
-                //     await storage.saveData(PrefKey.passCode, widget.passcode);
-                //     SharedPrefManager.hasBiometrics = true;
-                //   }
-                // }
-              });
+            onChanged: (value) async {
+              if (await Biometrics.deviceEnrolledBiometric()) {
+                if (await Biometrics.reqAuthenticate()) {
+                  //await storage.saveData(PrefKey.passCode, widget.passcode);
+                  SharedPrefManager.hasBiometrics = true;
+                }
+                setState(() {
+                  SharedPrefManager.hasBiometrics = value;
+                });
+              } else {
+                SharedPrefManager.hasBiometrics = false;
+                if (context.mounted) {
+                  ShowAlertDialog.showAlertDialog(
+                    context,
+                    title: 'Biometrics',
+                    content: 'Enable Biometrics in your Settings',
+                    defaultActionText: 'Cancel',
+                  );
+                }
+              }
             },
           ),
           16.0.height,
