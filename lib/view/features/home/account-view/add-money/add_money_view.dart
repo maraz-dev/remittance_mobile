@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/home/account-view/payments_methods_view.dart';
+import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/widgets/balance_widget.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -52,7 +53,13 @@ class _AddMoneyViewState extends State<AddMoneyView> {
 
                     // Balance
                     BalanceWidget(
-                      balance: 0.0.amountWithCurrency('usd'),
+                      balance: accountInfo.value.balance?.amountWithCurrency(
+                              accountInfo
+                                      .value.currencyResponse?.currencySymbol ??
+                                  "") ??
+                          0.0.amountWithCurrency(accountInfo
+                                  .value.currencyResponse?.currencySymbol ??
+                              ""),
                     ).animate().slideX(begin: -.1),
                     16.0.height,
 
@@ -60,6 +67,8 @@ class _AddMoneyViewState extends State<AddMoneyView> {
                     AmountInput(
                       header: 'Amount',
                       controller: _amount,
+                      currency: accountInfo.value.currency,
+                      image: accountInfo.value.currencyResponse?.flagPng,
                     ),
                     24.0.height,
 

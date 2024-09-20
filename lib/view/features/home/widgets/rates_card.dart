@@ -64,7 +64,7 @@ class RatesCard extends StatelessWidget {
               SvgPicture.asset(AppImages.swap),
               5.0.width,
               Text(
-                1500.00.amountWithCurrency('ngn'),
+                1500.00.amountWithCurrency('₦'),
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: AppColors.kGrey700,
                       fontWeight: FontWeight.bold,

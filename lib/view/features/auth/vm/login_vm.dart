@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/core/di/injector.dart';
+import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
 
 class LoginNotifier extends AutoDisposeAsyncNotifier<String> {
@@ -9,6 +10,11 @@ class LoginNotifier extends AutoDisposeAsyncNotifier<String> {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
         () => ref.read(authRepository).loginEndpoint(req));
+
+    if (!state.hasError) {
+      SharedPrefManager.isLoggedIn = true;
+      SharedPrefManager.isFirstLaunch = false;
+    }
   }
 
   @override

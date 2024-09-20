@@ -7,6 +7,10 @@ class SharedPrefManager {
       prefs.setBool("isFirstLaunch", isFirstLaunch);
   static bool get isFirstLaunch => prefs.getBool("isFirstLaunch") ?? true;
 
+  static set isLoggedIn(bool isLoggedIn) =>
+      prefs.setBool("isLoggedIn", isLoggedIn);
+  static bool get isLoggedIn => prefs.getBool("isLoggedIn") ?? false;
+
   static set email(String email) => prefs.setString("email", email);
   static String get email => prefs.getString("email") ?? '';
 

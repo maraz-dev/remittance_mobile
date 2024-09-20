@@ -6,7 +6,6 @@ import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/bank_transfer_sheet.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
-import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
@@ -48,9 +47,15 @@ class _ConfirmCreateAccountViewState extends State<ConfirmCreateAccountView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // TODO: Come back to this
-                          const Text('Account'),
-                          Image.asset(AppImages.us, width: 32, height: 32)
+                          Text(widget.accountDetails.currencyResponse
+                                  ?.currencyName ??
+                              "Currency Account"),
+                          CircleAvatar(
+                            radius: 16.r,
+                            backgroundImage: NetworkImage(widget
+                                    .accountDetails.currencyResponse?.flagPng ??
+                                ""),
+                          ),
                         ],
                       ),
                       10.0.height,

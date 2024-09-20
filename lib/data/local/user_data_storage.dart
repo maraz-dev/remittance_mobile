@@ -15,13 +15,14 @@ class UserStorageService {
       final result = await _storageService.get(StorageKey.userProfile.name);
       print("RESULT ----------->>> $result");
 
-      if (result != null) {
-        return UserResponse.fromJson(result);
+      if (result != null && result is Map) {
+        final stringKeyMap = Map<String, dynamic>.from(result);
+        return UserResponse.fromJson(stringKeyMap);
       } else {
         return UserResponse();
       }
     } catch (e) {
-      print("This is Storage Error $e");
+      print("This is a Storage Error $e");
       throw e.toString();
     }
   }

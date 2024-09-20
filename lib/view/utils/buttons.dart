@@ -27,7 +27,10 @@ class MainButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        onPressed!();
+      },
       child: Container(
         //width: double.infinity,
         padding: padding == null

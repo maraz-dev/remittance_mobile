@@ -81,7 +81,7 @@ class _LoginViewState extends ConsumerState<SecurityLockView> {
                 text: 'Back to Dashboard',
                 onPressed: () {
                   context.pop();
-                  context.pushNamed(DashboardView.path);
+                  context.goNamed(DashboardView.path);
                 },
               ),
               16.0.height,

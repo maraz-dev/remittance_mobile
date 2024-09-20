@@ -21,23 +21,22 @@ extension DoubleExt on double {
 extension Amount on double {
   /// For Currency Formatting on Double
   String amountWithCurrency(String symbol) {
-    String currencySymbol = '₦';
-    switch (symbol) {
-      case 'ngn':
-        currencySymbol = '₦';
-        break;
-      case 'usd':
-        currencySymbol = '\$';
-        break;
-      case 'gbp':
-        currencySymbol = '£';
-        break;
-      default:
-        currencySymbol = '';
-        break;
-    }
-    var formatter =
-        NumberFormat.currency(symbol: currencySymbol, decimalDigits: 2);
+    // String currencySymbol = '₦';
+    // switch (symbol) {
+    //   case 'ngn':
+    //     currencySymbol = '₦';
+    //     break;
+    //   case 'usd':
+    //     currencySymbol = '\$';
+    //     break;
+    //   case 'gbp':
+    //     currencySymbol = '£';
+    //     break;
+    //   default:
+    //     currencySymbol = '';
+    //     break;
+    // }
+    var formatter = NumberFormat.currency(symbol: symbol, decimalDigits: 2);
     return formatter.format(this);
   }
 }
@@ -46,23 +45,22 @@ extension Amount on double {
 extension IntAmount on int {
   /// For Currency Formatting on Int
   String amountWithCurrency(String symbol) {
-    String currencySymbol = '₦';
-    switch (symbol) {
-      case 'ngn':
-        currencySymbol = '₦';
-        break;
-      case 'usd':
-        currencySymbol = '\$';
-        break;
-      case 'gbp':
-        currencySymbol = '£';
-        break;
-      default:
-        currencySymbol = '';
-        break;
-    }
-    var formatter =
-        NumberFormat.currency(symbol: currencySymbol, decimalDigits: 0);
+    // String currencySymbol = '₦';
+    // switch (symbol) {
+    //   case 'ngn':
+    //     currencySymbol = '₦';
+    //     break;
+    //   case 'usd':
+    //     currencySymbol = '\$';
+    //     break;
+    //   case 'gbp':
+    //     currencySymbol = '£';
+    //     break;
+    //   default:
+    //     currencySymbol = '';
+    //     break;
+    // }
+    var formatter = NumberFormat.currency(symbol: symbol, decimalDigits: 0);
     return formatter.format(this);
   }
 }

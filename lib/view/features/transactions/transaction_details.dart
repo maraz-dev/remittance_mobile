@@ -65,7 +65,7 @@ class _TransactionDetailsState extends State<TransactionDetails>
                           ),
                           16.0.height,
                           Text(
-                            50000.amountWithCurrency('ngn'),
+                            50000.amountWithCurrency('₦'),
                             style: Theme.of(context)
                                 .textTheme
                                 .displayMedium!

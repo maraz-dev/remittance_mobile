@@ -13,6 +13,8 @@ import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 
+ValueNotifier<AccountModel> accountInfo = ValueNotifier(AccountModel());
+
 class CurrencyAccountView extends StatefulWidget {
   final AccountModel accountDetails;
   static String path = 'currency-account-screen';
@@ -26,6 +28,12 @@ class CurrencyAccountView extends StatefulWidget {
 }
 
 class _CurrencyAccountViewState extends State<CurrencyAccountView> {
+  @override
+  void initState() {
+    super.initState();
+    accountInfo.value = widget.accountDetails;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,18 +57,24 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text('Total Balance'),
-                        Image.asset(AppImages.us, width: 32, height: 32)
+                        CircleAvatar(
+                          radius: 18.r,
+                          backgroundImage: NetworkImage(
+                              widget.accountDetails.currencyResponse?.flagPng ??
+                                  ""),
+                        )
                       ],
                     ),
                     10.0.height,
                     SizedBox(
                       width: 300,
                       child: Text(
-                        widget.accountDetails.balance?.amountWithCurrency(widget
-                                .accountDetails.currency!
-                                .toLowerCase()) ??
-                            0.amountWithCurrency(
-                                widget.accountDetails.currency!.toLowerCase()),
+                        widget.accountDetails.balance?.amountWithCurrency(
+                              widget.accountDetails.currencyResponse
+                                      ?.currencySymbol ??
+                                  "",
+                            ) ??
+                            "",
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context)
                             .textTheme

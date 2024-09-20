@@ -39,4 +39,9 @@ class AccountImpl implements AccountRepository {
   Future<CardFundingResponseModel> fundWithUssdEndpoint(
           InitiateUssdFundingReq req) async =>
       await _accountService.fundWithUssdEndpoint(req);
+
+  @override
+  Future<AccountModel> getIndividualAccountsEndpoint(String currency) async {
+    return await _accountService.getIndividualAccountsEndpoint(currency);
+  }
 }

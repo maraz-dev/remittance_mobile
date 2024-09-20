@@ -126,6 +126,10 @@ class ApiEndpoints {
   String get initiateCardFunding => "/api/v1/funding/flutterwave/card/initiate";
   String get initiateUSSDFunding => "/api/v1/funding/flutterwave/ussd/initiate";
 
+  // Transaction
+  String get getCustomerTransactions =>
+      "/api/v1/transaction/GetCustomerTransactions";
+
   // Refresh Token
   String get refresh => "/$version/auth/refresh";
 

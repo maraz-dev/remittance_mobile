@@ -5,7 +5,6 @@ import 'package:remittance_mobile/view/features/home/currency_account_view.dart'
 import 'package:remittance_mobile/view/features/home/widgets/accounts_title.dart';
 import 'package:remittance_mobile/view/features/home/widgets/add_new_account_card.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_account_card.dart';
-import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class AccountsWidget extends StatelessWidget {
@@ -45,11 +44,11 @@ class AccountsWidget extends StatelessWidget {
                         children: [
                           AccountsCard(
                             onclicked: false,
-                            accountImage: value.currency == "NGN"
-                                ? AppImages.ng
-                                : AppImages.us,
+                            accountImage: value.currencyResponse?.flagPng ?? "",
                             balance: value.balance ?? 0.0,
                             accountCurrency: value.currency ?? "",
+                            symbol:
+                                value.currencyResponse?.currencySymbol ?? "",
                           ),
                           if (index == accounts.length - 1) ...[
                             24.0.width,

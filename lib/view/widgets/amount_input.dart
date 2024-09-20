@@ -10,7 +10,7 @@ import 'package:remittance_mobile/view/utils/validator.dart';
 
 class AmountInput extends StatelessWidget {
   final TextEditingController controller;
-  final String? header;
+  final String? header, currency, image;
   final bool? readOnly;
   final bool animate;
 
@@ -20,6 +20,8 @@ class AmountInput extends StatelessWidget {
     this.header,
     this.readOnly,
     this.animate = true,
+    this.currency,
+    this.image,
   });
 
   @override
@@ -104,10 +106,15 @@ class AmountInput extends StatelessWidget {
                 16.0.width,
                 Row(
                   children: [
-                    Image.asset(AppImages.us, width: 32, height: 32),
+                    image != null
+                        ? CircleAvatar(
+                            radius: 16.r,
+                            backgroundImage: NetworkImage(image ?? ""),
+                          )
+                        : Image.asset(AppImages.ng, width: 32, height: 32),
                     5.0.width,
                     Text(
-                      'USD',
+                      currency ?? 'USD',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontWeight: FontWeight.w500,
                             color: AppColors.kGrey700,

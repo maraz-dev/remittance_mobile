@@ -3,11 +3,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/local/user_data_impl.dart';
-import 'package:remittance_mobile/view/features/auth/login_view.dart';
 import 'package:remittance_mobile/view/features/profile/profile_options.dart';
 import 'package:remittance_mobile/view/features/profile/widgets/biometrics_sheet.dart';
 import 'package:remittance_mobile/view/features/profile/widgets/profile_card.dart';
 import 'package:remittance_mobile/view/features/profile/widgets/profile_title.dart';
+import 'package:remittance_mobile/view/route/current_user_notifier.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -189,7 +189,9 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                               text: value.text,
                               color: value.color,
                               onPressed: () => value.text == 'Log Out'
-                                  ? context.goNamed(LoginScreen.path)
+                                  ? ref
+                                      .read(userStateProvider.notifier)
+                                      .logOutUser()
                                   : context.pushNamed(value.optionPath),
                             );
                           },

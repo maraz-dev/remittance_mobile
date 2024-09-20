@@ -76,6 +76,28 @@ class AccountService {
     }
   }
 
+  // Get Account Endpoint
+  Future<AccountModel> getIndividualAccountsEndpoint(String currency) async {
+    try {
+      final response = await _networkService.request(
+        "${endpointUrl.baseAccountUrl}${endpointUrl.getAccounts}?currency=$currency",
+        RequestMethod.get,
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'];
+          return AccountModel.fromJson(res);
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   // Create Individual Accounts
   Future<AccountModel> createIndividualAccountEndpoint(
       CreateCustomerAccountReq req) async {

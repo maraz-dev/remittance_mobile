@@ -57,7 +57,7 @@ class _TransactionsViewState extends State<TransactionsView> {
                     child: FlowCard(
                       text: 'Inflow',
                       icon: const CardIcon(image: AppImages.transactionInflow),
-                      amount: 0.0.amountWithCurrency('ngn'),
+                      amount: 0.0.amountWithCurrency('₦'),
                     ),
                   ),
                   16.0.width,
@@ -68,7 +68,7 @@ class _TransactionsViewState extends State<TransactionsView> {
                         image: AppImages.transactionOutflow,
                         bgColor: AppColors.kWarningColor50,
                       ),
-                      amount: 0.0.amountWithCurrency('ngn'),
+                      amount: 0.0.amountWithCurrency('₦'),
                       textColor: AppColors.kWarningColor,
                     ),
                   ),

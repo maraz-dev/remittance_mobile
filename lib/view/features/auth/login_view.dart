@@ -74,7 +74,12 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
     ref.listen(loginProvider, (_, next) {
       if (next is AsyncData<String>) {
         SharedPrefManager.email = _email.text;
-        context.goNamed(DashboardView.path);
+        if (SharedPrefManager.isSecurityQuestionSet) {
+          context.goNamed(DashboardView.path);
+        } else {
+          context.goNamed(DashboardView.path);
+          //context.pushNamed(SecurityLockView.path);
+        }
       }
       if (next is AsyncError) {
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);

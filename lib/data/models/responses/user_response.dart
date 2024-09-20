@@ -1,29 +1,30 @@
 class UserResponse {
-  String? userId;
-  String? firstName;
-  String? lastName;
-  String? middleName;
-  String? partnerCode;
-  dynamic businessCode;
-  String? roleId;
-  String? roleName;
-  String? email;
-  bool? isActive;
-  bool? isKycComplete;
-  bool? isPinSet;
-  String? tokenType;
-  String? token;
-  String? refreshToken;
-  String? onboardingStatus;
-  String? kycProgress;
-  String? onboardingRequestId;
-  DateTime? tokenExpiresAt;
-  bool? changePassword;
-  bool? isLiveMode;
-  dynamic deviceType;
-  dynamic deviceToken;
-  bool? isNewLogin;
-  bool? isSecurityQuestionSet;
+  final String? userId;
+  final String? firstName;
+  final String? lastName;
+  final String? middleName;
+  final String? partnerCode;
+  final dynamic businessCode;
+  final String? countryCode;
+  final String? roleId;
+  final String? roleName;
+  final String? email;
+  final bool? isActive;
+  final bool? isKycComplete;
+  final bool? isPinSet;
+  final String? tokenType;
+  final String? token;
+  final String? refreshToken;
+  final String? onboardingStatus;
+  final dynamic kycProgress;
+  final String? onboardingRequestId;
+  final DateTime? tokenExpiresAt;
+  final bool? changePassword;
+  final bool? isLiveMode;
+  final String? deviceType;
+  final dynamic deviceToken;
+  final bool? isNewLogin;
+  final bool? isSecurityQuestionSet;
 
   UserResponse({
     this.userId,
@@ -32,6 +33,7 @@ class UserResponse {
     this.middleName,
     this.partnerCode,
     this.businessCode,
+    this.countryCode,
     this.roleId,
     this.roleName,
     this.email,
@@ -60,6 +62,7 @@ class UserResponse {
         middleName: json["middleName"],
         partnerCode: json["partnerCode"],
         businessCode: json["businessCode"],
+        countryCode: json["countryCode"],
         roleId: json["roleId"],
         roleName: json["roleName"],
         email: json["email"],
@@ -90,6 +93,7 @@ class UserResponse {
         "middleName": middleName,
         "partnerCode": partnerCode,
         "businessCode": businessCode,
+        "countryCode": countryCode,
         "roleId": roleId,
         "roleName": roleName,
         "email": email,

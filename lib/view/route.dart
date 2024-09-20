@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_otp_form.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
@@ -46,18 +49,34 @@ import 'package:remittance_mobile/view/features/services/virtual-cards/virtual_c
 import 'package:remittance_mobile/view/features/transactions/transaction_details.dart';
 import 'package:remittance_mobile/view/features/transactions/transaction_history_view.dart';
 import 'package:remittance_mobile/view/features/transactions/transactions_view.dart';
+import 'package:remittance_mobile/view/route/current_user_notifier.dart';
 
 final GlobalKey<NavigatorState> rootNavigation = GlobalKey(debugLabel: "root");
 final GlobalKey<NavigatorState> shellNavigation =
     GlobalKey(debugLabel: "shell");
 
 final routeProvider = Provider<GoRouter>((ref) {
+  final user = ref.watch(userStateProvider);
+
   return GoRouter(
     initialLocation: "/",
     navigatorKey: rootNavigation,
     debugLogDiagnostics: true,
     restorationScopeId: "app",
     redirect: (context, state) {
+      final isloggedIn = user.newUser;
+      final isFirstLaunch = SharedPrefManager.isFirstLaunch;
+      if (isFirstLaunch) {
+        log("is first launch");
+        if (state.matchedLocation == '/') {
+          return '/';
+        }
+      } else if (isloggedIn || !isloggedIn) {
+        if (state.matchedLocation == '/') {
+          return LoginScreen.path;
+        }
+      }
+
       return null;
     },
     routes: [

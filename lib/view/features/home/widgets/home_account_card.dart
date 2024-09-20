@@ -8,6 +8,7 @@ class AccountsCard extends StatelessWidget {
   final String accountImage;
   final double balance;
   final String accountCurrency;
+  final String symbol;
   final bool onclicked;
   const AccountsCard({
     super.key,
@@ -16,6 +17,7 @@ class AccountsCard extends StatelessWidget {
     required this.balance,
     required this.accountCurrency,
     required this.onclicked,
+    required this.symbol,
   });
 
   @override
@@ -41,7 +43,7 @@ class AccountsCard extends StatelessWidget {
                 children: [
                   CircleAvatar(
                     radius: 16.r,
-                    backgroundImage: AssetImage(accountImage),
+                    backgroundImage: NetworkImage(accountImage),
                   ),
                   // Visibility(
                   //   visible: false,
@@ -56,7 +58,7 @@ class AccountsCard extends StatelessWidget {
                 SizedBox(
                   width: 100.w,
                   child: Text(
-                    balance.amountWithCurrency(accountCurrency.toLowerCase()),
+                    balance.amountWithCurrency(symbol),
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: AppColors.kGrey800, fontWeight: FontWeight.bold),

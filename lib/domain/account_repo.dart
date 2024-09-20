@@ -9,6 +9,7 @@ import 'package:remittance_mobile/data/models/responses/card_funding_response_mo
 abstract class AccountRepository {
   Future<List<AccountCurrencies>> getAccountOpeningCurrenciesEndpoint();
   Future<List<AccountModel>> getAccountsEndpoint();
+  Future<AccountModel> getIndividualAccountsEndpoint(String currency);
   Future<AccountModel> createIndividualAccountEndpoint(
       CreateCustomerAccountReq req);
   Future<List<BanksModel>> getBanksEndpoint();

@@ -62,7 +62,6 @@ class _CreateCustomerAccountSheetState
           ConfirmCreateAccountView.path,
           extra: next.value,
         );
-        ref.invalidate(getCustomerAccountsProvider);
       }
       if (next is AsyncError) {
         SnackBarDialog.showErrorFlushBarMessage(
