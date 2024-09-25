@@ -1,3 +1,4 @@
+import 'package:remittance_mobile/data/models/requests/authorize_charge_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_customer_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_card_funding_req.dart';
 import 'package:remittance_mobile/data/models/requests/inititiate_ussd_funding_req.dart';
@@ -44,4 +45,16 @@ class AccountImpl implements AccountRepository {
   Future<AccountModel> getIndividualAccountsEndpoint(String currency) async {
     return await _accountService.getIndividualAccountsEndpoint(currency);
   }
+
+  @override
+  Future<String> authorizeAVSCardFunding(AvsAuthorizationReq req) async =>
+      await _accountService.authorizeAVSCardFunding(req);
+
+  @override
+  Future<String> authorizePINCardFunding(PinAuthorizationReq req) async =>
+      await _accountService.authorizePINCardFunding(req);
+
+  @override
+  Future<bool> validateCardFunding(String otp) async =>
+      await _accountService.validateCardFunding(otp);
 }

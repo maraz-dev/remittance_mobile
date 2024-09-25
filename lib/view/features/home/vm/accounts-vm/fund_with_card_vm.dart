@@ -4,7 +4,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/core/di/injector.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_card_funding_req.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
-import 'package:remittance_mobile/view/features/home/vm/accounts-vm/account_providers.dart';
 
 class FundWithCardNotifier
     extends AutoDisposeAsyncNotifier<CardFundingResponseModel> {
@@ -14,7 +13,7 @@ class FundWithCardNotifier
       () => ref.read(accountRepository).fundWithCardEndpoint(req),
     );
     if (!state.hasError) {
-      ref.invalidate(getCustomerAccountsProvider);
+      //ref.invalidate(getCustomerAccountsProvider);
     }
   }
 

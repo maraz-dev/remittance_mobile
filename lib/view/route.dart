@@ -13,6 +13,8 @@ import 'package:remittance_mobile/view/features/auth/login_view.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 import 'package:remittance_mobile/view/features/auth/security-lock/set_security_question_view.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
+import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/avs_authorization_sheet.dart';
+import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/debit_card_sheet.dart';
 import 'package:remittance_mobile/view/features/home/account-view/confirm_create_account.dart';
 import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_initial_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_receive_money_view.dart';
@@ -154,10 +156,21 @@ final routeProvider = Provider<GoRouter>((ref) {
               },
             ),
             GoRoute(
-              path: AddMoneyView.path,
-              name: AddMoneyView.path,
-              builder: (context, state) => const AddMoneyView(),
-            ),
+                path: AddMoneyView.path,
+                name: AddMoneyView.path,
+                builder: (context, state) => const AddMoneyView(),
+                routes: [
+                  GoRoute(
+                    path: DebitCardSheet.path,
+                    name: DebitCardSheet.path,
+                    builder: (context, state) => const DebitCardSheet(),
+                  ),
+                  GoRoute(
+                    path: AvsAuthorizationSheet.path,
+                    name: AvsAuthorizationSheet.path,
+                    builder: (context, state) => const AvsAuthorizationSheet(),
+                  ),
+                ]),
             GoRoute(
               path: WithdrawMoneyView.path,
               name: WithdrawMoneyView.path,

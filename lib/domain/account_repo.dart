@@ -1,3 +1,4 @@
+import 'package:remittance_mobile/data/models/requests/authorize_charge_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_customer_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_card_funding_req.dart';
 import 'package:remittance_mobile/data/models/requests/inititiate_ussd_funding_req.dart';
@@ -17,4 +18,7 @@ abstract class AccountRepository {
       InitiateUssdFundingReq req);
   Future<CardFundingResponseModel> fundWithCardEndpoint(
       InitiateCardFundingReq req);
+  Future<String> authorizePINCardFunding(PinAuthorizationReq req);
+  Future<String> authorizeAVSCardFunding(AvsAuthorizationReq req);
+  Future<bool> validateCardFunding(String otp);
 }

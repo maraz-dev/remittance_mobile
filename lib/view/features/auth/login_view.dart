@@ -11,6 +11,7 @@ import 'package:remittance_mobile/data/models/requests/login_req.dart';
 import 'package:remittance_mobile/view/features/auth/biometrics/biometrics_controller.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
+import 'package:remittance_mobile/view/features/auth/security-lock/set_security_question_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/login_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
@@ -77,8 +78,8 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
         if (SharedPrefManager.isSecurityQuestionSet) {
           context.goNamed(DashboardView.path);
         } else {
-          context.goNamed(DashboardView.path);
-          //context.pushNamed(SecurityLockView.path);
+          //context.goNamed(DashboardView.path);
+          context.pushNamed(SetSecurityQuestionView.path);
         }
       }
       if (next is AsyncError) {

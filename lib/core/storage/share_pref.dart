@@ -38,7 +38,7 @@ class SharedPrefManager {
   static bool get isKycComplete => prefs.getBool("isKycComplete") ?? false;
 
   static set isSecurityQuestionSet(bool isSecurityQuestionSet) =>
-      prefs.setBool("isSecurityQuestionSet", isKycComplete);
+      prefs.setBool("isSecurityQuestionSet", isSecurityQuestionSet);
   static bool get isSecurityQuestionSet =>
       prefs.getBool("isSecurityQuestionSet") ?? false;
 

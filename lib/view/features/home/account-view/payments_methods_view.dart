@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/bank_transfer_sheet.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/debit_card_sheet.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/platform_pay_sheet.dart';
@@ -59,10 +60,11 @@ class PaymentMethodView extends StatelessWidget {
   methodBottomSheet(int index, BuildContext context) {
     switch (index) {
       case 0:
-        AppBottomSheet.showBottomSheet(
-          context,
-          widget: const DebitCardSheet(),
-        );
+        context.pushNamed(DebitCardSheet.path);
+      // AppBottomSheet.showBottomSheet(
+      //   context,
+      //   widget: const DebitCardSheet(),
+      // );
       case 1:
         AppBottomSheet.showBottomSheet(
           context,

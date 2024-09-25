@@ -12,7 +12,7 @@ class CardFundingResponseModel {
   final dynamic message;
   final List<dynamic>? fields;
   final int? flwTransactionId;
-  final int? amount;
+  final num? amount;
   final String? requestId;
 
   CardFundingResponseModel({

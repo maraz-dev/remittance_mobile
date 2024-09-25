@@ -3,6 +3,7 @@ import 'package:remittance_mobile/core/http/response_body_handler.dart';
 import 'package:remittance_mobile/core/storage/hive-storage/hive_storage.dart';
 import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
+import 'package:remittance_mobile/data/models/requests/authorize_charge_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_customer_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_card_funding_req.dart';
 import 'package:remittance_mobile/data/models/requests/inititiate_ussd_funding_req.dart';
@@ -159,9 +160,88 @@ class AccountService {
       // Handle the Response
       final result = _responseHandler.handleResponse(
         response: response.data,
+        onSuccess: () async {
+          final res = response.data['data'];
+          await _storage.saveData('fundingId', res['requestId']);
+          return CardFundingResponseModel.fromJson(res);
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<String> authorizePINCardFunding(PinAuthorizationReq req) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.baseFundingUrl + endpointUrl.authorizeCardFunding,
+        RequestMethod.post,
+        data: req
+            .copyWith(
+              requestId: await _storage.readData('fundingId'),
+            )
+            .toJson(),
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () async {
+          final res = response.data['data'];
+
+          return res['message'];
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<String> authorizeAVSCardFunding(AvsAuthorizationReq req) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.baseFundingUrl + endpointUrl.authorizeCardFunding,
+        RequestMethod.post,
+        data: req
+            .copyWith(
+              requestId: await _storage.readData('fundingId'),
+            )
+            .toJson(),
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () async {
+          final res = response.data['data'];
+          return res['message'];
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<bool> validateCardFunding(String otp) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.baseFundingUrl + endpointUrl.validateCardFunding,
+        RequestMethod.post,
+        data: {
+          "otp": otp,
+          "requestId": await _storage.readData('fundingId'),
+        },
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
         onSuccess: () {
           final res = response.data['data'];
-          return CardFundingResponseModel.fromJson(res);
+          return res['isValid'];
         },
       );
       return result;

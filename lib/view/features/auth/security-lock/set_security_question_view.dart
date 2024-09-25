@@ -9,8 +9,7 @@ import 'package:remittance_mobile/view/features/auth/login_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/auth_providers.dart';
 import 'package:remittance_mobile/view/features/auth/vm/security_questions_vm/set_security_question_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
-import 'package:remittance_mobile/view/features/auth/widgets/bottomsheet_title.dart';
-import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
+import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/utils/app_dropdown.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
@@ -66,34 +65,36 @@ class _LoginViewState extends ConsumerState<SetSecurityQuestionView> {
     // Validate Security Question Provider
     ref.listen(setSecurityQuestionProvider, (_, next) {
       if (next is AsyncData<String>) {
-        AppBottomSheet.showBottomSheet(
-          context,
-          isDismissible: false,
-          widget: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(AppImages.lockIcon),
-              16.0.height,
-              const BottomSheetTitle(
-                title: 'Security Questions Created',
-                subtitle:
-                    'Your access request is verified and your ErrandPay account is now active. Call 08188880951 if you didn’t request this change.',
-              ),
-              40.0.height,
-              MainButton(
-                text: 'Back to Login',
-                onPressed: () {
-                  context.pop();
-                  context.pushNamed(LoginScreen.path);
-                },
-              ),
-              16.0.height,
-            ],
-          ),
-        );
+        // AppBottomSheet.showBottomSheet(
+        //   context,
+        //   isDismissible: false,
+        //   widget: Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     mainAxisSize: MainAxisSize.min,
+        //     children: [
+        //       SvgPicture.asset(AppImages.lockIcon),
+        //       16.0.height,
+        //       const BottomSheetTitle(
+        //         title: 'Security Questions Created',
+        //         subtitle:
+        //             'Your access request is verified and your ErrandPay account is now active. Call 08188880951 if you didn’t request this change.',
+        //       ),
+        //       40.0.height,
+        //       MainButton(
+        //         text: 'Back to Login',
+        //         onPressed: () {
+        //           context.pop();
+        //           context.pushNamed(LoginScreen.path);
+        //         },
+        //       ),
+        //       16.0.height,
+        //     ],
+        //   ),
+        // );
+        context.goNamed(DashboardView.path);
       }
       if (next is AsyncError) {
+        context.goNamed(LoginScreen.path);
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
       }
     });
