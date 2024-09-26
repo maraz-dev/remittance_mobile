@@ -33,7 +33,7 @@ class _BankTransferSheetState extends State<BankTransferSheet> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SectionHeader(text: 'Bank Transfer'),
+            const SectionHeader(text: 'Account Details'),
             InkWell(
               onTap: () => context.pop(),
               child: SvgPicture.asset(
