@@ -21,10 +21,10 @@ class ValidateCardFundingModel {
 
   factory ValidateCardFundingModel.fromJson(Map<String, dynamic> json) =>
       ValidateCardFundingModel(
-        isValid: json["isValid"],
-        flwTransactionId: json["flwTransactionId"],
-        amount: json["amount"],
-        requestId: json["requestId"],
+        isValid: json["isValid"] ?? false,
+        flwTransactionId: json["flwTransactionId"] ?? 0,
+        amount: json["amount"] ?? 0,
+        requestId: json["requestId"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {

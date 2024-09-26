@@ -3,8 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:pinput/pinput.dart';
+import 'package:remittance_mobile/data/models/requests/verify_transx_req.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/validate_card_funding_vm.dart';
+import 'package:remittance_mobile/view/features/home/vm/accounts-vm/verify_transx_funding_vm.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/theme/app_theme.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -40,9 +42,27 @@ class _CardOTPValidationState extends ConsumerState<CardOTPValidationSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final verifyLoading = ref.watch(validateFundingProvider);
+    final validateLoading = ref.watch(validateFundingProvider);
+    final verifyLoading = ref.watch(verifyFundingTransxProvider);
 
     ref.listen(validateFundingProvider, (_, next) {
+      if (next is AsyncData) {
+        // SnackBarDialog.showSuccessFlushBarMessage(
+        //     'Funding Successful', context);
+        // context.goNamed(DashboardView.path);
+        ref
+            .read(verifyFundingTransxProvider.notifier)
+            .verifyFundingTransxMethod(VerifyFundingTransxReq(
+              flwTransactionId: next.value?.flwTransactionId,
+              requestId: next.value?.requestId,
+            ));
+      }
+      if (next is AsyncError) {
+        SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
+      }
+    });
+
+    ref.listen(verifyFundingTransxProvider, (_, next) {
       if (next is AsyncData) {
         SnackBarDialog.showSuccessFlushBarMessage(
             'Funding Successful', context);
@@ -52,8 +72,9 @@ class _CardOTPValidationState extends ConsumerState<CardOTPValidationSheet> {
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
       }
     });
+
     return AbsorbPointer(
-      absorbing: verifyLoading.isLoading,
+      absorbing: validateLoading.isLoading || verifyLoading.isLoading,
       child: Form(
         key: _formKey,
         child: Column(
@@ -93,7 +114,7 @@ class _CardOTPValidationState extends ConsumerState<CardOTPValidationSheet> {
             ),
             48.0.height,
             MainButton(
-              isLoading: verifyLoading.isLoading,
+              isLoading: validateLoading.isLoading || verifyLoading.isLoading,
               text: 'Next',
               onPressed: () {
                 FocusScope.of(context).unfocus();

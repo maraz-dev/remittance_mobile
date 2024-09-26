@@ -1,33 +1,33 @@
 import 'dart:convert';
 
-VerifyTransxReq verifyTransxReqFromJson(String str) =>
-    VerifyTransxReq.fromJson(json.decode(str));
+VerifyFundingTransxReq verifyTransxReqFromJson(String str) =>
+    VerifyFundingTransxReq.fromJson(json.decode(str));
 
-String verifyTransxReqToJson(VerifyTransxReq data) =>
+String verifyTransxReqToJson(VerifyFundingTransxReq data) =>
     json.encode(data.toJson());
 
-class VerifyTransxReq {
+class VerifyFundingTransxReq {
   final int? flwTransactionId;
   final String? requestId;
 
-  VerifyTransxReq({
+  VerifyFundingTransxReq({
     this.flwTransactionId,
     this.requestId,
   });
 
-  VerifyTransxReq copyWith({
+  VerifyFundingTransxReq copyWith({
     int? flwTransactionId,
     String? requestId,
   }) =>
-      VerifyTransxReq(
+      VerifyFundingTransxReq(
         flwTransactionId: flwTransactionId ?? this.flwTransactionId,
         requestId: requestId ?? this.requestId,
       );
 
-  factory VerifyTransxReq.fromJson(Map<String, dynamic> json) =>
-      VerifyTransxReq(
-        flwTransactionId: json["flwTransactionId"],
-        requestId: json["requestId"],
+  factory VerifyFundingTransxReq.fromJson(Map<String, dynamic> json) =>
+      VerifyFundingTransxReq(
+        flwTransactionId: json["flwTransactionId"] ?? 0,
+        requestId: json["requestId"] ?? "",
       );
 
   Map<String, dynamic> toJson() => {
