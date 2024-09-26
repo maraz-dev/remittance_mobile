@@ -44,11 +44,10 @@ class AccountsWidget extends StatelessWidget {
                         children: [
                           AccountsCard(
                             onclicked: false,
-                            accountImage: value.currencyResponse?.flagPng ?? "",
+                            accountImage: value.flagPng ?? "",
                             balance: value.balance ?? 0.0,
-                            accountCurrency: value.currency ?? "",
-                            symbol:
-                                value.currencyResponse?.currencySymbol ?? "",
+                            accountCurrency: value.currencyCode ?? "",
+                            symbol: value.currencySymbol ?? "",
                           ),
                           if (index == accounts.length - 1) ...[
                             24.0.width,

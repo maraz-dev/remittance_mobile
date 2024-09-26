@@ -8,6 +8,7 @@ String accountCurrenciesToJson(AccountCurrencies data) =>
 
 class AccountCurrencies {
   final String? currencyCode;
+  final String? countryCode;
   final String? currencyName;
   final String? currencySymbol;
   final String? flagPng;
@@ -15,6 +16,7 @@ class AccountCurrencies {
 
   AccountCurrencies({
     this.currencyCode,
+    this.countryCode,
     this.currencyName,
     this.currencySymbol,
     this.flagPng,
@@ -24,6 +26,7 @@ class AccountCurrencies {
   factory AccountCurrencies.fromJson(Map<String, dynamic> json) =>
       AccountCurrencies(
         currencyCode: json["currencyCode"],
+        countryCode: json["countryCode"],
         currencyName: json["currencyName"],
         currencySymbol: json["currencySymbol"],
         flagPng: json["flagPng"],
@@ -32,6 +35,7 @@ class AccountCurrencies {
 
   Map<String, dynamic> toJson() => {
         "currencyCode": currencyCode,
+        "countryCode": countryCode,
         "currencyName": currencyName,
         "currencySymbol": currencySymbol,
         "flagPng": flagPng,

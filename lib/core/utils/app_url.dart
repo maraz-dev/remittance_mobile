@@ -128,6 +128,7 @@ class ApiEndpoints {
   String get authorizeCardFunding =>
       "/api/v1/funding/flutterwave/card/authorize";
   String get initiateUSSDFunding => "/api/v1/funding/flutterwave/ussd/initiate";
+  String get verifyTransaction => "/api/v1/funding/flutterwave/charge/verify";
 
   // Transaction
   String get getCustomerTransactions =>

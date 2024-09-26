@@ -54,12 +54,9 @@ class _AddMoneyViewState extends State<AddMoneyView> {
                     // Balance
                     BalanceWidget(
                       balance: accountInfo.value.balance?.amountWithCurrency(
-                              accountInfo
-                                      .value.currencyResponse?.currencySymbol ??
-                                  "") ??
-                          0.0.amountWithCurrency(accountInfo
-                                  .value.currencyResponse?.currencySymbol ??
-                              ""),
+                              accountInfo.value.currencySymbol ?? "") ??
+                          0.0.amountWithCurrency(
+                              accountInfo.value.currencySymbol ?? ""),
                     ).animate().slideX(begin: -.1),
                     16.0.height,
 
@@ -67,8 +64,8 @@ class _AddMoneyViewState extends State<AddMoneyView> {
                     AmountInput(
                       header: 'Amount',
                       controller: _amount,
-                      currency: accountInfo.value.currency,
-                      image: accountInfo.value.currencyResponse?.flagPng,
+                      currency: accountInfo.value.currencyCode,
+                      image: accountInfo.value.flagPng,
                     ),
                     24.0.height,
 

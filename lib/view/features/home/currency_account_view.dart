@@ -37,7 +37,8 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: innerAppBar(title: '${widget.accountDetails.currency} Account'),
+      appBar:
+          innerAppBar(title: '${widget.accountDetails.currencyCode} Account'),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -59,9 +60,8 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                         const Text('Total Balance'),
                         CircleAvatar(
                           radius: 18.r,
-                          backgroundImage: NetworkImage(
-                              widget.accountDetails.currencyResponse?.flagPng ??
-                                  ""),
+                          backgroundImage:
+                              NetworkImage(widget.accountDetails.flagPng ?? ""),
                         )
                       ],
                     ),
@@ -70,9 +70,7 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                       width: 300,
                       child: Text(
                         widget.accountDetails.balance?.amountWithCurrency(
-                              widget.accountDetails.currencyResponse
-                                      ?.currencySymbol ??
-                                  "",
+                              widget.accountDetails.currencySymbol ?? "",
                             ) ??
                             "",
                         overflow: TextOverflow.ellipsis,

@@ -4,9 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/data/models/requests/authorize_charge_req.dart';
+import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/card_otp_validation_sheet.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/debit_card_sheet.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/authorize_card_funding_vm.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -58,7 +60,14 @@ class _AvsAuthorizationSheetState extends ConsumerState<AvsAuthorizationSheet> {
     final cardLoading = ref.watch(authorizeCardAvsProvider).isLoading;
 
     ref.listen(authorizeCardAvsProvider, (_, next) {
-      if (next is AsyncData) {}
+      if (next is AsyncData) {
+        AppBottomSheet.showBottomSheet(
+          context,
+          widget: CardOTPValidationSheet(
+            description: next.value ?? "",
+          ),
+        );
+      }
       if (next is AsyncError) {
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
       }

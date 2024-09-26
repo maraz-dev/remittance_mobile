@@ -191,6 +191,9 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
                             hint: '0000 0000 0000 0000',
                             inputType: TextInputType.number,
                             validator: validateGeneric,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
                           );
                         },
                       ),
@@ -219,6 +222,9 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
                               },
                               inputType: TextInputType.number,
                               validator: validateGeneric,
+                              inputFormatters: [
+                                LengthLimitingTextInputFormatter(5)
+                              ],
                             ),
                           ),
                           16.0.width,

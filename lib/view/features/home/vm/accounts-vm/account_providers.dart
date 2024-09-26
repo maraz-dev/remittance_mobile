@@ -10,10 +10,10 @@ final getAccountsCurrencyProvider = FutureProvider.autoDispose((ref) async {
   return ref.read(accountRepository).getAccountOpeningCurrenciesEndpoint();
 });
 
-final getInidividualAccountsCurrencyProvider =
-    FutureProvider.autoDispose.family<AccountModel, String>((ref, args) async {
-  return ref.read(accountRepository).getIndividualAccountsEndpoint(args);
-});
+// final getInidividualAccountsCurrencyProvider =
+//     FutureProvider.autoDispose.family<AccountModel, String>((ref, args) async {
+//   return ref.read(accountRepository).getIndividualAccountsEndpoint(args);
+// });
 
 final getBanksProvider = FutureProvider.autoDispose((ref) async {
   return ref.read(accountRepository).getBanksEndpoint();

@@ -6,6 +6,7 @@ import 'package:remittance_mobile/data/models/responses/account_currencies_model
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
+import 'package:remittance_mobile/data/models/responses/validate_card_funding_model.dart';
 import 'package:remittance_mobile/data/remote/account-remote/account_service.dart';
 import 'package:remittance_mobile/domain/account_repo.dart';
 
@@ -42,9 +43,9 @@ class AccountImpl implements AccountRepository {
       await _accountService.fundWithUssdEndpoint(req);
 
   @override
-  Future<AccountModel> getIndividualAccountsEndpoint(String currency) async {
-    return await _accountService.getIndividualAccountsEndpoint(currency);
-  }
+  Future<AccountModel> getIndividualAccountsEndpoint(
+          String country, String currency) async =>
+      await _accountService.getIndividualAccountsEndpoint(country, currency);
 
   @override
   Future<String> authorizeAVSCardFunding(AvsAuthorizationReq req) async =>
@@ -55,6 +56,6 @@ class AccountImpl implements AccountRepository {
       await _accountService.authorizePINCardFunding(req);
 
   @override
-  Future<bool> validateCardFunding(String otp) async =>
+  Future<ValidateCardFundingModel> validateCardFunding(String otp) async =>
       await _accountService.validateCardFunding(otp);
 }

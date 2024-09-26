@@ -11,6 +11,7 @@ import 'package:remittance_mobile/data/models/responses/account_currencies_model
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
+import 'package:remittance_mobile/data/models/responses/validate_card_funding_model.dart';
 
 class AccountService {
   final HttpService _networkService;
@@ -78,10 +79,11 @@ class AccountService {
   }
 
   // Get Account Endpoint
-  Future<AccountModel> getIndividualAccountsEndpoint(String currency) async {
+  Future<AccountModel> getIndividualAccountsEndpoint(
+      String country, String currency) async {
     try {
       final response = await _networkService.request(
-        "${endpointUrl.baseAccountUrl}${endpointUrl.getAccounts}?currency=$currency",
+        "${endpointUrl.baseAccountUrl}${endpointUrl.getAccounts}?countryCode=$country&currencyCode=$currency",
         RequestMethod.get,
       );
 
@@ -89,8 +91,8 @@ class AccountService {
       final result = _responseHandler.handleResponse(
         response: response.data,
         onSuccess: () {
-          final res = response.data['data'];
-          return AccountModel.fromJson(res);
+          final res = response.data['data'] as List;
+          return AccountModel.fromJson(res.first);
         },
       );
       return result;
@@ -189,8 +191,7 @@ class AccountService {
         response: response.data,
         onSuccess: () async {
           final res = response.data['data'];
-
-          return res['message'];
+          return res['message'] as String;
         },
       );
       return result;
@@ -216,7 +217,7 @@ class AccountService {
         response: response.data,
         onSuccess: () async {
           final res = response.data['data'];
-          return res['message'];
+          return res['message'] as String;
         },
       );
       return result;
@@ -225,7 +226,7 @@ class AccountService {
     }
   }
 
-  Future<bool> validateCardFunding(String otp) async {
+  Future<ValidateCardFundingModel> validateCardFunding(String otp) async {
     try {
       final response = await _networkService.request(
         endpointUrl.baseFundingUrl + endpointUrl.validateCardFunding,
@@ -241,7 +242,7 @@ class AccountService {
         response: response.data,
         onSuccess: () {
           final res = response.data['data'];
-          return res['isValid'];
+          return ValidateCardFundingModel.fromJson(res);
         },
       );
       return result;

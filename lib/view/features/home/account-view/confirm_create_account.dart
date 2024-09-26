@@ -28,7 +28,8 @@ class _ConfirmCreateAccountViewState extends State<ConfirmCreateAccountView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: innerAppBar(title: '${widget.accountDetails.currency} Account'),
+        appBar:
+            innerAppBar(title: '${widget.accountDetails.currencyCode} Account'),
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -47,14 +48,12 @@ class _ConfirmCreateAccountViewState extends State<ConfirmCreateAccountView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(widget.accountDetails.currencyResponse
-                                  ?.currencyName ??
+                          Text(widget.accountDetails.currencyName ??
                               "Currency Account"),
                           CircleAvatar(
                             radius: 16.r,
-                            backgroundImage: NetworkImage(widget
-                                    .accountDetails.currencyResponse?.flagPng ??
-                                ""),
+                            backgroundImage: NetworkImage(
+                                widget.accountDetails.flagPng ?? ""),
                           ),
                         ],
                       ),
@@ -62,7 +61,7 @@ class _ConfirmCreateAccountViewState extends State<ConfirmCreateAccountView> {
                       SizedBox(
                         width: 300,
                         child: Text(
-                          widget.accountDetails.currency ?? "",
+                          widget.accountDetails.currencyCode ?? "",
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context)
                               .textTheme
@@ -85,7 +84,7 @@ class _ConfirmCreateAccountViewState extends State<ConfirmCreateAccountView> {
                         value: widget.accountDetails.accountNumber,
                         showCopy: false,
                       ),
-                      if (widget.accountDetails.currency == "USD") ...[
+                      if (widget.accountDetails.currencyCode == "USD") ...[
                         24.0.height,
                         const AccountDetailsCard(
                           title: 'Sort Code',

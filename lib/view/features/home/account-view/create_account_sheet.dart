@@ -144,6 +144,7 @@ class _CreateCustomerAccountSheetState
                                           .createAccountMethod(
                                             CreateCustomerAccountReq(
                                               currencyCode: value.currencyCode,
+                                              countryCode: value.countryCode,
                                             ),
                                           );
                                     }

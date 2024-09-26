@@ -6,11 +6,13 @@ import 'package:remittance_mobile/data/models/responses/account_currencies_model
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
+import 'package:remittance_mobile/data/models/responses/validate_card_funding_model.dart';
 
 abstract class AccountRepository {
   Future<List<AccountCurrencies>> getAccountOpeningCurrenciesEndpoint();
   Future<List<AccountModel>> getAccountsEndpoint();
-  Future<AccountModel> getIndividualAccountsEndpoint(String currency);
+  Future<AccountModel> getIndividualAccountsEndpoint(
+      String country, String currency);
   Future<AccountModel> createIndividualAccountEndpoint(
       CreateCustomerAccountReq req);
   Future<List<BanksModel>> getBanksEndpoint();
@@ -20,5 +22,5 @@ abstract class AccountRepository {
       InitiateCardFundingReq req);
   Future<String> authorizePINCardFunding(PinAuthorizationReq req);
   Future<String> authorizeAVSCardFunding(AvsAuthorizationReq req);
-  Future<bool> validateCardFunding(String otp);
+  Future<ValidateCardFundingModel> validateCardFunding(String otp);
 }
