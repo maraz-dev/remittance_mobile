@@ -67,7 +67,9 @@ class AmountInput extends StatelessWidget {
                     validator: (value) {
                       if (value?.isEmpty ?? false) {
                         return 'This field cannot be empty';
-                      } else if (double.parse(value ?? "") <= 0) {
+                      } else if (double.parse(
+                              value?.replaceAll(',', '') ?? '0.0') <=
+                          0) {
                         return 'Amount must be greater than 0';
                       }
                       return null;
