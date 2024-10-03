@@ -258,7 +258,7 @@ class AccountService {
       VerifyFundingTransxReq req) async {
     try {
       final response = await _networkService.request(
-        endpointUrl.baseFundingUrl + endpointUrl.validateCardFunding,
+        endpointUrl.baseFundingUrl + endpointUrl.verifyTransaction,
         RequestMethod.post,
         data: req.toJson(),
       );

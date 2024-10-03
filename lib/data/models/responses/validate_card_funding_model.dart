@@ -9,7 +9,7 @@ String validateCardFundingModelToJson(ValidateCardFundingModel data) =>
 class ValidateCardFundingModel {
   final bool? isValid;
   final int? flwTransactionId;
-  final int? amount;
+  final num? amount;
   final String? requestId;
 
   ValidateCardFundingModel({
@@ -23,7 +23,7 @@ class ValidateCardFundingModel {
       ValidateCardFundingModel(
         isValid: json["isValid"] ?? false,
         flwTransactionId: json["flwTransactionId"] ?? 0,
-        amount: json["amount"] ?? 0,
+        amount: json["amount"],
         requestId: json["requestId"] ?? "",
       );
 

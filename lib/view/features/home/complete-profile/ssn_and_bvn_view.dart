@@ -100,20 +100,25 @@ class _SsnAndBvnViewState extends State<SsnAndBvnView> {
               /// SSN or BVN
               Visibility(
                 visible: _selectSsnOrBvn.text == "" ? false : true,
-                child: TextInput(
-                  header: _selectSsnOrBvn.text,
-                  controller: _ssnOrBvn,
-                  hint: "Enter Number",
-                  inputType: TextInputType.number,
-                  inputFormatters: [
-                    services.FilteringTextInputFormatter.digitsOnly,
-                    services.LengthLimitingTextInputFormatter(
-                        _selectSsnOrBvn.text == "BVN" ? 11 : 9)
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextInput(
+                      header: _selectSsnOrBvn.text,
+                      controller: _ssnOrBvn,
+                      hint: "Enter Number",
+                      inputType: TextInputType.number,
+                      inputFormatters: [
+                        services.FilteringTextInputFormatter.digitsOnly,
+                        services.LengthLimitingTextInputFormatter(
+                            _selectSsnOrBvn.text == "BVN" ? 11 : 9)
+                      ],
+                      validator: validateGeneric,
+                    ),
+                    16.0.height,
                   ],
-                  validator: validateGeneric,
                 ),
               ),
-              16.0.height,
 
               /// Date of Birth
               TextInput(

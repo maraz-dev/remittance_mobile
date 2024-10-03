@@ -62,30 +62,33 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
     final appRouteProvider = ref.watch(routeProvider);
     final appSession = ref.watch(appSessionProvider);
 
-    return ScreenUtilInit(
-      designSize: const Size(375, 812),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: ((context, child) {
-        return SessionTimeoutManager(
-          sessionConfig: appSession,
-          sessionStateStream: ref.watch(sessionStateProvider).stream,
-          child: MaterialApp.router(
-            title: 'Remittance',
-            debugShowCheckedModeBanner: false,
-            theme: themeData(),
-            key: navigatorKey,
-            routerConfig: appRouteProvider,
-            builder: (context, child) {
-              return MediaQuery(
-                data: MediaQuery.of(context)
-                    .copyWith(textScaler: const TextScaler.linear(0.98)),
-                child: child!,
-              );
-            },
-          ),
-        );
-      }),
+    return GestureDetector(
+      onTap: () => WidgetsBinding.instance.focusManager.primaryFocus?.unfocus(),
+      child: ScreenUtilInit(
+        designSize: const Size(375, 812),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: ((context, child) {
+          return SessionTimeoutManager(
+            sessionConfig: appSession,
+            sessionStateStream: ref.watch(sessionStateProvider).stream,
+            child: MaterialApp.router(
+              title: 'Remittance',
+              debugShowCheckedModeBanner: false,
+              theme: themeData(),
+              key: navigatorKey,
+              routerConfig: appRouteProvider,
+              builder: (context, child) {
+                return MediaQuery(
+                  data: MediaQuery.of(context)
+                      .copyWith(textScaler: const TextScaler.linear(0.98)),
+                  child: child!,
+                );
+              },
+            ),
+          );
+        }),
+      ),
     );
   }
 }

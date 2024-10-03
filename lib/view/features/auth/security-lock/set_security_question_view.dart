@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/security_questions_req.dart';
 import 'package:remittance_mobile/data/models/requests/set_security_question_req.dart';
 import 'package:remittance_mobile/data/models/responses/security_question_item_model.dart';
-import 'package:remittance_mobile/view/features/auth/login_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/auth_providers.dart';
 import 'package:remittance_mobile/view/features/auth/vm/security_questions_vm/set_security_question_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
@@ -94,7 +93,7 @@ class _LoginViewState extends ConsumerState<SetSecurityQuestionView> {
         context.goNamed(DashboardView.path);
       }
       if (next is AsyncError) {
-        context.goNamed(LoginScreen.path);
+        //context.goNamed(LoginScreen.path);
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
       }
     });

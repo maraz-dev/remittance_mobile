@@ -35,6 +35,7 @@ class CompleteProfileView extends StatelessWidget {
               24.0.height,
               ListView.separated(
                 shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   var value = kycOptionList[index];
                   return Row(
