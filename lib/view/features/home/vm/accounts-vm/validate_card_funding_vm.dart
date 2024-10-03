@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/core/di/injector.dart';
+import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
 import 'package:remittance_mobile/data/models/responses/validate_card_funding_model.dart';
-import 'package:remittance_mobile/view/features/home/vm/accounts-vm/account_providers.dart';
 
 class ValidateFundingNotifier
     extends AutoDisposeAsyncNotifier<ValidateCardFundingModel> {
@@ -12,8 +12,10 @@ class ValidateFundingNotifier
     state = await AsyncValue.guard(
       () => ref.read(accountRepository).validateCardFunding(otp),
     );
+    var storage = inject.get<SecureStorageBase>();
     if (!state.hasError) {
-      ref.invalidate(getCustomerAccountsProvider);
+      storage.saveData('fundingId', state.value?.requestId ?? "");
+      storage.saveData('flwId', state.value?.flwTransactionId.toString() ?? "");
     }
   }
 

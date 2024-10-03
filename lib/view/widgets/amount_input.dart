@@ -6,7 +6,6 @@ import 'package:number_text_input_formatter/number_text_input_formatter.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
-import 'package:remittance_mobile/view/utils/validator.dart';
 
 class AmountInput extends StatelessWidget {
   final TextEditingController controller;
@@ -65,7 +64,14 @@ class AmountInput extends StatelessWidget {
                         const TextInputType.numberWithOptions(decimal: true),
                     cursorColor: AppColors.kGrey700,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: validateGeneric,
+                    validator: (value) {
+                      if (value?.isEmpty ?? false) {
+                        return 'This field cannot be empty';
+                      } else if (double.parse(value ?? "") <= 0) {
+                        return 'Amount must be greater than 0';
+                      }
+                      return null;
+                    },
                     style: Theme.of(context).textTheme.displayLarge!.copyWith(
                         color: AppColors.kGrey700,
                         fontWeight: FontWeight.w500,

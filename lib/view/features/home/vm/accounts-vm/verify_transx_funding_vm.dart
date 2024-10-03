@@ -15,6 +15,9 @@ class VerifyFundingTransxNotifier
     );
     if (!state.hasError) {
       ref.invalidate(getCustomerAccountsProvider);
+    } else if ((state.value?.isSuccessful ?? false) &&
+        !(state.value?.isCompleted ?? false)) {
+      ref.invalidateSelf();
     }
   }
 

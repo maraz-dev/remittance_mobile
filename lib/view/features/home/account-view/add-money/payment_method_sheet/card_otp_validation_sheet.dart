@@ -7,8 +7,10 @@ import 'package:remittance_mobile/data/models/requests/verify_transx_req.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/validate_card_funding_vm.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/verify_transx_funding_vm.dart';
+import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/theme/app_theme.dart';
+import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -47,26 +49,113 @@ class _CardOTPValidationState extends ConsumerState<CardOTPValidationSheet> {
 
     ref.listen(validateFundingProvider, (_, next) {
       if (next is AsyncData) {
-        // SnackBarDialog.showSuccessFlushBarMessage(
-        //     'Funding Successful', context);
-        // context.goNamed(DashboardView.path);
         ref
             .read(verifyFundingTransxProvider.notifier)
-            .verifyFundingTransxMethod(VerifyFundingTransxReq(
-              flwTransactionId: next.value?.flwTransactionId,
-              requestId: next.value?.requestId,
-            ));
+            .verifyFundingTransxMethod(
+              VerifyFundingTransxReq(
+                flwTransactionId: next.value?.flwTransactionId,
+                requestId: next.value?.requestId,
+              ),
+            );
       }
       if (next is AsyncError) {
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
       }
     });
 
+    // Verify The Transaction
     ref.listen(verifyFundingTransxProvider, (_, next) {
       if (next is AsyncData) {
-        SnackBarDialog.showSuccessFlushBarMessage(
-            'Funding Successful', context);
-        context.goNamed(DashboardView.path);
+        // isSuccessful & isCompleted
+        if ((next.value?.isSuccessful ?? false) &&
+            (next.value?.isCompleted ?? false)) {
+          AppBottomSheet.showBottomSheet(
+            context,
+            enableDrag: false,
+            isDismissible: false,
+            widget: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                64.0.height,
+                const CardIcon(
+                  image: AppImages.doneOutline,
+                  padding: 30,
+                  bgColor: AppColors.kGrey100,
+                ),
+                24.0.height,
+                const SectionHeader(text: 'Transaction Complete'),
+                8.0.height,
+                const Text('Your request is Complete'),
+                64.0.height,
+                MainButton(
+                    text: 'Go to Dashboard',
+                    onPressed: () {
+                      context.goNamed(DashboardView.path);
+                    })
+              ],
+            ),
+          );
+        }
+        // isSuccessful & is NOT isCompleted
+        else if ((next.value?.isSuccessful ?? false) &&
+            !(next.value?.isCompleted ?? false)) {
+          AppBottomSheet.showBottomSheet(
+            context,
+            enableDrag: false,
+            isDismissible: false,
+            widget: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                64.0.height,
+                const CardIcon(
+                  image: AppImages.doneOutline,
+                  padding: 30,
+                  bgColor: AppColors.kGrey100,
+                ),
+                24.0.height,
+                const SectionHeader(text: 'Request Pending'),
+                8.0.height,
+                const Text('Your request is awaiting Confirmation.'),
+                64.0.height,
+                MainButton(
+                    text: 'Go To Dashboard',
+                    onPressed: () {
+                      context.goNamed(DashboardView.path);
+                    })
+              ],
+            ),
+          );
+        }
+        // NOT isSuccessful & NOT isCompleted
+        else if (!(next.value?.isSuccessful ?? false) &&
+            !(next.value?.isCompleted ?? false)) {
+          AppBottomSheet.showBottomSheet(
+            context,
+            enableDrag: false,
+            isDismissible: false,
+            widget: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                64.0.height,
+                const CardIcon(
+                  image: AppImages.doneOutline,
+                  padding: 30,
+                  bgColor: AppColors.kGrey100,
+                ),
+                24.0.height,
+                const SectionHeader(text: 'Transaction Failed'),
+                8.0.height,
+                const Text('Your request is unsuccessful.'),
+                64.0.height,
+                MainButton(
+                    text: 'Try Again',
+                    onPressed: () {
+                      context.pop();
+                    })
+              ],
+            ),
+          );
+        }
       }
       if (next is AsyncError) {
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);

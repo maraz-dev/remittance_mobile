@@ -100,6 +100,9 @@ class AppImages {
   static const location = '$path/location.svg';
   static const seller = '$path/seller.svg';
   static const swapAlt = '$path/swap_alt.svg';
+  static const doneOutline = '$path/done_outline.svg';
+  static const pendingOutline = '$path/pending_outline.svg';
+  static const failedOutline = '$path/failed_outline.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';
