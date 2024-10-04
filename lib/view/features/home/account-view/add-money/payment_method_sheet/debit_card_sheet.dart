@@ -7,6 +7,7 @@ import 'package:remittance_mobile/data/models/requests/initiate_card_funding_req
 import 'package:remittance_mobile/view/features/home/account-view/add-money/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/avs_authorization_sheet.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/pin_authorization_sheet.dart';
+import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/fund_with_card_vm.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
@@ -130,10 +131,18 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
           );
         } else if (next.value?.mode == "avs_noauth") {
           context.pushNamed(AvsAuthorizationSheet.path);
-        } else if (next.value?.mode == "redirect") {}
+        } else if (next.value?.mode == "redirect") {
+          SnackBarDialog.showErrorFlushBarMessage(
+            'Please Try Another Card.',
+            context,
+          );
+        }
       }
       if (next is AsyncError) {
-        SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
+        SnackBarDialog.showErrorFlushBarMessage(
+          next.error.toString(),
+          context,
+        );
       }
     });
     return AbsorbPointer(
@@ -284,7 +293,7 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
                                   addMoneyAmount.value.replaceAll(',', '')),
                               expiryMonth: expiryDateSeparated[0],
                               expiryYear: expiryDateSeparated[1],
-                              currency: "NGN",
+                              currency: accountInfo.value.currencyCode,
                               charge: 0,
                               redirectUrl: "",
                             ),

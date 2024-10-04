@@ -17,10 +17,11 @@ class AppBottomSheet {
         isDismissible: isDismissible,
         useRootNavigator: true,
         builder: (BuildContext context) {
-          return StatefulBuilder(builder: (context, StateSetter setState) {
-            return Container(
-              color: Colors.transparent,
-              child: Container(
+          return StatefulBuilder(
+            builder: (context, StateSetter setState) {
+              return Container(
+                color: Colors.transparent,
+                child: Container(
                   padding: EdgeInsets.only(
                       top: 20,
                       left: 20,
@@ -35,9 +36,11 @@ class AppBottomSheet {
                       ))),
                   child: SafeArea(
                     child: widget,
-                  )),
-            );
-          });
+                  ),
+                ),
+              );
+            },
+          );
         });
   }
 }
