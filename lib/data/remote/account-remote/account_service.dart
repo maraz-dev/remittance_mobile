@@ -7,11 +7,16 @@ import 'package:remittance_mobile/data/models/requests/authorize_charge_req.dart
 import 'package:remittance_mobile/data/models/requests/create_customer_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_card_funding_req.dart';
 import 'package:remittance_mobile/data/models/requests/inititiate_ussd_funding_req.dart';
+import 'package:remittance_mobile/data/models/requests/send_money_charge.dart';
+import 'package:remittance_mobile/data/models/requests/send_money_to_bank_req.dart';
+import 'package:remittance_mobile/data/models/requests/send_money_to_mobile_money.dart';
 import 'package:remittance_mobile/data/models/requests/verify_transx_req.dart';
 import 'package:remittance_mobile/data/models/responses/account_currencies_model.dart';
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
+import 'package:remittance_mobile/data/models/responses/send_charge_response.dart';
+import 'package:remittance_mobile/data/models/responses/send_money_response.dart';
 import 'package:remittance_mobile/data/models/responses/validate_card_funding_model.dart';
 import 'package:remittance_mobile/data/models/responses/verify_transx_model.dart';
 
@@ -293,6 +298,100 @@ class AccountService {
         onSuccess: () {
           final res = response.data['data'];
           return CardFundingResponseModel.fromJson(res);
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  // Send to Bank
+  Future<SendMoneyResponse> sendMoneyToBankEndpoint(SendToBankReq req) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.baseFundingUrl + endpointUrl.sendToBank,
+        RequestMethod.post,
+        data: req.toJson(),
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'];
+          return SendMoneyResponse.fromJson(res);
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  // Send to Mobile Money
+  Future<SendMoneyResponse> sendMoneyToMobileMoneyEndpoint(
+      SendToMobileMoneyReq req) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.baseFundingUrl + endpointUrl.sendToMobileMoney,
+        RequestMethod.post,
+        data: req.toJson(),
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'];
+          return SendMoneyResponse.fromJson(res);
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  // Send to ErrandPay User
+  Future<SendMoneyResponse> sendMoneyToInAppUserEndpoint(
+      SendToMobileMoneyReq req) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.baseFundingUrl + endpointUrl.sendToInAppUser,
+        RequestMethod.post,
+        data: req.toJson(),
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'];
+          return SendMoneyResponse.fromJson(res);
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  // Send to Mobile Money
+  Future<SendChargeResponse> sendMoneyChargeEndpoint(SendChargeReq req) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.baseFundingUrl + endpointUrl.sendCharge,
+        RequestMethod.post,
+        data: req.toJson(),
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'];
+          return SendMoneyResponse.fromJson(res);
         },
       );
       return result;

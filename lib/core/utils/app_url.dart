@@ -130,6 +130,12 @@ class ApiEndpoints {
   String get initiateUSSDFunding => "/api/v1/funding/flutterwave/ussd/initiate";
   String get verifyTransaction => "/api/v1/funding/flutterwave/charge/verify";
 
+  // Send Money
+  String get sendToBank => "/api/v1/sendmoney/toBank";
+  String get sendToMobileMoney => "/api/v1/sendmoney/toMobileMoney";
+  String get sendToInAppUser => "/api/v1/sendmoney/toInAppUser";
+  String get sendCharge => "/api/v1/sendmoney/charge";
+
   // Transaction
   String get getCustomerTransactions =>
       "/api/v1/transaction/GetCustomerTransactions";
