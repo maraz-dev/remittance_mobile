@@ -80,7 +80,10 @@ class _ReceiveMoneyViewState extends State<ReceiveMoneyView> {
         ),
         bottomNavigationBar: BottomNavBarWidget(
           children: [
-            const BottomNavBarBalanceInfo(),
+            const BottomNavBarBalanceInfo(
+              rateFrom: '',
+              rateTo: '',
+            ),
             12.0.height,
             MainButton(
                 text: 'Receive Money',

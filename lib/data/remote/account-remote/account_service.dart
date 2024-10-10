@@ -3,6 +3,9 @@ import 'package:remittance_mobile/core/http/response_body_handler.dart';
 import 'package:remittance_mobile/core/storage/hive-storage/hive_storage.dart';
 import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
+import 'package:remittance_mobile/core/utils/device_details.dart';
+import 'package:remittance_mobile/core/utils/get_ip_address.dart';
+import 'package:remittance_mobile/core/utils/location_services.dart';
 import 'package:remittance_mobile/data/models/requests/authorize_charge_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_customer_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_card_funding_req.dart';
@@ -133,10 +136,10 @@ class AccountService {
   }
 
   // Get Banks
-  Future<List<BanksModel>> getBanksEndpoint() async {
+  Future<List<BanksModel>> getBanksEndpoint(String country) async {
     try {
       final response = await _networkService.request(
-        endpointUrl.baseFundingUrl + endpointUrl.getBanks,
+        '${endpointUrl.baseFundingUrl}${endpointUrl.getBanks}/$country/bank',
         RequestMethod.get,
       );
 
@@ -308,11 +311,35 @@ class AccountService {
 
   // Send to Bank
   Future<SendMoneyResponse> sendMoneyToBankEndpoint(SendToBankReq req) async {
+    String? deviceToken, ipAddress, latitude, longitude;
+
     try {
+      await getDeviceDetails().then((value) {
+        deviceToken = value[1];
+      });
+
+      // Get Device IP Address
+      await getDeviceIP().then((value) {
+        ipAddress = value;
+      });
+
+      // Get Location
+      await determineDeviceLocation().then((value) async {
+        latitude = value.latitude.toString();
+        longitude = value.longitude.toString();
+      });
+
       final response = await _networkService.request(
         endpointUrl.baseFundingUrl + endpointUrl.sendToBank,
         RequestMethod.post,
-        data: req.toJson(),
+        data: req
+            .copyWith(
+              deviceToken: deviceToken,
+              longitude: longitude,
+              latitude: latitude,
+              ipAddress: ipAddress,
+            )
+            .toJson(),
       );
 
       // Handle the Response
@@ -383,7 +410,11 @@ class AccountService {
       final response = await _networkService.request(
         endpointUrl.baseFundingUrl + endpointUrl.sendCharge,
         RequestMethod.post,
-        data: req.toJson(),
+        data: req
+            .copyWith(
+              channel: 'Mobile',
+            )
+            .toJson(),
       );
 
       // Handle the Response

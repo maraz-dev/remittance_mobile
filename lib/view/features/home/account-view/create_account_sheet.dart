@@ -88,7 +88,7 @@ class _CreateCustomerAccountSheetState
                   TextInput(
                     controller: _searchController,
                     hint: "Search...",
-                    inputType: TextInputType.emailAddress,
+                    inputType: TextInputType.text,
                     validator: null,
                     animate: false,
                   ),

@@ -13,7 +13,7 @@ final appSessionProvider = Provider<SessionConfig>((ref) {
   final sessionConfig = SessionConfig(
       invalidateSessionForAppLostFocus: const Duration(minutes: 5),
       invalidateSessionForUserInactivity:
-          const Duration(minutes: kDebugMode ? 5 : 5));
+          const Duration(minutes: kDebugMode ? 30 : 5));
 
   sessionConfig.stream.listen((SessionTimeoutState timeoutEvent) async {
     if (timeoutEvent == SessionTimeoutState.userInactivityTimeout) {

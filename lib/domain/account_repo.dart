@@ -22,7 +22,7 @@ abstract class AccountRepository {
       String country, String currency);
   Future<AccountModel> createIndividualAccountEndpoint(
       CreateCustomerAccountReq req);
-  Future<List<BanksModel>> getBanksEndpoint();
+  Future<List<BanksModel>> getBanksEndpoint(String country);
   Future<CardFundingResponseModel> fundWithUssdEndpoint(
       InitiateUssdFundingReq req);
   Future<CardFundingResponseModel> fundWithCardEndpoint(

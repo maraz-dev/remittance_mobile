@@ -36,8 +36,8 @@ class AccountImpl implements AccountRepository {
       await _accountService.getAccountsEndpoint();
 
   @override
-  Future<List<BanksModel>> getBanksEndpoint() async =>
-      await _accountService.getBanksEndpoint();
+  Future<List<BanksModel>> getBanksEndpoint(String country) async =>
+      await _accountService.getBanksEndpoint(country);
 
   @override
   Future<CardFundingResponseModel> fundWithCardEndpoint(

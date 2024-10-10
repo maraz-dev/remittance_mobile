@@ -4,7 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:number_text_input_formatter/number_text_input_formatter.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
-import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class AmountInput extends StatelessWidget {
@@ -112,23 +111,19 @@ class AmountInput extends StatelessWidget {
                   ),
                 ),
                 16.0.width,
-                Row(
-                  children: [
-                    image != null
-                        ? CircleAvatar(
-                            radius: 16.r,
-                            backgroundImage: NetworkImage(image ?? ""),
-                          )
-                        : Image.asset(AppImages.ng, width: 32, height: 32),
-                    5.0.width,
-                    Text(
-                      currency ?? 'USD',
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.kGrey700,
-                          ),
-                    ),
-                  ],
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                  decoration: BoxDecoration(
+                      color: AppColors.kGrey300,
+                      borderRadius: BorderRadius.circular(16)),
+                  child: Text(
+                    currency ?? 'USD',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.kGrey700,
+                        ),
+                  ),
                 ),
               ],
             ),

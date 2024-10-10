@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_initial.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -45,13 +46,16 @@ class _SendMoneyFinalViewState extends State<SendMoneyFinalView> {
                 AmountInput(
                   header: "You'll Send",
                   controller: _receiveAmount,
+                  currency: srcCurrencyValue.value.currencyCode,
                 ),
                 24.0.height,
 
                 /// Amount
                 AmountInput(
+                  readOnly: true,
                   header: "Recipient Gets",
                   controller: _sendAmount,
+                  currency: desCurrencyValue.value.currencyCode,
                 ),
               ],
             ),
@@ -60,7 +64,9 @@ class _SendMoneyFinalViewState extends State<SendMoneyFinalView> {
         bottomNavigationBar: BottomNavBarWidget(
           children: [
             const BottomNavBarBalanceInfo(
-              showArrival: true,
+              rateFrom: '',
+              rateTo: '',
+              showArrival: false,
             ),
             12.0.height,
             MainButton(

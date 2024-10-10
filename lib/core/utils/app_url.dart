@@ -122,7 +122,7 @@ class ApiEndpoints {
       "/api/v1/accounts/customer/Individual/CreateNewAccount";
 
   // Funding
-  String get getBanks => "/api/v1/bank/NG/bank";
+  String get getBanks => "/api/v1/bank";
   String get initiateCardFunding => "/api/v1/funding/flutterwave/card/initiate";
   String get validateCardFunding => "/api/v1/funding/flutterwave/card/validate";
   String get authorizeCardFunding =>
