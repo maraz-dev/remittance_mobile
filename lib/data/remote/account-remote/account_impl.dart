@@ -10,6 +10,7 @@ import 'package:remittance_mobile/data/models/responses/account_currencies_model
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
+import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
 import 'package:remittance_mobile/data/models/responses/send_charge_response.dart';
 import 'package:remittance_mobile/data/models/responses/send_money_response.dart';
 import 'package:remittance_mobile/data/models/responses/validate_card_funding_model.dart';
@@ -88,4 +89,8 @@ class AccountImpl implements AccountRepository {
   Future<SendMoneyResponse> sendMoneyToMobileMoneyEndpoint(
           SendToMobileMoneyReq req) async =>
       await _accountService.sendMoneyToMobileMoneyEndpoint(req);
+
+  @override
+  Future<List<CorridorsResponse>> getCorridorsEndpoint() async =>
+      await _accountService.getCorridorsEndpoint();
 }

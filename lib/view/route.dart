@@ -45,6 +45,7 @@ import 'package:remittance_mobile/view/features/services/bill-payment/electricit
 import 'package:remittance_mobile/view/features/services/bill-payment/internet_view.dart';
 import 'package:remittance_mobile/view/features/services/services_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/receive_money_view.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_details.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_final.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_initial.dart';
 import 'package:remittance_mobile/view/features/services/virtual-cards/virtual_cards_empty_view.dart';
@@ -250,6 +251,13 @@ final routeProvider = Provider<GoRouter>((ref) {
             path: SendMoneyInitialView.path,
             name: SendMoneyInitialView.path,
             builder: (context, state) => const SendMoneyInitialView(),
+            routes: [
+              GoRoute(
+                path: SendMoneyDetailsView.path,
+                name: SendMoneyDetailsView.path,
+                builder: (context, state) => const SendMoneyDetailsView(),
+              ),
+            ],
           ),
           GoRoute(
             path: SendMoneyFinalView.path,

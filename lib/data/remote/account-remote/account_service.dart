@@ -18,6 +18,7 @@ import 'package:remittance_mobile/data/models/responses/account_currencies_model
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
+import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
 import 'package:remittance_mobile/data/models/responses/send_charge_response.dart';
 import 'package:remittance_mobile/data/models/responses/send_money_response.dart';
 import 'package:remittance_mobile/data/models/responses/validate_card_funding_model.dart';
@@ -309,6 +310,31 @@ class AccountService {
     }
   }
 
+  // Get Bank Corridors
+  Future<List<CorridorsResponse>> getCorridorsEndpoint() async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.baseFundingUrl + endpointUrl.getCorridors,
+        RequestMethod.get,
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'];
+          final responseList = res['corridors'] as List;
+          return responseList
+              .map((list) => CorridorsResponse.fromJson(list))
+              .toList();
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   // Send to Bank
   Future<SendMoneyResponse> sendMoneyToBankEndpoint(SendToBankReq req) async {
     String? deviceToken, ipAddress, latitude, longitude;
@@ -410,11 +436,7 @@ class AccountService {
       final response = await _networkService.request(
         endpointUrl.baseFundingUrl + endpointUrl.sendCharge,
         RequestMethod.post,
-        data: req
-            .copyWith(
-              channel: 'Mobile',
-            )
-            .toJson(),
+        data: req.toJson(),
       );
 
       // Handle the Response

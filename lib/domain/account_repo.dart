@@ -10,6 +10,7 @@ import 'package:remittance_mobile/data/models/responses/account_currencies_model
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
+import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
 import 'package:remittance_mobile/data/models/responses/send_charge_response.dart';
 import 'package:remittance_mobile/data/models/responses/send_money_response.dart';
 import 'package:remittance_mobile/data/models/responses/validate_card_funding_model.dart';
@@ -32,6 +33,7 @@ abstract class AccountRepository {
   Future<ValidateCardFundingModel> validateCardFunding(String otp);
   Future<VerifyFundingTransxModel> verifyFundingTransxEndpoint(
       VerifyFundingTransxReq req);
+  Future<List<CorridorsResponse>> getCorridorsEndpoint();
   Future<SendMoneyResponse> sendMoneyToBankEndpoint(SendToBankReq req);
   Future<SendMoneyResponse> sendMoneyToMobileMoneyEndpoint(
       SendToMobileMoneyReq req);

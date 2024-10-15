@@ -57,90 +57,99 @@ class _ChooseCountryViewState extends ConsumerState<ChooseCountryView> {
     return AbsorbPointer(
       absorbing: getCountries.isLoading,
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                16.0.height,
-                const BackArrowButton(),
-                18.0.height,
-                Text(
-                  'Sign Up',
-                  style: Theme.of(context).textTheme.displayLarge,
-                )
-                    .animate()
-                    .fadeIn(
-                      begin: 0,
-                      delay: 400.ms,
+        body: RefreshIndicator.adaptive(
+          onRefresh: () async {
+            ref.invalidate(getCountryProvider);
+          },
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    16.0.height,
+                    const BackArrowButton(),
+                    18.0.height,
+                    Text(
+                      'Sign Up',
+                      style: Theme.of(context).textTheme.displayLarge,
                     )
-                    .slideY(begin: -.5, end: 0),
-                8.0.height,
-                RichTextWidget(
-                  text: 'Already have an Account?',
-                  hyperlink: ' Log In',
-                  onTap: () => context.pushReplacementNamed(LoginScreen.path),
-                )
-                    .animate()
-                    .fadeIn(
-                      begin: 0,
-                      delay: 400.ms,
+                        .animate()
+                        .fadeIn(
+                          begin: 0,
+                          delay: 400.ms,
+                        )
+                        .slideY(begin: -.5, end: 0),
+                    8.0.height,
+                    RichTextWidget(
+                      text: 'Already have an Account?',
+                      hyperlink: ' Log In',
+                      onTap: () =>
+                          context.pushReplacementNamed(LoginScreen.path),
                     )
-                    .slideX(begin: -.1, end: 0),
-                32.0.height,
-                getCountries.maybeWhen(
-                  orElse: () => const SpinKitDualRing(
-                    color: AppColors.kPrimaryColor,
-                    size: 25,
-                  ),
-                  error: (error, stackTrace) => TextInput(
-                    header: 'Country',
-                    controller: _country,
-                    hint: error.toString(),
-                    inputType: TextInputType.text,
-                    validator: validateGeneric,
-                    readOnly: true,
-                  ),
-                  data: (data) => TextInput(
-                    key: _key,
-                    header: 'Country',
-                    controller: _country,
-                    hint: "Select your Country",
-                    inputType: TextInputType.text,
-                    validator: validateGeneric,
-                    readOnly: true,
-                    suffixIcon: SvgPicture.asset(
-                      AppImages.arrowDown,
-                      fit: BoxFit.scaleDown,
+                        .animate()
+                        .fadeIn(
+                          begin: 0,
+                          delay: 400.ms,
+                        )
+                        .slideX(begin: -.1, end: 0),
+                    32.0.height,
+                    getCountries.maybeWhen(
+                      orElse: () => const SpinKitDualRing(
+                        color: AppColors.kPrimaryColor,
+                        size: 25,
+                      ),
+                      error: (error, stackTrace) => TextInput(
+                        header: 'Country',
+                        controller: _country,
+                        hint: error.toString(),
+                        inputType: TextInputType.text,
+                        validator: validateGeneric,
+                        readOnly: true,
+                      ),
+                      data: (data) => TextInput(
+                        key: _key,
+                        header: 'Country',
+                        controller: _country,
+                        hint: "Select your Country",
+                        inputType: TextInputType.text,
+                        validator: validateGeneric,
+                        readOnly: true,
+                        suffixIcon: SvgPicture.asset(
+                          AppImages.arrowDown,
+                          fit: BoxFit.scaleDown,
+                        ),
+                        onPressed: () async {
+                          final mounted = this.mounted;
+                          if (mounted && data.isNotEmpty) {
+                            List<String> itemList = data
+                                .where((element) => element.phoneCode != null)
+                                .map((e) => "${e.name}")
+                                .toList();
+                            itemList.sort();
+                            await platformSpecificDropdown(
+                              key: _key,
+                              context: context,
+                              items: itemList,
+                              value: _selectedCountry.name ?? "",
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _country.text = newValue ?? "";
+                                  _selectedCountry = data.elementAt(
+                                      data.indexWhere((element) =>
+                                          element.name == newValue));
+                                });
+                              },
+                            );
+                          }
+                        },
+                      ),
                     ),
-                    onPressed: () async {
-                      final mounted = this.mounted;
-                      if (mounted && data.isNotEmpty) {
-                        List<String> itemList = data
-                            .where((element) => element.phoneCode != null)
-                            .map((e) => "${e.name}")
-                            .toList();
-                        itemList.sort();
-                        await platformSpecificDropdown(
-                          key: _key,
-                          context: context,
-                          items: itemList,
-                          value: _selectedCountry.name ?? "",
-                          onChanged: (newValue) {
-                            setState(() {
-                              _country.text = newValue ?? "";
-                              _selectedCountry = data.elementAt(data.indexWhere(
-                                  (element) => element.name == newValue));
-                            });
-                          },
-                        );
-                      }
-                    },
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),

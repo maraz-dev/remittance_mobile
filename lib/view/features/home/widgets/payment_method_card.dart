@@ -34,6 +34,27 @@ class PaymentMethodCard extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: AppColors.kGrey700, fontWeight: FontWeight.w500),
                   ),
+                  if (methodName!.contains('Bank')) ...[
+                    8.0.width,
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.kWarningColor100,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Text(
+                        'Charges apply',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: AppColors.kWarningColor700,
+                              fontWeight: FontWeight.w500,
+                            ),
+                      ),
+                    )
+                  ],
+                  const Spacer(),
                   const Icon(
                     Icons.keyboard_arrow_right_sharp,
                     size: 20,
@@ -42,7 +63,7 @@ class PaymentMethodCard extends StatelessWidget {
               ),
               Text(
                 methodDescription ??
-                    '${1.05.amountWithCurrency('usd')} transaction fees. Your money will arrive in about 2 hours',
+                    '${1.05.amountWithCurrency('\$')} transaction fees. Your money will arrive in about 2 hours',
               ),
             ],
           ),

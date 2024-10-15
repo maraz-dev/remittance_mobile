@@ -11,6 +11,7 @@ class AmountInput extends StatelessWidget {
   final String? header, currency, image;
   final bool? readOnly;
   final bool animate;
+  final Color? textColor, color;
 
   const AmountInput({
     super.key,
@@ -20,6 +21,8 @@ class AmountInput extends StatelessWidget {
     this.animate = true,
     this.currency,
     this.image,
+    this.color,
+    this.textColor,
   });
 
   @override
@@ -40,16 +43,18 @@ class AmountInput extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            header ?? '',
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: AppColors.kGrey700, fontWeight: FontWeight.bold),
-          ),
-          6.0.height,
+          if (header != null) ...[
+            Text(
+              header ?? '',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: AppColors.kGrey700, fontWeight: FontWeight.bold),
+            ),
+            6.0.height,
+          ],
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
             decoration: BoxDecoration(
-              color: AppColors.kGrey200,
+              color: color ?? AppColors.kGrey200,
               borderRadius: BorderRadius.circular(12.r),
             ),
             child: Row(
@@ -78,6 +83,7 @@ class AmountInput extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         fontSize: 40.sp),
                     decoration: InputDecoration(
+                      fillColor: color,
                       hintText: '0.00',
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.zero,
@@ -115,7 +121,7 @@ class AmountInput extends StatelessWidget {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
                   decoration: BoxDecoration(
-                      color: AppColors.kGrey300,
+                      color: color ?? AppColors.kGrey300,
                       borderRadius: BorderRadius.circular(16)),
                   child: Text(
                     currency ?? 'USD',
