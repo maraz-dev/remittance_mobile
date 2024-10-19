@@ -47,7 +47,9 @@ import 'package:remittance_mobile/view/features/services/services_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/receive_money_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_details.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_final.dart';
-import 'package:remittance_mobile/view/features/services/transfers/send_money_initial.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_from_view.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_how_much_view.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_to_who_view.dart';
 import 'package:remittance_mobile/view/features/services/virtual-cards/virtual_cards_empty_view.dart';
 import 'package:remittance_mobile/view/features/transactions/transaction_details.dart';
 import 'package:remittance_mobile/view/features/transactions/transaction_history_view.dart';
@@ -248,17 +250,26 @@ final routeProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const InternetView(),
           ),
           GoRoute(
-            path: SendMoneyInitialView.path,
-            name: SendMoneyInitialView.path,
-            builder: (context, state) => const SendMoneyInitialView(),
-            routes: [
-              GoRoute(
-                path: SendMoneyDetailsView.path,
-                name: SendMoneyDetailsView.path,
-                builder: (context, state) => const SendMoneyDetailsView(),
-              ),
-            ],
-          ),
+              path: SendMoneyFromView.path,
+              name: SendMoneyFromView.path,
+              builder: (context, state) => const SendMoneyFromView(),
+              routes: [
+                GoRoute(
+                  path: SendMoneyHowMuchView.path,
+                  name: SendMoneyHowMuchView.path,
+                  builder: (context, state) => const SendMoneyHowMuchView(),
+                ),
+                GoRoute(
+                  path: SendMoneyToWhoView.path,
+                  name: SendMoneyToWhoView.path,
+                  builder: (context, state) => const SendMoneyToWhoView(),
+                ),
+                GoRoute(
+                  path: SendMoneyDetailsView.path,
+                  name: SendMoneyDetailsView.path,
+                  builder: (context, state) => const SendMoneyDetailsView(),
+                ),
+              ]),
           GoRoute(
             path: SendMoneyFinalView.path,
             name: SendMoneyFinalView.path,

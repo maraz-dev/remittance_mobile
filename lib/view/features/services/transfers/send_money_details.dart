@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_how_much_view.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -86,17 +87,10 @@ class _SendMoneyDetailsViewState extends State<SendMoneyDetailsView> {
                     ],
                   ),
                   Positioned(
-                      left: ScreenUtil.defaultSize.width * 0.4,
-                      top: ScreenUtil.defaultSize.width * 0.3,
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: const BoxDecoration(
-                            color: AppColors.kGrey100, shape: BoxShape.circle),
-                        child: const CardIcon(
-                          image: AppImages.swapAlt,
-                          bgColor: AppColors.kGrey700,
-                        ),
-                      ))
+                    left: ScreenUtil.defaultSize.width * 0.4,
+                    top: ScreenUtil.defaultSize.width * 0.3,
+                    child: const SwapIconWidget(),
+                  )
                 ],
               ),
               16.0.height,

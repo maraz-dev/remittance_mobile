@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/services/bill-payment/airtime_view.dart';
-import 'package:remittance_mobile/view/features/services/transfers/send_money_initial.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_from_view.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_how_much_view.dart';
 import 'package:remittance_mobile/view/features/services/virtual-cards/virtual_cards_empty_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -22,7 +23,7 @@ class HomeServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.pushNamed(onTap ?? SendMoneyInitialView.path),
+      onTap: () => context.pushNamed(onTap ?? SendMoneyHowMuchView.path),
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -49,10 +50,10 @@ class HomeServiceCard extends StatelessWidget {
 }
 
 List homeServiceCardList = [
-  HomeServiceCard(
+  const HomeServiceCard(
     title: 'Send Money',
     image: AppImages.sendMoney,
-    onTap: SendMoneyInitialView.path,
+    onTap: SendMoneyFromView.path,
   ),
   HomeServiceCard(
     title: 'Add Card',

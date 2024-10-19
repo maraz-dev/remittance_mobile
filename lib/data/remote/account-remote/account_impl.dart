@@ -1,3 +1,4 @@
+import 'package:remittance_mobile/data/models/requests/add_beneficiary_req.dart';
 import 'package:remittance_mobile/data/models/requests/authorize_charge_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_customer_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_card_funding_req.dart';
@@ -9,6 +10,7 @@ import 'package:remittance_mobile/data/models/requests/verify_transx_req.dart';
 import 'package:remittance_mobile/data/models/responses/account_currencies_model.dart';
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
+import 'package:remittance_mobile/data/models/responses/beneficiary_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
 import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
 import 'package:remittance_mobile/data/models/responses/send_charge_response.dart';
@@ -93,4 +95,13 @@ class AccountImpl implements AccountRepository {
   @override
   Future<List<CorridorsResponse>> getCorridorsEndpoint() async =>
       await _accountService.getCorridorsEndpoint();
+
+  @override
+  Future<BeneficiaryModel> addBeneficiaryEndpoint(
+          AddBeneficiaryReq req) async =>
+      await _accountService.addBeneficiaryEndpoint(req);
+
+  @override
+  Future<List<BeneficiaryModel>> getBeneficiariesEndpoint() async =>
+      await _accountService.getBeneficiariesEndpoint();
 }

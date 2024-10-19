@@ -6,6 +6,7 @@ import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/core/utils/device_details.dart';
 import 'package:remittance_mobile/core/utils/get_ip_address.dart';
 import 'package:remittance_mobile/core/utils/location_services.dart';
+import 'package:remittance_mobile/data/models/requests/add_beneficiary_req.dart';
 import 'package:remittance_mobile/data/models/requests/authorize_charge_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_customer_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_card_funding_req.dart';
@@ -17,6 +18,7 @@ import 'package:remittance_mobile/data/models/requests/verify_transx_req.dart';
 import 'package:remittance_mobile/data/models/responses/account_currencies_model.dart';
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
+import 'package:remittance_mobile/data/models/responses/beneficiary_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
 import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
 import 'package:remittance_mobile/data/models/responses/send_charge_response.dart';
@@ -327,6 +329,53 @@ class AccountService {
           return responseList
               .map((list) => CorridorsResponse.fromJson(list))
               .toList();
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  // Get Beneficiaries
+  Future<List<BeneficiaryModel>> getBeneficiariesEndpoint() async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.baseFundingUrl + endpointUrl.getBeneficiaries,
+        RequestMethod.get,
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final responseList = response.data['data'] as List;
+          return responseList
+              .map((list) => BeneficiaryModel.fromJson(list))
+              .toList();
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  // Fund with USSD Endpoint
+  Future<BeneficiaryModel> addBeneficiaryEndpoint(AddBeneficiaryReq req) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.baseFundingUrl + endpointUrl.addNewBeneficiaries,
+        RequestMethod.post,
+        data: req.toJson(),
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'];
+          return BeneficiaryModel.fromJson(res);
         },
       );
       return result;

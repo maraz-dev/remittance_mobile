@@ -136,6 +136,8 @@ class ApiEndpoints {
   String get sendToMobileMoney => "/api/v1/sendmoney/toMobileMoney";
   String get sendToInAppUser => "/api/v1/sendmoney/toInAppUser";
   String get sendCharge => "/api/v1/sendmoney/charge";
+  String get getBeneficiaries => "/api/v1/Beneficiary";
+  String get addNewBeneficiaries => "/api/v1/Beneficiary";
 
   // Transaction
   String get getCustomerTransactions =>

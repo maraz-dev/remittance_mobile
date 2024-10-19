@@ -4,6 +4,7 @@ class AppImages {
   static const eye = 'assets/images/svg/eye.svg';
   static const eyeSlash = 'assets/images/svg/eye_off.svg';
   static const backArrow = 'assets/images/svg/arrow_back.svg';
+  static const arrowRight = 'assets/images/svg/chevron_right.svg';
   static const fingerprint = 'assets/images/svg/fingerprint.svg';
   static const faceID = 'assets/images/svg/face_id.svg';
   static const checkedBox = 'assets/images/svg/checked_box.svg';
@@ -115,6 +116,8 @@ class AppImages {
   static const compareArrows = 'assets/images/svg/compare_arrows.svg';
   static const loyalty = 'assets/images/svg/loyalty.svg';
   static const addAlt = 'assets/images/svg/add_alt.svg';
+  static const recipient = 'assets/images/svg/recipient.svg';
+  static const search = 'assets/images/svg/search_normal.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';
