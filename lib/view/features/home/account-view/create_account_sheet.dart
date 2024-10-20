@@ -189,28 +189,30 @@ class CurrencyItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           CircleAvatar(
-            maxRadius: 28,
+            maxRadius: 25,
             backgroundImage: NetworkImage(image ?? ""),
           ),
           16.0.width,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name ?? 'American Dollar',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.kGrey800,
-                      fontWeight: FontWeight.w600,
-                    ),
-              ),
-              5.0.height,
-              Text(
-                code ?? 'USD',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w500,
-                    ),
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name ?? 'American Dollar',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: AppColors.kGrey800,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
+                5.0.height,
+                Text(
+                  code ?? 'USD',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+              ],
+            ),
           )
         ],
       ),

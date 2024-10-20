@@ -313,10 +313,10 @@ class AccountService {
   }
 
   // Get Bank Corridors
-  Future<List<CorridorsResponse>> getCorridorsEndpoint() async {
+  Future<List<CorridorsResponse>> getCorridorsEndpoint(String country) async {
     try {
       final response = await _networkService.request(
-        endpointUrl.baseFundingUrl + endpointUrl.getCorridors,
+        '${endpointUrl.baseFundingUrl}${endpointUrl.getCorridors}?sourceCountryCode=$country',
         RequestMethod.get,
       );
 

@@ -93,8 +93,8 @@ class AccountImpl implements AccountRepository {
       await _accountService.sendMoneyToMobileMoneyEndpoint(req);
 
   @override
-  Future<List<CorridorsResponse>> getCorridorsEndpoint() async =>
-      await _accountService.getCorridorsEndpoint();
+  Future<List<CorridorsResponse>> getCorridorsEndpoint(String country) async =>
+      await _accountService.getCorridorsEndpoint(country);
 
   @override
   Future<BeneficiaryModel> addBeneficiaryEndpoint(

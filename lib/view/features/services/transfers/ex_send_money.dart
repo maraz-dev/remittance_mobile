@@ -89,7 +89,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyInitialView> {
     final accountCurrenciesProvider = ref.watch(getAccountsCurrencyProvider);
     final userAccounts = ref.watch(getCustomerAccountsProvider);
     final sendChargeLoading = ref.watch(sendChargeProvider).isLoading;
-    final corridors = ref.watch(getCorridorsProvider);
+    //final corridors = ref.watch(getCorridorsProvider);
 
     ref.listen(sendChargeProvider, (_, next) {
       if (next is AsyncData) {

@@ -35,7 +35,7 @@ abstract class AccountRepository {
   Future<ValidateCardFundingModel> validateCardFunding(String otp);
   Future<VerifyFundingTransxModel> verifyFundingTransxEndpoint(
       VerifyFundingTransxReq req);
-  Future<List<CorridorsResponse>> getCorridorsEndpoint();
+  Future<List<CorridorsResponse>> getCorridorsEndpoint(String country);
   Future<List<BeneficiaryModel>> getBeneficiariesEndpoint();
   Future<BeneficiaryModel> addBeneficiaryEndpoint(AddBeneficiaryReq req);
   Future<SendMoneyResponse> sendMoneyToBankEndpoint(SendToBankReq req);

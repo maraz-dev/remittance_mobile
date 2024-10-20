@@ -7,11 +7,13 @@ import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class RatesCard extends StatelessWidget {
   final String image, text, description;
+  final Function()? onTapped;
   const RatesCard({
     super.key,
     required this.image,
     required this.text,
     required this.description,
+    this.onTapped,
   });
 
   @override
@@ -34,15 +36,18 @@ class RatesCard extends StatelessWidget {
         const Spacer(),
         Text(
           description,
-          style: description.contains('Rates')
+          style: description.contains('Fees')
               ? Theme.of(context).textTheme.bodyMedium?.copyWith(
                     color: AppColors.kPrimaryColor,
                   )
               : null,
         ),
-        if (description.contains('Rates')) ...[
+        if (description.contains('Fees')) ...[
           9.0.width,
-          SvgPicture.asset(AppImages.arrowDown),
+          InkWell(
+            onTap: onTapped,
+            child: SvgPicture.asset(AppImages.arrowDown),
+          ),
         ]
       ],
     );
