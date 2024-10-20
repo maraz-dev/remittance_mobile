@@ -4,10 +4,14 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdrawal-sheet/add_withdrawal_account.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/account_providers.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_details.dart';
 import 'package:remittance_mobile/view/features/services/vm/services_vm.dart';
 import 'package:remittance_mobile/view/features/services/widgets/recipient_card.dart';
+import 'package:remittance_mobile/view/features/services/widgets/sheets/borderpay_user_sheet.dart';
+import 'package:remittance_mobile/view/features/services/widgets/sheets/cash_pickup_sheet.dart';
+import 'package:remittance_mobile/view/features/services/widgets/sheets/mobile_money_sheet.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -235,7 +239,69 @@ class AddRecipientSheet extends StatelessWidget {
           ),
         ),
         24.0.height,
+        ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            var list = addRecipientOptionList[index];
+
+            // List containing all the bottomsheets
+            List<Widget> sheets = const [
+              AddBankAccountSheet(route: BankRoute.recipients),
+              MobileMoneySheet(),
+              BorderPayUserSheet(),
+              CashPickUpSheet(),
+            ];
+
+            return InkWell(
+              onTap: () {
+                context.pop();
+                AppBottomSheet.showBottomSheet(
+                  context,
+                  widget: sheets[index],
+                );
+              },
+              child: AddRecipientItemCard(list: list),
+            );
+          },
+          separatorBuilder: (context, index) => 24.0.height,
+          itemCount: addRecipientOptionList.length,
+        ),
+        16.0.height,
       ],
     );
   }
 }
+
+class AddRecipientOptionItem {
+  final String icon, title, desc;
+
+  AddRecipientOptionItem({
+    required this.icon,
+    required this.title,
+    required this.desc,
+  });
+}
+
+List<AddRecipientOptionItem> addRecipientOptionList = [
+  AddRecipientOptionItem(
+    icon: AppImages.accountDetails,
+    title: 'Bank Account',
+    desc: 'Provide recipients bank account details',
+  ),
+  AddRecipientOptionItem(
+    icon: AppImages.accountDetails,
+    title: 'Mobile Money',
+    desc: 'Provide recipients mobile money account details',
+  ),
+  AddRecipientOptionItem(
+    icon: AppImages.wallet,
+    title: 'Balance (BorderPay)',
+    desc: 'Send money to a BorderPay user',
+  ),
+  AddRecipientOptionItem(
+    icon: AppImages.card,
+    title: 'Cash Pick Up',
+    desc: 'Provide details of the person receiving the cash',
+  ),
+];

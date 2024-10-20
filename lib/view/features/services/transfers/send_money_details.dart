@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:remittance_mobile/view/features/services/transfers/send_money_how_much_view.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -41,7 +39,29 @@ class _SendMoneyDetailsViewState extends State<SendMoneyDetailsView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SectionHeader(text: 'Transaction Details'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const SectionHeader(text: 'Transaction Details'),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.kWarningColor100,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Text(
+                            'Pending',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: AppColors.kWarningColor700),
+                          ),
+                        )
+                      ],
+                    ),
                     16.0.height,
                     const TrxItems(
                       title: 'Buy',
@@ -54,7 +74,12 @@ class _SendMoneyDetailsViewState extends State<SendMoneyDetailsView> {
                     ),
                     16.0.height,
                     const TrxItems(
-                      title: 'Seller receives',
+                      title: 'Bank Transfer fees',
+                      description: '50 NGN',
+                    ),
+                    16.0.height,
+                    const TrxItems(
+                      title: 'Recipient receives',
                       description: '1,500,000 NGN',
                     ),
                     16.0.height,
@@ -62,47 +87,27 @@ class _SendMoneyDetailsViewState extends State<SendMoneyDetailsView> {
                       title: 'You pay',
                       description: '1,500,000 NGN',
                     ),
+                    16.0.height,
+                    Text(
+                      'Change',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: AppColors.kPrimaryColor),
+                    ),
                   ],
                 ),
               ),
               16.0.height,
 
-              Stack(
-                children: [
-                  Column(
-                    children: [
-                      // Pay Via
-                      const ExchangeTrxDetailsCard(
-                        info: 'Cash Drop-off',
-                        title: 'Samsung Office',
-                        subtitle: 'Shop 1B, Ikeja City Mall',
-                      ),
-                      24.0.height,
-
-                      // Receive Via
-                      const ExchangeTrxDetailsCard(
-                        heading: 'Receive via',
-                        info: 'Cash Pick up',
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    left: ScreenUtil.defaultSize.width * 0.4,
-                    top: ScreenUtil.defaultSize.width * 0.3,
-                    child: const SwapIconWidget(),
-                  )
-                ],
+              const SendTrxDetailsCard(
+                heading: "Recipient",
+                icon: AppImages.accountDetails,
+                info: 'Bank Account',
+                title: 'Samsung Office',
+                subtitle: 'Shop 1B, Ikeja City Mall',
               ),
-              16.0.height,
-
-              // Receive Via
-              const ExchangeTrxDetailsCard(
-                heading: 'Seller',
-                icon: AppImages.seller,
-                title: 'GoPay llc',
-                subtitle: 'Verified Merchant',
-              ),
-              16.0.height,
+              24.0.height,
             ],
           ),
         ),
@@ -110,7 +115,7 @@ class _SendMoneyDetailsViewState extends State<SendMoneyDetailsView> {
       bottomNavigationBar: BottomNavBarWidget(
         children: [
           MainButton(
-            text: 'Buy',
+            text: 'Send',
             onPressed: () {},
           )
               .animate()
@@ -123,9 +128,9 @@ class _SendMoneyDetailsViewState extends State<SendMoneyDetailsView> {
   }
 }
 
-class ExchangeTrxDetailsCard extends StatelessWidget {
+class SendTrxDetailsCard extends StatelessWidget {
   final String? heading, info, title, subtitle, icon;
-  const ExchangeTrxDetailsCard({
+  const SendTrxDetailsCard({
     super.key,
     this.heading,
     this.info,

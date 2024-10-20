@@ -9,9 +9,13 @@ import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 
+enum BankRoute { recipients, withdrawal }
+
 class AddBankAccountSheet extends StatefulWidget {
+  final BankRoute route;
   const AddBankAccountSheet({
     super.key,
+    required this.route,
   });
 
   @override
@@ -37,7 +41,7 @@ class _AddBankAccountSheetState extends State<AddBankAccountSheet>
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
-      heightFactor: 0.6,
+      heightFactor: 0.8,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +52,10 @@ class _AddBankAccountSheetState extends State<AddBankAccountSheet>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const SectionHeader(text: 'Add Withdrawal Bank Account'),
+              SectionHeader(
+                  text: widget.route == BankRoute.recipients
+                      ? 'Bank Account'
+                      : 'Add Withdrawal Bank Account'),
               InkWell(
                 onTap: () => context.pop(),
                 child: SvgPicture.asset(

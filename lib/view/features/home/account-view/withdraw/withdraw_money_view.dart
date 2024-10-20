@@ -68,7 +68,9 @@ class _WithdrawMoneyViewState extends State<WithdrawMoneyView> {
                     onPressed: () {
                       AppBottomSheet.showBottomSheet(
                         context,
-                        widget: const AddBankAccountSheet(),
+                        widget: const AddBankAccountSheet(
+                          route: BankRoute.withdrawal,
+                        ),
                       );
                     },
                   )

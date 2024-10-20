@@ -14,7 +14,7 @@ class CustomTabBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(2),
+      padding: const EdgeInsets.all(0),
       decoration: BoxDecoration(
           color: AppColors.kGrey200, borderRadius: BorderRadius.circular(32)),
       child: TabBar(

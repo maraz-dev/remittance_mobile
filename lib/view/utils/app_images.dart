@@ -118,6 +118,7 @@ class AppImages {
   static const addAlt = 'assets/images/svg/add_alt.svg';
   static const recipient = 'assets/images/svg/recipient.svg';
   static const search = 'assets/images/svg/search_normal.svg';
+  static const mail = 'assets/images/svg/mail.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';
