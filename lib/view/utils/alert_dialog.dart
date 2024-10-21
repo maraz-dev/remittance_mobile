@@ -15,7 +15,10 @@ class ShowAlertDialog {
       return showCupertinoDialog<bool>(
         context: context,
         builder: (context) => CupertinoAlertDialog(
-          title: Text(title),
+          title: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(title),
+          ),
           content: Text(content),
           actions: <Widget>[
             if (cancelActionText != null)

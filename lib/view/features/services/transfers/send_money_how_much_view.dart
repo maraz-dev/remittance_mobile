@@ -8,8 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/responses/account_currencies_model.dart';
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
+import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
 import 'package:remittance_mobile/view/features/home/widgets/balance_widget.dart';
-import 'package:remittance_mobile/view/features/services/transfers/send_money_final.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_from_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_to_who_view.dart';
 import 'package:remittance_mobile/view/features/services/vm/send_charge_vm.dart';
@@ -18,6 +18,7 @@ import 'package:remittance_mobile/view/features/services/widgets/rates_card.dart
 import 'package:remittance_mobile/view/features/services/widgets/send_currency_widgets.dart';
 import 'package:remittance_mobile/view/features/services/widgets/swap_icon_card.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/alert_dialog.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
@@ -31,6 +32,8 @@ import 'package:remittance_mobile/view/widgets/section_header.dart';
 
 ValueNotifier<AccountModel> srcCurrencyValue = ValueNotifier(AccountModel());
 ValueNotifier<AccountCurrencies> desCurrencyValue = ValueNotifier(AccountCurrencies());
+ValueNotifier<CorridorsResponse> sourceCorridor = ValueNotifier(CorridorsResponse());
+ValueNotifier<DestinationCountry> sourceCurrency = ValueNotifier(DestinationCountry());
 
 enum SendRoute { from, to }
 
@@ -71,7 +74,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
 
     ref.listen(sendChargeProvider, (_, next) {
       if (next is AsyncData) {
-        context.pushNamed(SendMoneyFinalView.path);
+        //context.pushNamed(SendMoneyFinalView.path);
       }
       if (next is AsyncError) {
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
@@ -116,22 +119,28 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
 
                               // FROM Button
                               InkWell(
-                                onTap: () {
-                                  AppBottomSheet.showBottomSheet(
+                                onTap: () async {
+                                  CorridorsResponse? result = await AppBottomSheet.showBottomSheet(
                                     context,
                                     widget: SendCurrencySheet(
-                                      title: 'From',
                                       location: SendRoute.from,
                                       corridors: data,
+                                      destination: sourceCorridor.value.destinationCountries ?? [],
                                     ),
                                   );
+                                  setState(() {
+                                    sourceCorridor.value = result ?? CorridorsResponse();
+                                  });
                                 },
                                 child: Row(
                                   children: [
-                                    const CircleAvatar(),
+                                    CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage(sourceCorridor.value.flag?.png ?? ""),
+                                    ),
                                     8.0.width,
                                     Text(
-                                      'TBS',
+                                      sourceCorridor.value.code ?? "TBS",
                                       style: Theme.of(context).textTheme.displaySmall,
                                     ),
                                     8.0.width,
@@ -159,14 +168,22 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                               // TO Button
                               InkWell(
                                 onTap: () {
-                                  AppBottomSheet.showBottomSheet(
-                                    context,
-                                    widget: SendCurrencySheet(
-                                      title: 'To',
-                                      location: SendRoute.to,
-                                      corridors: data,
-                                    ),
-                                  );
+                                  sourceCorridor.value.destinationCountries == null
+                                      ? ShowAlertDialog.showAlertDialog(
+                                          context,
+                                          title: 'Error!',
+                                          content: 'Select the FROM Country',
+                                          defaultActionText: 'Ok',
+                                        )
+                                      : AppBottomSheet.showBottomSheet(
+                                          context,
+                                          widget: SendCurrencySheet(
+                                            location: SendRoute.to,
+                                            corridors: data,
+                                            destination:
+                                                sourceCorridor.value.destinationCountries ?? [],
+                                          ),
+                                        );
                                 },
                                 child: Row(
                                   children: [
@@ -192,9 +209,11 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                     AmountInput(
                       header: 'You Send',
                       controller: _sourceAmount,
-                      currency: 'TBS',
+                      currency: sourceCurrency.value.code,
                     ),
                     8.0.height,
+
+                    // Balance
                     BalanceWidget(
                       balance: fromBalance.value.balance!
                           .amountWithCurrency(fromBalance.value.currencySymbol ?? ""),

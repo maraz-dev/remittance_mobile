@@ -46,8 +46,10 @@ class AmountInput extends StatelessWidget {
           if (header != null) ...[
             Text(
               header ?? '',
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: AppColors.kGrey700, fontWeight: FontWeight.bold),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.bold),
             ),
             6.0.height,
           ],
@@ -64,24 +66,19 @@ class AmountInput extends StatelessWidget {
                   child: TextFormField(
                     readOnly: readOnly ?? false,
                     controller: controller,
-                    keyboardType:
-                        const TextInputType.numberWithOptions(decimal: true),
+                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     cursorColor: AppColors.kGrey700,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       if (value?.isEmpty ?? false) {
                         return 'This field cannot be empty';
-                      } else if (double.parse(
-                              value?.replaceAll(',', '') ?? '0.0') <=
-                          0) {
+                      } else if (double.parse(value?.replaceAll(',', '') ?? '0.0') <= 0) {
                         return 'Amount must be greater than 0';
                       }
                       return null;
                     },
                     style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                        color: AppColors.kGrey700,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 40.sp),
+                        color: AppColors.kGrey700, fontWeight: FontWeight.w500, fontSize: 40.sp),
                     decoration: InputDecoration(
                       fillColor: color,
                       hintText: '0.00',
@@ -90,13 +87,10 @@ class AmountInput extends StatelessWidget {
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,
                       errorBorder: InputBorder.none,
-                      hintStyle: Theme.of(context)
-                          .textTheme
-                          .displayLarge!
-                          .copyWith(
-                              color: AppColors.kHintColor,
-                              fontSize: 40.sp,
-                              fontWeight: FontWeight.w500),
+                      hintStyle: Theme.of(context).textTheme.displayLarge!.copyWith(
+                          color: AppColors.kHintColor,
+                          fontSize: 40.sp,
+                          fontWeight: FontWeight.w500),
                     ),
                     inputFormatters: [
                       LengthLimitingTextInputFormatter(17),
@@ -118,13 +112,11 @@ class AmountInput extends StatelessWidget {
                 ),
                 16.0.width,
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
                   decoration: BoxDecoration(
-                      color: color ?? AppColors.kGrey300,
-                      borderRadius: BorderRadius.circular(16)),
+                      color: color ?? AppColors.kGrey300, borderRadius: BorderRadius.circular(16)),
                   child: Text(
-                    currency ?? 'USD',
+                    currency ?? 'TBS',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                           fontWeight: FontWeight.w500,
                           color: AppColors.kGrey700,

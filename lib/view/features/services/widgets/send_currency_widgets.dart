@@ -12,14 +12,14 @@ import 'package:remittance_mobile/view/utils/input_fields.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 
 class SendCurrencySheet extends StatefulWidget {
-  final String title;
   final List<CorridorsResponse> corridors;
   final SendRoute location;
+  final List<DestinationCountry> destination;
   const SendCurrencySheet({
     super.key,
-    required this.title,
     required this.corridors,
     required this.location,
+    required this.destination,
   });
 
   @override
@@ -52,7 +52,10 @@ class _SendCurrencySheetState extends State<SendCurrencySheet> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredData = widget.corridors
+    final filteredDataFROM = widget.corridors
+        .where((country) => country.name!.toLowerCase().contains(_searchQuery))
+        .toList();
+    final filteredDataTO = widget.destination
         .where((country) => country.name!.toLowerCase().contains(_searchQuery))
         .toList();
     return SizedBox(
@@ -61,7 +64,12 @@ class _SendCurrencySheetState extends State<SendCurrencySheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionHeader(text: widget.title),
+          SectionHeader(
+            text: switch (widget.location) {
+              SendRoute.from => "From",
+              SendRoute.to => "To",
+            },
+          ),
           TextInput(
             controller: _searchController,
             hint: "Search...",
@@ -76,16 +84,29 @@ class _SendCurrencySheetState extends State<SendCurrencySheet> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  var value = filteredData[index];
-                  return SendCurrencyItem(
-                    image: value.flag!.png,
-                    name: value.name,
-                    countryCode: value.code,
-                    sourceCurrencies: value.sourceCurrencies ?? [],
-                  );
+                  switch (widget.location) {
+                    case SendRoute.from:
+                      var value = filteredDataFROM[index];
+                      return SendCurrencyItem(
+                        route: SendRoute.from,
+                        image: value.flag!.png,
+                        name: value.name,
+                        countryCode: value.code,
+                        currencyData: value,
+                      );
+                    case SendRoute.to:
+                      var value = filteredDataTO[index];
+                      return SendCurrencyItem(
+                        route: SendRoute.to,
+                        image: value.flag!.png,
+                        name: value.name,
+                        countryCode: value.code,
+                        destinationData: value,
+                      );
+                  }
                 },
                 separatorBuilder: (context, index) => 24.0.height,
-                itemCount: filteredData.length,
+                itemCount: filteredDataFROM.length,
               ),
             ),
           ),
@@ -97,15 +118,19 @@ class _SendCurrencySheetState extends State<SendCurrencySheet> {
 
 class SendCurrencyItem extends StatefulWidget {
   final String? name, image, countryCode;
-  final List<DestinationCountry> sourceCurrencies;
+  final CorridorsResponse? currencyData;
+  final DestinationCountry? destinationData;
   final Function()? onPressed;
+  final SendRoute route;
   const SendCurrencyItem({
     super.key,
     this.name,
     this.image,
     this.onPressed,
-    required this.sourceCurrencies,
+    this.currencyData,
     this.countryCode,
+    this.destinationData,
+    required this.route,
   });
 
   @override
@@ -115,85 +140,170 @@ class SendCurrencyItem extends StatefulWidget {
 class _SendCurrencyItemState extends State<SendCurrencyItem> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        if (widget.sourceCurrencies.length < 2) {
-          context.pop(widget.sourceCurrencies.first);
-        } else {
-          AppBottomSheet.showBottomSheet(
-            context,
-            widget: MultipleCurrencySheet(
-              name: widget.name ?? '',
-              list: widget.sourceCurrencies,
-            ),
-          );
-        }
-      },
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          CircleAvatar(
-            maxRadius: 28,
-            backgroundImage: NetworkImage(widget.image ?? ""),
-          ),
-          16.0.width,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+    switch (widget.route) {
+      case SendRoute.from:
+        return InkWell(
+          onTap: () {
+            if (widget.currencyData!.sourceCurrencies!.length < 2) {
+              context.pop(widget.currencyData);
+            } else {
+              setState(() {
+                sourceCorridor.value = widget.currencyData ?? CorridorsResponse();
+              });
+              AppBottomSheet.showBottomSheet(
+                context,
+                widget: MultipleCurrencySheet(
+                  name: widget.name ?? '',
+                  list: widget.currencyData!.sourceCurrencies!,
+                ),
+              );
+            }
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                widget.name ?? 'United States',
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: AppColors.kGrey800,
-                      fontWeight: FontWeight.w600,
-                    ),
+              CircleAvatar(
+                maxRadius: 28,
+                backgroundImage: NetworkImage(widget.image ?? ""),
               ),
-              5.0.height,
-              Row(
+              16.0.width,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
-                    height: 20,
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        var value = widget.sourceCurrencies[index];
-                        return Text(
-                          value.code ?? 'USD',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.w500,
-                              ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => Text(
-                        ', ',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w500,
-                            ),
-                      ),
-                      itemCount:
-                          widget.sourceCurrencies.length < 3 ? widget.sourceCurrencies.length : 3,
-                    ),
+                  Text(
+                    widget.name ?? 'United States',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppColors.kGrey800,
+                          fontWeight: FontWeight.w600,
+                        ),
                   ),
-                  if (widget.sourceCurrencies.length > 3) ...[
-                    Text(' + ${widget.sourceCurrencies.length - 3}'),
-                  ]
+                  5.0.height,
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            var value = widget.currencyData!.sourceCurrencies![index];
+                            return Text(
+                              value.code ?? 'USD',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                            );
+                          },
+                          separatorBuilder: (context, index) => Text(
+                            ', ',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                          ),
+                          itemCount: widget.currencyData!.sourceCurrencies!.length < 3
+                              ? widget.currencyData!.sourceCurrencies!.length
+                              : 3,
+                        ),
+                      ),
+                      if (widget.currencyData!.sourceCurrencies!.length > 3) ...[
+                        Text(' + ${widget.currencyData!.sourceCurrencies!.length - 3} more'),
+                      ]
+                    ],
+                  ),
                 ],
               ),
+              const Spacer(),
+              widget.currencyData!.sourceCurrencies!.length < 2
+                  ? const SizedBox.shrink()
+                  : SvgPicture.asset(AppImages.arrowRight)
             ],
           ),
-          const Spacer(),
-          widget.sourceCurrencies.length < 2
-              ? const SizedBox.shrink()
-              : SvgPicture.asset(AppImages.arrowRight)
-        ],
-      ),
-    );
+        );
+      case SendRoute.to:
+        return InkWell(
+          onTap: () {
+            if (widget.destinationData!.destinationCurrencies!.length < 2) {
+              context.pop(widget.destinationData);
+            } else {
+              AppBottomSheet.showBottomSheet(
+                context,
+                widget: MultipleCurrencySheet(
+                  name: widget.name ?? '',
+                  list: widget.currencyData!.sourceCurrencies!,
+                ),
+              );
+            }
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                maxRadius: 28,
+                backgroundImage: NetworkImage(widget.image ?? ""),
+              ),
+              16.0.width,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    widget.name ?? 'United States',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: AppColors.kGrey800,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                  5.0.height,
+                  Row(
+                    children: [
+                      SizedBox(
+                        height: 20,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            var value = widget.destinationData!.destinationCurrencies![index];
+                            return Text(
+                              value.code ?? 'USD',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                            );
+                          },
+                          separatorBuilder: (context, index) => Text(
+                            ', ',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                          ),
+                          itemCount: widget.destinationData!.destinationCurrencies!.length < 3
+                              ? widget.destinationData!.destinationCurrencies!.length
+                              : 3,
+                        ),
+                      ),
+                      if (widget.destinationData!.destinationCurrencies!.length > 3) ...[
+                        Text(
+                            ' + ${widget.destinationData!.destinationCurrencies!.length - 3} more'),
+                      ]
+                    ],
+                  ),
+                ],
+              ),
+              const Spacer(),
+              widget.destinationData!.destinationCurrencies!.length < 2
+                  ? const SizedBox.shrink()
+                  : SvgPicture.asset(AppImages.arrowRight)
+            ],
+          ),
+        );
+    }
   }
 }
 
-class MultipleCurrencySheet extends StatelessWidget {
+class MultipleCurrencySheet extends StatefulWidget {
   const MultipleCurrencySheet({
     super.key,
     required this.name,
@@ -203,6 +313,11 @@ class MultipleCurrencySheet extends StatelessWidget {
   final String name;
   final List<DestinationCountry> list;
 
+  @override
+  State<MultipleCurrencySheet> createState() => _MultipleCurrencySheetState();
+}
+
+class _MultipleCurrencySheetState extends State<MultipleCurrencySheet> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -216,7 +331,7 @@ class MultipleCurrencySheet extends StatelessWidget {
               SvgPicture.asset(AppImages.backArrow),
               16.0.width,
               Text(
-                name,
+                widget.name,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: AppColors.kGrey700,
@@ -230,15 +345,18 @@ class MultipleCurrencySheet extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            var newList = list[index];
+            var newList = widget.list[index];
             return InkWell(
               onTap: () {
+                setState(() {
+                  sourceCurrency.value = newList;
+                });
                 context.pop();
                 context.pop();
               },
               child: CurrencyItem(
                 name: newList.name,
-                code: "${newList.code} Account domiciled in $name",
+                code: "${newList.code} Account domiciled in ${widget.name}",
                 image: newList.flag == null
                     ? "https://media.istockphoto.com/id/583715254/photo/national-flags-of-the-different-countries-of-the-world.jpg?b=1&s=612x612&w=0&k=20&c=gdvXYVsV6R6K0aCip-Q4i_R5qCfLsg61-qAXtlhUzpI="
                     : newList.flag!.png,
@@ -246,7 +364,7 @@ class MultipleCurrencySheet extends StatelessWidget {
             );
           },
           separatorBuilder: (context, index) => 24.0.height,
-          itemCount: list.length,
+          itemCount: widget.list.length,
         ),
       ],
     );
