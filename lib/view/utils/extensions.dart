@@ -41,6 +41,29 @@ extension Amount on double {
   }
 }
 
+extension NumAmount on num {
+  /// For Currency Formatting on Double
+  String amountWithCurrency(String symbol) {
+    // String currencySymbol = '₦';
+    // switch (symbol) {
+    //   case 'ngn':
+    //     currencySymbol = '₦';
+    //     break;
+    //   case 'usd':
+    //     currencySymbol = '\$';
+    //     break;
+    //   case 'gbp':
+    //     currencySymbol = '£';
+    //     break;
+    //   default:
+    //     currencySymbol = '';
+    //     break;
+    // }
+    var formatter = NumberFormat.currency(symbol: symbol, decimalDigits: 2);
+    return formatter.format(this);
+  }
+}
+
 // For Currency Formatting on Int
 extension IntAmount on int {
   /// For Currency Formatting on Int
@@ -62,6 +85,42 @@ extension IntAmount on int {
     // }
     var formatter = NumberFormat.currency(symbol: symbol, decimalDigits: 0);
     return formatter.format(this);
+  }
+}
+
+extension CurrencyAmount on dynamic {
+  String amountInt({
+    int minDecimalPlaces = 2,
+    int maxDecimalPlaces = 2,
+    bool includeCommas = true,
+  }) {
+    if (this == null) {
+      return "0.0";
+    } else {
+      // Convert the dynamic value to a double
+      final doubleValue = (this is String)
+          ? double.tryParse(this) ?? 0.0
+          : (this is num)
+              ? this.toDouble()
+              : 0.0;
+
+      // Create a number format
+      var formatter = NumberFormat("#,##0");
+      if (minDecimalPlaces > 0) {
+        formatter.minimumFractionDigits = minDecimalPlaces;
+        formatter.maximumFractionDigits = maxDecimalPlaces;
+      }
+
+      // Format the double value
+      String result = formatter.format(doubleValue);
+
+      // Optionally add commas
+      if (includeCommas) {
+        return result;
+      } else {
+        return result.replaceAll(',', '');
+      }
+    }
   }
 }
 
@@ -111,5 +170,69 @@ extension WidgetPadding on Widget {
       padding: EdgeInsets.fromLTRB(l, t, r, b),
       child: this,
     );
+  }
+}
+
+extension DecimalFormatter on dynamic {
+  String formatDecimal({bool useCommas = true}) {
+    // Return empty string if null
+    if (this == null) return '';
+
+    // Convert to double
+    double value;
+    try {
+      value = double.parse(toString());
+    } catch (e) {
+      return toString();
+    }
+
+    // Get whole number and decimal parts
+    List<String> parts = value.toString().split('.');
+    String wholeNumber = parts[0];
+    String decimal = parts.length > 1 ? parts[1] : '';
+
+    // Format the number according to the decimal place rules
+    String formattedNumber;
+
+    // Case 1: If whole number is not 0, use 2 decimal places
+    if (wholeNumber != '0') {
+      formattedNumber = value.toStringAsFixed(2);
+    }
+    // Case 2: If whole number is 0
+    else {
+      // If decimal length > 5, use 5 decimal places
+      if (decimal.length > 5) {
+        formattedNumber = value.toStringAsFixed(5);
+      }
+      // Otherwise, use the original decimal length
+      else {
+        formattedNumber = decimal.isEmpty ? '0' : value.toString();
+      }
+    }
+
+    // Add commas if requested
+    if (useCommas) {
+      List<String> parts = formattedNumber.split('.');
+      parts[0] = _addCommas(parts[0]);
+      formattedNumber = parts.join('.');
+    }
+
+    return formattedNumber;
+  }
+
+  // Helper method to add commas to the whole number part
+  String _addCommas(String wholeNumber) {
+    final StringBuffer result = StringBuffer();
+    final bool isNegative = wholeNumber.startsWith('-');
+    String numberToFormat = isNegative ? wholeNumber.substring(1) : wholeNumber;
+
+    for (int i = 0; i < numberToFormat.length; i++) {
+      if (i > 0 && (numberToFormat.length - i) % 3 == 0) {
+        result.write(',');
+      }
+      result.write(numberToFormat[i]);
+    }
+
+    return isNegative ? '-${result.toString()}' : result.toString();
   }
 }

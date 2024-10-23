@@ -56,8 +56,7 @@ class AccountService {
         response: response.data,
         onSuccess: () {
           final res = response.data['data'] as List;
-          final responseList =
-              res.map((json) => AccountCurrencies.fromJson(json)).toList();
+          final responseList = res.map((json) => AccountCurrencies.fromJson(json)).toList();
           return responseList;
         },
       );
@@ -80,8 +79,7 @@ class AccountService {
         response: response.data,
         onSuccess: () {
           final res = response.data['data'] as List;
-          final responseList =
-              res.map((json) => AccountModel.fromJson(json)).toList();
+          final responseList = res.map((json) => AccountModel.fromJson(json)).toList();
           return responseList;
         },
       );
@@ -92,8 +90,7 @@ class AccountService {
   }
 
   // Get Account Endpoint
-  Future<AccountModel> getIndividualAccountsEndpoint(
-      String country, String currency) async {
+  Future<AccountModel> getIndividualAccountsEndpoint(String country, String currency) async {
     try {
       final response = await _networkService.request(
         "${endpointUrl.baseAccountUrl}${endpointUrl.getAccounts}?countryCode=$country&currencyCode=$currency",
@@ -115,8 +112,7 @@ class AccountService {
   }
 
   // Create Individual Accounts
-  Future<AccountModel> createIndividualAccountEndpoint(
-      CreateCustomerAccountReq req) async {
+  Future<AccountModel> createIndividualAccountEndpoint(CreateCustomerAccountReq req) async {
     try {
       final response = await _networkService.request(
         endpointUrl.baseAccountUrl + endpointUrl.createIndividualAccount,
@@ -151,8 +147,7 @@ class AccountService {
         response: response.data,
         onSuccess: () {
           final res = response.data['data'] as List;
-          final responseList =
-              res.map((json) => BanksModel.fromJson(json)).toList();
+          final responseList = res.map((json) => BanksModel.fromJson(json)).toList();
           return responseList;
         },
       );
@@ -163,8 +158,7 @@ class AccountService {
   }
 
   // Fund with Card Endpoint
-  Future<CardFundingResponseModel> fundWithCardEndpoint(
-      InitiateCardFundingReq req) async {
+  Future<CardFundingResponseModel> fundWithCardEndpoint(InitiateCardFundingReq req) async {
     try {
       final response = await _networkService.request(
         endpointUrl.baseFundingUrl + endpointUrl.initiateCardFunding,
@@ -265,8 +259,7 @@ class AccountService {
   }
 
   // Verify Transaction
-  Future<VerifyFundingTransxModel> verifyFundingTransxEndpoint(
-      VerifyFundingTransxReq req) async {
+  Future<VerifyFundingTransxModel> verifyFundingTransxEndpoint(VerifyFundingTransxReq req) async {
     try {
       final response = await _networkService.request(
         endpointUrl.baseFundingUrl + endpointUrl.verifyTransaction,
@@ -289,8 +282,7 @@ class AccountService {
   }
 
   // Fund with USSD Endpoint
-  Future<CardFundingResponseModel> fundWithUssdEndpoint(
-      InitiateUssdFundingReq req) async {
+  Future<CardFundingResponseModel> fundWithUssdEndpoint(InitiateUssdFundingReq req) async {
     try {
       final response = await _networkService.request(
         endpointUrl.baseFundingUrl + endpointUrl.initiateUSSDFunding,
@@ -326,9 +318,7 @@ class AccountService {
         onSuccess: () {
           final res = response.data['data'];
           final responseList = res['corridors'] as List;
-          return responseList
-              .map((list) => CorridorsResponse.fromJson(list))
-              .toList();
+          return responseList.map((list) => CorridorsResponse.fromJson(list)).toList();
         },
       );
       return result;
@@ -350,9 +340,7 @@ class AccountService {
         response: response.data,
         onSuccess: () {
           final responseList = response.data['data'] as List;
-          return responseList
-              .map((list) => BeneficiaryModel.fromJson(list))
-              .toList();
+          return responseList.map((list) => BeneficiaryModel.fromJson(list)).toList();
         },
       );
       return result;
@@ -432,8 +420,7 @@ class AccountService {
   }
 
   // Send to Mobile Money
-  Future<SendMoneyResponse> sendMoneyToMobileMoneyEndpoint(
-      SendToMobileMoneyReq req) async {
+  Future<SendMoneyResponse> sendMoneyToMobileMoneyEndpoint(SendToMobileMoneyReq req) async {
     try {
       final response = await _networkService.request(
         endpointUrl.baseFundingUrl + endpointUrl.sendToMobileMoney,
@@ -456,8 +443,7 @@ class AccountService {
   }
 
   // Send to ErrandPay User
-  Future<SendMoneyResponse> sendMoneyToInAppUserEndpoint(
-      SendToMobileMoneyReq req) async {
+  Future<SendMoneyResponse> sendMoneyToInAppUserEndpoint(SendToMobileMoneyReq req) async {
     try {
       final response = await _networkService.request(
         endpointUrl.baseFundingUrl + endpointUrl.sendToInAppUser,
@@ -493,7 +479,7 @@ class AccountService {
         response: response.data,
         onSuccess: () {
           final res = response.data['data'];
-          return SendMoneyResponse.fromJson(res);
+          return SendChargeResponse.fromJson(res);
         },
       );
       return result;

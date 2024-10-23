@@ -151,6 +151,8 @@ class _SendCurrencyItemState extends State<SendCurrencyItem> {
               sourceCurrency.value = widget.currencyData!.sourceCurrencies!.first;
               setState(() {});
             } else {
+              sourceCorridor.value = widget.currencyData!;
+              setState(() {});
               AppBottomSheet.showBottomSheet(
                 context,
                 widget: MultipleCurrencySheet(
@@ -158,8 +160,6 @@ class _SendCurrencyItemState extends State<SendCurrencyItem> {
                   list: widget.currencyData!.sourceCurrencies!,
                 ),
               );
-              sourceCorridor.value = widget.currencyData!;
-              setState(() {});
               log(sourceCorridor.value.code!);
             }
           },

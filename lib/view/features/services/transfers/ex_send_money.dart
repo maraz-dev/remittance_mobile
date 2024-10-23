@@ -12,7 +12,6 @@ import 'package:remittance_mobile/view/features/home/vm/accounts-vm/account_prov
 import 'package:remittance_mobile/view/features/services/transfers/bank_sheet.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_final.dart';
 import 'package:remittance_mobile/view/features/services/vm/send_charge_vm.dart';
-import 'package:remittance_mobile/view/features/services/vm/services_vm.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_dropdown.dart';
@@ -27,16 +26,14 @@ import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
 ValueNotifier<AccountModel> srcCurrencyValue = ValueNotifier(AccountModel());
-ValueNotifier<AccountCurrencies> desCurrencyValue =
-    ValueNotifier(AccountCurrencies());
+ValueNotifier<AccountCurrencies> desCurrencyValue = ValueNotifier(AccountCurrencies());
 
 class SendMoneyInitialView extends ConsumerStatefulWidget {
   static String path = 'send-money-initial-view';
   const SendMoneyInitialView({super.key});
 
   @override
-  ConsumerState<SendMoneyInitialView> createState() =>
-      _SendMoneyInitialViewState();
+  ConsumerState<SendMoneyInitialView> createState() => _SendMoneyInitialViewState();
 }
 
 class _SendMoneyInitialViewState extends ConsumerState<SendMoneyInitialView> {
@@ -101,17 +98,14 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyInitialView> {
     });
 
     return AbsorbPointer(
-      absorbing: userAccounts.isLoading ||
-          accountCurrenciesProvider.isLoading ||
-          sendChargeLoading,
+      absorbing: userAccounts.isLoading || accountCurrenciesProvider.isLoading || sendChargeLoading,
       child: Scaffold(
         appBar: innerAppBar(title: 'Send Money'),
         body: Form(
           key: _formKey,
           child: ScaffoldBody(
             body: SingleChildScrollView(
-              child: accountCurrenciesProvider.isLoading ||
-                      userAccounts.isLoading
+              child: accountCurrenciesProvider.isLoading || userAccounts.isLoading
                   ? const SpinKitRing(
                       color: AppColors.kPrimaryColor,
                       size: 100,
@@ -142,16 +136,13 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyInitialView> {
                               onChanged: (newValue) {
                                 setState(() {
                                   _sourceCountry.text = newValue ?? "";
-                                  srcCurrencyValue.value =
-                                      userAccounts.value?.elementAt(
-                                            userAccounts.value?.indexWhere(
-                                                  (value) =>
-                                                      value.currencyCode ==
-                                                      _sourceCountry.text,
-                                                ) ??
-                                                0,
-                                          ) ??
-                                          AccountModel();
+                                  srcCurrencyValue.value = userAccounts.value?.elementAt(
+                                        userAccounts.value?.indexWhere(
+                                              (value) => value.currencyCode == _sourceCountry.text,
+                                            ) ??
+                                            0,
+                                      ) ??
+                                      AccountModel();
                                 });
                               },
                             );
@@ -173,8 +164,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyInitialView> {
                           validator: validateGeneric,
                           readOnly: true,
                           onPressed: () async {
-                            final List<String>? list = accountCurrenciesProvider
-                                .value
+                            final List<String>? list = accountCurrenciesProvider.value
                                 ?.map((element) => element.currencyCode ?? "")
                                 .toList();
                             await platformSpecificDropdown(
@@ -185,18 +175,15 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyInitialView> {
                               onChanged: (newValue) {
                                 setState(() {
                                   _destinationCountry.text = newValue ?? "";
-                                  desCurrencyValue.value =
-                                      accountCurrenciesProvider.value
-                                              ?.elementAt(
-                                            accountCurrenciesProvider.value
-                                                    ?.indexWhere(
-                                                  (value) =>
-                                                      value.currencyCode ==
-                                                      _destinationCountry.text,
-                                                ) ??
-                                                0,
-                                          ) ??
-                                          AccountCurrencies();
+                                  desCurrencyValue.value = accountCurrenciesProvider.value
+                                          ?.elementAt(
+                                        accountCurrenciesProvider.value?.indexWhere(
+                                              (value) =>
+                                                  value.currencyCode == _destinationCountry.text,
+                                            ) ??
+                                            0,
+                                      ) ??
+                                      AccountCurrencies();
                                 });
                               },
                             );
@@ -308,13 +295,10 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyInitialView> {
                                 validator: validateGeneric,
                                 readOnly: true,
                                 onPressed: () async {
-                                  BanksModel? result =
-                                      await AppBottomSheet.showBottomSheet(
+                                  BanksModel? result = await AppBottomSheet.showBottomSheet(
                                     context,
                                     widget: BanksSheet(
-                                      country:
-                                          desCurrencyValue.value.countryCode ??
-                                              "NG",
+                                      country: desCurrencyValue.value.countryCode ?? "NG",
                                     ),
                                   );
                                   _bankName.text = result?.bankName ?? "";
@@ -398,10 +382,8 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyInitialView> {
                 if (_formKey.currentState!.validate()) {
                   ref.read(sendChargeProvider.notifier).sendChargeMethod(
                         SendChargeReq(
-                          destinationCountryCode:
-                              desCurrencyValue.value.countryCode,
-                          destinationCurrency:
-                              desCurrencyValue.value.currencyCode,
+                          destinationCountryCode: desCurrencyValue.value.countryCode,
+                          destinationCurrency: desCurrencyValue.value.currencyCode,
                           sourceCurrency: srcCurrencyValue.value.currencyCode,
                           amount: 10,
                         ),

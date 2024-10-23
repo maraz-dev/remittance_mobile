@@ -20,8 +20,7 @@ import 'package:remittance_mobile/view/utils/validator.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 
-ValueNotifier<InitiateCardFundingReq> cardFundingRes =
-    ValueNotifier(InitiateCardFundingReq());
+ValueNotifier<InitiateCardFundingReq> cardFundingRes = ValueNotifier(InitiateCardFundingReq());
 
 class DebitCardSheet extends ConsumerStatefulWidget {
   static String path = 'debit-card-sheet';
@@ -43,8 +42,7 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
   final TextEditingController _expiryDate = TextEditingController();
   final TextEditingController _cvv = TextEditingController();
 
-  final ValueNotifier<String> _cardTypeNotifier =
-      ValueNotifier<String>('Unknown');
+  final ValueNotifier<String> _cardTypeNotifier = ValueNotifier<String>('Unknown');
 
   @override
   void initState() {
@@ -77,8 +75,7 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
 
     // MasterCard Range
     bool isMasterCard = (cardNumber.startsWith(RegExp(r'^5[1-5]'))) ||
-        (cardNumber
-            .startsWith(RegExp(r'^2(?:22[1-9]|2[3-9]|[3-6][0-9]|7[01])'))) ||
+        (cardNumber.startsWith(RegExp(r'^2(?:22[1-9]|2[3-9]|[3-6][0-9]|7[01])'))) ||
         (cardNumber.startsWith('2720'));
 
     // Card Type Conditions
@@ -200,9 +197,7 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
                             hint: '0000 0000 0000 0000',
                             inputType: TextInputType.number,
                             validator: validateGeneric,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
-                            ],
+                            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                           );
                         },
                       ),
@@ -220,20 +215,16 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
                               controller: _expiryDate,
                               hint: 'MM/YY',
                               onChanged: (value) {
-                                if (value.length == 2 &&
-                                    !_expiryDate.text.endsWith('/')) {
+                                if (value.length == 2 && !_expiryDate.text.endsWith('/')) {
                                   _expiryDate.value = TextEditingValue(
                                     text: '$value/',
-                                    selection: const TextSelection.collapsed(
-                                        offset: 3),
+                                    selection: const TextSelection.collapsed(offset: 3),
                                   );
                                 }
                               },
                               inputType: TextInputType.number,
                               validator: validateGeneric,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(5)
-                              ],
+                              inputFormatters: [LengthLimitingTextInputFormatter(5)],
                             ),
                           ),
                           16.0.width,
@@ -247,9 +238,7 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
                               hint: '***',
                               inputType: TextInputType.number,
                               validator: validateGeneric,
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(3)
-                              ],
+                              inputFormatters: [LengthLimitingTextInputFormatter(3)],
                             ),
                           ),
                         ],
@@ -281,19 +270,16 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
                   onPressed: () {
                     FocusScope.of(context).unfocus();
                     if (_formKey.currentState!.validate()) {
-                      List<String> expiryDateSeparated =
-                          _expiryDate.text.split('/');
-                      ref
-                          .read(fundWithCardProvider.notifier)
-                          .fundWithCardMethod(
+                      List<String> expiryDateSeparated = _expiryDate.text.split('/');
+                      ref.read(fundWithCardProvider.notifier).fundWithCardMethod(
                             InitiateCardFundingReq(
                               cardNumber: _cardNumber.text.trim(),
                               cvv: _cvv.text,
-                              amount: double.parse(
-                                  addMoneyAmount.value.replaceAll(',', '')),
+                              amount: double.parse(addMoneyAmount.value.replaceAll(',', '')),
                               expiryMonth: expiryDateSeparated[0],
                               expiryYear: expiryDateSeparated[1],
                               currency: accountInfo.value.currencyCode,
+                              accountNumber: accountInfo.value.accountNumber,
                               charge: 0,
                               redirectUrl: "",
                             ),
@@ -303,8 +289,7 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
                       cardFundingRes.value = InitiateCardFundingReq(
                         cardNumber: _cardNumber.text.trim(),
                         cvv: _cvv.text,
-                        amount: double.parse(
-                            addMoneyAmount.value.replaceAll(',', '')),
+                        amount: double.parse(addMoneyAmount.value.replaceAll(',', '')),
                         expiryMonth: expiryDateSeparated[0],
                         expiryYear: expiryDateSeparated[1],
                         currency: "NGN",

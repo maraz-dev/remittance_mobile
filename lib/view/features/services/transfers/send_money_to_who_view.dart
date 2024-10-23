@@ -4,6 +4,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/data/models/responses/beneficiary_model.dart';
 import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdrawal-sheet/add_withdrawal_account.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/account_providers.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_details.dart';
@@ -20,6 +21,8 @@ import 'package:remittance_mobile/view/utils/input_fields.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
+
+ValueNotifier<BeneficiaryModel> selectedBeneficiary = ValueNotifier(BeneficiaryModel());
 
 class SendMoneyToWhoView extends ConsumerStatefulWidget {
   static const path = 'send-money-to-who-view';
@@ -78,13 +81,9 @@ class _SendMoneyToWhoViewState extends ConsumerState<SendMoneyToWhoView> {
                     data: (data) {
                       final filteredData = data
                           .where(
-                            (currency) =>
-                                currency.accountName!
-                                    .toLowerCase()
-                                    .contains(_searchQuery) ||
-                                currency.accountNumber!
-                                    .toLowerCase()
-                                    .contains(_searchQuery),
+                            (recipient) =>
+                                recipient.accountName!.toLowerCase().contains(_searchQuery) ||
+                                recipient.accountNumber!.toLowerCase().contains(_searchQuery),
                           )
                           .toList();
                       if (data.isEmpty) {
@@ -140,12 +139,12 @@ class _SendMoneyToWhoViewState extends ConsumerState<SendMoneyToWhoView> {
                                   24.0.height,
                                   ListView.separated(
                                     shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
+                                    physics: const NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) {
                                       var value = filteredData[index];
                                       return InkWell(
                                         onTap: () {
+                                          selectedBeneficiary.value = value;
                                           context.pushNamed(
                                             SendMoneyDetailsView.path,
                                           );
@@ -158,8 +157,7 @@ class _SendMoneyToWhoViewState extends ConsumerState<SendMoneyToWhoView> {
                                         ),
                                       );
                                     },
-                                    separatorBuilder: (context, index) =>
-                                        Column(
+                                    separatorBuilder: (context, index) => Column(
                                       children: [
                                         const Divider(
                                           color: AppColors.kGrey200,
@@ -265,7 +263,7 @@ class AddRecipientSheet extends StatelessWidget {
             );
           },
           separatorBuilder: (context, index) => 24.0.height,
-          itemCount: addRecipientOptionList.length,
+          itemCount: 1,
         ),
         16.0.height,
       ],

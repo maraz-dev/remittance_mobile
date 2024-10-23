@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:remittance_mobile/view/features/services/transfers/send_money_how_much_view.dart';
 import 'package:remittance_mobile/view/features/services/widgets/swap_icon_card.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
@@ -18,12 +17,10 @@ class ExchangeTransactionDetailView extends StatefulWidget {
   const ExchangeTransactionDetailView({super.key});
 
   @override
-  State<ExchangeTransactionDetailView> createState() =>
-      _ExchangeTransactionDetailViewState();
+  State<ExchangeTransactionDetailView> createState() => _ExchangeTransactionDetailViewState();
 }
 
-class _ExchangeTransactionDetailViewState
-    extends State<ExchangeTransactionDetailView> {
+class _ExchangeTransactionDetailViewState extends State<ExchangeTransactionDetailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -186,8 +183,10 @@ class ExchangeTrxDetailsCard extends StatelessWidget {
                 children: [
                   Text(
                     title ?? 'Plot 10',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: AppColors.kGrey700, fontWeight: FontWeight.w700),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.w700),
                   ),
                   Text(subtitle ?? 'Civic towers, Victoria Island, Lagos'),
                   Text(

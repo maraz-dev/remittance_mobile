@@ -1,10 +1,9 @@
 import 'dart:convert';
 
-InitiateCardFundingReq initiateFlutterwaveCardReqFromJson(String str) =>
+InitiateCardFundingReq initiateCardFundingReqFromJson(String str) =>
     InitiateCardFundingReq.fromJson(json.decode(str));
 
-String initiateFlutterwaveCardReqToJson(InitiateCardFundingReq data) =>
-    json.encode(data.toJson());
+String initiateCardFundingReqToJson(InitiateCardFundingReq data) => json.encode(data.toJson());
 
 class InitiateCardFundingReq {
   final String? cardNumber;
@@ -12,9 +11,10 @@ class InitiateCardFundingReq {
   final String? expiryYear;
   final String? cvv;
   final String? currency;
+  final String? accountNumber;
   final String? redirectUrl;
   final double? amount;
-  final int? charge;
+  final double? charge;
 
   InitiateCardFundingReq({
     this.cardNumber,
@@ -22,6 +22,7 @@ class InitiateCardFundingReq {
     this.expiryYear,
     this.cvv,
     this.currency,
+    this.accountNumber,
     this.redirectUrl,
     this.amount,
     this.charge,
@@ -33,10 +34,10 @@ class InitiateCardFundingReq {
     String? expiryYear,
     String? cvv,
     String? currency,
+    String? accountNumber,
     String? redirectUrl,
     double? amount,
-    int? charge,
-    dynamic authorization,
+    double? charge,
   }) =>
       InitiateCardFundingReq(
         cardNumber: cardNumber ?? this.cardNumber,
@@ -44,21 +45,22 @@ class InitiateCardFundingReq {
         expiryYear: expiryYear ?? this.expiryYear,
         cvv: cvv ?? this.cvv,
         currency: currency ?? this.currency,
+        accountNumber: accountNumber ?? this.accountNumber,
         redirectUrl: redirectUrl ?? this.redirectUrl,
         amount: amount ?? this.amount,
         charge: charge ?? this.charge,
       );
 
-  factory InitiateCardFundingReq.fromJson(Map<String, dynamic> json) =>
-      InitiateCardFundingReq(
+  factory InitiateCardFundingReq.fromJson(Map<String, dynamic> json) => InitiateCardFundingReq(
         cardNumber: json["cardNumber"],
         expiryMonth: json["expiryMonth"],
         expiryYear: json["expiryYear"],
         cvv: json["cvv"],
         currency: json["currency"],
+        accountNumber: json["accountNumber"],
         redirectUrl: json["redirectUrl"],
         amount: json["amount"].toDouble(),
-        charge: json["charge"],
+        charge: json["charge"].toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -67,66 +69,9 @@ class InitiateCardFundingReq {
         "expiryYear": expiryYear,
         "cvv": cvv,
         "currency": currency,
+        "accountNumber": accountNumber,
         "redirectUrl": redirectUrl,
         "amount": amount,
         "charge": charge,
-      };
-}
-
-class CardPinAuthorization {
-  final String? mode;
-  final String? pin;
-
-  CardPinAuthorization({
-    this.mode,
-    this.pin,
-  });
-
-  factory CardPinAuthorization.fromJson(Map<String, dynamic> json) =>
-      CardPinAuthorization(
-        mode: json["mode"],
-        pin: json["pin"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "mode": mode,
-        "pin": pin,
-      };
-}
-
-class CardAvsAuthorization {
-  final String? mode;
-  final String? city;
-  final String? address;
-  final String? state;
-  final String? country;
-  final String? zipcode;
-
-  CardAvsAuthorization({
-    this.mode,
-    this.city,
-    this.address,
-    this.state,
-    this.country,
-    this.zipcode,
-  });
-
-  factory CardAvsAuthorization.fromJson(Map<String, dynamic> json) =>
-      CardAvsAuthorization(
-        mode: json["mode"],
-        city: json["city"],
-        address: json["address"],
-        state: json["state"],
-        country: json["country"],
-        zipcode: json["zipcode"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "mode": mode,
-        "city": city,
-        "address": address,
-        "state": state,
-        "country": country,
-        "zipcode": zipcode,
       };
 }

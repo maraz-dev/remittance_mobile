@@ -12,6 +12,8 @@ class AmountInput extends StatelessWidget {
   final bool? readOnly;
   final bool animate;
   final Color? textColor, color;
+  final double? fontSize;
+  final Function(String)? onChanged, onFieldSubmitted;
 
   const AmountInput({
     super.key,
@@ -23,6 +25,9 @@ class AmountInput extends StatelessWidget {
     this.image,
     this.color,
     this.textColor,
+    this.onChanged,
+    this.onFieldSubmitted,
+    this.fontSize,
   });
 
   @override
@@ -78,7 +83,9 @@ class AmountInput extends StatelessWidget {
                       return null;
                     },
                     style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                        color: AppColors.kGrey700, fontWeight: FontWeight.w500, fontSize: 40.sp),
+                        color: AppColors.kGrey700,
+                        fontWeight: FontWeight.w500,
+                        fontSize: fontSize ?? 40.sp),
                     decoration: InputDecoration(
                       fillColor: color,
                       hintText: '0.00',
@@ -88,9 +95,10 @@ class AmountInput extends StatelessWidget {
                       focusedBorder: InputBorder.none,
                       errorBorder: InputBorder.none,
                       hintStyle: Theme.of(context).textTheme.displayLarge!.copyWith(
-                          color: AppColors.kHintColor,
-                          fontSize: 40.sp,
-                          fontWeight: FontWeight.w500),
+                            color: AppColors.kHintColor,
+                            fontSize: fontSize ?? 40.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
                     ),
                     inputFormatters: [
                       LengthLimitingTextInputFormatter(17),
@@ -108,6 +116,8 @@ class AmountInput extends StatelessWidget {
                         insertDecimalDigits: true,
                       ),
                     ],
+                    onChanged: onChanged,
+                    onFieldSubmitted: onFieldSubmitted,
                   ),
                 ),
                 16.0.width,

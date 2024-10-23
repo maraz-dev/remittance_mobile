@@ -77,29 +77,30 @@ class _SendMoneyFromViewState extends ConsumerState<SendMoneyFromView> {
                                 child: const AddNewBalanceWidget(),
                               );
                             } else {
+                              // Only show the Balances that aren't Zero
+                              final newDataList =
+                                  data.where((element) => element.balance != 0).toList();
+
                               return ListView.separated(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
-                                  var value = data[index];
+                                  var value = newDataList[index];
                                   return InkWell(
                                     onTap: () {
                                       fromBalance.value = value;
-                                      context
-                                          .pushNamed(SendMoneyHowMuchView.path);
+                                      context.pushNamed(SendMoneyHowMuchView.path);
                                     },
                                     child: SendMoneyBalance(
                                       image: value.flagPng,
-                                      balance:
-                                          value.balance!.amountWithCurrency(""),
+                                      balance: value.balance!.amountWithCurrency(""),
                                       currency: value.currencyName,
                                       symbol: value.currencyCode,
                                     ),
                                   );
                                 },
-                                separatorBuilder: (context, index) =>
-                                    24.0.height,
-                                itemCount: data.length,
+                                separatorBuilder: (context, index) => 24.0.height,
+                                itemCount: newDataList.length,
                               );
                             }
                           },

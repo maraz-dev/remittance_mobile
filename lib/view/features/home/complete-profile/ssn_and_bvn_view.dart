@@ -59,10 +59,7 @@ class _SsnAndBvnViewState extends State<SsnAndBvnView> {
               16.0.height,
               Text(
                 'Provide your social security number and date of birth. This is for identification purposes only!',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: AppColors.kGrey700),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColors.kGrey700),
               ),
               24.0.height,
 
@@ -83,9 +80,7 @@ class _SsnAndBvnViewState extends State<SsnAndBvnView> {
                   await platformSpecificDropdown(
                     key: _selectKey,
                     context: context,
-                    items: SsnOrBvn.values
-                        .map((number) => number.name.toUpperCase())
-                        .toList(),
+                    items: SsnOrBvn.values.map((number) => number.name.toUpperCase()).toList(),
                     value: _selectSsnOrBvn.text,
                     onChanged: (newValue) {
                       setState(() {

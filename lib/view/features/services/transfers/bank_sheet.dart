@@ -96,9 +96,7 @@ class _BanksSheet extends ConsumerState<BanksSheet> {
                   data: (data) {
                     final filteredData = data
                         .where((bank) =>
-                            bank.bankName!
-                                .toLowerCase()
-                                .contains(_searchQuery) ||
+                            bank.bankName!.toLowerCase().contains(_searchQuery) ||
                             bank.bankName!.toLowerCase().contains(_searchQuery))
                         .toList();
                     return ListView.separated(
@@ -153,12 +151,14 @@ class BankItem extends StatelessWidget {
             bgColor: AppColors.kGrey100,
           ),
           16.0.width,
-          Text(
-            name ?? 'American Dollar',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.kGrey800,
-                  fontWeight: FontWeight.w600,
-                ),
+          Expanded(
+            child: Text(
+              name ?? 'American Dollar',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: AppColors.kGrey800,
+                    fontWeight: FontWeight.w600,
+                  ),
+            ),
           )
         ],
       ),
