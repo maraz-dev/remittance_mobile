@@ -34,6 +34,8 @@ ValueNotifier<AccountModel> srcCurrencyValue = ValueNotifier(AccountModel());
 ValueNotifier<AccountCurrencies> desCurrencyValue = ValueNotifier(AccountCurrencies());
 ValueNotifier<CorridorsResponse> sourceCorridor = ValueNotifier(CorridorsResponse());
 ValueNotifier<DestinationCountry> sourceCurrency = ValueNotifier(DestinationCountry());
+ValueNotifier<DestinationCountry> destinationCorridor = ValueNotifier(DestinationCountry());
+ValueNotifier<DestinationCurrency> destinationCurrency = ValueNotifier(DestinationCurrency());
 
 enum SendRoute { from, to }
 
@@ -59,7 +61,6 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
     // _sourceCurrency.dispose();
     // _destinationCurrency.dispose();
     _sourceAmount.dispose();
-
     _destinationAmount.dispose();
 
     super.dispose();
@@ -82,7 +83,20 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
     });
 
     return Scaffold(
-      appBar: innerAppBar(title: 'Send Money'),
+      appBar: innerAppBar(
+        title: 'Send Money',
+        backOnPressed: () {
+          context.pop();
+
+          // Set all the Value Notifiers to Default
+          setState(() {
+            sourceCorridor.value = CorridorsResponse();
+            sourceCurrency.value = DestinationCountry();
+            destinationCorridor.value = DestinationCountry();
+            destinationCurrency.value = DestinationCurrency();
+          });
+        },
+      ),
       body: Form(
         key: _formKey,
         child: corridors.maybeWhen(
@@ -129,7 +143,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                                     ),
                                   );
                                   setState(() {
-                                    sourceCorridor.value = result ?? CorridorsResponse();
+                                    sourceCorridor.value = result!;
                                   });
                                 },
                                 child: Row(
@@ -167,30 +181,40 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
 
                               // TO Button
                               InkWell(
-                                onTap: () {
-                                  sourceCorridor.value.destinationCountries == null
-                                      ? ShowAlertDialog.showAlertDialog(
-                                          context,
-                                          title: 'Error!',
-                                          content: 'Select the FROM Country',
-                                          defaultActionText: 'Ok',
-                                        )
-                                      : AppBottomSheet.showBottomSheet(
-                                          context,
-                                          widget: SendCurrencySheet(
-                                            location: SendRoute.to,
-                                            corridors: data,
-                                            destination:
-                                                sourceCorridor.value.destinationCountries ?? [],
-                                          ),
-                                        );
+                                onTap: () async {
+                                  if (sourceCorridor.value.destinationCountries == null) {
+                                    ShowAlertDialog.showAlertDialog(
+                                      context,
+                                      title: 'Error!',
+                                      content: 'Select the FROM Country',
+                                      defaultActionText: 'Ok',
+                                    );
+                                  } else {
+                                    DestinationCountry? result =
+                                        await AppBottomSheet.showBottomSheet(
+                                      context,
+                                      widget: SendCurrencySheet(
+                                        location: SendRoute.to,
+                                        corridors: data,
+                                        destination:
+                                            sourceCorridor.value.destinationCountries ?? [],
+                                      ),
+                                    );
+
+                                    setState(() {
+                                      destinationCorridor.value = result!;
+                                    });
+                                  }
                                 },
                                 child: Row(
                                   children: [
-                                    const CircleAvatar(),
+                                    CircleAvatar(
+                                      backgroundImage:
+                                          NetworkImage(destinationCorridor.value.flag?.png ?? ""),
+                                    ),
                                     8.0.width,
                                     Text(
-                                      'TBS',
+                                      destinationCorridor.value.code ?? "TBS",
                                       style: Theme.of(context).textTheme.displaySmall,
                                     ),
                                     8.0.width,
@@ -229,7 +253,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                       header: 'Recipient Receives',
                       color: AppColors.kWhiteColor,
                       controller: _destinationAmount,
-                      currency: 'TBS',
+                      currency: destinationCurrency.value.code,
                     ),
 
                     24.0.height,

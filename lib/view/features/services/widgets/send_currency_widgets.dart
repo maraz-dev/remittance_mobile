@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -146,10 +148,9 @@ class _SendCurrencyItemState extends State<SendCurrencyItem> {
           onTap: () {
             if (widget.currencyData!.sourceCurrencies!.length < 2) {
               context.pop(widget.currencyData);
+              sourceCurrency.value = widget.currencyData!.sourceCurrencies!.first;
+              setState(() {});
             } else {
-              setState(() {
-                sourceCorridor.value = widget.currencyData ?? CorridorsResponse();
-              });
               AppBottomSheet.showBottomSheet(
                 context,
                 widget: MultipleCurrencySheet(
@@ -157,6 +158,9 @@ class _SendCurrencyItemState extends State<SendCurrencyItem> {
                   list: widget.currencyData!.sourceCurrencies!,
                 ),
               );
+              sourceCorridor.value = widget.currencyData!;
+              setState(() {});
+              log(sourceCorridor.value.code!);
             }
           },
           child: Row(
@@ -226,6 +230,8 @@ class _SendCurrencyItemState extends State<SendCurrencyItem> {
           onTap: () {
             if (widget.destinationData!.destinationCurrencies!.length < 2) {
               context.pop(widget.destinationData);
+              destinationCurrency.value = widget.destinationData!.destinationCurrencies!.first;
+              setState(() {});
             } else {
               AppBottomSheet.showBottomSheet(
                 context,
@@ -348,9 +354,8 @@ class _MultipleCurrencySheetState extends State<MultipleCurrencySheet> {
             var newList = widget.list[index];
             return InkWell(
               onTap: () {
-                setState(() {
-                  sourceCurrency.value = newList;
-                });
+                sourceCurrency.value = newList;
+                setState(() {});
                 context.pop();
                 context.pop();
               },
