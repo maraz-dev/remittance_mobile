@@ -27,7 +27,7 @@ class ApiEndpoints {
       case Environmentx.dev:
         return devUserURL;
       case Environmentx.prod:
-        return productionURL;
+        return prodUserURL;
       default:
         return "";
     }
@@ -36,9 +36,9 @@ class ApiEndpoints {
   String get baseAccountUrl {
     switch (_environment) {
       case Environmentx.dev:
-        return devAccountURLTwo;
+        return devAccountURL;
       case Environmentx.prod:
-        return productionURL;
+        return prodAccountURL;
       default:
         return "";
     }
@@ -47,20 +47,23 @@ class ApiEndpoints {
   String get baseFundingUrl {
     switch (_environment) {
       case Environmentx.dev:
-        return devFundingURLTwo;
+        return devFundingURL;
       case Environmentx.prod:
-        return productionURL;
+        return prodFundingURL;
       default:
         return "";
     }
   }
 
-  static const String devUserURL =
-      "https://g7xnbur2kbxtmlze62vooojm5q0urryd.lambda-url.us-east-2.on.aws";
-  static const String devAccountURLTwo =
-      "https://22y3f33f4xmnhndkfuy3twcaqq0cxgyx.lambda-url.us-east-2.on.aws";
-  static const String devFundingURLTwo =
-      "https://5tnq43dghln7b2fv7fjchntbja0ztuvy.lambda-url.us-east-2.on.aws";
+  static const String devUserURL = "https://staging.apis.borderpal.co/users/api/v1";
+  static const String prodUserURL = "https://api.borderpal.co/users/api/v1";
+
+  static const String devAccountURL = "https://staging.apis.borderpal.co/accounts/api/v1";
+  static const String prodAccountURL = "https://api.borderpal.co/accounts/api/v1";
+
+  static const String devFundingURL = "https://staging.apis.borderpal.co/fundstransfer/api/v1";
+  static const String prodFundingURL = "https://api.borderpal.co/fundstransfer/api/v1";
+
   static const String productionURL = "";
 
   // static final baseUrl =
