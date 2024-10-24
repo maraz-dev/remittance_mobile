@@ -4,6 +4,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/core/di/injector.dart';
 import 'package:remittance_mobile/data/models/requests/send_money_to_bank_req.dart';
 import 'package:remittance_mobile/data/models/responses/send_money_response.dart';
+import 'package:remittance_mobile/view/features/home/vm/accounts-vm/account_providers.dart';
 
 class SendToBankNotifier extends AutoDisposeAsyncNotifier<SendMoneyResponse> {
   Future<void> sendToBankMethod(SendToBankReq req) async {
@@ -12,7 +13,7 @@ class SendToBankNotifier extends AutoDisposeAsyncNotifier<SendMoneyResponse> {
       () => ref.read(accountRepository).sendMoneyToBankEndpoint(req),
     );
     if (!state.hasError) {
-      //ref.invalidate(getCustomerAccountsProvider);
+      ref.invalidate(getCustomerAccountsProvider);
     }
   }
 
@@ -22,6 +23,5 @@ class SendToBankNotifier extends AutoDisposeAsyncNotifier<SendMoneyResponse> {
   }
 }
 
-final sendToBankProvider =
-    AsyncNotifierProvider.autoDispose<SendToBankNotifier, SendMoneyResponse>(
-        SendToBankNotifier.new);
+final sendToBankProvider = AsyncNotifierProvider.autoDispose<SendToBankNotifier, SendMoneyResponse>(
+    SendToBankNotifier.new);

@@ -3,13 +3,15 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/send_money_to_bank_req.dart';
-import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/validate_pin_vm.dart';
 import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_transaction_detail.dart';
+import 'package:remittance_mobile/view/features/home/widgets/validate_pin_sheet.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_how_much_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_to_who_view.dart';
 import 'package:remittance_mobile/view/features/services/vm/send_to_bank_vm.dart';
 import 'package:remittance_mobile/view/features/services/widgets/send_trx_details_card.dart';
+import 'package:remittance_mobile/view/features/services/widgets/success_transaction_sheet.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -30,24 +32,28 @@ class SendMoneyDetailsView extends ConsumerStatefulWidget {
 class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
   @override
   Widget build(BuildContext context) {
-    final verifyPINLoading = ref.watch(validatePINProvider).isLoading;
     final sendMoneyLoading = ref.watch(sendToBankProvider).isLoading;
 
-    ref.listen(validatePINProvider, (_, next) {
-      if (next is AsyncData<String>) {
-        context.pop();
-        ref.read(sendToBankProvider.notifier).sendToBankMethod(
-              SendToBankReq(
-                bankCode: selectedBeneficiary.value.bankCode,
-              ),
-            );
+    ref.listen(sendToBankProvider, (_, next) {
+      if (next is AsyncData) {
+        AppBottomSheet.showBottomSheet(
+          context,
+          isDismissible: true,
+          enableDrag: false,
+          widget: SuccessTranxSheet(
+            amount: 500.amountWithCurrency(sourceCurrency.value.code ?? ''),
+            accountDetails:
+                '${selectedBeneficiary.value.accountNumber} ${selectedBeneficiary.value.bankName}',
+          ),
+        );
       }
       if (next is AsyncError) {
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
       }
     });
+
     return AbsorbPointer(
-      absorbing: verifyPINLoading || sendMoneyLoading,
+      absorbing: sendMoneyLoading,
       child: Scaffold(
         appBar: innerAppBar(title: 'Send Money'),
         body: ScaffoldBody(
@@ -160,7 +166,22 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
             MainButton(
               text: 'Send',
               isLoading: sendMoneyLoading,
-              onPressed: () {},
+              onPressed: () async {
+                bool? res = await AppBottomSheet.showBottomSheet(
+                  context,
+                  isDismissible: true,
+                  enableDrag: false,
+                  widget: const ValidatePINSheet(),
+                );
+                if (res == null) return;
+                if (res == true) {
+                  ref.read(sendToBankProvider.notifier).sendToBankMethod(
+                        SendToBankReq(
+                          bankCode: selectedBeneficiary.value.bankCode,
+                        ),
+                      );
+                }
+              },
             )
                 .animate()
                 .fadeIn(begin: 0, delay: 500.ms)
