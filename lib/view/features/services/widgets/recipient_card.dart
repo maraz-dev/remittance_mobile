@@ -72,33 +72,36 @@ class AddNewRecipientAlt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-      decoration: BoxDecoration(
-        color: AppColors.kWhiteColor,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        children: [
-          const CardIcon(
-            image: AppImages.recipient,
-            padding: 8,
-            bgColor: AppColors.kGrey100,
-          ),
-          12.0.width,
-          Text(
-            "New Recipient",
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: AppColors.kGrey700,
-                ),
-          ),
-          const Spacer(),
-          GestureDetector(
-            onTap: onPressed,
-            child: SvgPicture.asset(AppImages.arrowRight),
-          ),
-        ],
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+        decoration: BoxDecoration(
+          color: AppColors.kWhiteColor,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            const CardIcon(
+              image: AppImages.recipient,
+              padding: 8,
+              bgColor: AppColors.kGrey100,
+            ),
+            12.0.width,
+            Text(
+              "New Recipient",
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.kGrey700,
+                  ),
+            ),
+            const Spacer(),
+            GestureDetector(
+              onTap: onPressed,
+              child: SvgPicture.asset(AppImages.arrowRight),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -128,7 +131,7 @@ class RecipientsCard extends StatelessWidget {
             Text(
               name ?? "",
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                     color: AppColors.kGrey700,
                   ),
             ),

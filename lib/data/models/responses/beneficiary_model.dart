@@ -3,11 +3,10 @@ import 'dart:convert';
 BeneficiaryModel beneficiaryModelFromJson(String str) =>
     BeneficiaryModel.fromJson(json.decode(str));
 
-String beneficiaryModelToJson(BeneficiaryModel data) =>
-    json.encode(data.toJson());
+String beneficiaryModelToJson(BeneficiaryModel data) => json.encode(data.toJson());
 
 class BeneficiaryModel {
-  final String? id;
+  final int? id;
   final bool? isActive;
   final bool? isDeleted;
   final String? partnerCode;
@@ -71,8 +70,7 @@ class BeneficiaryModel {
     this.meterNumber,
   });
 
-  factory BeneficiaryModel.fromJson(Map<String, dynamic> json) =>
-      BeneficiaryModel(
+  factory BeneficiaryModel.fromJson(Map<String, dynamic> json) => BeneficiaryModel(
         id: json["id"],
         isActive: json["isActive"],
         isDeleted: json["isDeleted"],

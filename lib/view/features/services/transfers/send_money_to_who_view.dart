@@ -150,10 +150,11 @@ class _SendMoneyToWhoViewState extends ConsumerState<SendMoneyToWhoView> {
                                           );
                                         },
                                         child: RecipientsCard(
-                                          image: "",
+                                          image:
+                                              "https://static.vecteezy.com/system/resources/thumbnails/000/593/729/small/B011.jpg",
                                           name: value.accountName,
                                           accNumber: value.accountNumber,
-                                          channel: value.channel,
+                                          channel: value.bankName,
                                         ),
                                       );
                                     },

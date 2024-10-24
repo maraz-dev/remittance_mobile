@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/send_money_charge.dart';
 import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
+import 'package:remittance_mobile/data/models/responses/send_charge_response.dart';
 import 'package:remittance_mobile/view/features/home/widgets/balance_widget.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_from_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_to_who_view.dart';
@@ -30,10 +31,12 @@ import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 
+ValueNotifier<String> sourceAmount = ValueNotifier('');
 ValueNotifier<CorridorsResponse> sourceCorridor = ValueNotifier(CorridorsResponse());
 ValueNotifier<DestinationCountry> sourceCurrency = ValueNotifier(DestinationCountry());
 ValueNotifier<DestinationCountry> destinationCorridor = ValueNotifier(DestinationCountry());
 ValueNotifier<DestinationCurrency> destinationCurrency = ValueNotifier(DestinationCurrency());
+ValueNotifier<SendChargeResponse> feeResponse = ValueNotifier(SendChargeResponse());
 ValueNotifier<bool> showCharge = ValueNotifier(false);
 
 enum SendRoute { from, to }
@@ -108,6 +111,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
         _destinationAmount.text = next.value?.destinationAmount?.amountInt() ?? '0.00';
         _rate = 1 / (next.value?.rate ?? 1.0);
         _fee = next.value?.fee ?? 0.0;
+        feeResponse.value = next.value ?? SendChargeResponse();
 
         setState(() {
           showCharge.value = true;
@@ -133,6 +137,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
             sourceCurrency.value = DestinationCountry();
             destinationCorridor.value = DestinationCountry();
             destinationCurrency.value = DestinationCurrency();
+            showCharge.value = false;
           });
         },
       ),
@@ -343,7 +348,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                                   16.0.height,
                                   RatesCard(
                                     image: AppImages.loyalty,
-                                    text: '${_fee.amountInt()} ${sourceCurrency.value.code}',
+                                    text: '${_fee.formatDecimal()} ${sourceCurrency.value.code}',
                                     description: 'Fees',
                                     onTapped: () {},
                                   ),
@@ -351,7 +356,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                                   RatesCard(
                                     image: AppImages.addAlt,
                                     text:
-                                        '${(double.parse(_sourceAmount.text.replaceAll(',', '')) + _fee).amountInt()} ${sourceCurrency.value.code}',
+                                        '${(double.parse(_sourceAmount.text.replaceAll(',', '')) + _fee).formatDecimal()} ${sourceCurrency.value.code}',
                                     description: 'Total Amount',
                                   ),
                                 ],
@@ -388,6 +393,9 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                   isLoading: sendChargeLoading,
                   text: 'Next',
                   onPressed: () {
+                    setState(() {
+                      sourceAmount.value = _sourceAmount.text;
+                    });
                     context.pushNamed(SendMoneyToWhoView.path);
                   },
                 )

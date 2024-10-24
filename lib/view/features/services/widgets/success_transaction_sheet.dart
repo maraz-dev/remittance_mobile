@@ -80,6 +80,7 @@ class _SuccessTranxSheetState extends State<SuccessTranxSheet> {
               sourceCurrency.value = DestinationCountry();
               destinationCorridor.value = DestinationCountry();
               destinationCurrency.value = DestinationCurrency();
+              showCharge.value = false;
             });
             context.pop();
             context.goNamed(DashboardView.path);

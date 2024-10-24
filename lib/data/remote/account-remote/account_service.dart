@@ -1,9 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:remittance_mobile/core/http/http_service.dart';
 import 'package:remittance_mobile/core/http/response_body_handler.dart';
 import 'package:remittance_mobile/core/storage/hive-storage/hive_storage.dart';
 import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/core/utils/device_details.dart';
+import 'package:remittance_mobile/core/utils/generate_uuid.dart';
 import 'package:remittance_mobile/core/utils/get_ip_address.dart';
 import 'package:remittance_mobile/core/utils/location_services.dart';
 import 'package:remittance_mobile/data/models/requests/add_beneficiary_req.dart';
@@ -393,6 +395,7 @@ class AccountService {
       });
 
       final response = await _networkService.request(
+        options: Options(headers: {'sessionId': UUIDGenerator.generateUUID()}),
         endpointUrl.baseFundingUrl + endpointUrl.sendToBank,
         RequestMethod.post,
         data: req

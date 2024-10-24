@@ -77,7 +77,7 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
             header: 'Account Number/IBAN',
             controller: _accountNo,
             hint: 'Enter your Account Number/IBAN',
-            inputType: TextInputType.name,
+            inputType: TextInputType.number,
             validator: validateGeneric,
           ),
           24.0.height,

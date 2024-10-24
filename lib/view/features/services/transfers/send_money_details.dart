@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/send_money_to_bank_req.dart';
 import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_transaction_detail.dart';
 import 'package:remittance_mobile/view/features/home/widgets/validate_pin_sheet.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_from_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_how_much_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_to_who_view.dart';
 import 'package:remittance_mobile/view/features/services/vm/send_to_bank_vm.dart';
@@ -30,6 +31,15 @@ class SendMoneyDetailsView extends ConsumerStatefulWidget {
 }
 
 class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
+  String totalFee = '';
+  @override
+  void initState() {
+    super.initState();
+    totalFee =
+        (double.parse(sourceAmount.value.replaceAll(',', '')) + (feeResponse.value.fee ?? 0.0))
+            .toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     final sendMoneyLoading = ref.watch(sendToBankProvider).isLoading;
@@ -38,12 +48,12 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
       if (next is AsyncData) {
         AppBottomSheet.showBottomSheet(
           context,
-          isDismissible: true,
+          isDismissible: false,
           enableDrag: false,
           widget: SuccessTranxSheet(
-            amount: 500.amountWithCurrency(sourceCurrency.value.code ?? ''),
-            accountDetails:
-                '${selectedBeneficiary.value.accountNumber} ${selectedBeneficiary.value.bankName}',
+            amount: double.parse(sourceAmount.value.replaceAll(',', ''))
+                .amountWithCurrency(sourceCurrency.value.symbol ?? ''),
+            accountDetails: '${selectedBeneficiary.value.accountName}',
           ),
         );
       }
@@ -104,28 +114,30 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
                       16.0.height,
                       TrxItems(
                         title: 'You are Sending',
-                        description: '1000 ${sourceCurrency.value.code}',
+                        description: '${sourceAmount.value} ${sourceCurrency.value.code}',
                       ),
                       16.0.height,
                       TrxItems(
                         title: 'At (rate)',
                         description:
-                            '1 ${destinationCurrency.value.code} - 1500 ${sourceCurrency.value.code}',
+                            '1 ${destinationCurrency.value.code} - ${(1 / (feeResponse.value.rate ?? 1.0)).formatDecimal()} ${sourceCurrency.value.code}',
                       ),
                       16.0.height,
                       TrxItems(
                         title: 'Bank Transfer fees',
-                        description: '50 ${sourceCurrency.value.code}',
+                        description:
+                            '${feeResponse.value.fee.formatDecimal()} ${sourceCurrency.value.code}',
                       ),
                       16.0.height,
                       TrxItems(
                         title: 'Recipient receives',
-                        description: '1,500,000 ${destinationCurrency.value.code}',
+                        description:
+                            '${feeResponse.value.destinationAmount.formatDecimal()} ${destinationCurrency.value.code}',
                       ),
                       16.0.height,
                       TrxItems(
                         title: 'You Pay',
-                        description: '1,500,000 ${sourceCurrency.value.code}',
+                        description: '${totalFee.formatDecimal()} ${sourceCurrency.value.code}',
                       ),
                       16.0.height,
 
@@ -154,7 +166,8 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
                   info: 'Bank Account',
                   title: selectedBeneficiary.value.accountName ?? 'John Doe',
                   subtitle:
-                      '${selectedBeneficiary.value.accountNumber} - ${selectedBeneficiary.value.bankName}',
+                      '${selectedBeneficiary.value.accountNumber} · ${selectedBeneficiary.value.bankName}',
+                  onPressed: () => context.pop(),
                 ),
                 24.0.height,
               ],
@@ -164,7 +177,7 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
         bottomNavigationBar: BottomNavBarWidget(
           children: [
             MainButton(
-              text: 'Send',
+              text: 'Send ${totalFee.formatDecimal()} ${sourceCurrency.value.code}',
               isLoading: sendMoneyLoading,
               onPressed: () async {
                 bool? res = await AppBottomSheet.showBottomSheet(
@@ -178,6 +191,15 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
                   ref.read(sendToBankProvider.notifier).sendToBankMethod(
                         SendToBankReq(
                           bankCode: selectedBeneficiary.value.bankCode,
+                          destinationAccountName: selectedBeneficiary.value.accountName,
+                          destinationAccountNumber: selectedBeneficiary.value.accountNumber,
+                          destinationCountryCode: destinationCorridor.value.code,
+                          destinationCurrency: destinationCurrency.value.code,
+                          sourceAccountNumber: fromBalance.value.accountNumber,
+                          sourceCurrency: sourceCurrency.value.code,
+                          serviceTypeCode: "ST000015",
+                          amount: double.parse(sourceAmount.value.replaceAll(',', '')),
+                          description: '',
                         ),
                       );
                 }

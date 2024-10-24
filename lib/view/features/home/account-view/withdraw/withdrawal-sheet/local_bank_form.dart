@@ -15,6 +15,7 @@ import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/input_fields.dart';
+import 'package:remittance_mobile/view/utils/snackbar.dart';
 import 'package:remittance_mobile/view/utils/validator.dart';
 
 class LocalBankForm extends ConsumerStatefulWidget {
@@ -57,9 +58,7 @@ class _LocalBankFormState extends ConsumerState<LocalBankForm> {
         context.pushNamed(SendMoneyDetailsView.path);
       }
       if (next is AsyncError) {
-        //SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
-        context.pop();
-        context.pushNamed(SendMoneyDetailsView.path);
+        SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
       }
     });
     return AbsorbPointer(
@@ -75,7 +74,7 @@ class _LocalBankFormState extends ConsumerState<LocalBankForm> {
               header: 'Account Number/IBAN',
               controller: _accountNo,
               hint: 'Enter your Account Number/IBAN',
-              inputType: TextInputType.name,
+              inputType: TextInputType.number,
               validator: validateGeneric,
             ),
             24.0.height,
@@ -124,6 +123,8 @@ class _LocalBankFormState extends ConsumerState<LocalBankForm> {
                           currency: sourceCurrency.value.code,
                           sourceCountry: sourceCorridor.value.code,
                           sourceCountryCode: sourceCorridor.value.code,
+                          destinationCountryCode: destinationCorridor.value.code,
+                          destinationCurrency: destinationCurrency.value.code,
                           sourceCurrency: sourceCurrency.value.code,
                           sourceAccountNumber: _accountNo.text,
                           accountNumber: _accountNo.text,
