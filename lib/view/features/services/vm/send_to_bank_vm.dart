@@ -10,7 +10,7 @@ class SendToBankNotifier extends AutoDisposeAsyncNotifier<SendMoneyResponse> {
   Future<void> sendToBankMethod(SendToBankReq req) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
-      () => ref.read(accountRepository).sendMoneyToBankEndpoint(req),
+      () => ref.read(transferRepository).sendMoneyToBankEndpoint(req),
     );
     if (!state.hasError) {
       ref.invalidate(getCustomerAccountsProvider);

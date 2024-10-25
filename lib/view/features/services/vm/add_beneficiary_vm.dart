@@ -10,7 +10,7 @@ class AddBeneficiaryNotifier extends AutoDisposeAsyncNotifier<BeneficiaryModel> 
   Future<void> addBeneficiaryMethod(AddBeneficiaryReq req) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
-      () => ref.read(accountRepository).addBeneficiaryEndpoint(req),
+      () => ref.read(transferRepository).addBeneficiaryEndpoint(req),
     );
     if (!state.hasError) {
       ref.invalidate(getBeneficiariesProvider);

@@ -15,9 +15,15 @@ import 'package:remittance_mobile/data/remote/auth-remote/auth_impl.dart';
 import 'package:remittance_mobile/data/remote/auth-remote/auth_service.dart';
 import 'package:remittance_mobile/data/remote/kyc-remote/kyc_impl.dart';
 import 'package:remittance_mobile/data/remote/kyc-remote/kyc_service.dart';
+import 'package:remittance_mobile/data/remote/transactions-remote/transactions_impl.dart';
+import 'package:remittance_mobile/data/remote/transactions-remote/transactions_service.dart';
+import 'package:remittance_mobile/data/remote/transfer-remote/transfer_impl.dart';
+import 'package:remittance_mobile/data/remote/transfer-remote/transfer_service.dart';
 import 'package:remittance_mobile/domain/account_repo.dart';
 import 'package:remittance_mobile/domain/auth_repo.dart';
 import 'package:remittance_mobile/domain/kyc_repo.dart';
+import 'package:remittance_mobile/domain/transactions_repo.dart';
+import 'package:remittance_mobile/domain/transfer_repo.dart';
 
 final inject = GetIt.instance;
 
@@ -108,20 +114,35 @@ final accountRepository = Provider<AccountRepository>((ref) {
   return AccountImpl(accountService);
 });
 
-// /// Dashboard Service
-// final _transactionsService = Provider<TransactionsService>((ref) {
-//   var network = ref.watch(_networkService);
-//   return TransactionsService(
-//     networkService: network,
-//   );
-// });
+/// Transaction Service DI
+final _transferService = Provider<TransferService>((ref) {
+  var network = ref.watch(_networkService);
+  return TransferService(
+    networkService: network,
+  );
+});
 
-// final transactionsRepository = Provider<TransactionsRepository>(
-//   (ref) {
-//     final transactionsService = ref.watch(_transactionsService);
-//     return TransactionsImpl(transactionsService);
-//   },
-// );
+final transferRepository = Provider<TransferRepo>(
+  (ref) {
+    final transferService = ref.watch(_transferService);
+    return TransferImpl(transferService);
+  },
+);
+
+/// Transaction Service DI
+final _transactionsService = Provider<TransactionsService>((ref) {
+  var network = ref.watch(_networkService);
+  return TransactionsService(
+    networkService: network,
+  );
+});
+
+final transactionsRepository = Provider<TransactionsRepo>(
+  (ref) {
+    final transactionsService = ref.watch(_transactionsService);
+    return TransactionsImpl(transactionsService);
+  },
+);
 
 // /// More Service
 

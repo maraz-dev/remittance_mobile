@@ -55,14 +55,14 @@ class ApiEndpoints {
     }
   }
 
-  static const String devUserURL = "https://staging.apis.borderpal.co/users/api/v1";
-  static const String prodUserURL = "https://api.borderpal.co/users/api/v1";
+  static const String devUserURL = "https://staging.apis.borderpal.co/users";
+  static const String prodUserURL = "https://api.borderpal.co/users";
 
-  static const String devAccountURL = "https://staging.apis.borderpal.co/accounts/api/v1";
-  static const String prodAccountURL = "https://api.borderpal.co/accounts/api/v1";
+  static const String devAccountURL = "https://staging.apis.borderpal.co/accounts";
+  static const String prodAccountURL = "https://api.borderpal.co/accounts";
 
-  static const String devFundingURL = "https://staging.apis.borderpal.co/fundstransfer/api/v1";
-  static const String prodFundingURL = "https://api.borderpal.co/fundstransfer/api/v1";
+  static const String devFundingURL = "https://staging.apis.borderpal.co/fundstransfer";
+  static const String prodFundingURL = "https://api.borderpal.co/fundstransfer";
 
   static const String productionURL = "";
 
@@ -131,6 +131,7 @@ class ApiEndpoints {
 
   // Transaction
   String get getCustomerTransactions => "/api/v1/transaction/GetCustomerTransactions";
+  String get getTransactionDetails => "/api/v1/transaction/GetTransactionDetail";
 
   // Refresh Token
   String get refresh => "/$version/auth/refresh";

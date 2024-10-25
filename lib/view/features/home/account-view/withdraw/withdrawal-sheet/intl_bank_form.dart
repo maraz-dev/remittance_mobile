@@ -150,6 +150,8 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
                         sourceCountryCode: sourceCorridor.value.code,
                         sourceCurrency: sourceCurrency.value.code,
                         sourceAccountNumber: _accountNo.text,
+                        destinationCountryCode: destinationCorridor.value.code,
+                        destinationCurrency: destinationCurrency.value.code,
                         accountNumber: _accountNo.text,
                         iban: _accountNo.text,
                         accountName: _recipientName.text,
