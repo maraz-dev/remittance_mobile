@@ -13,6 +13,7 @@ import 'package:remittance_mobile/view/features/home/vm/home_providers.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_appbar.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_image.dart';
 import 'package:remittance_mobile/view/features/home/widgets/home_service_card.dart';
+import 'package:remittance_mobile/view/features/transactions/vm/get_customer_transx_vm.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/latest_transaction_box.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
@@ -67,6 +68,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
         onRefresh: () async {
           ref.invalidate(getCustomerAccountsProvider);
           ref.invalidate(getKycStatusProvider);
+          ref.read(getCustomerTranxProvider.notifier).getCustomerTransxMethod();
         },
         child: SingleChildScrollView(
           child: Column(
@@ -126,8 +128,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
               20.0.height,
 
               /// Banner
-              const SectionHeader(text: 'For You')
-                  .widgetPadding(l: 24, r: 24.0),
+              const SectionHeader(text: 'For You').widgetPadding(l: 24, r: 24.0),
               8.0.height,
               SizedBox(
                 height: 200.h,

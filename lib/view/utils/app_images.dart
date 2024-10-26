@@ -16,11 +16,9 @@ class AppImages {
   static const activeHomeIcon = 'assets/images/svg/active_home_icon.svg';
   static const homeIcon = 'assets/images/svg/home_icon.svg';
   static const servicesIcon = 'assets/images/svg/services_icon.svg';
-  static const activeServicesIcon =
-      'assets/images/svg/active_services_icon.svg';
+  static const activeServicesIcon = 'assets/images/svg/active_services_icon.svg';
   static const accountsIcon = 'assets/images/svg/accounts_icon.svg';
-  static const activeAccountsIcon =
-      'assets/images/svg/active_accounts_icon.svg';
+  static const activeAccountsIcon = 'assets/images/svg/active_accounts_icon.svg';
   static const profileIcon = 'assets/images/svg/profile_icon.svg';
   static const activeProfileIcon = 'assets/images/svg/active_profile_icon.svg';
   static const notification = 'assets/images/svg/notification.svg';
@@ -45,8 +43,7 @@ class AppImages {
   static const sell = 'assets/images/svg/sell.svg';
   static const servicesSendMoney = 'assets/images/svg/services_send_money.svg';
   static const virtualCards = 'assets/images/svg/virtual_cards.svg';
-  static const servicesReceiveMoney =
-      'assets/images/svg/services_receive_money.svg';
+  static const servicesReceiveMoney = 'assets/images/svg/services_receive_money.svg';
   static const human = 'assets/images/svg/human.svg';
   static const copy = 'assets/images/svg/copy.svg';
   static const accountLimit = 'assets/images/svg/account_limit.svg';
@@ -69,19 +66,14 @@ class AppImages {
   static const kycDone = 'assets/images/svg/kyc_done.svg';
   static const kycShield = 'assets/images/svg/kyc_shield.svg';
   static const lockIcon = 'assets/images/svg/lock_icon.svg';
-  static const transactionBillPayment =
-      'assets/images/svg/transaction_bill_payment.svg';
-  static const transactionCardFund =
-      'assets/images/svg/transaction_card_fund.svg';
+  static const transactionBillPayment = 'assets/images/svg/transaction_bill_payment.svg';
+  static const transactionCardFund = 'assets/images/svg/transaction_card_fund.svg';
   static const transactionEmpty = 'assets/images/svg/transaction_empty.svg';
   static const transactionInflow = 'assets/images/svg/transaction_inflow.svg';
   static const transactionOutflow = 'assets/images/svg/transaction_outflow.svg';
-  static const transactionReceiveMoney =
-      'assets/images/svg/transaction_receive_money.svg';
-  static const transactionSendMoney =
-      'assets/images/svg/transaction_send_money.svg';
-  static const transactionStatement =
-      'assets/images/svg/transaction_statement.svg';
+  static const transactionReceiveMoney = 'assets/images/svg/transaction_receive_money.svg';
+  static const transactionSendMoney = 'assets/images/svg/transaction_send_money.svg';
+  static const transactionStatement = 'assets/images/svg/transaction_statement.svg';
   static const filterList = 'assets/images/svg/filter_list.svg';
   static const timer = 'assets/images/svg/timer.svg';
   static const dot = 'assets/images/svg/dot.svg';
@@ -91,8 +83,7 @@ class AppImages {
   static const deactivate = 'assets/images/svg/deactivate.svg';
   static const withdraw = 'assets/images/svg/withdraw.svg';
   static const idIcon = 'assets/images/svg/id_icon.svg';
-  static const documentUploadIcon =
-      'assets/images/svg/document_upload_icon.svg';
+  static const documentUploadIcon = 'assets/images/svg/document_upload_icon.svg';
   static const selfieIcon = 'assets/images/svg/selfie_icon.svg';
   static const locationIcon = 'assets/images/svg/location_icon.svg';
   static const resendIdIcon = 'assets/images/svg/resend_id_icon.svg';
@@ -119,6 +110,7 @@ class AppImages {
   static const recipient = 'assets/images/svg/recipient.svg';
   static const search = 'assets/images/svg/search_normal.svg';
   static const mail = 'assets/images/svg/mail.svg';
+  static const chart = 'assets/images/svg/chart.svg';
 
   /// IMAGES
   static const String imagePath = 'assets/images';

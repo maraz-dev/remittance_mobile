@@ -19,9 +19,13 @@ class TransactionsService {
   Future<List<TransactionsRes>> getCustomerTransactions() async {
     try {
       final response = await _networkService.request(
-        endpointUrl.baseFundingUrl + endpointUrl.getCustomerTransactions,
-        RequestMethod.post,
-      );
+          endpointUrl.baseFundingUrl + endpointUrl.getCustomerTransactions, RequestMethod.post,
+          data: {
+            "pageNumber": 1,
+            "pageSize": 1000,
+            "startDate": null,
+            "EndDate": null,
+          });
 
       // Handle the Response
       final result = _responseHandler.handleResponse(

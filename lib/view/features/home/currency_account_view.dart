@@ -37,8 +37,7 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          innerAppBar(title: '${widget.accountDetails.currencyCode} Account'),
+      appBar: innerAppBar(title: '${widget.accountDetails.currencyCode} Account'),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -60,8 +59,7 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                         const Text('Total Balance'),
                         CircleAvatar(
                           radius: 18.r,
-                          backgroundImage:
-                              NetworkImage(widget.accountDetails.flagPng ?? ""),
+                          backgroundImage: NetworkImage(widget.accountDetails.flagPng ?? ""),
                         )
                       ],
                     ),
@@ -77,8 +75,7 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                         style: Theme.of(context)
                             .textTheme
                             .displayLarge!
-                            .copyWith(
-                                fontWeight: FontWeight.bold, fontSize: 36.sp),
+                            .copyWith(fontWeight: FontWeight.bold, fontSize: 36.sp),
                       ),
                     ),
                     24.0.height,
@@ -94,8 +91,7 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                         AccountOptions(
                           text: 'Exchange',
                           image: AppImages.exchange,
-                          onPressed: () =>
-                              context.pushNamed(ExchangeInitialView.path),
+                          onPressed: () => context.pushNamed(ExchangeInitialView.path),
                         ),
                         16.0.width,
                         AccountOptions(
@@ -114,8 +110,7 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                                       itemBuilder: (context, index) {
                                         return currencyAccountList[index];
                                       },
-                                      separatorBuilder: (context, index) =>
-                                          24.0.height,
+                                      separatorBuilder: (context, index) => 24.0.height,
                                       itemCount: currencyAccountList.length,
                                     )
                                   ],
@@ -130,7 +125,9 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
               20.0.height,
 
               // Latest Transactions
-              const LatestTransactionsBox(),
+              LatestTransactionsBox(
+                currency: widget.accountDetails.currencyCode,
+              ),
               30.0.height,
             ],
           ),

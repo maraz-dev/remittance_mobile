@@ -20,12 +20,10 @@ class CreateCustomerAccountSheet extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<CreateCustomerAccountSheet> createState() =>
-      _CreateCustomerAccountSheetState();
+  ConsumerState<CreateCustomerAccountSheet> createState() => _CreateCustomerAccountSheetState();
 }
 
-class _CreateCustomerAccountSheetState
-    extends ConsumerState<CreateCustomerAccountSheet> {
+class _CreateCustomerAccountSheetState extends ConsumerState<CreateCustomerAccountSheet> {
   /// Controller to Search
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
@@ -53,8 +51,7 @@ class _CreateCustomerAccountSheetState
   Widget build(BuildContext context) {
     // Account Currency Endpoint
     final accountCurrenciesProvider = ref.watch(getAccountsCurrencyProvider);
-    final createAccountLoading =
-        ref.watch(createCustomerAccountProvider).isLoading;
+    final createAccountLoading = ref.watch(createCustomerAccountProvider).isLoading;
 
     ref.listen(createCustomerAccountProvider, (_, next) {
       if (next is AsyncData<AccountModel>) {
@@ -85,6 +82,7 @@ class _CreateCustomerAccountSheetState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SectionHeader(text: 'Add New'),
+                  16.0.height,
                   TextInput(
                     controller: _searchController,
                     hint: "Search...",
@@ -109,12 +107,8 @@ class _CreateCustomerAccountSheetState
                         data: (data) {
                           final filteredData = data
                               .where((currency) =>
-                                  currency.currencyName!
-                                      .toLowerCase()
-                                      .contains(_searchQuery) ||
-                                  currency.currencyCode!
-                                      .toLowerCase()
-                                      .contains(_searchQuery))
+                                  currency.currencyName!.toLowerCase().contains(_searchQuery) ||
+                                  currency.currencyCode!.toLowerCase().contains(_searchQuery))
                               .toList();
                           return ListView.separated(
                             shrinkWrap: true,
@@ -124,8 +118,7 @@ class _CreateCustomerAccountSheetState
                               return CurrencyItem(
                                 onPressed: () async {
                                   // Confirm the User Picked that Currency
-                                  final result =
-                                      await ShowAlertDialog.showAlertDialog(
+                                  final result = await ShowAlertDialog.showAlertDialog(
                                     context,
                                     title: 'Add Currency',
                                     content:
@@ -139,8 +132,7 @@ class _CreateCustomerAccountSheetState
                                     if (context.mounted) {
                                       //context.pop();
                                       ref
-                                          .read(createCustomerAccountProvider
-                                              .notifier)
+                                          .read(createCustomerAccountProvider.notifier)
                                           .createAccountMethod(
                                             CreateCustomerAccountReq(
                                               currencyCode: value.currencyCode,

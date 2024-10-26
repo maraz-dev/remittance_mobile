@@ -56,12 +56,16 @@ class TextInput extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            header ?? "",
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: AppColors.kGrey700, fontWeight: FontWeight.bold),
-          ),
-          header != null ? 6.0.height : 0.0.height,
+          if (header != null) ...[
+            Text(
+              header ?? "",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.bold),
+            ),
+            6.0.height,
+          ],
           TextFormField(
             controller: controller,
             keyboardType: inputType,
@@ -74,14 +78,14 @@ class TextInput extends StatelessWidget {
             onChanged: onChanged,
             maxLines: maxLines,
             inputFormatters: inputFormatters,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: AppColors.kGrey700, fontWeight: FontWeight.w500),
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.w500),
             decoration: InputDecoration(
               hintText: hint,
-              hintStyle: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.kHintColor),
+              hintStyle:
+                  Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColors.kHintColor),
               suffixIcon: suffixIcon,
               prefixIcon: prefixIcon,
             ),
@@ -152,16 +156,13 @@ class _PasswordInputState extends State<PasswordInput> {
                 },
                 icon: SvgPicture.asset(
                   obscureText ? AppImages.eyeSlash : AppImages.eye,
-                  colorFilter: const ColorFilter.mode(
-                      AppColors.kInactiveColor, BlendMode.srcIn),
+                  colorFilter: const ColorFilter.mode(AppColors.kInactiveColor, BlendMode.srcIn),
                 ),
                 iconSize: 19,
               ),
               hintText: widget.hint,
-              hintStyle: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.kHintColor)),
+              hintStyle:
+                  Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColors.kHintColor)),
         )
       ],
     )

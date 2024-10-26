@@ -11,8 +11,8 @@ class TransactionsRes {
   final DateTime? transactionDate;
   final String? postingType;
   final String? currency;
-  final int? trxAmount;
-  final int? trxFee;
+  final num? trxAmount;
+  final num? trxFee;
   final String? narration;
   final String? beneficiary;
   final String? serviceTypeName;

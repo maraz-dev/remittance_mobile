@@ -5,11 +5,12 @@ import 'package:remittance_mobile/core/di/injector.dart';
 import 'package:remittance_mobile/data/models/responses/customer_transaction_model.dart';
 
 class GetCustomerTransxNotifier extends AutoDisposeAsyncNotifier<List<TransactionsRes>> {
-  Future<void> getCustomerTransxMethod() async {
+  Future<List<TransactionsRes>> getCustomerTransxMethod() async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(
       () => ref.read(transactionsRepository).getCustomerTransactions(),
     );
+    return Future.value(state.value);
   }
 
   @override

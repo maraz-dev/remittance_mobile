@@ -18,7 +18,7 @@ extension DoubleExt on double {
 }
 
 // For Currency Formatting on Double
-extension Amount on double {
+extension Amount on dynamic {
   /// For Currency Formatting on Double
   String amountWithCurrency(String symbol) {
     // String currencySymbol = '₦';
@@ -37,53 +37,6 @@ extension Amount on double {
     //     break;
     // }
     var formatter = NumberFormat.currency(symbol: symbol, decimalDigits: 2);
-    return formatter.format(this);
-  }
-}
-
-extension NumAmount on num {
-  /// For Currency Formatting on Double
-  String amountWithCurrency(String symbol) {
-    // String currencySymbol = '₦';
-    // switch (symbol) {
-    //   case 'ngn':
-    //     currencySymbol = '₦';
-    //     break;
-    //   case 'usd':
-    //     currencySymbol = '\$';
-    //     break;
-    //   case 'gbp':
-    //     currencySymbol = '£';
-    //     break;
-    //   default:
-    //     currencySymbol = '';
-    //     break;
-    // }
-    var formatter = NumberFormat.currency(symbol: symbol, decimalDigits: 2);
-    return formatter.format(this);
-  }
-}
-
-// For Currency Formatting on Int
-extension IntAmount on int {
-  /// For Currency Formatting on Int
-  String amountWithCurrency(String symbol) {
-    // String currencySymbol = '₦';
-    // switch (symbol) {
-    //   case 'ngn':
-    //     currencySymbol = '₦';
-    //     break;
-    //   case 'usd':
-    //     currencySymbol = '\$';
-    //     break;
-    //   case 'gbp':
-    //     currencySymbol = '£';
-    //     break;
-    //   default:
-    //     currencySymbol = '';
-    //     break;
-    // }
-    var formatter = NumberFormat.currency(symbol: symbol, decimalDigits: 0);
     return formatter.format(this);
   }
 }
@@ -234,5 +187,31 @@ extension DecimalFormatter on dynamic {
     }
 
     return isNegative ? '-${result.toString()}' : result.toString();
+  }
+}
+
+extension TruncateString on String {
+  String truncate(int maxLength) {
+    if (length <= maxLength) {
+      return this;
+    } else {
+      return "${substring(0, maxLength)}...";
+    }
+  }
+}
+
+extension DateTimeExtension on DateTime {
+  String to12HourFormat() {
+    final hour = this.hour;
+    final minute = this.minute;
+    final period = hour >= 12 ? 'PM' : 'AM';
+
+    // Convert 24-hour format to 12-hour format
+    final displayHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
+
+    // Add leading zero to minutes if needed
+    final displayMinute = minute.toString().padLeft(2, '0');
+
+    return '$displayHour:$displayMinute$period';
   }
 }
