@@ -6,8 +6,8 @@ TransactionDetailRes transactionDetailResFromJson(String str) =>
 String transactionDetailResToJson(TransactionDetailRes data) => json.encode(data.toJson());
 
 class TransactionDetailRes {
-  final Detail? detail;
-  final List<Update>? updates;
+  final TransxDetail? detail;
+  final List<TransxUpdate>? updates;
 
   TransactionDetailRes({
     this.detail,
@@ -15,10 +15,10 @@ class TransactionDetailRes {
   });
 
   factory TransactionDetailRes.fromJson(Map<String, dynamic> json) => TransactionDetailRes(
-        detail: json["detail"] == null ? null : Detail.fromJson(json["detail"]),
+        detail: json["detail"] == null ? null : TransxDetail.fromJson(json["detail"]),
         updates: json["updates"] == null
             ? []
-            : List<Update>.from(json["updates"]!.map((x) => Update.fromJson(x))),
+            : List<TransxUpdate>.from(json["updates"]!.map((x) => TransxUpdate.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -27,22 +27,22 @@ class TransactionDetailRes {
       };
 }
 
-class Detail {
+class TransxDetail {
   final String? userId;
   final String? reference;
   final String? requestId;
   final DateTime? transactionDate;
   final String? postingType;
   final String? currency;
-  final int? trxAmount;
-  final int? trxFee;
+  final num? trxAmount;
+  final num? trxFee;
   final String? narration;
   final String? beneficiary;
   final String? serviceTypeName;
   final String? serviceTypeChannel;
   final String? clientChannel;
 
-  Detail({
+  TransxDetail({
     this.userId,
     this.reference,
     this.requestId,
@@ -58,7 +58,7 @@ class Detail {
     this.clientChannel,
   });
 
-  factory Detail.fromJson(Map<String, dynamic> json) => Detail(
+  factory TransxDetail.fromJson(Map<String, dynamic> json) => TransxDetail(
         userId: json["userId"],
         reference: json["reference"],
         requestId: json["requestId"],
@@ -92,18 +92,18 @@ class Detail {
       };
 }
 
-class Update {
+class TransxUpdate {
   final String? status;
   final String? comment;
   final DateTime? dateCreated;
 
-  Update({
+  TransxUpdate({
     this.status,
     this.comment,
     this.dateCreated,
   });
 
-  factory Update.fromJson(Map<String, dynamic> json) => Update(
+  factory TransxUpdate.fromJson(Map<String, dynamic> json) => TransxUpdate(
         status: json["status"],
         comment: json["comment"],
         dateCreated: json["dateCreated"] == null ? null : DateTime.parse(json["dateCreated"]),

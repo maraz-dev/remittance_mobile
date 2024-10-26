@@ -198,15 +198,13 @@ class _TransactionHistoryViewState extends ConsumerState<TransactionHistoryView>
                                       var value = filteredData[index];
                                       return TransactionCard(
                                         onPressed: () {
-                                          return index % 2 == 0
-                                              ? context.pushNamed(
-                                                  TransactionDetails.path,
-                                                  extra: TransactionStatusUpdate.sent,
-                                                )
-                                              : context.pushNamed(
-                                                  TransactionDetails.path,
-                                                  extra: TransactionStatusUpdate.sending,
-                                                );
+                                          context.pushNamed(
+                                            TransactionDetails.path,
+                                            pathParameters: {
+                                              "id": value.requestId ?? "",
+                                            },
+                                            extra: TransactionStatusUpdate.sent,
+                                          );
                                         },
                                         transxItem: value,
                                       );

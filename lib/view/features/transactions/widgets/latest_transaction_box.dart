@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/responses/customer_transaction_model.dart';
+import 'package:remittance_mobile/view/features/transactions/transaction_details.dart';
 import 'package:remittance_mobile/view/features/transactions/vm/get_customer_transx_vm.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/recent_transaction_header.dart';
@@ -96,6 +98,15 @@ class _LatestTransactionsBoxState extends ConsumerState<LatestTransactionsBox> {
                       itemBuilder: (context, index) {
                         var value = newList[index];
                         return TransactionCard(
+                          onPressed: () {
+                            context.pushNamed(
+                              TransactionDetails.path,
+                              pathParameters: {
+                                "id": value.requestId ?? "",
+                              },
+                              extra: TransactionStatusUpdate.sent,
+                            );
+                          },
                           transxItem: value,
                         );
                       },

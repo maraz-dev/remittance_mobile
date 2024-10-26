@@ -200,7 +200,7 @@ extension TruncateString on String {
   }
 }
 
-extension DateTimeExtension on DateTime {
+extension DateExtension on DateTime {
   String to12HourFormat() {
     final hour = this.hour;
     final minute = this.minute;
@@ -213,5 +213,44 @@ extension DateTimeExtension on DateTime {
     final displayMinute = minute.toString().padLeft(2, '0');
 
     return '$displayHour:$displayMinute$period';
+  }
+
+  String toFormattedDate() {
+    try {
+      final datetime = this;
+      final day = datetime.day;
+      final month = DateFormat('MMM').format(datetime);
+
+      // Add proper ordinal suffix
+      final String suffix = _getOrdinalSuffix(day);
+
+      return '$day$suffix $month';
+    } catch (e) {
+      throw FormatException('Invalid datetime format: $this');
+    }
+  }
+
+  String transactionDate() {
+    final format = DateFormat('MMM dd, yyyy');
+    final time = DateFormat('hh:mm a');
+    return "${format.format(this)} at ${time.format(this)}";
+  }
+
+  /// Helper function to get the ordinal suffix for a number
+  String _getOrdinalSuffix(int day) {
+    if (day >= 11 && day <= 13) {
+      return 'th';
+    }
+
+    switch (day % 10) {
+      case 1:
+        return 'st';
+      case 2:
+        return 'nd';
+      case 3:
+        return 'rd';
+      default:
+        return 'th';
+    }
   }
 }

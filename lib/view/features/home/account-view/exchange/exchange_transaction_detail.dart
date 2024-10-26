@@ -208,10 +208,13 @@ class ExchangeTrxDetailsCard extends StatelessWidget {
 
 class TrxItems extends StatelessWidget {
   final String? title, description;
+  final double? fontSize, descFontSize;
   const TrxItems({
     super.key,
     this.title,
     this.description,
+    this.fontSize,
+    this.descFontSize,
   });
 
   @override
@@ -219,13 +222,19 @@ class TrxItems extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title ?? 'Buy'),
+        Text(
+          title ?? 'Buy',
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontSize: fontSize,
+              ),
+        ),
         Text(
           description ?? '1000 USD',
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium!
-              .copyWith(fontWeight: FontWeight.w700, color: AppColors.kGrey700),
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontWeight: FontWeight.w700,
+                color: AppColors.kGrey700,
+                fontSize: descFontSize,
+              ),
         ),
       ],
     );

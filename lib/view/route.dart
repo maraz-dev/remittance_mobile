@@ -57,8 +57,7 @@ import 'package:remittance_mobile/view/features/transactions/transactions_view.d
 import 'package:remittance_mobile/view/route/current_user_notifier.dart';
 
 final GlobalKey<NavigatorState> rootNavigation = GlobalKey(debugLabel: "root");
-final GlobalKey<NavigatorState> shellNavigation =
-    GlobalKey(debugLabel: "shell");
+final GlobalKey<NavigatorState> shellNavigation = GlobalKey(debugLabel: "shell");
 
 final routeProvider = Provider<GoRouter>((ref) {
   final user = ref.watch(userStateProvider);
@@ -192,20 +191,17 @@ final routeProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: ExchangeSendMoneyOptionsView.path,
                     name: ExchangeSendMoneyOptionsView.path,
-                    builder: (context, state) =>
-                        const ExchangeSendMoneyOptionsView(),
+                    builder: (context, state) => const ExchangeSendMoneyOptionsView(),
                   ),
                   GoRoute(
                     path: ExchangeReceiveMoneyOptionsView.path,
                     name: ExchangeReceiveMoneyOptionsView.path,
-                    builder: (context, state) =>
-                        const ExchangeReceiveMoneyOptionsView(),
+                    builder: (context, state) => const ExchangeReceiveMoneyOptionsView(),
                   ),
                   GoRoute(
                     path: ExchangeTransactionDetailView.path,
                     name: ExchangeTransactionDetailView.path,
-                    builder: (context, state) =>
-                        const ExchangeTransactionDetailView(),
+                    builder: (context, state) => const ExchangeTransactionDetailView(),
                   ),
                 ]),
             GoRoute(
@@ -213,7 +209,9 @@ final routeProvider = Provider<GoRouter>((ref) {
               name: TransactionDetails.path,
               builder: (context, state) {
                 final status = state.extra as TransactionStatusUpdate;
+                final requestId = state.pathParameters["id"] ?? "";
                 return TransactionDetails(
+                  requestId: requestId,
                   status: status,
                 );
               },

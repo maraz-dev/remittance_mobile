@@ -55,7 +55,7 @@ class TransactionsService {
         response: response.data,
         onSuccess: () {
           final res = response.data['data'];
-          return res;
+          return TransactionDetailRes.fromJson(res);
         },
       );
       return result;
