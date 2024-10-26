@@ -54,6 +54,7 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
             amount: double.parse(sourceAmount.value.replaceAll(',', ''))
                 .amountWithCurrency(sourceCurrency.value.symbol ?? ''),
             accountDetails: '${selectedBeneficiary.value.accountName}',
+            requestId: next.value?.id ?? "",
           ),
         );
       }

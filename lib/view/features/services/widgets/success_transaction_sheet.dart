@@ -5,17 +5,19 @@ import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/bottomsheet_title.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_how_much_view.dart';
+import 'package:remittance_mobile/view/features/transactions/transaction_details.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class SuccessTranxSheet extends StatefulWidget {
-  final String amount, accountDetails;
+  final String amount, accountDetails, requestId;
   const SuccessTranxSheet({
     super.key,
     required this.amount,
     required this.accountDetails,
+    required this.requestId,
   });
 
   @override
@@ -83,7 +85,14 @@ class _SuccessTranxSheetState extends State<SuccessTranxSheet> {
               showCharge.value = false;
             });
             context.pop();
-            context.goNamed(DashboardView.path);
+            context.pushNamed(
+              TransactionDetails.path,
+              pathParameters: {
+                "id": widget.requestId,
+                "fromSend": "true",
+              },
+              extra: TransactionStatusUpdate.sent,
+            );
           },
         ),
         16.0.height

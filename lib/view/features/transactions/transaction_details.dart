@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/responses/transaction_detail_model.dart';
+import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/transactions/transaction_update_tab.dart';
 import 'package:remittance_mobile/view/features/transactions/transactions_details_tab.dart';
 import 'package:remittance_mobile/view/features/transactions/vm/transactions_vm.dart';
@@ -13,6 +16,7 @@ import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
+import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/richtext_widget.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
@@ -20,10 +24,15 @@ import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 enum TransactionStatusUpdate { sent, sending }
 
 class TransactionDetails extends ConsumerStatefulWidget {
-  static String path = 'transaction-details/:id';
-  const TransactionDetails({super.key, required this.status, required this.requestId});
+  static String path = 'transaction-details/:id/:fromSend';
+  const TransactionDetails({
+    super.key,
+    required this.status,
+    required this.requestId,
+    this.fromSend = "false",
+  });
 
-  final String requestId;
+  final String requestId, fromSend;
   final TransactionStatusUpdate status;
   @override
   ConsumerState<TransactionDetails> createState() => _TransactionDetailsState();
@@ -157,6 +166,22 @@ class _TransactionDetailsState extends ConsumerState<TransactionDetails>
           ],
         ),
       ),
+      bottomNavigationBar: widget.fromSend != "false"
+          ? BottomNavBarWidget(
+              children: [
+                MainButton(
+                  text: 'Done',
+                  onPressed: () {
+                    context.goNamed(DashboardView.path);
+                  },
+                )
+                    .animate()
+                    .fadeIn(begin: 0, delay: 1000.ms)
+                    // .then(delay: 200.ms)
+                    .slideY(begin: .1, end: 0)
+              ],
+            )
+          : null,
     );
   }
 }

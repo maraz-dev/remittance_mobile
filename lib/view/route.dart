@@ -210,9 +210,11 @@ final routeProvider = Provider<GoRouter>((ref) {
               builder: (context, state) {
                 final status = state.extra as TransactionStatusUpdate;
                 final requestId = state.pathParameters["id"] ?? "";
+                final fromSend = state.pathParameters["fromSend"] ?? "false";
                 return TransactionDetails(
                   requestId: requestId,
                   status: status,
+                  fromSend: fromSend,
                 );
               },
             ),
