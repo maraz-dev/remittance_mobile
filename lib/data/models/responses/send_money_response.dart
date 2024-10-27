@@ -1,44 +1,22 @@
+import 'dart:convert';
+
+SendMoneyResponse sendMoneyResponseFromJson(String str) =>
+    SendMoneyResponse.fromJson(json.decode(str));
+
+String sendMoneyResponseToJson(SendMoneyResponse data) => json.encode(data.toJson());
+
 class SendMoneyResponse {
-  final String? id;
-  final String? name;
-  final String? description;
-  final String? createdBy;
-  final DateTime? dateCreated;
-  final DateTime? dateModified;
-  final String? modifiedBy;
+  final String? requestId;
 
   SendMoneyResponse({
-    this.id,
-    this.name,
-    this.description,
-    this.createdBy,
-    this.dateCreated,
-    this.dateModified,
-    this.modifiedBy,
+    this.requestId,
   });
 
-  factory SendMoneyResponse.fromJson(Map<String, dynamic> json) =>
-      SendMoneyResponse(
-        id: json["id"],
-        name: json["name"],
-        description: json["description"],
-        createdBy: json["createdBy"],
-        dateCreated: json["dateCreated"] == null
-            ? null
-            : DateTime.parse(json["dateCreated"]),
-        dateModified: json["dateModified"] == null
-            ? null
-            : DateTime.parse(json["dateModified"]),
-        modifiedBy: json["modifiedBy"],
+  factory SendMoneyResponse.fromJson(Map<String, dynamic> json) => SendMoneyResponse(
+        requestId: json["requestId"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "description": description,
-        "createdBy": createdBy,
-        "dateCreated": dateCreated?.toIso8601String(),
-        "dateModified": dateModified?.toIso8601String(),
-        "modifiedBy": modifiedBy,
+        "requestId": requestId,
       };
 }

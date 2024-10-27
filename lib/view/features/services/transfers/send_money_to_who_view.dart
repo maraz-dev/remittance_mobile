@@ -125,6 +125,7 @@ class _SendMoneyToWhoViewState extends ConsumerState<SendMoneyToWhoView> {
                                     text: 'All Recipients',
                                     fontSize: 16,
                                   ),
+                                  16.0.height,
                                   TextInput(
                                     controller: _searchController,
                                     hint: "Search...",
