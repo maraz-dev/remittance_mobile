@@ -54,6 +54,7 @@ import 'package:remittance_mobile/view/features/services/virtual-cards/virtual_c
 import 'package:remittance_mobile/view/features/transactions/transaction_details.dart';
 import 'package:remittance_mobile/view/features/transactions/transaction_history_view.dart';
 import 'package:remittance_mobile/view/features/transactions/transactions_view.dart';
+import 'package:remittance_mobile/view/features/webview/app_webview.dart';
 import 'package:remittance_mobile/view/route/current_user_notifier.dart';
 
 final GlobalKey<NavigatorState> rootNavigation = GlobalKey(debugLabel: "root");
@@ -374,6 +375,19 @@ final routeProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const SelfieView(),
           )
         ],
+      ),
+      GoRoute(
+        parentNavigatorKey: rootNavigation,
+        path: WebviewScreen.path,
+        name: WebviewScreen.path,
+        builder: (context, state) {
+          final url = state.pathParameters["url"];
+          final routeName = state.pathParameters["routeName"];
+          return WebviewScreen(
+            url: url!,
+            routeName: routeName ?? "",
+          );
+        },
       ),
     ],
   );

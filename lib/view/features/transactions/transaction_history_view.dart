@@ -202,6 +202,7 @@ class _TransactionHistoryViewState extends ConsumerState<TransactionHistoryView>
                                             TransactionDetails.path,
                                             pathParameters: {
                                               "id": value.requestId ?? "",
+                                              "fromSend": "false",
                                             },
                                             extra: TransactionStatusUpdate.sent,
                                           );

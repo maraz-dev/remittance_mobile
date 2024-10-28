@@ -1,66 +1,101 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:pinput/pinput.dart';
 import 'package:remittance_mobile/data/models/requests/verify_transx_req.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
-import 'package:remittance_mobile/view/features/home/vm/accounts-vm/validate_card_funding_vm.dart';
+import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/debit_card_sheet.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/verify_transx_funding_vm.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
-import 'package:remittance_mobile/view/theme/app_theme.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/snackbar.dart';
-import 'package:remittance_mobile/view/utils/validator.dart';
+import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-class CardOTPValidationSheet extends ConsumerStatefulWidget {
-  const CardOTPValidationSheet({
-    super.key,
-    required this.description,
-  });
-
-  final String description;
+class WebviewScreen extends StatefulHookConsumerWidget {
+  final String url;
+  final String routeName;
+  const WebviewScreen({super.key, required this.url, required this.routeName});
+  static String path = "/webview/:url/:routeName";
 
   @override
-  ConsumerState<CardOTPValidationSheet> createState() => _CardOTPValidationState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _WebviewScreenState();
 }
 
-class _CardOTPValidationState extends ConsumerState<CardOTPValidationSheet> {
-  final GlobalKey<FormState> _formKey = GlobalKey();
-
-  final TextEditingController _otp = TextEditingController();
+class _WebviewScreenState extends ConsumerState<WebviewScreen> with RestorationMixin {
+  @override
+  String get restorationId => 'webview_screen';
 
   @override
-  void dispose() {
-    _otp.dispose();
-    super.dispose();
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {}
+
+  String name = "";
+  bool pageLoading = true;
+  late final WebViewController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setUserAgent('Flutter;Webview')
+      ..setOnConsoleMessage((message) {
+        log(message.toString());
+      })
+      ..enableZoom(true)
+      ..loadRequest(Uri.parse(widget.url))
+      ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            if (mounted) {
+              setState(() {
+                pageLoading = progress < 100;
+              });
+            }
+          },
+          onPageStarted: (String url) {},
+          onPageFinished: (String url) {
+            if (mounted) {
+              setState(() {
+                pageLoading = false;
+              });
+            }
+          },
+          onNavigationRequest: (NavigationRequest navRequest) async {
+            if (navRequest.url.contains("borderpal.co")) {
+              if (context.mounted) {
+                ref.read(verifyFundingTransxProvider.notifier).verifyFundingTransxMethod(
+                      VerifyFundingTransxReq(
+                        flwTransactionId: flwTransactionId.value,
+                        requestId: flwRequestId.value,
+                      ),
+                    );
+              }
+
+              // Future.delayed(const Duration(seconds: 2), () {
+              //   if (context.mounted) {
+              //     // context.goNamed(DashboardView.path);
+              //   }
+              // });
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      );
   }
 
   @override
   Widget build(BuildContext context) {
-    final validateLoading = ref.watch(validateFundingProvider);
-    final verifyLoading = ref.watch(verifyFundingTransxProvider);
-
-    ref.listen(validateFundingProvider, (_, next) {
-      if (next is AsyncData) {
-        ref.read(verifyFundingTransxProvider.notifier).verifyFundingTransxMethod(
-              VerifyFundingTransxReq(
-                flwTransactionId: next.value?.flwTransactionId,
-                requestId: next.value?.requestId,
-              ),
-            );
-      }
-      if (next is AsyncError) {
-        SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
-      }
-    });
-
-    // Verify The Transaction
     ref.listen(verifyFundingTransxProvider, (_, next) {
       if (next is AsyncData) {
         // isSuccessful & isCompleted
@@ -145,6 +180,7 @@ class _CardOTPValidationState extends ConsumerState<CardOTPValidationSheet> {
                     text: 'Try Again',
                     onPressed: () {
                       context.pop();
+                      context.pop();
                     })
               ],
             ),
@@ -155,58 +191,12 @@ class _CardOTPValidationState extends ConsumerState<CardOTPValidationSheet> {
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
       }
     });
-
-    return AbsorbPointer(
-      absorbing: validateLoading.isLoading || verifyLoading.isLoading,
-      child: Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            20.0.height,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const SectionHeader(text: 'Enter OTP'),
-                InkWell(
-                  onTap: () => context.pop(),
-                  child: SvgPicture.asset(
-                    AppImages.closeIcon,
-                    colorFilter: AppColors.kGrey700.colorFilterMode(),
-                    width: 24,
-                    height: 24,
-                  ),
-                )
-              ],
-            ),
-            16.0.height,
-            Text(widget.description),
-            32.0.height,
-            Center(
-              child: Pinput(
-                controller: _otp,
-                length: 5,
-                obscureText: false,
-                defaultPinTheme: defaultPinInputTheme.copyWith(height: 55, width: 55),
-                focusedPinTheme: focusedPinInputTheme.copyWith(height: 55, width: 55),
-                validator: validateGeneric,
-              ),
-            ),
-            48.0.height,
-            MainButton(
-              isLoading: validateLoading.isLoading || verifyLoading.isLoading,
-              text: 'Next',
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                if (_formKey.currentState!.validate()) {
-                  ref.read(validateFundingProvider.notifier).validateFundingMethod(_otp.text);
-                }
-              },
-            ),
-            10.0.height,
-          ],
-        ),
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle.dark,
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        appBar: innerAppBar(title: ''),
+        body: WebViewWidget(controller: _controller),
       ),
     );
   }

@@ -70,7 +70,8 @@ class TransactionCard extends StatelessWidget {
                           .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.w600),
                     ),
                     Text(
-                      transxItem.trxAmount?.amountWithCurrency("\$") ?? 0.0.amountWithCurrency(""),
+                      transxItem.trxAmount?.amountWithCurrency(transxItem.currency?.symbol ?? "") ??
+                          0.0.amountWithCurrency(""),
                       style: Theme.of(context)
                           .textTheme
                           .bodyMedium!

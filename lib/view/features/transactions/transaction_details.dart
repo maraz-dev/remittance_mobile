@@ -87,7 +87,7 @@ class _TransactionDetailsState extends ConsumerState<TransactionDetails>
                               16.0.height,
                               Text(
                                 data.detail?.trxAmount
-                                        .amountWithCurrency(data.detail?.currency ?? '') ??
+                                        .amountWithCurrency(data.detail?.currency?.symbol ?? '') ??
                                     0.0.amountWithCurrency('\$'),
                                 style: Theme.of(context)
                                     .textTheme

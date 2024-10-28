@@ -27,15 +27,15 @@ class TransactionDetailsTab extends StatelessWidget {
             16.0.height,
             TrxItems(
               fontSize: 12,
-              title: 'You are sending',
-              description: '${transxDetail.trxAmount.amountInt()} ${transxDetail.currency}',
+              title: transxDetail.postingType == "Dr" ? 'You are sending' : 'You are receiving',
+              description: '${transxDetail.trxAmount.amountInt()} ${transxDetail.sourceCurrency}',
             ),
             12.0.height,
             TrxItems(
               fontSize: 12,
               descFontSize: 12,
               title: 'Total Fees',
-              description: '${transxDetail.trxFee.amountInt()} ${transxDetail.currency}',
+              description: '${transxDetail.trxFee.amountInt()} ${transxDetail.sourceCurrency}',
             ),
             12.0.height,
             TrxItems(

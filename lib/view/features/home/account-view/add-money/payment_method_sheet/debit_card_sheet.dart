@@ -9,6 +9,7 @@ import 'package:remittance_mobile/view/features/home/account-view/add-money/paym
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/pin_authorization_sheet.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/fund_with_card_vm.dart';
+import 'package:remittance_mobile/view/features/webview/app_webview.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -21,6 +22,8 @@ import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 
 ValueNotifier<InitiateCardFundingReq> cardFundingRes = ValueNotifier(InitiateCardFundingReq());
+ValueNotifier<int> flwTransactionId = ValueNotifier(0);
+ValueNotifier<String> flwRequestId = ValueNotifier('');
 
 class DebitCardSheet extends ConsumerStatefulWidget {
   static String path = 'debit-card-sheet';
@@ -129,9 +132,14 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
         } else if (next.value?.mode == "avs_noauth") {
           context.pushNamed(AvsAuthorizationSheet.path);
         } else if (next.value?.mode == "redirect") {
-          SnackBarDialog.showErrorFlushBarMessage(
-            'Please Try Another Card.',
-            context,
+          flwRequestId.value = next.value?.requestId ?? '';
+          flwTransactionId.value = next.value?.flwTransactionId ?? 0;
+          context.pushNamed(
+            WebviewScreen.path,
+            pathParameters: {
+              "url": next.value?.redirect ?? "",
+              "routeName": "3VS",
+            },
           );
         }
       }
@@ -281,7 +289,7 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
                               currency: accountInfo.value.currencyCode,
                               accountNumber: accountInfo.value.accountNumber,
                               charge: 0,
-                              redirectUrl: "",
+                              redirectUrl: "https://borderpal.co/",
                             ),
                           );
 
@@ -294,7 +302,7 @@ class _DebitCardSheetState extends ConsumerState<DebitCardSheet> {
                         expiryYear: expiryDateSeparated[1],
                         currency: "NGN",
                         charge: 0,
-                        redirectUrl: "",
+                        redirectUrl: "https://borderpal.co/",
                       );
                     }
                   },

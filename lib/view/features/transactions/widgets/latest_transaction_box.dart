@@ -48,7 +48,8 @@ class _LatestTransactionsBoxState extends ConsumerState<LatestTransactionsBox> {
 
     final List<TransactionsRes> newList;
     if (widget.currency != null) {
-      newList = transactionList.where((element) => element.currency == widget.currency).toList();
+      newList =
+          transactionList.where((element) => element.sourceCurrency == widget.currency).toList();
     } else {
       newList = transactionList;
     }
@@ -103,6 +104,7 @@ class _LatestTransactionsBoxState extends ConsumerState<LatestTransactionsBox> {
                               TransactionDetails.path,
                               pathParameters: {
                                 "id": value.requestId ?? "",
+                                "fromSend": "false",
                               },
                               extra: TransactionStatusUpdate.sent,
                             );
