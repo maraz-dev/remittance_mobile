@@ -31,7 +31,7 @@ class KycCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           current == listener
-              ? const CardIcon(
+              ? CardIcon(
                   image: AppImages.kycCurrent,
                   padding: 8,
                   bgColor: AppColors.kCardColor,
@@ -42,7 +42,7 @@ class KycCard extends StatelessWidget {
                       padding: 8,
                       bgColor: AppColors.kGrey100,
                     )
-                  : const CardIcon(
+                  : CardIcon(
                       image: AppImages.kycDone,
                       padding: 8,
                       bgColor: AppColors.kCardColor,
@@ -53,8 +53,10 @@ class KycCard extends StatelessWidget {
             children: [
               Text(
                 title ?? 'Social Security Number/BVN',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontWeight: FontWeight.bold, color: AppColors.kGrey700),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(fontWeight: FontWeight.bold, color: AppColors.kGrey700),
               ),
               5.0.height,
               Row(
@@ -62,8 +64,7 @@ class KycCard extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: 200.w,
-                    child: Text(subtitle ??
-                        'Provide your social security number or BVN'),
+                    child: Text(subtitle ?? 'Provide your social security number or BVN'),
                   ),
                   Visibility(
                     visible: current == listener,
@@ -73,18 +74,16 @@ class KycCard extends StatelessWidget {
                         onPressed!();
                       },
                       child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 3),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
                             color: AppColors.kPrimaryColor,
                             borderRadius: BorderRadius.circular(16.r)),
                         child: Text(
                           'Verify',
-                          style:
-                              Theme.of(context).textTheme.bodySmall!.copyWith(
-                                    color: AppColors.kWhiteColor,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                color: AppColors.kWhiteColor,
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                       ),
                     ),

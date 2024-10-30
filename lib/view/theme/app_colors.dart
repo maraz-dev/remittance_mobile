@@ -16,7 +16,7 @@ abstract class AppColors {
   static const kTextColor = Color(0xFF98A2B3);
   static const kHintColor = Color(0xFF98A2B3);
   static const kPinInputColor = Color(0xFFF0EEFF);
-  static const kCardColor = Color(0xFF8A7EF9);
+  static final kCardColor = kPrimaryColor.withOpacity(0.5);
   static const kBrandColor = Color(0xFFF0EEFF);
 
   static const kBlackColor = Color(0xFF000000);
@@ -24,7 +24,7 @@ abstract class AppColors {
   static const kTealColor100 = Color(0xFFF0F9FF);
   static const kTealColor200 = Color(0xFF026AA2);
   static const kBlueColor500 = Color(0xFF151076);
-  static const kPurpleColor = Color(0xFFE1DDFE);
+  static final kPurpleColor = kPrimaryColor.withOpacity(0.2);
 
   static const kSuccessColor = Color(0xFF039855);
   static const kSuccessColor50 = Color(0xFFD1FADF);
