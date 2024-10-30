@@ -72,6 +72,7 @@ class _SendCurrencySheetState extends State<SendCurrencySheet> {
               SendRoute.to => "To",
             },
           ),
+          16.0.height,
           TextInput(
             controller: _searchController,
             hint: "Search...",
@@ -151,8 +152,10 @@ class _SendCurrencyItemState extends State<SendCurrencyItem> {
               sourceCurrency.value = widget.currencyData!.sourceCurrencies!.first;
               setState(() {});
             } else {
-              sourceCorridor.value = widget.currencyData!;
+              context.pop(widget.currencyData);
               setState(() {});
+              // sourceCorridor.value = widget.currencyData!;
+              // setState(() {});
               AppBottomSheet.showBottomSheet(
                 context,
                 widget: MultipleCurrencySheet(
@@ -176,7 +179,7 @@ class _SendCurrencyItemState extends State<SendCurrencyItem> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    widget.name ?? 'United States',
+                    widget.name ?? '',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: AppColors.kGrey800,
                           fontWeight: FontWeight.w600,
@@ -194,7 +197,7 @@ class _SendCurrencyItemState extends State<SendCurrencyItem> {
                           itemBuilder: (context, index) {
                             var value = widget.currencyData!.sourceCurrencies![index];
                             return Text(
-                              value.code ?? 'USD',
+                              value.code ?? '',
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -255,7 +258,7 @@ class _SendCurrencyItemState extends State<SendCurrencyItem> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    widget.name ?? 'United States',
+                    widget.name ?? '',
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: AppColors.kGrey800,
                           fontWeight: FontWeight.w600,
@@ -273,7 +276,7 @@ class _SendCurrencyItemState extends State<SendCurrencyItem> {
                           itemBuilder: (context, index) {
                             var value = widget.destinationData!.destinationCurrencies![index];
                             return Text(
-                              value.code ?? 'USD',
+                              value.code ?? '',
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -331,7 +334,9 @@ class _MultipleCurrencySheetState extends State<MultipleCurrencySheet> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InkWell(
-          onTap: () => context.pop(),
+          onTap: () {
+            context.pop();
+          },
           child: Row(
             children: [
               SvgPicture.asset(AppImages.backArrow),
@@ -356,8 +361,8 @@ class _MultipleCurrencySheetState extends State<MultipleCurrencySheet> {
               onTap: () {
                 sourceCurrency.value = newList;
                 setState(() {});
-                context.pop();
-                context.pop();
+                log(sourceCurrency.value.code ?? "");
+                context.pop(sourceCurrency);
               },
               child: CurrencyItem(
                 name: newList.name,

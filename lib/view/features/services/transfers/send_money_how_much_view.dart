@@ -69,7 +69,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
   void initState() {
     super.initState();
     _destinationAmount.text = '0.00';
-    _sourceAmount.text = '0.00';
+    _sourceAmount.text = '0';
     _sourceAmount.addListener(() {
       setState(() {
         showCharge.value = false;
@@ -87,15 +87,17 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
   }
 
   handleChargeReq() {
-    ref.read(sendChargeProvider.notifier).sendChargeMethod(
-          SendChargeReq(
-            destinationCountryCode: destinationCorridor.value.code,
-            destinationCurrency: destinationCurrency.value.code,
-            sourceCurrency: sourceCurrency.value.code,
-            channel: "Bank",
-            amount: double.parse(_sourceAmount.text.replaceAll(',', '')),
-          ),
-        );
+    if (_sourceAmount.text.isNotEmpty && _sourceAmount.text != '.') {
+      ref.read(sendChargeProvider.notifier).sendChargeMethod(
+            SendChargeReq(
+              destinationCountryCode: destinationCorridor.value.code,
+              destinationCurrency: destinationCurrency.value.code,
+              sourceCurrency: sourceCurrency.value.code,
+              channel: "Bank",
+              amount: double.parse(_sourceAmount.text.replaceAll(',', '')),
+            ),
+          );
+    }
   }
 
   @override
@@ -145,231 +147,258 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
         key: _formKey,
         child: corridors.maybeWhen(
           data: (data) {
-            return AbsorbPointer(
-              absorbing: sendChargeLoading || corridorsLoading,
-              child: ScaffoldBody(
-                body: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      15.0.height,
-                      Text(
-                        'How much do you want to send?',
-                        style: Theme.of(context).textTheme.displayMedium,
-                        textAlign: TextAlign.center,
-                      ),
-                      16.0.height,
-                      Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: AppColors.kWhiteColor,
-                          borderRadius: BorderRadius.circular(16),
+            if (data.isEmpty) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  32.0.height,
+                  Center(
+                    child: Text(
+                      'No Corridor Available for ${fromBalance.value.countryCode}',
+                      style: Theme.of(context).textTheme.displayMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              // Set Default values
+              setState(() {
+                sourceCorridor.value = data.first;
+                destinationCorridor.value = data.first.destinationCountries!.first;
+                sourceCurrency.value = sourceCorridor.value.sourceCurrencies!.first;
+                destinationCurrency.value = destinationCorridor.value.destinationCurrencies!.first;
+              });
+              return AbsorbPointer(
+                absorbing: sendChargeLoading || corridorsLoading,
+                child: ScaffoldBody(
+                  body: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        15.0.height,
+                        Text(
+                          'How much do you want to send?',
+                          style: Theme.of(context).textTheme.displayMedium,
+                          textAlign: TextAlign.center,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SectionHeader(
-                                  text: 'From',
-                                  fontSize: 14,
-                                ),
-                                8.0.height,
-
-                                // FROM Button
-                                InkWell(
-                                  onTap: () async {
-                                    CorridorsResponse? result =
-                                        await AppBottomSheet.showBottomSheet(
-                                      context,
-                                      widget: SendCurrencySheet(
-                                        location: SendRoute.from,
-                                        corridors: data,
-                                        destination:
-                                            sourceCorridor.value.destinationCountries ?? [],
-                                      ),
-                                    );
-                                    setState(() {
-                                      sourceCorridor.value = result!;
-                                    });
-                                  },
-                                  child: Row(
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundImage:
-                                            NetworkImage(sourceCorridor.value.flag?.png ?? ""),
-                                      ),
-                                      8.0.width,
-                                      Text(
-                                        sourceCorridor.value.code ?? "TBS",
-                                        style: Theme.of(context).textTheme.displaySmall,
-                                      ),
-                                      8.0.width,
-                                      SvgPicture.asset(AppImages.arrowDown),
-                                    ],
+                        16.0.height,
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: AppColors.kWhiteColor,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SectionHeader(
+                                    text: 'From',
+                                    fontSize: 14,
                                   ),
-                                ),
-                              ],
-                            ),
-                            Transform.rotate(
-                              angle: math.pi / 2,
-                              child: const SwapIconWidget(
-                                padding: 8,
-                              ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                const SectionHeader(
-                                  text: 'To',
-                                  fontSize: 14,
-                                ),
-                                8.0.height,
+                                  8.0.height,
 
-                                // TO Button
-                                InkWell(
-                                  onTap: () async {
-                                    if (sourceCorridor.value.destinationCountries == null) {
-                                      ShowAlertDialog.showAlertDialog(
-                                        context,
-                                        title: 'Error!',
-                                        content: 'Select the FROM Country',
-                                        defaultActionText: 'Ok',
-                                      );
-                                    } else {
-                                      DestinationCountry? result =
+                                  // FROM Button
+                                  InkWell(
+                                    onTap: () async {
+                                      CorridorsResponse? result =
                                           await AppBottomSheet.showBottomSheet(
                                         context,
                                         widget: SendCurrencySheet(
-                                          location: SendRoute.to,
+                                          location: SendRoute.from,
                                           corridors: data,
                                           destination:
                                               sourceCorridor.value.destinationCountries ?? [],
                                         ),
                                       );
-
                                       setState(() {
-                                        destinationCorridor.value = result!;
+                                        sourceCorridor.value = result!;
                                       });
-                                    }
-                                  },
-                                  child: Row(
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundImage:
-                                            NetworkImage(destinationCorridor.value.flag?.png ?? ""),
-                                      ),
-                                      8.0.width,
-                                      Text(
-                                        destinationCorridor.value.code ?? "TBS",
-                                        style: Theme.of(context).textTheme.displaySmall,
-                                      ),
-                                      8.0.width,
-                                      SvgPicture.asset(AppImages.arrowDown),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      16.0.height,
-
-                      // Source Amount
-                      AmountInput(
-                        header: 'You Send',
-                        fontSize: 36.sp,
-                        controller: _sourceAmount,
-                        currency: sourceCurrency.value.code,
-                      ),
-                      8.0.height,
-
-                      // Balance
-                      BalanceWidget(
-                        balance: fromBalance.value.balance!
-                            .amountWithCurrency(fromBalance.value.currencySymbol ?? ""),
-                        fontSize: 16,
-                      ),
-
-                      /// Receipient Receives
-                      16.0.height,
-                      Visibility(
-                        visible: !showCharge.value,
-                        child: Column(
-                          children: [
-                            16.0.height,
-                            MainButton(
-                              isLoading: sendChargeLoading,
-                              text: 'Calculate',
-                              onPressed: () {
-                                handleChargeReq();
-                              },
-                            )
-                                .animate()
-                                .fadeIn(begin: 0, delay: 1000.ms)
-                                // .then(delay: 200.ms)
-                                .slideY(begin: .1, end: 0),
-                          ],
-                        ),
-                      ),
-
-                      Visibility(
-                        visible: showCharge.value,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Destination Amount
-                            AmountInput(
-                              readOnly: true,
-                              header: 'Recipient Receives',
-                              color: AppColors.kWhiteColor,
-                              controller: _destinationAmount,
-                              currency: destinationCurrency.value.code,
-                              fontSize: 30.sp,
-                            ),
-
-                            24.0.height,
-                            Container(
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: AppColors.kWhiteColor,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Column(
-                                children: [
-                                  RatesCard(
-                                    image: AppImages.compareArrows,
-                                    text:
-                                        '1 ${destinationCurrency.value.code} = ${_rate.formatDecimal()} ${sourceCurrency.value.code}',
-                                    description: 'Rate',
-                                  ),
-                                  16.0.height,
-                                  RatesCard(
-                                    image: AppImages.loyalty,
-                                    text: '${_fee.formatDecimal()} ${sourceCurrency.value.code}',
-                                    description: 'Fees',
-                                    onTapped: () {},
-                                  ),
-                                  16.0.height,
-                                  RatesCard(
-                                    image: AppImages.addAlt,
-                                    text:
-                                        '${(double.parse(_sourceAmount.text.replaceAll(',', '')) + _fee).formatDecimal()} ${sourceCurrency.value.code}',
-                                    description: 'Total Amount',
+                                    },
+                                    child: Row(
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundImage:
+                                              NetworkImage(sourceCorridor.value.flag?.png ?? ""),
+                                        ),
+                                        8.0.width,
+                                        Text(
+                                          sourceCorridor.value.code ?? "TBS",
+                                          style: Theme.of(context).textTheme.displaySmall,
+                                        ),
+                                        8.0.width,
+                                        SvgPicture.asset(AppImages.arrowDown),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
+                              Transform.rotate(
+                                angle: math.pi / 2,
+                                child: const SwapIconWidget(
+                                  padding: 8,
+                                ),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  const SectionHeader(
+                                    text: 'To',
+                                    fontSize: 14,
+                                  ),
+                                  8.0.height,
+
+                                  // TO Button
+                                  InkWell(
+                                    onTap: () async {
+                                      if (sourceCorridor.value.destinationCountries == null) {
+                                        ShowAlertDialog.showAlertDialog(
+                                          context,
+                                          title: 'Error!',
+                                          content: 'Select the FROM Country',
+                                          defaultActionText: 'Ok',
+                                        );
+                                      } else {
+                                        DestinationCountry? result =
+                                            await AppBottomSheet.showBottomSheet(
+                                          context,
+                                          widget: SendCurrencySheet(
+                                            location: SendRoute.to,
+                                            corridors: data,
+                                            destination:
+                                                sourceCorridor.value.destinationCountries ?? [],
+                                          ),
+                                        );
+
+                                        setState(() {
+                                          destinationCorridor.value = result!;
+                                        });
+                                      }
+                                    },
+                                    child: Row(
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundImage: NetworkImage(
+                                              destinationCorridor.value.flag?.png ?? ""),
+                                        ),
+                                        8.0.width,
+                                        Text(
+                                          destinationCorridor.value.code ?? "TBS",
+                                          style: Theme.of(context).textTheme.displaySmall,
+                                        ),
+                                        8.0.width,
+                                        SvgPicture.asset(AppImages.arrowDown),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                        16.0.height,
+
+                        // Source Amount
+                        AmountInput(
+                          header: 'You Send',
+                          fontSize: 36.sp,
+                          controller: _sourceAmount,
+                          currency: sourceCurrency.value.code,
+                        ),
+                        8.0.height,
+
+                        // Balance
+                        BalanceWidget(
+                          balance: fromBalance.value.balance!
+                              .amountWithCurrency(fromBalance.value.currencySymbol ?? ""),
+                          fontSize: 16,
+                        ),
+
+                        /// Receipient Receives
+                        16.0.height,
+                        Visibility(
+                          visible: !showCharge.value,
+                          child: Column(
+                            children: [
+                              16.0.height,
+                              MainButton(
+                                isLoading: sendChargeLoading,
+                                text: 'Calculate',
+                                onPressed: () {
+                                  handleChargeReq();
+                                },
+                              )
+                                  .animate()
+                                  .fadeIn(begin: 0, delay: 1000.ms)
+                                  // .then(delay: 200.ms)
+                                  .slideY(begin: .1, end: 0),
+                            ],
+                          ),
+                        ),
+
+                        Visibility(
+                          visible: showCharge.value,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Destination Amount
+                              AmountInput(
+                                readOnly: true,
+                                header: 'Recipient Receives',
+                                color: AppColors.kWhiteColor,
+                                currencyColor: AppColors.kGrey200,
+                                controller: _destinationAmount,
+                                currency: destinationCurrency.value.code,
+                                fontSize: 30.sp,
+                              ),
+
+                              24.0.height,
+                              Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: AppColors.kWhiteColor,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Column(
+                                  children: [
+                                    RatesCard(
+                                      image: AppImages.compareArrows,
+                                      text:
+                                          '1 ${destinationCurrency.value.code} = ${_rate.formatDecimal()} ${sourceCurrency.value.code}',
+                                      description: 'Rate',
+                                    ),
+                                    16.0.height,
+                                    RatesCard(
+                                      image: AppImages.loyalty,
+                                      text: '${_fee.formatDecimal()} ${sourceCurrency.value.code}',
+                                      description: 'Fees',
+                                      onTapped: () {},
+                                    ),
+                                    16.0.height,
+                                    if (_sourceAmount.text.isNotEmpty &&
+                                        _sourceAmount.text != '.') ...[
+                                      RatesCard(
+                                        image: AppImages.addAlt,
+                                        text:
+                                            '${(double.parse(_sourceAmount.text.replaceAll(',', '')) + _fee).formatDecimal()} ${sourceCurrency.value.code}',
+                                        description: 'Total Amount',
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
+              );
+            }
           },
           orElse: () => const SpinKitRing(
             color: AppColors.kPrimaryColor,
@@ -393,10 +422,12 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                   isLoading: sendChargeLoading,
                   text: 'Next',
                   onPressed: () {
-                    setState(() {
-                      sourceAmount.value = _sourceAmount.text;
-                    });
-                    context.pushNamed(SendMoneyToWhoView.path);
+                    if (_sourceAmount.text.isNotEmpty && _sourceAmount.text != '.') {
+                      setState(() {
+                        sourceAmount.value = _sourceAmount.text;
+                      });
+                      context.pushNamed(SendMoneyToWhoView.path);
+                    }
                   },
                 )
                     .animate()

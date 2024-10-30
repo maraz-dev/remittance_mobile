@@ -11,7 +11,7 @@ class AmountInput extends StatelessWidget {
   final String? header, currency, image;
   final bool? readOnly;
   final bool animate;
-  final Color? textColor, color;
+  final Color? textColor, color, currencyColor;
   final double? fontSize;
   final Function(String)? onChanged, onFieldSubmitted;
 
@@ -28,6 +28,7 @@ class AmountInput extends StatelessWidget {
     this.onChanged,
     this.onFieldSubmitted,
     this.fontSize,
+    this.currencyColor,
   });
 
   @override
@@ -124,7 +125,8 @@ class AmountInput extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
                   decoration: BoxDecoration(
-                      color: color ?? AppColors.kGrey300, borderRadius: BorderRadius.circular(16)),
+                      color: currencyColor ?? AppColors.kGrey300,
+                      borderRadius: BorderRadius.circular(16)),
                   child: Text(
                     currency ?? 'TBS',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(

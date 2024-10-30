@@ -71,6 +71,7 @@ class _CardOTPValidationState extends ConsumerState<CardOTPValidationSheet> {
             isDismissible: false,
             widget: Column(
               mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 64.0.height,
                 const CardIcon(
@@ -81,7 +82,13 @@ class _CardOTPValidationState extends ConsumerState<CardOTPValidationSheet> {
                 24.0.height,
                 const SectionHeader(text: 'Transaction Complete'),
                 8.0.height,
-                const Text('Your request is Complete'),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Text(
+                    'Your request is Complete. \n\nIf your Balance doesn\'t reflect immediately, Refresh your Dashboard.',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
                 64.0.height,
                 MainButton(
                     text: 'Go to Dashboard',
