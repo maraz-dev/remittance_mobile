@@ -125,20 +125,21 @@ class RecipientsCard extends StatelessWidget {
           backgroundImage: NetworkImage(image ?? ""),
         ),
         12.0.width,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              name ?? "",
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.kGrey700,
-                  ),
-            ),
-            Text("$accNumber · $channel")
-          ],
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                name ?? "",
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.kGrey700,
+                    ),
+              ),
+              Text("$accNumber · $channel")
+            ],
+          ),
         ),
-        const Spacer(),
         SvgPicture.asset(AppImages.arrowRight),
       ],
     );

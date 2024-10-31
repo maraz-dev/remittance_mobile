@@ -167,7 +167,8 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
                   info: 'Bank Account',
                   title: selectedBeneficiary.value.accountName ?? 'John Doe',
                   subtitle:
-                      '${selectedBeneficiary.value.accountNumber} · ${selectedBeneficiary.value.bankName}',
+                      '${selectedBeneficiary.value.accountNumber} · ${selectedBeneficiary.value.bankName}'
+                          .truncate(29),
                   onPressed: () => context.pop(),
                 ),
                 24.0.height,

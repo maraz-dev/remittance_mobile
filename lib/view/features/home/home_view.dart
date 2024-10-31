@@ -110,13 +110,15 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   context: context,
                   removeRight: true,
                   child: ListView.separated(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return homeServiceCardList[index];
-                      },
-                      separatorBuilder: (context, index) => 8.0.width,
-                      itemCount: homeServiceCardList.length),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      return homeServiceCardList[index];
+                    },
+                    separatorBuilder: (context, index) => 8.0.width,
+                    //! Change back to homeServiceCardList.length LATER
+                    itemCount: 1,
+                  ),
                 ),
               ).widgetPadding(l: 24),
               20.0.height,
