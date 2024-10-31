@@ -1,3 +1,4 @@
+import 'package:config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/platform_pay_sheet.dart';
 import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_method_sheet/bank_deposit_sheet.dart';
@@ -85,12 +86,11 @@ List<PaymentMethodCard> sendMethods = [
   const PaymentMethodCard(
     methodImage: AppImages.accountDetails,
     methodName: 'Bank Transfer',
-    methodDescription:
-        'Choose a preferred bank to deposit the money into the sellers account.',
+    methodDescription: 'Choose a preferred bank to deposit the money into the sellers account.',
   ),
   const PaymentMethodCard(
     methodImage: AppImages.wallet,
-    methodName: 'Balance (BorderPay)',
+    methodName: 'Balance ($APP_NAME)',
     methodDescription:
         'Use your main balance, the money will be debited directly from this account.',
   ),

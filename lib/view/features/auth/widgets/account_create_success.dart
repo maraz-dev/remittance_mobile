@@ -1,3 +1,4 @@
+import 'package:config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -22,7 +23,7 @@ class AccountCreateSuccess extends StatelessWidget {
         16.0.height,
         const BottomSheetTitle(
           title: 'Account Created',
-          subtitle: 'Welcome to BorderPal. Let’s shake the world!',
+          subtitle: 'Welcome to $APP_NAME. Let’s shake the world!',
         ),
         40.0.height,
         MainButton(

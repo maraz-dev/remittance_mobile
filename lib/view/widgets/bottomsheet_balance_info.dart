@@ -29,7 +29,7 @@ class BottomNavBarBalanceInfo extends StatelessWidget {
             rateFrom: rateFrom ?? '',
             rateTo: rateTo ?? '',
             showBorder: false,
-            color: AppColors.kPinInputColor,
+            color: AppColors.kAccentColor,
           ),
           Visibility(
             visible: showArrival ?? false,

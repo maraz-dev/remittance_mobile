@@ -1,3 +1,4 @@
+import 'package:config/Config.dart';
 import 'package:remittance_mobile/core/third-party/environment.dart';
 import 'package:remittance_mobile/core/utils/logger.dart';
 
@@ -70,7 +71,7 @@ class ApiEndpoints {
   //     _environment == Environmentx.prod ? productionURL : devURL;
 
   // Partner Code
-  String get partnerCode => "P00020";
+  String get partnerCode => APP_PARTNER_CODE;
 
   /// version
   String get version => "v1";

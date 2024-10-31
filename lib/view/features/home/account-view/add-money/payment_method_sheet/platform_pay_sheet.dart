@@ -1,3 +1,4 @@
+import 'package:config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -61,7 +62,7 @@ class _PlatformPaySheetState extends State<PlatformPaySheet> {
 
         // Description
         const Text(
-          'Use the account details below to send money to you Borderpal account.',
+          'Use the account details below to send money to you $APP_NAME account.',
         ),
         10.0.height,
 

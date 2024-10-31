@@ -14,7 +14,7 @@ class CustomRadioButton extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
-        color: AppColors.kPinInputColor,
+        color: AppColors.kAccentColor,
         shape: BoxShape.circle,
         border: Border.all(color: AppColors.kPrimaryColor),
       ),

@@ -1,3 +1,4 @@
+import 'package:config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -44,7 +45,7 @@ class _BorderPaySheetState extends ConsumerState<BorderPayUserSheet> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SectionHeader(text: 'BorderPay User'),
+            const SectionHeader(text: '$APP_NAME User'),
             InkWell(
               onTap: () => context.pop(),
               child: SvgPicture.asset(

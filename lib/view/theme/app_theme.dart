@@ -53,7 +53,7 @@ PinTheme focusedPinInputTheme = PinTheme(
   textStyle: textTheme.call().displayMedium,
   decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(12.r),
-      color: AppColors.kPinInputColor,
+      color: AppColors.kAccentColor,
       border: Border.all(color: AppColors.kPrimaryColor)),
 );
 

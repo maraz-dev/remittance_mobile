@@ -8,6 +8,7 @@ import 'package:remittance_mobile/view/route.dart';
 import 'package:remittance_mobile/view/theme/app_theme.dart';
 import 'package:remittance_mobile/view/utils/session-manager/session_timeout_manager.dart';
 import 'package:remittance_mobile/view/utils/session-manager/vm/app_session_vm.dart';
+import 'package:config/config.dart';
 
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
@@ -73,15 +74,14 @@ class _MyAppState extends ConsumerState<MyApp> with WidgetsBindingObserver {
             sessionConfig: appSession,
             sessionStateStream: ref.watch(sessionStateProvider).stream,
             child: MaterialApp.router(
-              title: 'Remittance',
+              title: APP_NAME,
               debugShowCheckedModeBanner: false,
               theme: themeData(),
               key: navigatorKey,
               routerConfig: appRouteProvider,
               builder: (context, child) {
                 return MediaQuery(
-                  data: MediaQuery.of(context)
-                      .copyWith(textScaler: const TextScaler.linear(0.98)),
+                  data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(0.98)),
                   child: child!,
                 );
               },

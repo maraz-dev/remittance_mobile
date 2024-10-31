@@ -1,3 +1,4 @@
+import 'package:config/config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -296,8 +297,8 @@ List<AddRecipientOptionItem> addRecipientOptionList = [
   ),
   AddRecipientOptionItem(
     icon: AppImages.wallet,
-    title: 'Balance (BorderPay)',
-    desc: 'Send money to a BorderPay user',
+    title: 'Balance $APP_NAME',
+    desc: 'Send money to a $APP_NAME user',
   ),
   AddRecipientOptionItem(
     icon: AppImages.card,

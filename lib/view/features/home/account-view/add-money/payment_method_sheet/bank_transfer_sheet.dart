@@ -1,3 +1,4 @@
+import 'package:config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -51,8 +52,8 @@ class _BankTransferSheetState extends State<BankTransferSheet> {
         switch (widget.transferCountry) {
           TransferCountry.ngn => Text(
               '${1.05.amountWithCurrency('usd')} transaction fees. Your money will arrive in about 2 hours'),
-          TransferCountry.usd => const Text(
-              'Use the account details below to send money to you Borderpal account.'),
+          TransferCountry.usd =>
+            const Text('Use the account details below to send money to your $APP_NAME account.'),
         },
         10.0.height,
 
@@ -127,11 +128,9 @@ class _BankTransferSheetState extends State<BankTransferSheet> {
             children: [
               const Text('Your money is processed by licensed banks'),
               10.0.height,
-              const Text(
-                  'Intermediary banks and payment processors may charge for this transfer'),
+              const Text('Intermediary banks and payment processors may charge for this transfer'),
               10.0.height,
-              const Text(
-                  'Transfers might take up to 3 days for international payments')
+              const Text('Transfers might take up to 3 days for international payments')
             ],
           ),
         ),
