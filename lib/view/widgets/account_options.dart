@@ -30,8 +30,7 @@ class AccountOptions extends StatelessWidget {
           onTap: onPressed,
           child: Container(
             padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(
-                color: AppColors.kGrey100, shape: BoxShape.circle),
+            decoration: const BoxDecoration(color: AppColors.kGrey100, shape: BoxShape.circle),
             child: SvgPicture.asset(image),
           ),
         ),
@@ -65,8 +64,7 @@ class AccountOptionsAlt extends StatelessWidget {
       onTap: () {
         context.pop();
         if (text == 'Deactivate') {
-          AppBottomSheet.showBottomSheet(context,
-              widget: const DeactivateSheet());
+          AppBottomSheet.showBottomSheet(context, widget: const DeactivateSheet());
         } else if (text.contains("Details")) {
           AppBottomSheet.showBottomSheet(
             context,
@@ -82,8 +80,7 @@ class AccountOptionsAlt extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(
-                color: AppColors.kGrey100, shape: BoxShape.circle),
+            decoration: const BoxDecoration(color: AppColors.kGrey100, shape: BoxShape.circle),
             child: SvgPicture.asset(image),
           ),
           16.0.width,
@@ -108,6 +105,14 @@ List<AccountOptionsAlt> currencyAccountList = [
     onPressed: AddMoneyView.path,
   ),
   const AccountOptionsAlt(
+    text: 'Account Details',
+    image: AppImages.accountDetails,
+  ),
+  const AccountOptionsAlt(
+    text: 'Deactivate',
+    image: AppImages.delete,
+  ),
+  const AccountOptionsAlt(
     text: 'Exchange',
     image: AppImages.exchange,
     onPressed: ExchangeInitialView.path,
@@ -120,13 +125,5 @@ List<AccountOptionsAlt> currencyAccountList = [
   const AccountOptionsAlt(
     text: 'Account Statement',
     image: AppImages.accountStatement,
-  ),
-  const AccountOptionsAlt(
-    text: 'Account Details',
-    image: AppImages.accountDetails,
-  ),
-  const AccountOptionsAlt(
-    text: 'Deactivate',
-    image: AppImages.delete,
   ),
 ];

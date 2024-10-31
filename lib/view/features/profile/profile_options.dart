@@ -53,16 +53,16 @@ List profileSecurityItems = [
     text: 'Change PIN',
   ),
   ProfileOption(
+    image: AppImages.fingerScan,
+    text: 'Biometrics',
+  ),
+  ProfileOption(
     image: AppImages.smsNotification,
     text: 'SMS Notifications',
   ),
   ProfileOption(
     image: AppImages.directNotification,
     text: 'In-app Notifications',
-  ),
-  ProfileOption(
-    image: AppImages.fingerScan,
-    text: 'Biometrics',
   ),
 ];
 

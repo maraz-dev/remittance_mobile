@@ -62,8 +62,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                           ),
                           child: const CircleAvatar(
                             radius: 35,
-                            backgroundImage:
-                                AssetImage(AppImages.selfieImageTwo),
+                            backgroundImage: AssetImage(AppImages.selfieImageTwo),
                           ),
                         ),
                         Positioned(
@@ -83,9 +82,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                           style: Theme.of(context)
                               .textTheme
                               .bodyMedium!
-                              .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.kBlackColor),
+                              .copyWith(fontWeight: FontWeight.bold, color: AppColors.kBlackColor),
                         ),
                         Text(userProfile.value?.email ?? ''),
                       ],
@@ -129,7 +126,8 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                               color: AppColors.kGrey100,
                             );
                           },
-                          itemCount: profilePersonalInfoItems.length,
+                          //! TODO: Change to profilePersonalInfoItems.length
+                          itemCount: 2,
                         ),
                       ),
                       24.0.height,
@@ -147,8 +145,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                             return ProfileCard(
                               image: value.image,
                               text: value.text,
-                              onPressed: value.optionPath == null &&
-                                      value.text != 'Biometrics'
+                              onPressed: value.optionPath == null && value.text != 'Biometrics'
                                   ? () {}
                                   : () {
                                       value.text == 'Biometrics'
@@ -156,8 +153,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                                               context,
                                               isDismissible: false,
                                               enableDrag: false,
-                                              widget:
-                                                  const EnableBiometricsSheet(),
+                                              widget: const EnableBiometricsSheet(),
                                             )
                                           : context.pushNamed(value.optionPath);
                                     },
@@ -169,7 +165,8 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                               color: AppColors.kGrey100,
                             );
                           },
-                          itemCount: profileSecurityItems.length,
+                          //! TODO: Change to profileSecurityItems.length
+                          itemCount: 3,
                         ),
                       ),
                       24.0.height,
@@ -189,9 +186,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                               text: value.text,
                               color: value.color,
                               onPressed: () => value.text == 'Log Out'
-                                  ? ref
-                                      .read(userStateProvider.notifier)
-                                      .logOutUser()
+                                  ? ref.read(userStateProvider.notifier).logOutUser()
                                   : context.pushNamed(value.optionPath),
                             );
                           },

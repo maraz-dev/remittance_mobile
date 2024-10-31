@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:remittance_mobile/view/features/home/home_view.dart';
 import 'package:remittance_mobile/view/features/profile/profile_view.dart';
 import 'package:remittance_mobile/view/features/services/services_view.dart';
-import 'package:remittance_mobile/view/features/transactions/transactions_view.dart';
+import 'package:remittance_mobile/view/features/transactions/transaction_history_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 
@@ -21,7 +21,8 @@ class _DashboardViewState extends State<DashboardView> {
   List<Widget> pageList = [
     const HomeView(),
     const ServicesView(),
-    const TransactionsView(),
+    //! TODO: Change back to TransactionView
+    const TransactionHistoryView(),
     const ProfileView(),
   ];
   @override

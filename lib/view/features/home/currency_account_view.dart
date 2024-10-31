@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/add_money_view.dart';
-import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_initial_view.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_from_view.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/latest_transaction_box.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/widgets/account_options.dart';
@@ -88,10 +88,11 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                           onPressed: () => context.pushNamed(AddMoneyView.path),
                         ),
                         16.0.width,
+                        //! TODO: Change back to Exchange later
                         AccountOptions(
-                          text: 'Exchange',
-                          image: AppImages.exchange,
-                          onPressed: () => context.pushNamed(ExchangeInitialView.path),
+                          text: 'Send Money',
+                          image: AppImages.sendMoney,
+                          onPressed: () => context.pushNamed(SendMoneyFromView.path),
                         ),
                         16.0.width,
                         AccountOptions(
@@ -111,7 +112,9 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
                                         return currencyAccountList[index];
                                       },
                                       separatorBuilder: (context, index) => 24.0.height,
-                                      itemCount: currencyAccountList.length,
+
+                                      //! TODO: Change back to currencyAccountList.length
+                                      itemCount: 3,
                                     )
                                   ],
                                 ));

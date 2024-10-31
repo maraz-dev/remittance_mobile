@@ -116,7 +116,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
                       return homeServiceCardList[index];
                     },
                     separatorBuilder: (context, index) => 8.0.width,
-                    //! Change back to homeServiceCardList.length LATER
+                    //TODO! Change back to homeServiceCardList.length LATER
                     itemCount: 1,
                   ),
                 ),

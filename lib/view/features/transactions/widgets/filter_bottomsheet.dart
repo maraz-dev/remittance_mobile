@@ -41,7 +41,8 @@ filterBottomSheet({
             child: ListView.separated(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: filterTabList.length,
+              //! TODO: Change back to filterTabList.length
+              itemCount: 1,
               separatorBuilder: (context, index) => 8.0.width,
               itemBuilder: (context, index) {
                 return InkWell(
@@ -52,12 +53,9 @@ filterBottomSheet({
                     if (kDebugMode) print(isSelectedList);
                   },
                   child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
-                      color: isSelectedList[index]
-                          ? AppColors.kPrimaryColor
-                          : Colors.transparent,
+                      color: isSelectedList[index] ? AppColors.kPrimaryColor : Colors.transparent,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
