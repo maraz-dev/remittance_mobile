@@ -254,3 +254,20 @@ extension DateExtension on DateTime {
     }
   }
 }
+
+extension StringBoldExtension on String {
+  String toBold() {
+    // ANSI escape codes for bold
+    const String boldStart = '\x1B[1m';
+    const String boldEnd = '\x1B[0m';
+    return '$boldStart$this$boldEnd';
+  }
+
+  String toHtmlBold() {
+    return '<b>$this</b>';
+  }
+
+  String toMarkdownBold() {
+    return '*$this*';
+  }
+}
