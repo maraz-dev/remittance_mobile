@@ -31,8 +31,7 @@ class CreateAccountPasswordFormView extends ConsumerStatefulWidget {
       _CreateAccountPasswordFormViewState();
 }
 
-class _CreateAccountPasswordFormViewState
-    extends ConsumerState<CreateAccountPasswordFormView> {
+class _CreateAccountPasswordFormViewState extends ConsumerState<CreateAccountPasswordFormView> {
   // Key for Form
   final GlobalKey<FormState> _formKey = GlobalKey();
 
@@ -53,8 +52,8 @@ class _CreateAccountPasswordFormViewState
 
     /// Endpoint State
     ref.listen(createPasswordProvider, (_, next) {
-      SharedPrefManager.email = successfulCreatedEmail.value;
       if (next is AsyncData<String>) {
+        SharedPrefManager.email = successfulCreatedEmail.value;
         AppBottomSheet.showBottomSheet(
           context,
           enableDrag: false,
@@ -80,8 +79,7 @@ class _CreateAccountPasswordFormViewState
                 const BackArrowButton(),
                 18.0.height,
                 const AuthTitle(
-                    title: 'Create Password',
-                    subtitle: 'Create a password for your account.'),
+                    title: 'Create Password', subtitle: 'Create a password for your account.'),
                 32.0.height,
                 Expanded(
                   child: SingleChildScrollView(
@@ -126,9 +124,7 @@ class _CreateAccountPasswordFormViewState
               text: 'Continue',
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  ref
-                      .read(createPasswordProvider.notifier)
-                      .createPasswordMethod(CreatePasswordReq(
+                  ref.read(createPasswordProvider.notifier).createPasswordMethod(CreatePasswordReq(
                         password: _password.text,
                       ));
                 }
