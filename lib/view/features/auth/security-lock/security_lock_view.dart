@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_skeleton_ui/flutter_skeleton_ui.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/security_questions_req.dart';
 import 'package:remittance_mobile/data/models/responses/security_question_item_model.dart';
+import 'package:remittance_mobile/view/features/auth/login_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/auth_providers.dart';
-import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/validate_pin_vm.dart';
 import 'package:remittance_mobile/view/features/auth/vm/security_questions_vm/validate_security_question.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/bottomsheet_title.dart';
-import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_dropdown.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -25,8 +25,13 @@ import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class SecurityLockView extends ConsumerStatefulWidget {
-  static String path = 'security-lock-view';
-  const SecurityLockView({super.key});
+  static String path = 'security-lock-view/:email';
+  const SecurityLockView({
+    super.key,
+    required this.email,
+  });
+
+  final String email;
 
   @override
   ConsumerState<SecurityLockView> createState() => _LoginViewState();
@@ -43,6 +48,7 @@ class _LoginViewState extends ConsumerState<SecurityLockView> {
   final TextEditingController _pin = TextEditingController();
 
   /// Variable to hold the Selected Question
+  bool isPINSet = false;
   SecurityQuestionItem _selectedQuestion = SecurityQuestionItem();
 
   @override
@@ -56,7 +62,7 @@ class _LoginViewState extends ConsumerState<SecurityLockView> {
   @override
   Widget build(BuildContext context) {
     final getSecurityQuestion = ref.watch(getSecurityQuestionsProvider);
-    final pinLoading = ref.watch(validatePINProvider);
+    final initiateValidateDevice = ref.watch(initiateValidateDeviceProvider(widget.email));
     final validateQuestionLoading = ref.watch(validateSecurityQuestionProvider);
 
 // Validate Security Question Provider
@@ -78,10 +84,10 @@ class _LoginViewState extends ConsumerState<SecurityLockView> {
               ),
               40.0.height,
               MainButton(
-                text: 'Back to Dashboard',
+                text: 'Back to Login',
                 onPressed: () {
                   context.pop();
-                  context.goNamed(DashboardView.path);
+                  context.goNamed(LoginScreen.path);
                 },
               ),
               16.0.height,
@@ -94,23 +100,9 @@ class _LoginViewState extends ConsumerState<SecurityLockView> {
       }
     });
 
-    ref.listen(validatePINProvider, (_, next) {
-      if (next is AsyncData<String>) {
-        ref
-            .read(validateSecurityQuestionProvider.notifier)
-            .validateSecurityQuestionMethod(SecurityQuestionReq(
-              questionId: _selectedQuestion.id,
-              answer: _answer.text,
-            ));
-      }
-      if (next is AsyncError) {
-        SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
-      }
-    });
-
     return AbsorbPointer(
-      absorbing: getSecurityQuestion.isLoading ||
-          pinLoading.isLoading ||
+      absorbing: initiateValidateDevice.isLoading ||
+          getSecurityQuestion.isLoading ||
           validateQuestionLoading.isLoading,
       child: Scaffold(
         body: ScaffoldBody(
@@ -128,106 +120,136 @@ class _LoginViewState extends ConsumerState<SecurityLockView> {
                     subtitle: 'Enter your Security Question and Answer',
                   ),
                   32.0.height,
-                  getSecurityQuestion.maybeWhen(
-                    orElse: () => input.TextInput(
-                      header: 'Security Question',
-                      controller: _question,
-                      hint: "Loading...",
-                      inputType: TextInputType.text,
-                      validator: validateGeneric,
-                      readOnly: true,
-                      suffixIcon: SvgPicture.asset(
-                        AppImages.arrowDown,
-                        fit: BoxFit.scaleDown,
+                  initiateValidateDevice.maybeWhen(
+                    orElse: () => SkeletonLine(
+                      style: SkeletonLineStyle(
+                        height: 45,
+                        borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    error: (error, stackTrace) => input.TextInput(
-                      header: 'Security Question',
-                      controller: _question,
-                      hint: error.toString(),
-                      inputType: TextInputType.text,
-                      validator: validateGeneric,
-                      readOnly: true,
-                    ),
+                    error: (error, stackTrace) => const Text('An Error Occured, Please Try Again'),
                     data: (data) {
-                      List<String> itemList =
-                          data.map((item) => item.question ?? '').toList();
-                      return input.TextInput(
-                        key: _questionKey,
-                        header: 'Security Question',
-                        controller: _question,
-                        hint: "Select Security Question",
-                        inputType: TextInputType.text,
-                        validator: validateGeneric,
-                        readOnly: true,
-                        onPressed: () {
-                          platformSpecificDropdown(
-                            context: context,
-                            items: itemList,
-                            value: _selectedQuestion.id ?? '',
-                            onChanged: (newValue) {
-                              _question.text = newValue ?? '';
-                              _selectedQuestion = data.elementAt(
-                                data.indexWhere(
-                                    (element) => element.question == newValue),
+                      setState(() {
+                        isPINSet = data.isPinSet ?? false;
+                      });
+                      return Column(
+                        children: [
+                          getSecurityQuestion.maybeWhen(
+                            orElse: () => input.TextInput(
+                              header: 'Security Question',
+                              controller: _question,
+                              hint: "Loading...",
+                              inputType: TextInputType.text,
+                              validator: validateGeneric,
+                              readOnly: true,
+                              suffixIcon: SvgPicture.asset(
+                                AppImages.arrowDown,
+                                fit: BoxFit.scaleDown,
+                              ),
+                            ),
+                            error: (error, stackTrace) => input.TextInput(
+                              header: 'Security Question',
+                              controller: _question,
+                              hint: error.toString(),
+                              inputType: TextInputType.text,
+                              validator: validateGeneric,
+                              readOnly: true,
+                            ),
+                            data: (data) {
+                              List<String> itemList =
+                                  data.map((item) => item.question ?? '').toList();
+                              return input.TextInput(
+                                key: _questionKey,
+                                header: 'Security Question',
+                                controller: _question,
+                                hint: "Select Security Question",
+                                inputType: TextInputType.text,
+                                validator: validateGeneric,
+                                readOnly: true,
+                                animate: false,
+                                onPressed: () {
+                                  platformSpecificDropdown(
+                                    context: context,
+                                    items: itemList,
+                                    value: _selectedQuestion.id ?? '',
+                                    onChanged: (newValue) {
+                                      _question.text = newValue ?? '';
+                                      _selectedQuestion = data.elementAt(
+                                        data.indexWhere((element) => element.question == newValue),
+                                      );
+                                    },
+                                    key: _questionKey,
+                                  );
+                                },
+                                suffixIcon: SvgPicture.asset(
+                                  AppImages.arrowDown,
+                                  fit: BoxFit.scaleDown,
+                                ),
                               );
                             },
-                            key: _questionKey,
-                          );
-                        },
-                        suffixIcon: SvgPicture.asset(
-                          AppImages.arrowDown,
-                          fit: BoxFit.scaleDown,
-                        ),
+                          ),
+                          16.0.height,
+                          input.PasswordInput(
+                            header: 'Answer',
+                            controller: _answer,
+                            hint: '********',
+                            inputType: TextInputType.visiblePassword,
+                            validator: validateGeneric,
+                          ),
+                          16.0.height,
+                          input.PasswordInput(
+                            header: data.isPinSet ?? false
+                                ? 'Transaction PIN'
+                                : 'Enter the OTP sent to your Email',
+                            controller: _pin,
+                            hint: '****',
+                            maxLength: data.isPinSet ?? false ? 4 : 6,
+                            inputType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                            validator: validateGeneric,
+                          ),
+                          24.0.height,
+                        ],
                       );
                     },
                   ),
-                  16.0.height,
-                  input.PasswordInput(
-                    header: 'Answer',
-                    controller: _answer,
-                    hint: '********',
-                    inputType: TextInputType.visiblePassword,
-                    validator: validateGeneric,
-                  ),
-                  16.0.height,
-                  input.PasswordInput(
-                    header: 'Transaction PIN',
-                    controller: _pin,
-                    hint: '****',
-                    maxLength: 4,
-                    inputType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    validator: validateGeneric,
-                  ),
-                  24.0.height,
                 ],
               ),
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavBarWidget(
-          children: [
-            MainButton(
-              isLoading:
-                  validateQuestionLoading.isLoading || pinLoading.isLoading,
-              text: 'Continue',
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  ref
-                      .read(validatePINProvider.notifier)
-                      .validatePINMethod(_pin.text);
-                }
-              },
-            )
-                .animate()
-                .fadeIn(begin: 0, delay: 1000.ms)
-                // .then(delay: 200.ms)
-                .slideY(begin: .1, end: 0)
-          ],
-        ),
+        bottomNavigationBar: initiateValidateDevice.isLoading
+            ? null
+            : BottomNavBarWidget(
+                children: [
+                  MainButton(
+                    isLoading: validateQuestionLoading.isLoading,
+                    text: 'Unlock',
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        ref
+                            .read(validateSecurityQuestionProvider.notifier)
+                            .validateSecurityQuestionMethod(
+                              SecurityQuestionReq(
+                                emailAddress: widget.email,
+                                questionId: _selectedQuestion.id,
+                                answer: _answer.text,
+                                isPin: isPINSet,
+                                pin: isPINSet ? _pin.text : null,
+                                code: isPINSet ? null : _pin.text,
+                              ),
+                            );
+                      }
+                    },
+                  )
+                      .animate()
+                      .fadeIn(begin: 0, delay: 1000.ms)
+                      // .then(delay: 200.ms)
+                      .slideY(begin: .1, end: 0)
+                ],
+              ),
       ),
     );
   }

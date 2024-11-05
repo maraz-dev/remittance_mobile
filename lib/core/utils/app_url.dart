@@ -86,7 +86,8 @@ class ApiEndpoints {
   String get getSecurityQuestion => "/api/v1/SecurityQuestion/GetSecurityQuestions";
   String get getUserSecurityQuestion => "/api/v1/SecurityQuestion/GetUserSecurityQuestions";
   String get setSecurityQuestion => "/api/v1/SecurityQuestion/SetUserSecurityQuestion";
-  String get validateSecurityQuestion => "/api/v1/SecurityQuestion/ValidateUserSecurityQuestion";
+  String get initiateValidateDevice => "/api/v1/device/initiate";
+  String get validateSecurityQuestion => "/api/v1/device/security/validate";
 
   // Onboarding
   String get initiateOnboarding =>

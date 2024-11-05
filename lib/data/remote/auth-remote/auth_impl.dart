@@ -8,6 +8,7 @@ import 'package:remittance_mobile/data/models/requests/security_questions_req.da
 import 'package:remittance_mobile/data/models/requests/set_pin_req.dart';
 import 'package:remittance_mobile/data/models/requests/set_security_question_req.dart';
 import 'package:remittance_mobile/data/models/requests/verify_phone_number_req.dart';
+import 'package:remittance_mobile/data/models/responses/initiate_validate_device_res.dart';
 import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
 import 'package:remittance_mobile/data/models/responses/security_question_item_model.dart';
 import 'package:remittance_mobile/data/remote/auth-remote/auth_service.dart';
@@ -19,17 +20,14 @@ class AuthImpl implements AuthRepository {
   AuthImpl(this._authService);
 
   @override
-  Future<String> initiateOnboardingMethod(
-          InitiateOnboardingReq initiateOnboardingReq) async =>
+  Future<String> initiateOnboardingMethod(InitiateOnboardingReq initiateOnboardingReq) async =>
       await _authService.initiateOnboardingEndpoint(initiateOnboardingReq);
 
   @override
-  Future<String> loginEndpoint(LoginReq loginReq) async =>
-      await _authService.loginEndpoint(loginReq);
+  Future<bool> loginEndpoint(LoginReq loginReq) async => await _authService.loginEndpoint(loginReq);
 
   @override
-  Future<String> verifyPhoneNo(
-          VerifyPhoneNumberReq verifyPhoneNumberReq) async =>
+  Future<String> verifyPhoneNo(VerifyPhoneNumberReq verifyPhoneNumberReq) async =>
       await _authService.verifyPhoneNoEndpoint(verifyPhoneNumberReq);
 
   @override
@@ -37,8 +35,7 @@ class AuthImpl implements AuthRepository {
       await _authService.createPasswordEndpoint(createPasswordReq);
 
   @override
-  Future<List<NewCountryModel>> getCountries() async =>
-      await _authService.getCountriesEndpoint();
+  Future<List<NewCountryModel>> getCountries() async => await _authService.getCountriesEndpoint();
 
   @override
   Future<List<SecurityQuestionItem>> getSecurityQuestionEndpoint() async =>
@@ -49,8 +46,7 @@ class AuthImpl implements AuthRepository {
       await _authService.setPinEndpoint(setPinReq);
 
   @override
-  Future<String> setSecurityQuestionEndpoint(
-          SetSecurityQuestionReq setQuestionReq) async =>
+  Future<String> setSecurityQuestionEndpoint(SetSecurityQuestionReq setQuestionReq) async =>
       await _authService.setSecurityQuestionEndpoint(setQuestionReq);
 
   @override
@@ -58,8 +54,7 @@ class AuthImpl implements AuthRepository {
       await _authService.validatePinEndpoint(pin);
 
   @override
-  Future<String> validateSecurityQuestionEndpoint(
-          SecurityQuestionReq securityQuestionReq) async =>
+  Future<String> validateSecurityQuestionEndpoint(SecurityQuestionReq securityQuestionReq) async =>
       await _authService.validateSecurityQuestionEndpoint(securityQuestionReq);
 
   @override
@@ -73,11 +68,13 @@ class AuthImpl implements AuthRepository {
       await _authService.initiateForgotPasswordEndpoint(initiateForgotPassReq);
 
   @override
-  Future<String> verifyForgotPasswordOTPEndpoint(
-          ForgotPasswordOtpReq forgotPasswordOtpReq) async =>
+  Future<String> verifyForgotPasswordOTPEndpoint(ForgotPasswordOtpReq forgotPasswordOtpReq) async =>
       await _authService.verifyForgotPasswordOTPEndpoint(forgotPasswordOtpReq);
 
   @override
-  Future<String> resendViaEmailEndpoint() async =>
-      await _authService.resendViaEmailEndpoint();
+  Future<String> resendViaEmailEndpoint() async => await _authService.resendViaEmailEndpoint();
+
+  @override
+  Future<InitiateValidateDeviceDto> initiateValidateDeviceEndpoint(String email) async =>
+      await _authService.initiateValidateDeviceEndpoint(email);
 }

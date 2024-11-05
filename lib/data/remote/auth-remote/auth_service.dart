@@ -20,6 +20,7 @@ import 'package:remittance_mobile/data/models/requests/set_pin_req.dart';
 import 'package:remittance_mobile/data/models/requests/set_security_question_req.dart';
 import 'package:remittance_mobile/data/models/requests/validate_pin_req.dart';
 import 'package:remittance_mobile/data/models/requests/verify_phone_number_req.dart';
+import 'package:remittance_mobile/data/models/responses/initiate_validate_device_res.dart';
 import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
 import 'package:remittance_mobile/data/models/responses/security_question_item_model.dart';
 
@@ -42,7 +43,7 @@ class AuthService {
   // Class to Handle API Response
   final ResponseHandler _responseHandler = ResponseHandler();
 
-  Future<String> loginEndpoint(LoginReq loginReq) async {
+  Future<bool> loginEndpoint(LoginReq loginReq) async {
     // Device Details Variable
     String? deviceType, deviceToken, ipAddress, latitude, longitude, location;
 
@@ -95,22 +96,20 @@ class AuthService {
           SharedPrefManager.isNewLogin = res['isNewLogin'];
           SharedPrefManager.isPINSet = res['isPINSet'];
           SharedPrefManager.isKycComplete = res['isKycComplete'];
-          SharedPrefManager.isSecurityQuestionSet =
-              res['isSecurityQuestionSet'];
+          SharedPrefManager.isSecurityQuestionSet = res['isSecurityQuestionSet'];
           SharedPrefManager.onboardingRequestId = res['onboardingRequestId'];
 
           // Save the Password for Biometrics Login
           await _storage.saveData(PrefKeys.password, loginReq.password ?? "");
         },
       );
-      return response.data['message'];
+      return response.data['data']['isSecurityQuestionSet'];
     } catch (e) {
       throw e.toString();
     }
   }
 
-  Future<String> initiateOnboardingEndpoint(
-      InitiateOnboardingReq initiateOnboardingReq) async {
+  Future<String> initiateOnboardingEndpoint(InitiateOnboardingReq initiateOnboardingReq) async {
     try {
       // Make Request
       final response = await _networkService.request(
@@ -138,8 +137,7 @@ class AuthService {
     }
   }
 
-  Future<String> verifyPhoneNoEndpoint(
-      VerifyPhoneNumberReq verifyPhoneNumberReq) async {
+  Future<String> verifyPhoneNoEndpoint(VerifyPhoneNumberReq verifyPhoneNumberReq) async {
     try {
       final response = await _networkService.request(
         endpointUrl.verifyPhoneNumber,
@@ -188,8 +186,7 @@ class AuthService {
     }
   }
 
-  Future<String> createPasswordEndpoint(
-      CreatePasswordReq createPasswordReq) async {
+  Future<String> createPasswordEndpoint(CreatePasswordReq createPasswordReq) async {
     String? deviceType, deviceToken, latitude, longitude, location, ipAddress;
     bool? isPlatformAndroid;
 
@@ -260,8 +257,7 @@ class AuthService {
         response: response.data,
         onSuccess: () {
           final res = response.data['data'] as List;
-          final responseList =
-              res.map((json) => NewCountryModel.fromJson(json)).toList();
+          final responseList = res.map((json) => NewCountryModel.fromJson(json)).toList();
           return responseList;
         },
       );
@@ -329,8 +325,7 @@ class AuthService {
         response: response.data,
         onSuccess: () {
           final res = response.data['data'] as List;
-          final responseList =
-              res.map((json) => SecurityQuestionItem.fromJson(json)).toList();
+          final responseList = res.map((json) => SecurityQuestionItem.fromJson(json)).toList();
           return responseList;
         },
       );
@@ -340,8 +335,7 @@ class AuthService {
     }
   }
 
-  Future<String> setSecurityQuestionEndpoint(
-      SetSecurityQuestionReq setQuestionReq) async {
+  Future<String> setSecurityQuestionEndpoint(SetSecurityQuestionReq setQuestionReq) async {
     try {
       final response = await _networkService.request(
         endpointUrl.setSecurityQuestion,
@@ -362,13 +356,68 @@ class AuthService {
     }
   }
 
-  Future<String> validateSecurityQuestionEndpoint(
-      SecurityQuestionReq securityQuestionReq) async {
+  Future<InitiateValidateDeviceDto> initiateValidateDeviceEndpoint(String email) async {
     try {
+      final response = await _networkService.request(
+        "${endpointUrl.initiateValidateDevice}?partnerCode=${endpointUrl.partnerCode}&email=$email",
+        RequestMethod.get,
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'];
+          return InitiateValidateDeviceDto.fromJson(res);
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<String> validateSecurityQuestionEndpoint(SecurityQuestionReq securityQuestionReq) async {
+    String? deviceType, deviceToken, latitude, longitude, location, ipAddress;
+    bool? isPlatformAndroid;
+
+    try {
+      // Get Device Details
+      await getDeviceDetails().then((value) {
+        deviceType = value[0];
+        deviceToken = value[1];
+        isPlatformAndroid = value[2];
+      });
+
+      // Get Location
+      await determineDeviceLocation().then((value) async {
+        latitude = value.latitude.toString();
+        longitude = value.longitude.toString();
+        location = await getLocationAddress(value.latitude, value.longitude);
+      });
+
+      // Get Device IP Address
+      await getDeviceIP().then((value) {
+        ipAddress = value;
+      });
+
       final response = await _networkService.request(
         endpointUrl.validateSecurityQuestion,
         RequestMethod.post,
-        data: securityQuestionReq.toJson(),
+        data: securityQuestionReq
+            .copyWith(
+              partnerCode: endpointUrl.partnerCode,
+              deviceId: deviceToken,
+              deviceToken: deviceToken,
+              deviceType: deviceType,
+              ipAddress: ipAddress,
+              isAndroidDevice: isPlatformAndroid,
+              clientChannel: 'Mobile',
+              latitude: latitude,
+              longitude: longitude,
+              location: location,
+            )
+            .toJson(),
       );
 
       // Handle the Response
@@ -384,15 +433,12 @@ class AuthService {
     }
   }
 
-  Future<String> initiateForgotPasswordEndpoint(
-      InitiateForgotPassReq initiateForgotPassReq) async {
+  Future<String> initiateForgotPasswordEndpoint(InitiateForgotPassReq initiateForgotPassReq) async {
     try {
       final response = await _networkService.request(
         endpointUrl.initiateForgotPassword,
         RequestMethod.post,
-        data: initiateForgotPassReq
-            .copyWith(partnerCode: endpointUrl.partnerCode)
-            .toJson(),
+        data: initiateForgotPassReq.copyWith(partnerCode: endpointUrl.partnerCode).toJson(),
       );
 
       // Handle the Response
@@ -410,8 +456,7 @@ class AuthService {
     }
   }
 
-  Future<String> verifyForgotPasswordOTPEndpoint(
-      ForgotPasswordOtpReq forgotPasswordOtpReq) async {
+  Future<String> verifyForgotPasswordOTPEndpoint(ForgotPasswordOtpReq forgotPasswordOtpReq) async {
     try {
       final response = await _networkService.request(
         endpointUrl.verifyForgotPasswordOtp,
@@ -438,8 +483,7 @@ class AuthService {
     }
   }
 
-  Future<String> completeForgotPasswordEndpoint(
-      CompleteForgotPassReq completeForgotPassReq) async {
+  Future<String> completeForgotPasswordEndpoint(CompleteForgotPassReq completeForgotPassReq) async {
     try {
       final response = await _networkService.request(
         endpointUrl.completeForgotPassword,

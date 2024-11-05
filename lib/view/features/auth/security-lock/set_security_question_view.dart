@@ -138,8 +138,10 @@ class _LoginViewState extends ConsumerState<SetSecurityQuestionView> {
                       readOnly: true,
                     ),
                     data: (data) {
+                      List<SecurityQuestionItem> itemFirstList =
+                          data.where((item) => _selectedQuestionTwo.id != item.id).toList();
                       List<String> itemList =
-                          data.map((item) => item.question ?? '').toList();
+                          itemFirstList.map((item) => item.question ?? '').toList();
                       return input.TextInput(
                         key: _questionOneKey,
                         header: 'Security Question 1',
@@ -148,6 +150,7 @@ class _LoginViewState extends ConsumerState<SetSecurityQuestionView> {
                         inputType: TextInputType.text,
                         validator: validateGeneric,
                         readOnly: true,
+                        animate: false,
                         onPressed: () {
                           platformSpecificDropdown(
                             context: context,
@@ -156,8 +159,7 @@ class _LoginViewState extends ConsumerState<SetSecurityQuestionView> {
                             onChanged: (newValue) {
                               _questionOne.text = newValue ?? '';
                               _selectedQuestion = data.elementAt(
-                                data.indexWhere(
-                                    (element) => element.question == newValue),
+                                data.indexWhere((element) => element.question == newValue),
                               );
                             },
                             key: _questionOneKey,
@@ -201,8 +203,11 @@ class _LoginViewState extends ConsumerState<SetSecurityQuestionView> {
                       readOnly: true,
                     ),
                     data: (data) {
+                      List<SecurityQuestionItem> itemFirstList =
+                          data.where((item) => _selectedQuestion.id != item.id).toList();
+
                       List<String> itemList =
-                          data.map((item) => item.question ?? '').toList();
+                          itemFirstList.map((item) => item.question ?? '').toList();
                       return input.TextInput(
                         key: _questionTwoKey,
                         header: 'Security Question 2',
@@ -211,6 +216,7 @@ class _LoginViewState extends ConsumerState<SetSecurityQuestionView> {
                         inputType: TextInputType.text,
                         validator: validateGeneric,
                         readOnly: true,
+                        animate: false,
                         onPressed: () {
                           platformSpecificDropdown(
                             context: context,
@@ -219,8 +225,7 @@ class _LoginViewState extends ConsumerState<SetSecurityQuestionView> {
                             onChanged: (newValue) {
                               _questionTwo.text = newValue ?? '';
                               _selectedQuestionTwo = data.elementAt(
-                                data.indexWhere(
-                                    (element) => element.question == newValue),
+                                data.indexWhere((element) => element.question == newValue),
                               );
                             },
                             key: _questionTwoKey,

@@ -11,6 +11,7 @@ import 'package:remittance_mobile/data/models/requests/login_req.dart';
 import 'package:remittance_mobile/view/features/auth/biometrics/biometrics_controller.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
+import 'package:remittance_mobile/view/features/auth/security-lock/security_lock_view.dart';
 import 'package:remittance_mobile/view/features/auth/security-lock/set_security_question_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/login_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
@@ -73,17 +74,22 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final loading = ref.watch(loginProvider);
     ref.listen(loginProvider, (_, next) {
-      if (next is AsyncData<String>) {
+      if (next is AsyncData<bool>) {
         SharedPrefManager.email = _email.text;
-        if (SharedPrefManager.isSecurityQuestionSet) {
+        if (next.value) {
           context.goNamed(DashboardView.path);
         } else {
-          //context.goNamed(DashboardView.path);
-          context.pushNamed(SetSecurityQuestionView.path);
+          context.goNamed(SetSecurityQuestionView.path);
         }
       }
       if (next is AsyncError) {
-        SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
+        if (next.error.toString().contains('unregistered device')) {
+          context.pushNamed(SecurityLockView.path, pathParameters: {
+            "email": _email.text,
+          });
+        } else {
+          SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
+        }
       }
     });
     return AbsorbPointer(
@@ -127,10 +133,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                         .textTheme
                         .bodyMedium!
                         .copyWith(color: AppColors.kPrimaryColor),
-                  )
-                      .animate()
-                      .fadeIn(begin: 0, delay: 500.ms)
-                      .slideY(begin: .5, end: 0),
+                  ).animate().fadeIn(begin: 0, delay: 500.ms).slideY(begin: .5, end: 0),
                 ),
                 24.0.height,
               ],
@@ -178,8 +181,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                       onTap: () async {
                         final storage = inject.get<SecureStorageBase>();
                         if (await Biometrics.authenticate()) {
-                          var password =
-                              await storage.readData(PrefKeys.password);
+                          var password = await storage.readData(PrefKeys.password);
 
                           handleLoginReq(
                             SharedPrefManager.email,

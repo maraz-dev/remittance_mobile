@@ -98,7 +98,12 @@ final routeProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: SecurityLockView.path,
             name: SecurityLockView.path,
-            builder: (context, state) => const SecurityLockView(),
+            builder: (context, state) {
+              final email = state.pathParameters["email"];
+              return SecurityLockView(
+                email: email ?? "",
+              );
+            },
           ),
           GoRoute(
             path: ForgotPasswordView.path,

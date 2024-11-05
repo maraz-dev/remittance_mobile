@@ -7,11 +7,10 @@ import 'package:remittance_mobile/data/models/requests/login_req.dart';
 import 'package:remittance_mobile/view/utils/session-manager/session_timeout_manager.dart';
 import 'package:remittance_mobile/view/utils/session-manager/vm/app_session_vm.dart';
 
-class LoginNotifier extends AutoDisposeAsyncNotifier<String> {
+class LoginNotifier extends AutoDisposeAsyncNotifier<bool> {
   Future<void> loginMethod(LoginReq req) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(
-        () => ref.read(authRepository).loginEndpoint(req));
+    state = await AsyncValue.guard(() => ref.read(authRepository).loginEndpoint(req));
 
     if (!state.hasError) {
       ref.read(sessionStateProvider).add(SessionState.startListening);
@@ -21,10 +20,9 @@ class LoginNotifier extends AutoDisposeAsyncNotifier<String> {
   }
 
   @override
-  FutureOr<String> build() {
-    return '';
+  FutureOr<bool> build() {
+    return false;
   }
 }
 
-final loginProvider =
-    AsyncNotifierProvider.autoDispose<LoginNotifier, String>(LoginNotifier.new);
+final loginProvider = AsyncNotifierProvider.autoDispose<LoginNotifier, bool>(LoginNotifier.new);
