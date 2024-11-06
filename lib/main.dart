@@ -17,7 +17,7 @@ void main() {
     // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
     // Switch the Working Environment for the Endpoints
-    await initializeCore(environment: Environmentx.dev);
+    await initializeCore(environment: Environmentx.prod);
 
     final HiveStorageBase initializeStorageService = HiveStorageService();
     await initializeStorageService.init();
