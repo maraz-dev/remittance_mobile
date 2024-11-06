@@ -358,8 +358,11 @@ class AuthService {
 
   Future<InitiateValidateDeviceDto> initiateValidateDeviceEndpoint(String email) async {
     try {
+      // Encode the Email to handle cases with special character
+      String encodedEmail = Uri.encodeComponent(email);
+
       final response = await _networkService.request(
-        "${endpointUrl.initiateValidateDevice}?partnerCode=${endpointUrl.partnerCode}&email=$email",
+        "${endpointUrl.initiateValidateDevice}?partnerCode=${endpointUrl.partnerCode}&email=$encodedEmail",
         RequestMethod.get,
       );
 

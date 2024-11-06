@@ -1,9 +1,11 @@
+import 'package:config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_skeleton_ui/flutter_skeleton_ui.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/data/models/requests/security_questions_req.dart';
 import 'package:remittance_mobile/data/models/responses/security_question_item_model.dart';
 import 'package:remittance_mobile/view/features/auth/login_view.dart';
@@ -68,9 +70,11 @@ class _LoginViewState extends ConsumerState<SecurityLockView> {
 // Validate Security Question Provider
     ref.listen(validateSecurityQuestionProvider, (_, next) {
       if (next is AsyncData<String>) {
+        SharedPrefManager.email = widget.email;
         AppBottomSheet.showBottomSheet(
           context,
           isDismissible: false,
+          enableDrag: false,
           widget: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
@@ -80,7 +84,7 @@ class _LoginViewState extends ConsumerState<SecurityLockView> {
               const BottomSheetTitle(
                 title: 'Account Unlocked',
                 subtitle:
-                    'Your access request is verified and your ErrandPay account is now active. Call 08188880951 if you didn’t request this change.',
+                    'Your access request is verified and your $APP_NAME account is now active. Call $APP_PARTNER_SUPPORT_NUMBER if you didn’t request this change.',
               ),
               40.0.height,
               MainButton(

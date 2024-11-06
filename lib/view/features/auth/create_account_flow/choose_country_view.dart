@@ -7,6 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
 import 'package:remittance_mobile/view/features/auth/login_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/auth_providers.dart';
+import 'package:remittance_mobile/view/features/profile/more/terms_and_conditions_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_dropdown.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -18,8 +19,7 @@ import 'package:remittance_mobile/view/widgets/back_button.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/richtext_widget.dart';
 
-ValueNotifier<NewCountryModel> selectedCountry =
-    ValueNotifier(NewCountryModel());
+ValueNotifier<NewCountryModel> selectedCountry = ValueNotifier(NewCountryModel());
 
 class ChooseCountryView extends ConsumerStatefulWidget {
   static String path = 'choose-country-view';
@@ -86,8 +86,7 @@ class _ChooseCountryViewState extends ConsumerState<ChooseCountryView> {
                     RichTextWidget(
                       text: 'Already have an Account?',
                       hyperlink: ' Log In',
-                      onTap: () =>
-                          context.pushReplacementNamed(LoginScreen.path),
+                      onTap: () => context.pushReplacementNamed(LoginScreen.path),
                     )
                         .animate()
                         .fadeIn(
@@ -138,8 +137,7 @@ class _ChooseCountryViewState extends ConsumerState<ChooseCountryView> {
                                 setState(() {
                                   _country.text = newValue ?? "";
                                   _selectedCountry = data.elementAt(
-                                      data.indexWhere((element) =>
-                                          element.name == newValue));
+                                      data.indexWhere((element) => element.name == newValue));
                                 });
                               },
                             );
@@ -155,10 +153,10 @@ class _ChooseCountryViewState extends ConsumerState<ChooseCountryView> {
         ),
         bottomNavigationBar: BottomNavBarWidget(
           children: [
-            const RichTextWidget(
+            RichTextWidget(
               text: "By continuing, you’ve accepted our ",
               hyperlink: 'terms and conditions.',
-              onTap: null,
+              onTap: () => context.pushNamed(TermsAndConditionsView.path),
             ),
             12.0.height,
             MainButton(

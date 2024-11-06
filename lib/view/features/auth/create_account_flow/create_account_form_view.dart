@@ -27,8 +27,7 @@ class CreateAccountFormView extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<CreateAccountFormView> createState() =>
-      _CreateAccountFormViewState();
+  ConsumerState<CreateAccountFormView> createState() => _CreateAccountFormViewState();
 }
 
 class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
@@ -80,8 +79,11 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
     // Endpoint State
     ref.listen(initiateOnboardingProvider, (_, next) {
       if (next is AsyncData<String>) {
-        successfulCreatedEmail.value = _emailAddress.text;
-        successfulCreatedPhoneNo.value = _phoneNumber.text;
+        setState(() {
+          successfulCreatedEmail.value = _emailAddress.text;
+          successfulCreatedPhoneNo.value = _phoneNumber.text;
+        });
+
         widget.pressed();
       }
       if (next is AsyncError) {
@@ -156,9 +158,7 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
                               ),
                             ],
                           ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                           hint: "(+${selectedCountry.value.phoneCode})",
                           inputType: TextInputType.number,
                           validator: validateGeneric,
@@ -179,9 +179,7 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
               text: 'Continue',
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  ref
-                      .read(initiateOnboardingProvider.notifier)
-                      .initiateOnboardingMethod(
+                  ref.read(initiateOnboardingProvider.notifier).initiateOnboardingMethod(
                         InitiateOnboardingReq(
                           firstName: _firstName.text.trim(),
                           middleName: _middleName.text.trim(),
