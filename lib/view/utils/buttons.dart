@@ -9,6 +9,7 @@ class MainButton extends StatelessWidget {
   final Color? textColor;
   final Color? borderColor;
   final bool? isLoading;
+  final double? fontSize, padding, borderRadius;
   final Function()? onPressed;
   const MainButton({
     super.key,
@@ -18,18 +19,26 @@ class MainButton extends StatelessWidget {
     required this.onPressed,
     this.isLoading,
     this.borderColor,
+    this.borderRadius,
+    this.padding,
+    this.fontSize,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed,
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        onPressed!();
+      },
       child: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(vertical: 12.h),
+        //width: double.infinity,
+        padding: padding == null
+            ? const EdgeInsets.symmetric(vertical: 12)
+            : EdgeInsets.symmetric(vertical: 4, horizontal: padding!),
         decoration: BoxDecoration(
             color: color ?? AppColors.kPrimaryColor,
-            borderRadius: BorderRadius.circular(8.r),
+            borderRadius: BorderRadius.circular(borderRadius ?? 8.r),
             border: Border.all(color: borderColor ?? Colors.transparent),
             boxShadow: [
               BoxShadow(
@@ -46,8 +55,9 @@ class MainButton extends StatelessWidget {
             : Center(
                 child: Text(
                   text,
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         fontWeight: FontWeight.bold,
+                        fontSize: fontSize ?? 14,
                         color: textColor ?? AppColors.kWhiteColor,
                       ),
                 ),

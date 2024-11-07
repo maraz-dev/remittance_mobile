@@ -4,7 +4,7 @@ import 'package:remittance_mobile/view/features/services/bill-payment/cable_tv_v
 import 'package:remittance_mobile/view/features/services/bill-payment/electricity_view.dart';
 import 'package:remittance_mobile/view/features/services/bill-payment/internet_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/receive_money_view.dart';
-import 'package:remittance_mobile/view/features/services/transfers/send_money_initial.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_from_view.dart';
 import 'package:remittance_mobile/view/features/services/virtual-cards/virtual_cards_empty_view.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 
@@ -24,7 +24,7 @@ List<ServiceUtilities> servicesTransferUtilities = [
   ServiceUtilities(
     image: AppImages.servicesSendMoney,
     text: 'Send\nMoney',
-    screenPath: SendMoneyInitialView.path,
+    screenPath: SendMoneyFromView.path,
   ),
   ServiceUtilities(
     image: AppImages.servicesReceiveMoney,

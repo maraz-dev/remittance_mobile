@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class BottomSheetTitle extends StatelessWidget {
-  final String title, subtitle;
+  final String title;
+  final String? subtitle;
   const BottomSheetTitle({
     super.key,
     required this.title,
-    required this.subtitle,
+    this.subtitle,
   });
 
   @override
@@ -18,10 +19,12 @@ class BottomSheetTitle extends StatelessWidget {
           title,
           style: Theme.of(context).textTheme.displayMedium,
         ),
-        8.0.height,
-        Text(
-          subtitle,
-        )
+        if (subtitle != null) ...[
+          8.0.height,
+          Text(
+            subtitle!,
+          )
+        ]
       ],
     );
   }

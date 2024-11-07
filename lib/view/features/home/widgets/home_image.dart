@@ -40,22 +40,20 @@ class HomeImage extends StatelessWidget {
                 width: 200.w,
                 child: Text(
                   title ?? 'Refer a Friend',
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.kWhiteColor),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontWeight: FontWeight.bold, color: AppColors.kWhiteColor),
                 ),
               ),
               3.0.height,
               SizedBox(
                 width: 200.w,
-                height: 40,
+                height: 50,
                 child: Text(
-                  description ??
-                      'Virtual card services are provided by Mastercard Inc',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall!
-                      .copyWith(color: AppColors.kWhiteColor),
+                  description ?? 'Virtual card services are provided by Mastercard Inc',
+                  style:
+                      Theme.of(context).textTheme.bodySmall!.copyWith(color: AppColors.kWhiteColor),
                 ),
               ),
               20.0.height
@@ -69,13 +67,13 @@ class HomeImage extends StatelessWidget {
 
 List forYouList = [
   const HomeImage(
-    title: 'Refer a Friend',
-    description: 'Give \$20, get \$20',
+    title: 'Fund Conveniently',
+    description: 'Enhance connections with loved ones, Fund and transfer money effortlessly.',
     image: AppImages.forYouOne,
   ),
   const HomeImage(
-    title: 'Virtual Cards | Spend Anywhere',
-    description: 'Virtual card services are provided by Mastercard Inc',
+    title: 'Send Money Easily!',
+    description: 'Send Money Anytime, Anywhere — We\'ve Got You Covered!',
     image: AppImages.forYouTwo,
   ),
 ];

@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/bottomsheet_title.dart';
-import 'package:remittance_mobile/view/features/home/kyc-views/kyc_options.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/kyc_options.dart';
 import 'package:remittance_mobile/view/features/home/widgets/kyc_card.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
-kycBottomSheet(BuildContext context) {
+ValueNotifier<int> kycPosition = ValueNotifier(0);
+
+kycBottomSheet({
+  required BuildContext context,
+  required int current,
+}) {
   AppBottomSheet.showBottomSheet(
     context,
     widget: SizedBox(
@@ -25,18 +30,22 @@ kycBottomSheet(BuildContext context) {
           ),
           24.0.height,
           ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                var value = kycOptionList[index];
-                return KycCard(
-                  title: value.title,
-                  subtitle: value.subtitle,
-                  onPressed: () => context.pushNamed(value.optionPath),
-                );
-              },
-              separatorBuilder: (context, index) => 5.0.height,
-              itemCount: kycOptionList.length)
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              var value = kycOptionList[index];
+              return KycCard(
+                current: current,
+                listener: index,
+                title: value.title,
+                subtitle: value.subtitle,
+                onPressed: () => context.pushNamed(value.optionPath),
+              );
+            },
+            separatorBuilder: (context, index) => 5.0.height,
+            itemCount: kycOptionList.length,
+          ),
+          10.0.height,
         ],
       ),
     ),

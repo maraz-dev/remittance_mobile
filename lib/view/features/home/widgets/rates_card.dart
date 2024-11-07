@@ -7,11 +7,14 @@ import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class RatesCard extends StatelessWidget {
   final bool? showBorder;
+  final String rateFrom, rateTo;
   final Color? color;
   const RatesCard({
     super.key,
     this.showBorder,
     this.color,
+    required this.rateFrom,
+    required this.rateTo,
   });
 
   @override
@@ -24,37 +27,37 @@ class RatesCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(24),
-              color: color ?? AppColors.kGrey100,
-            ),
-            child: Row(
-              children: [
-                Image.asset(
-                  AppImages.ng,
-                  width: 20.w,
-                  height: 20.h,
-                ),
-                5.0.width,
-                InkWell(
-                  child: SvgPicture.asset(AppImages.arrowDown),
-                )
-              ],
-            ),
-          ),
-          12.0.width,
+          // Container(
+          //   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(24),
+          //     color: color ?? AppColors.kGrey100,
+          //   ),
+          //   child: Row(
+          //     children: [
+          //       Image.asset(
+          //         AppImages.ng,
+          //         width: 20.w,
+          //         height: 20.h,
+          //       ),
+          //       5.0.width,
+          //       InkWell(
+          //         child: SvgPicture.asset(AppImages.arrowDown),
+          //       )
+          //     ],
+          //   ),
+          // ),
+          // 12.0.width,
           Text(
             "Today's Rate",
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: AppColors.kBlueColor, fontWeight: FontWeight.bold),
+                color: AppColors.kBlueColor500, fontWeight: FontWeight.bold),
           ),
           const Spacer(),
           Row(
             children: [
               Text(
-                1.amountWithCurrency('usd'),
+                rateFrom,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: AppColors.kGrey700,
                       fontWeight: FontWeight.bold,
@@ -64,7 +67,7 @@ class RatesCard extends StatelessWidget {
               SvgPicture.asset(AppImages.swap),
               5.0.width,
               Text(
-                1500.00.amountWithCurrency('ngn'),
+                rateTo,
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: AppColors.kGrey700,
                       fontWeight: FontWeight.bold,

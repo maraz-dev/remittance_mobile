@@ -14,21 +14,21 @@ class CreateAccountView extends ConsumerStatefulWidget {
   const CreateAccountView({super.key});
 
   @override
-  ConsumerState<CreateAccountView> createState() => _SignUpEmailScreenState();
+  ConsumerState<CreateAccountView> createState() => _CreateAccountViewState();
 }
 
-class _SignUpEmailScreenState extends ConsumerState<CreateAccountView> {
+class _CreateAccountViewState extends ConsumerState<CreateAccountView> {
   /// Controllers
-  final PageController _pageController =
+  final PageController _createAccountPageController =
       PageController(viewportFraction: 1.0, keepPage: true);
   final PageStorageKey<String> _pageStorageKey =
-      const PageStorageKey<String>('myPageViewKey');
+      const PageStorageKey<String>('creatAccountPageViewKey');
 
   int pageCount = 0;
 
   @override
   void dispose() {
-    _pageController.dispose();
+    _createAccountPageController.dispose();
     super.dispose();
   }
 
@@ -43,7 +43,7 @@ class _SignUpEmailScreenState extends ConsumerState<CreateAccountView> {
             children: [
               Center(
                 child: spi.SmoothPageIndicator(
-                  controller: _pageController,
+                  controller: _createAccountPageController,
                   count: 4,
                   axisDirection: Axis.horizontal,
                   effect: spi.SlideEffect(
@@ -63,7 +63,7 @@ class _SignUpEmailScreenState extends ConsumerState<CreateAccountView> {
                 child: PageStorage(
                   bucket: PageStorageBucket(),
                   child: PageView(
-                    controller: _pageController,
+                    controller: _createAccountPageController,
                     physics: const NeverScrollableScrollPhysics(),
                     key: _pageStorageKey,
                     onPageChanged: (value) {
@@ -72,28 +72,28 @@ class _SignUpEmailScreenState extends ConsumerState<CreateAccountView> {
                     children: [
                       ChooseCountryView(
                         pressed: () {
-                          _pageController.nextPage(
+                          _createAccountPageController.nextPage(
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.ease);
                         },
                       ),
                       CreateAccountFormView(
                         pressed: () {
-                          _pageController.nextPage(
+                          _createAccountPageController.nextPage(
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.ease);
                         },
                       ),
                       OTPVerificationView(
                         pressed: () {
-                          _pageController.nextPage(
+                          _createAccountPageController.nextPage(
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.ease);
                         },
                       ),
                       CreateAccountPasswordFormView(
                         pressed: () {
-                          _pageController.nextPage(
+                          _createAccountPageController.nextPage(
                               duration: const Duration(milliseconds: 500),
                               curve: Curves.ease);
                         },

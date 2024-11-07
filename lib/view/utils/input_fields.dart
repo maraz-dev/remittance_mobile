@@ -13,7 +13,9 @@ class TextInput extends StatelessWidget {
   final String? header;
   final String hint;
   final bool readOnly;
+  final bool animate;
   final Function()? onPressed;
+  final Function(String)? onChanged;
   final int? maxLength;
   final int? maxLines;
   final List<TextInputFormatter>? inputFormatters;
@@ -32,57 +34,65 @@ class TextInput extends StatelessWidget {
     this.suffixIcon,
     this.maxLines,
     this.inputFormatters,
+    this.animate = true,
+    this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          header ?? "",
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium!
-              .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.bold),
-        ),
-        header != null ? 6.0.height : 0.0.height,
-        TextFormField(
-          controller: controller,
-          keyboardType: inputType,
-          maxLength: maxLength,
-          cursorColor: AppColors.kGrey700,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: validator,
-          readOnly: readOnly,
-          onTap: onPressed,
-          maxLines: maxLines,
-          inputFormatters: inputFormatters,
-          style: Theme.of(context)
-              .textTheme
-              .bodyMedium!
-              .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.w500),
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: Theme.of(context)
+    return Animate(
+      effects: animate
+          ? [
+              FadeEffect(
+                begin: 0,
+                delay: 200.ms,
+              ),
+              const SlideEffect(
+                begin: Offset(0, .5),
+                end: Offset(0, 0),
+              )
+            ]
+          : [],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (header != null) ...[
+            Text(
+              header ?? "",
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.bold),
+            ),
+            6.0.height,
+          ],
+          TextFormField(
+            controller: controller,
+            keyboardType: inputType,
+            maxLength: maxLength,
+            cursorColor: AppColors.kGrey700,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: validator,
+            readOnly: readOnly,
+            onTap: onPressed,
+            onChanged: onChanged,
+            maxLines: maxLines,
+            inputFormatters: inputFormatters,
+            style: Theme.of(context)
                 .textTheme
                 .bodyMedium!
-                .copyWith(color: AppColors.kHintColor),
-            suffixIcon: suffixIcon,
-            prefixIcon: prefixIcon,
-          ),
-        )
-      ],
-    )
-        .animate()
-        .fadeIn(
-          begin: 0,
-          delay: 500.ms,
-        )
-        .slideY(
-          begin: .5,
-          end: 0,
-        );
+                .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.w500),
+            decoration: InputDecoration(
+              hintText: hint,
+              hintStyle:
+                  Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColors.kHintColor),
+              suffixIcon: suffixIcon,
+              prefixIcon: prefixIcon,
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
 
@@ -93,6 +103,7 @@ class PasswordInput extends StatefulWidget {
   final String? header;
   final String hint;
   final int? maxLength;
+  final List<TextInputFormatter>? inputFormatters;
   const PasswordInput({
     super.key,
     required this.controller,
@@ -101,6 +112,7 @@ class PasswordInput extends StatefulWidget {
     required this.validator,
     this.maxLength,
     this.header,
+    this.inputFormatters,
   });
 
   @override
@@ -128,6 +140,7 @@ class _PasswordInputState extends State<PasswordInput> {
           cursorColor: AppColors.kGrey700,
           keyboardType: widget.inputType,
           validator: widget.validator,
+          inputFormatters: widget.inputFormatters,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           obscureText: obscureText,
           obscuringCharacter: '*',
@@ -143,16 +156,13 @@ class _PasswordInputState extends State<PasswordInput> {
                 },
                 icon: SvgPicture.asset(
                   obscureText ? AppImages.eyeSlash : AppImages.eye,
-                  colorFilter: const ColorFilter.mode(
-                      AppColors.kInactiveColor, BlendMode.srcIn),
+                  colorFilter: const ColorFilter.mode(AppColors.kInactiveColor, BlendMode.srcIn),
                 ),
                 iconSize: 19,
               ),
               hintText: widget.hint,
-              hintStyle: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.kHintColor)),
+              hintStyle:
+                  Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColors.kHintColor)),
         )
       ],
     )

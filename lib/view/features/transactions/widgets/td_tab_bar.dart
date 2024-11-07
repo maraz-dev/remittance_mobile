@@ -15,22 +15,17 @@ class TDTabBar extends StatelessWidget {
       controller: _tabController,
       labelColor: AppColors.kPrimaryColor,
       dividerColor: AppColors.kGrey200,
-      labelStyle: Theme.of(context)
-          .textTheme
-          .bodyMedium!
-          .copyWith(fontWeight: FontWeight.bold),
-      unselectedLabelStyle: Theme.of(context)
-          .textTheme
-          .bodyMedium!
-          .copyWith(fontWeight: FontWeight.bold),
+      labelStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+      unselectedLabelStyle:
+          Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
       indicatorColor: AppColors.kPrimaryColor,
       indicatorSize: TabBarIndicatorSize.label,
-      overlayColor: MaterialStateProperty.resolveWith<Color?>(
+      overlayColor: WidgetStateProperty.resolveWith<Color?>(
         (states) => Colors.transparent,
       ),
       tabs: const [
-        Tab(text: 'Updates'),
         Tab(text: 'Details'),
+        Tab(text: 'Updates'),
       ],
     );
   }

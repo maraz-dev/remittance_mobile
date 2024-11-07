@@ -1,3 +1,4 @@
+import 'package:config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:remittance_mobile/view/features/profile/widgets/contact_card.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -34,7 +35,7 @@ class _HelpAndSupportViewState extends State<HelpAndSupportView> {
               12.0.height,
               const ContactCard(
                 text: 'Send Us an Email',
-                subtitle: 'hello@errandpay.com',
+                subtitle: APP_PARTNER_SUPPORT_EMAIL,
                 image: AppImages.emailButton,
               )
             ],

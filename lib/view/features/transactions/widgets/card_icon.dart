@@ -7,12 +7,14 @@ class CardIcon extends StatelessWidget {
   final double? padding;
   final Color? bgColor;
   final ColorFilter? iconColor;
+  final double? size;
   const CardIcon({
     super.key,
     required this.image,
     this.padding,
     this.bgColor,
     this.iconColor,
+    this.size,
   });
 
   @override
@@ -25,6 +27,8 @@ class CardIcon extends StatelessWidget {
       ),
       child: SvgPicture.asset(
         image,
+        width: size,
+        height: size,
         colorFilter: iconColor,
       ),
     );

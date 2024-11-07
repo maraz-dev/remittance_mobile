@@ -1,23 +1,30 @@
 class UserResponse {
-  String? userId;
-  String? firstName;
-  String? lastName;
-  dynamic middleName;
-  String? partnerCode;
-  dynamic businessCode;
-  String? roleId;
-  String? roleName;
-  String? email;
-  bool? isActive;
-  bool? isKycComplete;
-  bool? isPinSet;
-  String? tokenType;
-  String? token;
-  String? refreshToken;
-  String? onboardingStatus;
-  DateTime? tokenExpiresAt;
-  bool? changePassword;
-  bool? isLiveMode;
+  final String? userId;
+  final String? firstName;
+  final String? lastName;
+  final String? middleName;
+  final String? partnerCode;
+  final dynamic businessCode;
+  final String? countryCode;
+  final String? roleId;
+  final String? roleName;
+  final String? email;
+  final bool? isActive;
+  final bool? isKycComplete;
+  final bool? isPinSet;
+  final String? tokenType;
+  final String? token;
+  final String? refreshToken;
+  final String? onboardingStatus;
+  final dynamic kycProgress;
+  final String? onboardingRequestId;
+  final DateTime? tokenExpiresAt;
+  final bool? changePassword;
+  final bool? isLiveMode;
+  final String? deviceType;
+  final dynamic deviceToken;
+  final bool? isNewLogin;
+  final bool? isSecurityQuestionSet;
 
   UserResponse({
     this.userId,
@@ -26,6 +33,7 @@ class UserResponse {
     this.middleName,
     this.partnerCode,
     this.businessCode,
+    this.countryCode,
     this.roleId,
     this.roleName,
     this.email,
@@ -36,9 +44,15 @@ class UserResponse {
     this.token,
     this.refreshToken,
     this.onboardingStatus,
+    this.kycProgress,
+    this.onboardingRequestId,
     this.tokenExpiresAt,
     this.changePassword,
     this.isLiveMode,
+    this.deviceType,
+    this.deviceToken,
+    this.isNewLogin,
+    this.isSecurityQuestionSet,
   });
 
   factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
@@ -48,6 +62,7 @@ class UserResponse {
         middleName: json["middleName"],
         partnerCode: json["partnerCode"],
         businessCode: json["businessCode"],
+        countryCode: json["countryCode"],
         roleId: json["roleId"],
         roleName: json["roleName"],
         email: json["email"],
@@ -58,11 +73,17 @@ class UserResponse {
         token: json["token"],
         refreshToken: json["refreshToken"],
         onboardingStatus: json["onboardingStatus"],
+        kycProgress: json["kycProgress"],
+        onboardingRequestId: json["onboardingRequestId"],
         tokenExpiresAt: json["tokenExpiresAt"] == null
             ? null
             : DateTime.parse(json["tokenExpiresAt"]),
         changePassword: json["changePassword"],
         isLiveMode: json["isLiveMode"],
+        deviceType: json["deviceType"],
+        deviceToken: json["deviceToken"],
+        isNewLogin: json["isNewLogin"],
+        isSecurityQuestionSet: json["isSecurityQuestionSet"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -72,6 +93,7 @@ class UserResponse {
         "middleName": middleName,
         "partnerCode": partnerCode,
         "businessCode": businessCode,
+        "countryCode": countryCode,
         "roleId": roleId,
         "roleName": roleName,
         "email": email,
@@ -82,34 +104,14 @@ class UserResponse {
         "token": token,
         "refreshToken": refreshToken,
         "onboardingStatus": onboardingStatus,
+        "kycProgress": kycProgress,
+        "onboardingRequestId": onboardingRequestId,
         "tokenExpiresAt": tokenExpiresAt?.toIso8601String(),
         "changePassword": changePassword,
         "isLiveMode": isLiveMode,
-      };
-}
-
-class Permissions {
-  List<String>? backoffice;
-  List<String>? auth;
-
-  Permissions({
-    this.backoffice,
-    this.auth,
-  });
-
-  factory Permissions.fromJson(Map<String, dynamic> json) => Permissions(
-        backoffice: json["Backoffice"] == null
-            ? []
-            : List<String>.from(json["Backoffice"]!.map((x) => x)),
-        auth: json["Auth"] == null
-            ? []
-            : List<String>.from(json["Auth"]!.map((x) => x)),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "Backoffice": backoffice == null
-            ? []
-            : List<dynamic>.from(backoffice!.map((x) => x)),
-        "Auth": auth == null ? [] : List<dynamic>.from(auth!.map((x) => x)),
+        "deviceType": deviceType,
+        "deviceToken": deviceToken,
+        "isNewLogin": isNewLogin,
+        "isSecurityQuestionSet": isSecurityQuestionSet,
       };
 }

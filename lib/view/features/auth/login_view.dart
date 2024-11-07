@@ -3,23 +3,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/core/di/injector.dart';
+import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
 import 'package:remittance_mobile/core/storage/share_pref.dart';
-import 'package:remittance_mobile/core/utils/app_url.dart';
+import 'package:remittance_mobile/core/utils/constants.dart';
 import 'package:remittance_mobile/data/models/requests/login_req.dart';
-import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_form_view.dart';
+import 'package:remittance_mobile/view/features/auth/biometrics/biometrics_controller.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_view.dart';
-import 'package:remittance_mobile/view/features/auth/forgot-password/security_lock_view.dart';
+import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
+import 'package:remittance_mobile/view/features/auth/security-lock/security_lock_view.dart';
+import 'package:remittance_mobile/view/features/auth/security-lock/set_security_question_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/login_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/alert_dialog.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/input_fields.dart';
 import 'package:remittance_mobile/view/utils/snackbar.dart';
 import 'package:remittance_mobile/view/utils/validator.dart';
-import 'package:remittance_mobile/view/widgets/back_button.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/richtext_widget.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
@@ -44,9 +48,20 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _email.text = successfulCreatedEmail.value.isEmpty
-        ? SharedPrefManager.email
-        : successfulCreatedEmail.value;
+    _email.text = SharedPrefManager.email;
+  }
+
+  Future<bool> showBiometrics() async {
+    return await Biometrics.hasBiometrics();
+  }
+
+  void handleLoginReq(String email, String password) {
+    ref.read(loginProvider.notifier).loginMethod(
+          LoginReq(
+            emailAddress: email,
+            password: password,
+          ),
+        );
   }
 
   @override
@@ -60,12 +75,22 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
   Widget build(BuildContext context) {
     final loading = ref.watch(loginProvider);
     ref.listen(loginProvider, (_, next) {
-      if (next is AsyncData<String>) {
-        context.pushNamed(DashboardView.path);
+      if (next is AsyncData<bool>) {
         SharedPrefManager.email = _email.text;
+        if (next.value) {
+          context.goNamed(DashboardView.path);
+        } else {
+          context.goNamed(SetSecurityQuestionView.path);
+        }
       }
       if (next is AsyncError) {
-        SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
+        if (next.error.toString().contains('unregistered device')) {
+          context.pushNamed(SecurityLockView.path, pathParameters: {
+            "email": _email.text,
+          });
+        } else {
+          SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
+        }
       }
     });
     return AbsorbPointer(
@@ -78,7 +103,7 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 32.0.height,
-                const BackArrowButton(),
+                // const BackArrowButton(),
                 18.0.height,
                 const AuthTitle(
                   title: 'Log In',
@@ -102,17 +127,14 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                 ),
                 10.0.height,
                 InkWell(
-                  onTap: () => context.pushNamed(SecurityLockView.path),
+                  onTap: () => context.pushNamed(ForgotPasswordView.path),
                   child: Text(
                     'Forgot Password?',
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
                         .copyWith(color: AppColors.kPrimaryColor),
-                  )
-                      .animate()
-                      .fadeIn(begin: 0, delay: 500.ms)
-                      .slideY(begin: .5, end: 0),
+                  ).animate().fadeIn(begin: 0, delay: 500.ms).slideY(begin: .5, end: 0),
                 ),
                 24.0.height,
               ],
@@ -137,13 +159,10 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                     text: 'Log In',
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        ref.read(loginProvider.notifier).loginMethod(
-                              LoginReq(
-                                partnerCode: ApiEndpoints.instance.partnerCode,
-                                emailAddress: _email.text.trim(),
-                                password: _password.text,
-                              ),
-                            );
+                        handleLoginReq(
+                          _email.text.toLowerCase().trim(),
+                          _password.text,
+                        );
                       }
                     },
                   )
@@ -153,31 +172,53 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                       .slideY(begin: .1, end: 0),
                 ),
                 8.0.width,
-                Expanded(
-                  flex: 1,
-                  child: InkWell(
-                    splashColor: Colors.transparent,
-                    radius: 0,
-                    onTap: null,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: AppColors.kWhiteColor,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: AppColors.kGrey300),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.kBoxShadowColor,
-                            blurRadius: 2,
-                            offset: const Offset(0, 1),
-                          )
-                        ],
-                      ),
-                      child: SvgPicture.asset(
-                        Theme.of(context).platform == TargetPlatform.iOS
-                            ? AppImages.faceID
-                            : AppImages.fingerprint,
-                        fit: BoxFit.contain,
+                Visibility(
+                  visible: true,
+                  child: Expanded(
+                    flex: 1,
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      radius: 0,
+                      onTap: () async {
+                        if (SharedPrefManager.hasBiometrics) {
+                          final storage = inject.get<SecureStorageBase>();
+                          if (await Biometrics.authenticate()) {
+                            var password = await storage.readData(PrefKeys.password);
+
+                            handleLoginReq(
+                              SharedPrefManager.email,
+                              password,
+                            );
+                          }
+                        } else {
+                          ShowAlertDialog.showAlertDialog(
+                            context,
+                            title: 'Error!',
+                            content: 'Please Enable Biometrics in Settings',
+                            defaultActionText: 'Ok',
+                          );
+                        }
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColors.kWhiteColor,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: AppColors.kGrey300),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.kBoxShadowColor,
+                              blurRadius: 2,
+                              offset: const Offset(0, 1),
+                            )
+                          ],
+                        ),
+                        child: SvgPicture.asset(
+                          Theme.of(context).platform == TargetPlatform.iOS
+                              ? AppImages.faceID
+                              : AppImages.fingerprint,
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),

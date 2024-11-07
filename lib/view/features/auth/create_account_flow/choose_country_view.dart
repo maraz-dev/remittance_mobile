@@ -5,7 +5,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
-import 'package:remittance_mobile/view/features/auth/vm/countries_vm.dart';
+import 'package:remittance_mobile/view/features/auth/login_view.dart';
+import 'package:remittance_mobile/view/features/auth/vm/auth_providers.dart';
+import 'package:remittance_mobile/view/features/profile/more/terms_and_conditions_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_dropdown.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -17,10 +19,10 @@ import 'package:remittance_mobile/view/widgets/back_button.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/richtext_widget.dart';
 
-ValueNotifier<NewCountryModel> selectedCountry =
-    ValueNotifier(NewCountryModel());
+ValueNotifier<NewCountryModel> selectedCountry = ValueNotifier(NewCountryModel());
 
 class ChooseCountryView extends ConsumerStatefulWidget {
+  static String path = 'choose-country-view';
   final VoidCallback pressed;
 
   const ChooseCountryView({
@@ -55,99 +57,106 @@ class _ChooseCountryViewState extends ConsumerState<ChooseCountryView> {
     return AbsorbPointer(
       absorbing: getCountries.isLoading,
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                16.0.height,
-                const BackArrowButton(),
-                18.0.height,
-                Text(
-                  'Sign Up',
-                  style: Theme.of(context).textTheme.displayLarge,
-                )
-                    .animate()
-                    .fadeIn(
-                      begin: 0,
-                      delay: 400.ms,
+        body: RefreshIndicator.adaptive(
+          onRefresh: () async {
+            ref.invalidate(getCountryProvider);
+          },
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    16.0.height,
+                    const BackArrowButton(),
+                    18.0.height,
+                    Text(
+                      'Sign Up',
+                      style: Theme.of(context).textTheme.displayLarge,
                     )
-                    .slideY(begin: -.5, end: 0),
-                8.0.height,
-                RichTextWidget(
-                  text: 'Already have an Account?',
-                  hyperlink: ' Log In',
-                  onTap: () => context.pop(),
-                )
-                    .animate()
-                    .fadeIn(
-                      begin: 0,
-                      delay: 400.ms,
+                        .animate()
+                        .fadeIn(
+                          begin: 0,
+                          delay: 400.ms,
+                        )
+                        .slideY(begin: -.5, end: 0),
+                    8.0.height,
+                    RichTextWidget(
+                      text: 'Already have an Account?',
+                      hyperlink: ' Log In',
+                      onTap: () => context.pushReplacementNamed(LoginScreen.path),
                     )
-                    .slideX(begin: -.1, end: 0),
-                32.0.height,
-                getCountries.maybeWhen(
-                  orElse: () => const SpinKitDualRing(
-                    color: AppColors.kPrimaryColor,
-                    size: 25,
-                  ),
-                  error: (error, stackTrace) => TextInput(
-                    header: 'Country',
-                    controller: _country,
-                    hint: error.toString(),
-                    inputType: TextInputType.text,
-                    validator: validateGeneric,
-                    readOnly: true,
-                  ),
-                  data: (data) => TextInput(
-                    key: _key,
-                    header: 'Country',
-                    controller: _country,
-                    hint: "Select your Country",
-                    inputType: TextInputType.text,
-                    validator: validateGeneric,
-                    readOnly: true,
-                    suffixIcon: SvgPicture.asset(
-                      AppImages.arrowDown,
-                      fit: BoxFit.scaleDown,
+                        .animate()
+                        .fadeIn(
+                          begin: 0,
+                          delay: 400.ms,
+                        )
+                        .slideX(begin: -.1, end: 0),
+                    32.0.height,
+                    getCountries.maybeWhen(
+                      orElse: () => const SpinKitDualRing(
+                        color: AppColors.kPrimaryColor,
+                        size: 25,
+                      ),
+                      error: (error, stackTrace) => TextInput(
+                        header: 'Country',
+                        controller: _country,
+                        hint: error.toString(),
+                        inputType: TextInputType.text,
+                        validator: validateGeneric,
+                        readOnly: true,
+                      ),
+                      data: (data) => TextInput(
+                        key: _key,
+                        header: 'Country',
+                        controller: _country,
+                        hint: "Select your Country",
+                        inputType: TextInputType.text,
+                        validator: validateGeneric,
+                        readOnly: true,
+                        suffixIcon: SvgPicture.asset(
+                          AppImages.arrowDown,
+                          fit: BoxFit.scaleDown,
+                        ),
+                        onPressed: () async {
+                          final mounted = this.mounted;
+                          if (mounted && data.isNotEmpty) {
+                            List<String> itemList = data
+                                .where((element) => element.phoneCode != null)
+                                .map((e) => "${e.name}")
+                                .toList();
+                            itemList.sort();
+                            await platformSpecificDropdown(
+                              key: _key,
+                              context: context,
+                              items: itemList,
+                              value: _selectedCountry.name ?? "",
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _country.text = newValue ?? "";
+                                  _selectedCountry = data.elementAt(
+                                      data.indexWhere((element) => element.name == newValue));
+                                });
+                              },
+                            );
+                          }
+                        },
+                      ),
                     ),
-                    onPressed: () async {
-                      final mounted = this.mounted;
-                      // List<CountryModel>? items = await ref
-                      //     .read(chooseCountryProvider.notifier)
-                      //     .loadCountries();
-                      if (mounted && data.isNotEmpty) {
-                        List<String> itemList =
-                            data.map((e) => " ${e.name}").toList();
-                        await platformSpecificDropdown(
-                          key: _key,
-                          context: context,
-                          items: itemList,
-                          value: _selectedCountry.name ?? "",
-                          onChanged: (newValue) {
-                            setState(() {
-                              _country.text = newValue ?? "";
-                              _selectedCountry = data.elementAt(
-                                  data.indexWhere((element) => true));
-                            });
-                          },
-                        );
-                      }
-                    },
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
         ),
         bottomNavigationBar: BottomNavBarWidget(
           children: [
-            const RichTextWidget(
+            RichTextWidget(
               text: "By continuing, you’ve accepted our ",
               hyperlink: 'terms and conditions.',
-              onTap: null,
+              onTap: () => context.pushNamed(TermsAndConditionsView.path),
             ),
             12.0.height,
             MainButton(

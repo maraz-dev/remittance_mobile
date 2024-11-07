@@ -14,11 +14,12 @@ class MeansOfIDCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      splashColor: Colors.transparent,
       onTap: onPressed,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         decoration: BoxDecoration(
-          color: AppColors.kGrey50,
+          color: AppColors.kGrey100,
           borderRadius: BorderRadius.circular(8.r),
         ),
         child: Row(

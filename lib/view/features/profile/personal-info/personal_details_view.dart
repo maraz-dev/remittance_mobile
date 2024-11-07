@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/choose_country_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
@@ -10,15 +11,16 @@ import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
-class PersonalDetailsView extends StatefulWidget {
+class PersonalDetailsView extends ConsumerStatefulWidget {
   static String path = 'personal-details-view';
   const PersonalDetailsView({super.key});
 
   @override
-  State<PersonalDetailsView> createState() => _PersonalDetailsViewState();
+  ConsumerState<PersonalDetailsView> createState() =>
+      _PersonalDetailsViewState();
 }
 
-class _PersonalDetailsViewState extends State<PersonalDetailsView> {
+class _PersonalDetailsViewState extends ConsumerState<PersonalDetailsView> {
   final TextEditingController _fullName = TextEditingController();
   final TextEditingController _phoneNumber = TextEditingController();
   final TextEditingController _address = TextEditingController();

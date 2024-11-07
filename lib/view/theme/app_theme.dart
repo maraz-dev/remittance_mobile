@@ -6,7 +6,7 @@ import 'package:remittance_mobile/view/theme/app_colors.dart';
 ThemeData themeData() {
   return ThemeData(
       visualDensity: VisualDensity.adaptivePlatformDensity,
-      scaffoldBackgroundColor: AppColors.kGrey50,
+      scaffoldBackgroundColor: AppColors.kGrey100,
       fontFamily: 'SFPro',
       textTheme: textTheme(),
       inputDecorationTheme: inputDecorationTheme());
@@ -19,7 +19,7 @@ InputDecorationTheme inputDecorationTheme() {
   );
   OutlineInputBorder defaultInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(8),
-    borderSide: const BorderSide(color: AppColors.kGrey300, width: 1),
+    borderSide: const BorderSide(color: Colors.transparent, width: 1),
   );
   OutlineInputBorder errorInputBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(8),
@@ -31,7 +31,7 @@ InputDecorationTheme inputDecorationTheme() {
     focusedBorder: focusInputBorder,
     errorBorder: errorInputBorder,
     border: defaultInputBorder,
-    fillColor: AppColors.kWhiteColor,
+    fillColor: AppColors.kGrey200,
     filled: true,
     suffixIconColor: AppColors.kInactiveColor,
   );
@@ -53,7 +53,7 @@ PinTheme focusedPinInputTheme = PinTheme(
   textStyle: textTheme.call().displayMedium,
   decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(12.r),
-      color: AppColors.kPinInputColor,
+      color: AppColors.kAccentColor,
       border: Border.all(color: AppColors.kPrimaryColor)),
 );
 
@@ -81,19 +81,19 @@ TextTheme textTheme() {
       fontSize: 16.sp,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.3,
-      color: AppColors.kSecondaryColorTwo,
+      color: AppColors.kGrey500,
     ),
     bodyMedium: TextStyle(
       fontSize: 14.sp,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.3,
-      color: AppColors.kSecondaryColorTwo,
+      color: AppColors.kGrey500,
     ),
     bodySmall: TextStyle(
       fontSize: 12.sp,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.3,
-      color: AppColors.kSecondaryColorTwo,
+      color: AppColors.kGrey500,
     ),
   );
 }

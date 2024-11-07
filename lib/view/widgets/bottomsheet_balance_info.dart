@@ -6,9 +6,12 @@ import 'package:remittance_mobile/view/widgets/current_balance_widget.dart';
 
 class BottomNavBarBalanceInfo extends StatelessWidget {
   final bool? showArrival;
+  final String? rateFrom, rateTo;
   const BottomNavBarBalanceInfo({
     super.key,
     this.showArrival,
+    this.rateFrom,
+    this.rateTo,
   });
 
   @override
@@ -22,9 +25,11 @@ class BottomNavBarBalanceInfo extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const RatesCard(
+          RatesCard(
+            rateFrom: rateFrom ?? '',
+            rateTo: rateTo ?? '',
             showBorder: false,
-            color: AppColors.kPinInputColor,
+            color: AppColors.kAccentColor,
           ),
           Visibility(
             visible: showArrival ?? false,

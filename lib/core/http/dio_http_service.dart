@@ -16,12 +16,12 @@ class NetworkService implements HttpService {
   late CacheStore _cacheStore;
   late CacheOptions _cacheOptions;
 
-  NetworkService._(
-      {Dio? dioOverride,
-      CacheOptions? cacheOptionsOverride,
-      CacheStore? cacheStoreOverride
-      //bool enableCaching = true,
-      }) {
+  NetworkService._({
+    Dio? dioOverride,
+    CacheOptions? cacheOptionsOverride,
+    CacheStore? cacheStoreOverride,
+    //bool enableCaching = true,
+  }) {
     _dio = dioOverride ?? Dio(baseOptions);
     _cacheStore = cacheStoreOverride ??
         MemCacheStore(maxSize: 10485760, maxEntrySize: 1048576);
@@ -62,14 +62,14 @@ class NetworkService implements HttpService {
   factory NetworkService() => _instance;
 
   BaseOptions get baseOptions => BaseOptions(
-        connectTimeout: const Duration(milliseconds: 30000),
-        receiveTimeout: const Duration(milliseconds: 30000),
+        connectTimeout: const Duration(milliseconds: 60000),
+        receiveTimeout: const Duration(milliseconds: 60000),
         baseUrl: baseUrl,
         headers: headers,
       );
 
   @override
-  String get baseUrl => ApiEndpoints.baseUrl;
+  String get baseUrl => ApiEndpoints.instance.baseUserURL;
 
   @override
   Map<String, String> get headers => {
@@ -78,14 +78,17 @@ class NetworkService implements HttpService {
       };
 
   @override
-  Future<Response> request(String path, RequestMethod method,
-      {dynamic savePath,
-      Map<String, dynamic>? queryParams,
-      dynamic data,
-      FormData? formData,
-      CancelToken? cancelToken,
-      bool enableCache = false,
-      Options? options}) async {
+  Future<Response> request(
+    String path,
+    RequestMethod method, {
+    dynamic savePath,
+    Map<String, dynamic>? queryParams,
+    dynamic data,
+    FormData? formData,
+    CancelToken? cancelToken,
+    bool enableCache = false,
+    Options? options,
+  }) async {
     Response response;
 
     try {

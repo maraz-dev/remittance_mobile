@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:remittance_mobile/view/features/auth/forgot-password/reset_password_view.dart';
+import 'package:remittance_mobile/core/storage/share_pref.dart';
+import 'package:remittance_mobile/data/models/requests/initiate_forgot_password_req.dart';
+import 'package:remittance_mobile/view/features/auth/create_account_flow/create_account_form_view.dart';
+import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_otp_form.dart';
+import 'package:remittance_mobile/view/features/auth/vm/forgot_password_vm/initiate_forgot_pass_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
-import 'package:remittance_mobile/view/features/auth/widgets/bottomsheet_title.dart';
-import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
-import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
-import 'package:remittance_mobile/view/utils/input_fields.dart';
+import 'package:remittance_mobile/view/utils/input_fields.dart' as input;
+import 'package:remittance_mobile/view/utils/snackbar.dart';
 import 'package:remittance_mobile/view/utils/validator.dart';
 import 'package:remittance_mobile/view/widgets/back_button.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
@@ -33,6 +35,12 @@ class _LoginViewState extends ConsumerState<ForgotPasswordView> {
   final TextEditingController _pin = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _email.text = SharedPrefManager.email;
+  }
+
+  @override
   void dispose() {
     _email.dispose();
     _pin.dispose();
@@ -41,82 +49,81 @@ class _LoginViewState extends ConsumerState<ForgotPasswordView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ScaffoldBody(
-        body: Form(
-          key: _formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                32.0.height,
-                const BackArrowButton(),
-                18.0.height,
-                const AuthTitle(
-                  title: 'Forgot Password',
-                  subtitle: 'Confirm your Email Address Below.',
-                ),
-                32.0.height,
-                TextInput(
-                  header: 'Email Address',
-                  controller: _email,
-                  hint: "Enter Email Address",
-                  inputType: TextInputType.emailAddress,
-                  validator: validateEmail,
-                ),
-                16.0.height,
-                PasswordInput(
-                  header: 'Transaction PIN',
-                  controller: _pin,
-                  hint: '****',
-                  maxLength: 4,
-                  inputType: TextInputType.number,
-                  validator: validatePassword,
-                ),
-                24.0.height,
-              ],
+    final loading = ref.watch(initiateForgotPasswordProvider);
+    ref.listen(initiateForgotPasswordProvider, (_, next) {
+      if (next is AsyncData<String>) {
+        successfulCreatedEmail.value = _email.text;
+        context.pushNamed(ForgotPasswordOtpForm.path);
+      }
+      if (next is AsyncError) {
+        SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
+      }
+    });
+    return AbsorbPointer(
+      absorbing: loading.isLoading,
+      child: Scaffold(
+        body: ScaffoldBody(
+          body: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  32.0.height,
+                  const BackArrowButton(),
+                  18.0.height,
+                  const AuthTitle(
+                    title: 'Forgot Password',
+                    subtitle: 'Confirm your Email Address Below.',
+                  ),
+                  32.0.height,
+                  input.TextInput(
+                    header: 'Email Address',
+                    controller: _email,
+                    hint: "Enter Email Address",
+                    inputType: TextInputType.emailAddress,
+                    validator: validateEmail,
+                  ),
+                  16.0.height,
+                  input.PasswordInput(
+                    header: 'Transaction PIN',
+                    controller: _pin,
+                    hint: '****',
+                    maxLength: 4,
+                    inputType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    validator: validateGeneric,
+                  ),
+                  24.0.height,
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavBarWidget(
-        children: [
-          MainButton(
-            text: 'Reset Password',
-            onPressed: () {
-              AppBottomSheet.showBottomSheet(
-                context,
-                isDismissible: false,
-                widget: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(AppImages.lockIcon),
-                    16.0.height,
-                    const BottomSheetTitle(
-                      title: 'Password Request Sent',
-                      subtitle:
-                          'A reset password link has been shared to your email address.',
-                    ),
-                    40.0.height,
-                    MainButton(
-                      text: 'Check Email',
-                      onPressed: () {
-                        context.pop();
-                        context.pushNamed(ResetPasswordView.path);
-                      },
-                    ),
-                    16.0.height,
-                  ],
-                ),
-              );
-            },
-          )
-              .animate()
-              .fadeIn(begin: 0, delay: 1000.ms)
-              // .then(delay: 200.ms)
-              .slideY(begin: .1, end: 0)
-        ],
+        bottomNavigationBar: BottomNavBarWidget(
+          children: [
+            MainButton(
+              isLoading: loading.isLoading,
+              text: 'Reset Password',
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  ref
+                      .read(initiateForgotPasswordProvider.notifier)
+                      .initiateForgotPasswordMethod(InitiateForgotPassReq(
+                        email: _email.text.trim(),
+                        pin: _pin.text,
+                      ));
+                }
+              },
+            )
+                .animate()
+                .fadeIn(begin: 0, delay: 1000.ms)
+                // .then(delay: 200.ms)
+                .slideY(begin: .1, end: 0)
+          ],
+        ),
       ),
     );
   }

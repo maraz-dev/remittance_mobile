@@ -1,85 +1,97 @@
+import 'package:config/config.dart';
 import 'package:flutter/material.dart';
+import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/platform_pay_sheet.dart';
+import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_method_sheet/bank_deposit_sheet.dart';
+import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_method_sheet/cash_drop_off_sheet.dart';
+import 'package:remittance_mobile/view/features/home/widgets/payment_method_card.dart';
+import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
-import 'package:remittance_mobile/view/utils/buttons.dart';
+import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
-import 'package:remittance_mobile/view/widgets/amount_input.dart';
-import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
-import 'package:remittance_mobile/view/widgets/bottomsheet_balance_info.dart';
-import 'package:remittance_mobile/view/widgets/bottomsheet_confirmation_widget.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
-class SendMoneyFinalView extends StatefulWidget {
-  static String path = 'send-money-final-view';
+class SendMoneyFinalView extends StatelessWidget {
+  static const path = 'send-money-final-view';
   const SendMoneyFinalView({super.key});
 
   @override
-  State<SendMoneyFinalView> createState() => _SendMoneyFinalViewState();
-}
-
-class _SendMoneyFinalViewState extends State<SendMoneyFinalView> {
-  final TextEditingController _sendAmount = TextEditingController();
-  final TextEditingController _receiveAmount = TextEditingController();
-
-  @override
-  void dispose() {
-    _sendAmount.dispose();
-    _receiveAmount.dispose();
-
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return AbsorbPointer(
-      absorbing: false,
-      child: Scaffold(
-        appBar: innerAppBar(title: 'Send Money'),
-        body: ScaffoldBody(
-          body: SingleChildScrollView(
+    return Scaffold(
+      appBar: innerAppBar(title: 'Send Money'),
+      body: ScaffoldBody(
+          body: Column(
+        children: [
+          20.0.height,
+          Text(
+            'Send Money From?',
+            style: Theme.of(context).textTheme.displayMedium,
+            textAlign: TextAlign.center,
+          ),
+          24.0.height,
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: AppColors.kWhiteColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                10.0.height,
-
-                /// Amount
-                AmountInput(
-                  header: "You'll Send",
-                  controller: _receiveAmount,
+                16.0.height,
+                ListView.separated(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return InkWell(
+                      onTap: () {
+                        methodBottomSheet(index, context);
+                      },
+                      child: sendMethods[index],
+                    );
+                  },
+                  separatorBuilder: (context, index) => 24.0.height,
+                  itemCount: sendMethods.length,
                 ),
-                24.0.height,
-
-                /// Amount
-                AmountInput(
-                  header: "Recipient Gets",
-                  controller: _sendAmount,
-                ),
+                16.0.height,
               ],
             ),
-          ),
-        ),
-        bottomNavigationBar: BottomNavBarWidget(
-          children: [
-            const BottomNavBarBalanceInfo(
-              showArrival: true,
-            ),
-            12.0.height,
-            MainButton(
-                text: 'Send Money',
-                onPressed: () {
-                  AppBottomSheet.showBottomSheet(
-                    context,
-                    isDismissible: false,
-                    widget: const BottomSheetConfirmationWidget(
-                      title: 'Send Money',
-                      subtitle:
-                          "The amount below will be added sent to 938784898 Guaranty Trust Bank",
-                      buttonText: 'Send Now',
-                    ),
-                  );
-                })
-          ],
-        ),
-      ),
+          )
+        ],
+      )),
     );
   }
+
+  void methodBottomSheet(int index, BuildContext context) {
+    switch (index) {
+      case 0:
+        AppBottomSheet.showBottomSheet(
+          context,
+          widget: const CashDropOffSheet(),
+        );
+      case 1:
+        AppBottomSheet.showBottomSheet(
+          context,
+          widget: const BankDepositSheet(),
+        );
+      case 2:
+        AppBottomSheet.showBottomSheet(
+          context,
+          widget: const PlatformPaySheet(),
+        );
+    }
+  }
 }
+
+List<PaymentMethodCard> sendMethods = [
+  const PaymentMethodCard(
+    methodImage: AppImages.accountDetails,
+    methodName: 'Bank Transfer',
+    methodDescription: 'Choose a preferred bank to deposit the money into the sellers account.',
+  ),
+  const PaymentMethodCard(
+    methodImage: AppImages.wallet,
+    methodName: 'Balance ($APP_NAME)',
+    methodDescription:
+        'Use your main balance, the money will be debited directly from this account.',
+  ),
+];

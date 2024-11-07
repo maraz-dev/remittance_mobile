@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_onboarding_req.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/choose_country_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/create_account_vm/initiate_onboarding_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
-import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/input_fields.dart' as input;
@@ -20,6 +18,8 @@ ValueNotifier<String> successfulCreatedEmail = ValueNotifier('');
 ValueNotifier<String> successfulCreatedPhoneNo = ValueNotifier('');
 
 class CreateAccountFormView extends ConsumerStatefulWidget {
+  static String path = 'create-account-form-view';
+
   final VoidCallback pressed;
   const CreateAccountFormView({
     super.key,
@@ -27,8 +27,7 @@ class CreateAccountFormView extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<CreateAccountFormView> createState() =>
-      _CreateAccountFormViewState();
+  ConsumerState<CreateAccountFormView> createState() => _CreateAccountFormViewState();
 }
 
 class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
@@ -41,6 +40,27 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
   final TextEditingController _lastName = TextEditingController();
   final TextEditingController _emailAddress = TextEditingController();
   final TextEditingController _phoneNumber = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _phoneNumber.text = selectedCountry.value.phoneCode;
+
+    _phoneNumber.addListener(() {
+      final text = _phoneNumber.text;
+      // If the text doesn't start with the Pinned part, reset it
+      if (!text.startsWith(selectedCountry.value.phoneCode)) {
+        _phoneNumber.value = TextEditingValue(
+          text: selectedCountry.value.phoneCode,
+          selection: TextSelection.fromPosition(
+            TextPosition(
+              offset: selectedCountry.value.phoneCode.toString().length,
+            ),
+          ),
+        );
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -59,8 +79,11 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
     // Endpoint State
     ref.listen(initiateOnboardingProvider, (_, next) {
       if (next is AsyncData<String>) {
-        successfulCreatedEmail.value = _emailAddress.text;
-        successfulCreatedPhoneNo.value = _phoneNumber.text;
+        setState(() {
+          successfulCreatedEmail.value = _emailAddress.text;
+          successfulCreatedPhoneNo.value = _phoneNumber.text;
+        });
+
         widget.pressed();
       }
       if (next is AsyncError) {
@@ -94,7 +117,7 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
                           header: 'First Name',
                           controller: _firstName,
                           hint: "Enter your First Name",
-                          inputType: TextInputType.name,
+                          inputType: TextInputType.text,
                           validator: validateGeneric,
                         ),
                         16.0.height,
@@ -102,7 +125,7 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
                           header: 'Middle Name',
                           controller: _middleName,
                           hint: "Enter your Middle Name",
-                          inputType: TextInputType.name,
+                          inputType: TextInputType.text,
                           validator: validateGeneric,
                         ),
                         16.0.height,
@@ -110,7 +133,7 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
                           header: 'Last Name',
                           controller: _lastName,
                           hint: "Enter your Last Name",
-                          inputType: TextInputType.name,
+                          inputType: TextInputType.text,
                           validator: validateGeneric,
                         ),
                         16.0.height,
@@ -128,20 +151,14 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
                           prefixIcon: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(
-                                selectedCountry.value.code ?? "",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                        color: AppColors.kBlackColor,
-                                        fontWeight: FontWeight.bold),
+                              Image.network(
+                                selectedCountry.value.flagPng ?? '',
+                                fit: BoxFit.contain,
+                                width: 30,
                               ),
                             ],
                           ),
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                           hint: "(+${selectedCountry.value.phoneCode})",
                           inputType: TextInputType.number,
                           validator: validateGeneric,
@@ -162,11 +179,8 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
               text: 'Continue',
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  ref
-                      .read(initiateOnboardingProvider.notifier)
-                      .initiateOnboardingMethod(
+                  ref.read(initiateOnboardingProvider.notifier).initiateOnboardingMethod(
                         InitiateOnboardingReq(
-                          partnerCode: ApiEndpoints.instance.partnerCode,
                           firstName: _firstName.text.trim(),
                           middleName: _middleName.text.trim(),
                           lastName: _lastName.text.trim(),

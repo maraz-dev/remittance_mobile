@@ -32,7 +32,8 @@ class ContactCard extends StatelessWidget {
                 Text(
                   subtitle ?? '',
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.bold, color: AppColors.kBlueColor),
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.kBlueColor500),
                 ),
               ],
             ),
