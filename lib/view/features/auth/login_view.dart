@@ -17,6 +17,7 @@ import 'package:remittance_mobile/view/features/auth/vm/login_vm.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/auth_title.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/alert_dialog.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -172,20 +173,29 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                 ),
                 8.0.width,
                 Visibility(
-                  visible: SharedPrefManager.hasBiometrics,
+                  visible: true,
                   child: Expanded(
                     flex: 1,
                     child: InkWell(
                       splashColor: Colors.transparent,
                       radius: 0,
                       onTap: () async {
-                        final storage = inject.get<SecureStorageBase>();
-                        if (await Biometrics.authenticate()) {
-                          var password = await storage.readData(PrefKeys.password);
+                        if (SharedPrefManager.hasBiometrics) {
+                          final storage = inject.get<SecureStorageBase>();
+                          if (await Biometrics.authenticate()) {
+                            var password = await storage.readData(PrefKeys.password);
 
-                          handleLoginReq(
-                            SharedPrefManager.email,
-                            password,
+                            handleLoginReq(
+                              SharedPrefManager.email,
+                              password,
+                            );
+                          }
+                        } else {
+                          ShowAlertDialog.showAlertDialog(
+                            context,
+                            title: 'Error!',
+                            content: 'Please Enable Biometrics in Settings',
+                            defaultActionText: 'Ok',
                           );
                         }
                       },

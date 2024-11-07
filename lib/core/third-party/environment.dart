@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 /// The environment.
 enum Environmentx {
   /// Development environment.
-  dev._('DEV'),
+  staging._('DEV'),
 
   /// Production environment.
   prod._('PROD');
@@ -15,8 +15,8 @@ enum Environmentx {
 
   /// Returns the environment from the given [value].
   static Environmentx from(String? value) => switch (value) {
-        'DEV' => Environmentx.dev,
+        'DEV' => Environmentx.staging,
         'PROD' => Environmentx.prod,
-        _ => kReleaseMode ? Environmentx.prod : Environmentx.dev,
+        _ => kReleaseMode ? Environmentx.prod : Environmentx.staging,
       };
 }

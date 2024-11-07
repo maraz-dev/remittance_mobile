@@ -28,14 +28,15 @@ class TransactionDetailsTab extends StatelessWidget {
             TrxItems(
               fontSize: 12,
               title: transxDetail.postingType == "Dr" ? 'You are sending' : 'You are receiving',
-              description: '${transxDetail.trxAmount.amountInt()} ${transxDetail.sourceCurrency}',
+              description:
+                  '${transxDetail.trxAmount.amountInt()} ${transxDetail.currency?.shortCode}',
             ),
             12.0.height,
             TrxItems(
               fontSize: 12,
               descFontSize: 12,
               title: 'Total Fees',
-              description: '${transxDetail.trxFee.amountInt()} ${transxDetail.sourceCurrency}',
+              description: '${transxDetail.trxFee.amountInt()} ${transxDetail.currency?.shortCode}',
             ),
             12.0.height,
             TrxItems(
@@ -83,16 +84,25 @@ class TransactionDetailsTab extends StatelessWidget {
               fontSize: 12,
               descFontSize: 12,
               title: 'Service Type',
-              description: '${transxDetail.serviceTypeChannel}',
+              description: '${transxDetail.serviceTypeName}',
             ),
             12.0.height,
             TrxItems(
               fontSize: 12,
               descFontSize: 12,
-              title: 'Account Number',
-              description: '${transxDetail.beneficiary?.split('|')[2]}',
+              title: 'Channel',
+              description: '${transxDetail.serviceTypeChannel}',
             ),
             12.0.height,
+            if (transxDetail.beneficiary?.split('|')[2].isNotEmpty ?? false) ...[
+              TrxItems(
+                fontSize: 12,
+                descFontSize: 12,
+                title: 'Account Number',
+                description: '${transxDetail.beneficiary?.split('|')[2]}',
+              ),
+              12.0.height,
+            ]
           ],
         ),
       ),

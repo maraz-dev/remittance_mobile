@@ -129,7 +129,7 @@ class _CurrencyAccountViewState extends State<CurrencyAccountView> {
 
               // Latest Transactions
               LatestTransactionsBox(
-                currency: widget.accountDetails.currencyCode,
+                accountNumber: widget.accountDetails.accountNumber,
               ),
               30.0.height,
             ],

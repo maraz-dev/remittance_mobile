@@ -111,23 +111,27 @@ class TransxDetail {
 class Currency {
   final String? name;
   final String? symbol;
+  final String? shortCode;
   final Flag? flag;
 
   Currency({
     this.name,
     this.symbol,
+    this.shortCode,
     this.flag,
   });
 
   factory Currency.fromJson(Map<String, dynamic> json) => Currency(
         name: json["name"],
         symbol: json["symbol"],
+        shortCode: json["shortCode"],
         flag: json["flag"] == null ? null : Flag.fromJson(json["flag"]),
       );
 
   Map<String, dynamic> toJson() => {
         "name": name,
         "symbol": symbol,
+        "shortCode": shortCode,
         "flag": flag?.toJson(),
       };
 }

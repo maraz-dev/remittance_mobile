@@ -88,7 +88,7 @@ class AuthService {
       _responseHandler.handleResponse(
         response: response.data,
         onSuccess: () async {
-          final res = response.data['data'];
+          final res = await response.data['data'];
           await _storage.saveData(PrefKeys.token, res['token'] ?? '');
           _hivestorage.set(StorageKey.userProfile.name, res);
           SharedPrefManager.userId = res['userId'];

@@ -78,8 +78,7 @@ class _SendMoneyFromViewState extends ConsumerState<SendMoneyFromView> {
                               );
                             } else {
                               // Only show the Balances that aren't Zero
-                              final newDataList =
-                                  data.where((element) => element.balance != 0).toList();
+                              final newDataList = data;
 
                               return ListView.separated(
                                 shrinkWrap: true,

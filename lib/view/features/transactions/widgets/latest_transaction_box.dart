@@ -15,11 +15,11 @@ import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class LatestTransactionsBox extends ConsumerStatefulWidget {
   final int? length;
-  final String? currency;
+  final String? accountNumber;
   const LatestTransactionsBox({
     super.key,
     this.length,
-    this.currency,
+    this.accountNumber,
   });
 
   @override
@@ -47,9 +47,10 @@ class _LatestTransactionsBoxState extends ConsumerState<LatestTransactionsBox> {
     final transactionLoading = ref.watch(getCustomerTranxProvider).isLoading;
 
     final List<TransactionsRes> newList;
-    if (widget.currency != null) {
-      newList =
-          transactionList.where((element) => element.sourceCurrency == widget.currency).toList();
+    if (widget.accountNumber != null) {
+      newList = transactionList
+          .where((element) => element.accountNumber == widget.accountNumber)
+          .toList();
     } else {
       newList = transactionList;
     }

@@ -14,7 +14,7 @@ class ApiEndpoints {
       logger.info(
         "${"ApiEndpoints----->"} ,Call init to set the environment, environment set to dev by default",
       );
-      _environment = Environmentx.dev;
+      _environment = Environmentx.staging;
     }
   }
 
@@ -25,7 +25,7 @@ class ApiEndpoints {
 
   String get baseUserURL {
     switch (_environment) {
-      case Environmentx.dev:
+      case Environmentx.staging:
         return devUserURL;
       case Environmentx.prod:
         return prodUserURL;
@@ -36,7 +36,7 @@ class ApiEndpoints {
 
   String get baseAccountUrl {
     switch (_environment) {
-      case Environmentx.dev:
+      case Environmentx.staging:
         return devAccountURL;
       case Environmentx.prod:
         return prodAccountURL;
@@ -47,7 +47,7 @@ class ApiEndpoints {
 
   String get baseFundingUrl {
     switch (_environment) {
-      case Environmentx.dev:
+      case Environmentx.staging:
         return devFundingURL;
       case Environmentx.prod:
         return prodFundingURL;

@@ -43,6 +43,8 @@ class DioExceptions implements Exception {
         return handleError(error);
       case 401:
         return error["error"]["message"];
+      case 413:
+        return error["message"];
       case 424:
         return error["error"]["message"];
       case 403:
@@ -57,7 +59,7 @@ class DioExceptions implements Exception {
       case 504:
         return "Service Unavaiilable. Please Try Again Later";
       default:
-        return "Oops Something Went Wrong";
+        return "$statusCode: Oops Something Went Wrong";
     }
   }
 
