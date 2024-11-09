@@ -7,9 +7,10 @@ import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/beneficiary_model.dart';
 import 'package:remittance_mobile/view/features/services/transfers/bank_sheet.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_details.dart';
-import 'package:remittance_mobile/view/features/services/transfers/send_money_how_much_view.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_from_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_to_who_view.dart';
 import 'package:remittance_mobile/view/features/services/vm/add_beneficiary_vm.dart';
+import 'package:remittance_mobile/view/features/services/vm/send-money-vm/send_money_vm.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
@@ -54,6 +55,7 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
   @override
   Widget build(BuildContext context) {
     final addBeneficiaryLoading = ref.watch(addBeneficiaryProvider).isLoading;
+    final transferState = ref.watch(selectedTransferStateProvider);
 
     ref.listen(addBeneficiaryProvider, (_, next) {
       if (next is AsyncData) {
@@ -106,7 +108,7 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
               BanksModel? result = await AppBottomSheet.showBottomSheet(
                 context,
                 widget: BanksSheet(
-                  country: destinationCorridor.value.code ?? "",
+                  country: transferState.destinationCurrency?.code ?? "",
                 ),
               );
 
@@ -145,13 +147,13 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
                       AddBeneficiaryReq(
                         serviceTypeCode: 'ST000015',
                         channel: 'Bank',
-                        currency: sourceCurrency.value.code,
-                        sourceCountry: sourceCorridor.value.code,
-                        sourceCountryCode: sourceCorridor.value.code,
-                        sourceCurrency: sourceCurrency.value.code,
                         sourceAccountNumber: _accountNo.text,
-                        destinationCountryCode: destinationCorridor.value.code,
-                        destinationCurrency: destinationCurrency.value.code,
+                        currency: transferState.sourceCurrency?.code,
+                        sourceCountry: fromBalance.value.countryCode,
+                        sourceCountryCode: fromBalance.value.countryCode,
+                        destinationCountryCode: transferState.destinationCountry?.code,
+                        destinationCurrency: transferState.destinationCurrency?.code,
+                        sourceCurrency: transferState.sourceCurrency?.code,
                         accountNumber: _accountNo.text,
                         iban: _accountNo.text,
                         accountName: _recipientName.text,

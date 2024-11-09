@@ -4,6 +4,7 @@ import 'package:remittance_mobile/core/storage/hive-storage/hive_storage.dart';
 import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/data/models/requests/authorize_charge_req.dart';
+import 'package:remittance_mobile/data/models/requests/checkout_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_customer_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_card_funding_req.dart';
 import 'package:remittance_mobile/data/models/requests/inititiate_ussd_funding_req.dart';
@@ -12,8 +13,12 @@ import 'package:remittance_mobile/data/models/responses/account_currencies_model
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
+import 'package:remittance_mobile/data/models/responses/checkout_model.dart';
+import 'package:remittance_mobile/data/models/responses/ussd_bank_model.dart';
+import 'package:remittance_mobile/data/models/responses/ussd_funding_model.dart';
 import 'package:remittance_mobile/data/models/responses/validate_card_funding_model.dart';
 import 'package:remittance_mobile/data/models/responses/verify_transx_model.dart';
+import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 
 class AccountService {
   final HttpService _networkService;
@@ -146,6 +151,29 @@ class AccountService {
     }
   }
 
+  // Get USSD Banks
+  Future<List<UssdBanksDto>> getUSSDBanksEndpoint(String vendorCode) async {
+    try {
+      final response = await _networkService.request(
+        '${endpointUrl.baseFundingUrl}${endpointUrl.getUssdBanks}/${accountInfo.value.countryCode}/$vendorCode',
+        RequestMethod.get,
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'] as List;
+          final responseList = res.map((json) => UssdBanksDto.fromJson(json)).toList();
+          return responseList;
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   // Fund with Card Endpoint
   Future<CardFundingResponseModel> fundWithCardEndpoint(InitiateCardFundingReq req) async {
     try {
@@ -253,7 +281,11 @@ class AccountService {
       final response = await _networkService.request(
         endpointUrl.baseFundingUrl + endpointUrl.verifyTransaction,
         RequestMethod.post,
-        data: req.toJson(),
+        data: req
+            .copyWith(
+              requestId: await _storage.readData('fundingId'),
+            )
+            .toJson(),
       );
 
       // Handle the Response
@@ -270,8 +302,32 @@ class AccountService {
     }
   }
 
+  // Fund with Card Endpoint
+  Future<CheckoutDto> fundWithCheckoutEndpoint(CheckoutReq req) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.baseFundingUrl + endpointUrl.checkoutFunding,
+        RequestMethod.post,
+        data: req.toJson(),
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () async {
+          final res = response.data['data'];
+          await _storage.saveData('fundingId', res['requestId']);
+          return CheckoutDto.fromJson(res);
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   // Fund with USSD Endpoint
-  Future<CardFundingResponseModel> fundWithUssdEndpoint(InitiateUssdFundingReq req) async {
+  Future<UssdFundingDto> fundWithUssdEndpoint(InitiateUssdFundingReq req) async {
     try {
       final response = await _networkService.request(
         endpointUrl.baseFundingUrl + endpointUrl.initiateUSSDFunding,
@@ -282,9 +338,10 @@ class AccountService {
       // Handle the Response
       final result = _responseHandler.handleResponse(
         response: response.data,
-        onSuccess: () {
+        onSuccess: () async {
           final res = response.data['data'];
-          return CardFundingResponseModel.fromJson(res);
+          await _storage.saveData('fundingId', res['requestId']);
+          return UssdFundingDto.fromJson(res);
         },
       );
       return result;

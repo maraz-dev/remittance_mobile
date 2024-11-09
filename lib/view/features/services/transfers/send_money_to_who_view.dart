@@ -11,9 +11,9 @@ import 'package:remittance_mobile/view/features/home/vm/accounts-vm/account_prov
 import 'package:remittance_mobile/view/features/services/transfers/send_money_details.dart';
 import 'package:remittance_mobile/view/features/services/vm/services_vm.dart';
 import 'package:remittance_mobile/view/features/services/widgets/recipient_card.dart';
-import 'package:remittance_mobile/view/features/services/widgets/sheets/borderpay_user_sheet.dart';
-import 'package:remittance_mobile/view/features/services/widgets/sheets/cash_pickup_sheet.dart';
-import 'package:remittance_mobile/view/features/services/widgets/sheets/mobile_money_sheet.dart';
+import 'package:remittance_mobile/view/features/services/widgets/recipients-sheets/borderpay_user_sheet.dart';
+import 'package:remittance_mobile/view/features/services/widgets/recipients-sheets/cash_pickup_sheet.dart';
+import 'package:remittance_mobile/view/features/services/widgets/recipients-sheets/mobile_money_sheet.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';

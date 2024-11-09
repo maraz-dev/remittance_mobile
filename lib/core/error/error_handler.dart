@@ -42,7 +42,7 @@ class DioExceptions implements Exception {
       case 400:
         return handleError(error);
       case 401:
-        return error["error"]["message"];
+        return "Please Login Again!";
       case 413:
         return error["message"];
       case 424:

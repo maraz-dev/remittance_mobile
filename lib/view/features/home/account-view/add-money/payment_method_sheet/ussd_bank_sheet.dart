@@ -11,18 +11,18 @@ import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/input_fields.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 
-class BanksSheet extends ConsumerStatefulWidget {
-  final String country;
-  const BanksSheet({
+class UssdBanksSheet extends ConsumerStatefulWidget {
+  final String vendorCode;
+  const UssdBanksSheet({
     super.key,
-    required this.country,
+    required this.vendorCode,
   });
 
   @override
-  ConsumerState<BanksSheet> createState() => _BanksSheet();
+  ConsumerState<UssdBanksSheet> createState() => _BanksSheet();
 }
 
-class _BanksSheet extends ConsumerState<BanksSheet> {
+class _BanksSheet extends ConsumerState<UssdBanksSheet> {
   /// Controller to Search
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
@@ -49,7 +49,7 @@ class _BanksSheet extends ConsumerState<BanksSheet> {
   @override
   Widget build(BuildContext context) {
     // Account Currency Endpoint
-    final banks = ref.watch(getBanksProvider(widget.country));
+    final banks = ref.watch(getUSSDBanksProvider(widget.vendorCode));
 
     return SafeArea(
       child: SizedBox(
@@ -96,9 +96,7 @@ class _BanksSheet extends ConsumerState<BanksSheet> {
                   ),
                   data: (data) {
                     final filteredData = data
-                        .where((bank) =>
-                            bank.bankName!.toLowerCase().contains(_searchQuery) ||
-                            bank.bankName!.toLowerCase().contains(_searchQuery))
+                        .where((bank) => bank.bank!.toLowerCase().contains(_searchQuery))
                         .toList();
                     return ListView.separated(
                       shrinkWrap: true,
@@ -109,7 +107,7 @@ class _BanksSheet extends ConsumerState<BanksSheet> {
                           onPressed: () async {
                             context.pop(value);
                           },
-                          name: value.bankName,
+                          name: value.bank,
                           code: value.code,
                           image: AppImages.accountDetails,
                         );

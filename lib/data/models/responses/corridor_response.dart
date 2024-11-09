@@ -3,15 +3,14 @@ import 'dart:convert';
 CorridorsResponse corridorsResponseFromJson(String str) =>
     CorridorsResponse.fromJson(json.decode(str));
 
-String corridorsResponseToJson(CorridorsResponse data) =>
-    json.encode(data.toJson());
+String corridorsResponseToJson(CorridorsResponse data) => json.encode(data.toJson());
 
 class CorridorsResponse {
   final String? name;
   final String? code;
   final Flag? flag;
-  final List<DestinationCountry>? sourceCurrencies;
-  final List<DestinationCountry>? destinationCountries;
+  final List<SMCountry>? sourceCurrencies;
+  final List<SMCountry>? destinationCountries;
 
   CorridorsResponse({
     this.name,
@@ -21,19 +20,16 @@ class CorridorsResponse {
     this.destinationCountries,
   });
 
-  factory CorridorsResponse.fromJson(Map<String, dynamic> json) =>
-      CorridorsResponse(
+  factory CorridorsResponse.fromJson(Map<String, dynamic> json) => CorridorsResponse(
         name: json["name"],
         code: json["code"],
         flag: json["flag"] == null ? null : Flag.fromJson(json["flag"]),
         sourceCurrencies: json["sourceCurrencies"] == null
             ? []
-            : List<DestinationCountry>.from(json["sourceCurrencies"]!
-                .map((x) => DestinationCountry.fromJson(x))),
+            : List<SMCountry>.from(json["sourceCurrencies"]!.map((x) => SMCountry.fromJson(x))),
         destinationCountries: json["destinationCountries"] == null
             ? []
-            : List<DestinationCountry>.from(json["destinationCountries"]!
-                .map((x) => DestinationCountry.fromJson(x))),
+            : List<SMCountry>.from(json["destinationCountries"]!.map((x) => SMCountry.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -49,14 +45,14 @@ class CorridorsResponse {
       };
 }
 
-class DestinationCountry {
+class SMCountry {
   final String? name;
   final String? code;
   final Flag? flag;
   final List<DestinationCurrency>? destinationCurrencies;
   final String? symbol;
 
-  DestinationCountry({
+  SMCountry({
     this.name,
     this.code,
     this.flag,
@@ -64,15 +60,14 @@ class DestinationCountry {
     this.symbol,
   });
 
-  factory DestinationCountry.fromJson(Map<String, dynamic> json) =>
-      DestinationCountry(
+  factory SMCountry.fromJson(Map<String, dynamic> json) => SMCountry(
         name: json["name"],
         code: json["code"],
         flag: json["flag"] == null ? null : Flag.fromJson(json["flag"]),
         destinationCurrencies: json["destinationCurrencies"] == null
             ? []
-            : List<DestinationCurrency>.from(json["destinationCurrencies"]!
-                .map((x) => DestinationCurrency.fromJson(x))),
+            : List<DestinationCurrency>.from(
+                json["destinationCurrencies"]!.map((x) => DestinationCurrency.fromJson(x))),
         symbol: json["symbol"],
       );
 
@@ -102,8 +97,7 @@ class DestinationCurrency {
     this.recipientTypes,
   });
 
-  factory DestinationCurrency.fromJson(Map<String, dynamic> json) =>
-      DestinationCurrency(
+  factory DestinationCurrency.fromJson(Map<String, dynamic> json) => DestinationCurrency(
         code: json["code"],
         name: json["name"],
         symbol: json["symbol"],

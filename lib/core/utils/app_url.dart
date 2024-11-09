@@ -116,10 +116,12 @@ class ApiEndpoints {
 
   // Funding
   String get getBanks => "/api/v1/bank";
+  String get getUssdBanks => '/api/v1/bank/ussd';
+  String get checkoutFunding => "/api/v1/funding/flutterwave/customer/checkout/initiate";
   String get initiateCardFunding => "/api/v1/funding/flutterwave/customer/card/initiate";
   String get validateCardFunding => "/api/v1/funding/flutterwave/card/validate";
   String get authorizeCardFunding => "/api/v1/funding/flutterwave/card/authorize";
-  String get initiateUSSDFunding => "/api/v1/funding/flutterwave/ussd/initiate";
+  String get initiateUSSDFunding => "/api/v1/funding/flutterwave/customer/ussd/initiate";
   String get verifyTransaction => "/api/v1/funding/flutterwave/charge/verify";
 
   // Send Money

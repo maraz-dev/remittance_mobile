@@ -1,4 +1,5 @@
 import 'package:remittance_mobile/data/models/requests/authorize_charge_req.dart';
+import 'package:remittance_mobile/data/models/requests/checkout_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_customer_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_card_funding_req.dart';
 import 'package:remittance_mobile/data/models/requests/inititiate_ussd_funding_req.dart';
@@ -7,6 +8,9 @@ import 'package:remittance_mobile/data/models/responses/account_currencies_model
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
+import 'package:remittance_mobile/data/models/responses/checkout_model.dart';
+import 'package:remittance_mobile/data/models/responses/ussd_bank_model.dart';
+import 'package:remittance_mobile/data/models/responses/ussd_funding_model.dart';
 import 'package:remittance_mobile/data/models/responses/validate_card_funding_model.dart';
 import 'package:remittance_mobile/data/models/responses/verify_transx_model.dart';
 import 'package:remittance_mobile/data/remote/account-remote/account_service.dart';
@@ -38,7 +42,7 @@ class AccountImpl implements AccountRepository {
       await _accountService.fundWithCardEndpoint(req);
 
   @override
-  Future<CardFundingResponseModel> fundWithUssdEndpoint(InitiateUssdFundingReq req) async =>
+  Future<UssdFundingDto> fundWithUssdEndpoint(InitiateUssdFundingReq req) async =>
       await _accountService.fundWithUssdEndpoint(req);
 
   @override
@@ -60,4 +64,13 @@ class AccountImpl implements AccountRepository {
   @override
   Future<VerifyFundingTransxModel> verifyFundingTransxEndpoint(VerifyFundingTransxReq req) async =>
       await _accountService.verifyFundingTransxEndpoint(req);
+
+  @override
+  Future<CheckoutDto> fundWithCheckoutEndpoint(CheckoutReq req) async =>
+      await _accountService.fundWithCheckoutEndpoint(req);
+
+  @override
+  Future<List<UssdBanksDto>> getUSSDBanksEndpoint(String vendorCode) async {
+    return await _accountService.getUSSDBanksEndpoint(vendorCode);
+  }
 }
