@@ -3,8 +3,10 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:remittance_mobile/core/di/injector.dart';
+import 'package:remittance_mobile/core/interceptors/kick_out_model.dart';
 import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
 import 'package:remittance_mobile/core/utils/app_url.dart';
+import 'package:remittance_mobile/main.dart';
 
 class TokenInterceptor extends Interceptor {
   final Dio _dio;
@@ -12,8 +14,7 @@ class TokenInterceptor extends Interceptor {
   TokenInterceptor(this._dio);
 
   @override
-  Future<void> onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     var key = ApiEndpoints.instance.token;
 
     String? token = await storage.readData(key);
@@ -42,6 +43,11 @@ class TokenInterceptor extends Interceptor {
 
     //   // Repeat the request with the updated header
     // }
+
+    // If a 401 response is received and Token is expired, Kick the User OUT!!!
+    if (err.response?.statusCode == 401) {
+      eventBus.fire(KickOutListener().kickOut());
+    }
     return handler.next(err);
   }
 

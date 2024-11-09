@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/app.dart';
@@ -11,6 +12,8 @@ import 'package:remittance_mobile/core/utils/logger.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+EventBus eventBus = EventBus();
+
 void main() {
   runZonedGuarded(() async {
     WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +24,8 @@ void main() {
 
     final HiveStorageBase initializeStorageService = HiveStorageService();
     await initializeStorageService.init();
+
+    eventBus.on().listen((event) {});
 
     final container = ProviderContainer(
       overrides: [

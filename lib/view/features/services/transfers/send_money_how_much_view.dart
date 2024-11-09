@@ -33,14 +33,8 @@ import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 
 ValueNotifier<String> sourceAmount = ValueNotifier('');
-// ValueNotifier<CorridorsResponse> sourceCorridor = ValueNotifier(CorridorsResponse());
-// ValueNotifier<SMCountry> sourceCurrency = ValueNotifier(SMCountry());
-// ValueNotifier<SMCountry> destinationCorridor = ValueNotifier(SMCountry());
-// ValueNotifier<DestinationCurrency> destinationCurrency = ValueNotifier(DestinationCurrency());
 ValueNotifier<SendChargeResponse> feeResponse = ValueNotifier(SendChargeResponse());
 ValueNotifier<bool> showCharge = ValueNotifier(false);
-
-enum SendRoute { from, to }
 
 class SendMoneyHowMuchView extends ConsumerStatefulWidget {
   static String path = 'send-money-how-much';
@@ -54,8 +48,6 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
   //final GlobalKey<State> _recipientTypeKey = GlobalKey();
   final GlobalKey<FormState> _formKey = GlobalKey();
 
-  // final TextEditingController _sourceCurrency = TextEditingController();
-  // final TextEditingController _destinationCurrency = TextEditingController();
   final TextEditingController _sourceAmount = TextEditingController();
   final TextEditingController _destinationAmount = TextEditingController();
 

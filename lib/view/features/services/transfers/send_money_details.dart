@@ -20,6 +20,7 @@ import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/snackbar.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/inner_app_bar.dart';
+import 'package:remittance_mobile/view/widgets/overlay_animation.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 
@@ -69,113 +70,117 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
       absorbing: sendMoneyLoading,
       child: Scaffold(
         appBar: innerAppBar(title: 'Send Money'),
-        body: ScaffoldBody(
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                15.0.height,
-                Text(
-                  'See details of your transaction below.',
-                  style: Theme.of(context).textTheme.displayMedium,
-                  textAlign: TextAlign.center,
-                ),
-                16.0.height,
-
-                // Transaction Details
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(12),
+        body: OverlayLoadingIndicator(
+          isLoading: sendMoneyLoading,
+          child: ScaffoldBody(
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  15.0.height,
+                  Text(
+                    'See details of your transaction below.',
+                    style: Theme.of(context).textTheme.displayMedium,
+                    textAlign: TextAlign.center,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const SectionHeader(text: 'Transaction Details'),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.kWarningColor100,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Text(
-                              'Pending',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(color: AppColors.kWarningColor700),
-                            ),
-                          )
-                        ],
-                      ),
-                      16.0.height,
-                      TrxItems(
-                        title: 'You are Sending',
-                        description: '${sourceAmount.value} ${transferState.sourceCurrency?.code}',
-                      ),
-                      16.0.height,
-                      TrxItems(
-                        title: 'At (rate)',
-                        description:
-                            '1 ${transferState.destinationCurrency?.code} - ${(1 / (feeResponse.value.rate ?? 1.0)).formatDecimal()} ${transferState.sourceCurrency?.code}',
-                      ),
-                      16.0.height,
-                      TrxItems(
-                        title: 'Bank Transfer fees',
-                        description:
-                            '${feeResponse.value.fee.formatDecimal()} ${transferState.sourceCurrency?.code}',
-                      ),
-                      16.0.height,
-                      TrxItems(
-                        title: 'Recipient receives',
-                        description:
-                            '${feeResponse.value.destinationAmount.formatDecimal()} ${transferState.destinationCurrency?.code}',
-                      ),
-                      16.0.height,
-                      TrxItems(
-                        title: 'You Pay',
-                        description:
-                            '${totalFee.formatDecimal()} ${transferState.sourceCurrency?.code}',
-                      ),
-                      16.0.height,
+                  16.0.height,
 
-                      // Edit the How Much
-                      InkWell(
-                        onTap: () {
-                          context.pop();
-                          context.pop();
-                        },
-                        child: Text(
-                          'Change',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(color: AppColors.kPrimaryColor),
+                  // Transaction Details
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SectionHeader(text: 'Transaction Details'),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.kWarningColor100,
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Text(
+                                'Pending',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(color: AppColors.kWarningColor700),
+                              ),
+                            )
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                16.0.height,
+                        16.0.height,
+                        TrxItems(
+                          title: 'You are Sending',
+                          description:
+                              '${sourceAmount.value} ${transferState.sourceCurrency?.code}',
+                        ),
+                        16.0.height,
+                        TrxItems(
+                          title: 'At (rate)',
+                          description:
+                              '1 ${transferState.destinationCurrency?.code} - ${(1 / (feeResponse.value.rate ?? 1.0)).formatDecimal()} ${transferState.sourceCurrency?.code}',
+                        ),
+                        16.0.height,
+                        TrxItems(
+                          title: 'Bank Transfer fees',
+                          description:
+                              '${feeResponse.value.fee.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                        ),
+                        16.0.height,
+                        TrxItems(
+                          title: 'Recipient receives',
+                          description:
+                              '${feeResponse.value.destinationAmount.formatDecimal()} ${transferState.destinationCurrency?.code}',
+                        ),
+                        16.0.height,
+                        TrxItems(
+                          title: 'You Pay',
+                          description:
+                              '${totalFee.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                        ),
+                        16.0.height,
 
-                SendTrxDetailsCard(
-                  heading: "Recipient",
-                  icon: AppImages.accountDetails,
-                  info: 'Bank Account',
-                  title: selectedBeneficiary.value.accountName ?? 'John Doe',
-                  subtitle:
-                      '${selectedBeneficiary.value.accountNumber} · ${selectedBeneficiary.value.bankName}'
-                          .truncate(29),
-                  onPressed: () => context.pop(),
-                ),
-                24.0.height,
-              ],
+                        // Edit the How Much
+                        InkWell(
+                          onTap: () {
+                            context.pop();
+                            context.pop();
+                          },
+                          child: Text(
+                            'Change',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: AppColors.kPrimaryColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  16.0.height,
+
+                  SendTrxDetailsCard(
+                    heading: "Recipient",
+                    icon: AppImages.accountDetails,
+                    info: 'Bank Account',
+                    title: selectedBeneficiary.value.accountName?.truncate(25) ?? 'John Doe',
+                    subtitle:
+                        '${selectedBeneficiary.value.accountNumber} · ${selectedBeneficiary.value.bankName}'
+                            .truncate(29),
+                    onPressed: () => context.pop(),
+                  ),
+                  24.0.height,
+                ],
+              ),
             ),
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_from_view.dart';
+import 'package:remittance_mobile/view/features/services/transfers/send_money_how_much_view.dart';
 import 'package:remittance_mobile/view/features/services/vm/send-money-vm/send_money_state.dart';
 import 'package:remittance_mobile/view/features/services/vm/services_vm.dart';
 
@@ -39,6 +40,7 @@ class SelectedTransferStateNotifier extends StateNotifier<TransferState> {
 
   void selectSourceCurrency(SMCountry country) {
     state = state.copyWith(sourceCurrency: country);
+    showCharge.value = false;
   }
 
   void selectDestinationCountry(SMCountry country) {
@@ -46,10 +48,12 @@ class SelectedTransferStateNotifier extends StateNotifier<TransferState> {
       destinationCountry: country,
       destinationCurrency: null,
     );
+    showCharge.value = false;
   }
 
   void selectDestinationCurrency(DestinationCurrency currency) {
     state = state.copyWith(destinationCurrency: currency);
+    showCharge.value = false;
   }
 
   void reset() {
