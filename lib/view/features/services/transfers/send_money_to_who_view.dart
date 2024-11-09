@@ -189,17 +189,11 @@ class _SendMoneyToWhoViewState extends ConsumerState<SendMoneyToWhoView> {
                       ],
                     ),
                     error: (error, stackTrace) => kDebugMode
-                        ? Text(error.toString())
-                        : Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              50.0.height,
-                              const SpinKitRing(
-                                color: AppColors.kPrimaryColor,
-                                size: 100,
-                                lineWidth: 3,
-                              ),
-                            ],
+                        ? Center(
+                            child: Text(error.toString()),
+                          )
+                        : const Center(
+                            child: Text('An Error Occured'),
                           ),
                   )
                 ],

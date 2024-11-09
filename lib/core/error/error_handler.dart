@@ -51,7 +51,7 @@ class DioExceptions implements Exception {
         // FailureRes result = FailureRes.fromJson(error);
         return "Error Occurred";
       case 404:
-        return handleError(error);
+        return "An Error Occured";
       case 500:
         return "An Error Occurred. Try again later";
       case 502:
@@ -98,7 +98,7 @@ class DioExceptions implements Exception {
         return error["message"];
       }
     } else {
-      return error["error"]["message"];
+      return "An Error Occurred";
     }
   }
 

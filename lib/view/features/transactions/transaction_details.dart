@@ -139,13 +139,11 @@ class _TransactionDetailsState extends ConsumerState<TransactionDetails>
                           ),
                         ),
                         error: (error, stackTrace) => kDebugMode
-                            ? Text(error.toString())
+                            ? Center(
+                                child: Text(error.toString()),
+                              )
                             : const Center(
-                                child: SpinKitRing(
-                                  color: AppColors.kPrimaryColor,
-                                  size: 100,
-                                  lineWidth: 3,
-                                ),
+                                child: Text('An Error Occured'),
                               ),
                       ),
                     ),

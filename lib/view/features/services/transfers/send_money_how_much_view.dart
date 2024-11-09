@@ -345,11 +345,11 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
             lineWidth: 3,
           ),
           error: (error, stackTrace) => kDebugMode
-              ? Text(error.toString())
-              : const SpinKitRing(
-                  color: AppColors.kPrimaryColor,
-                  size: 100,
-                  lineWidth: 3,
+              ? Center(
+                  child: Text(error.toString()),
+                )
+              : const Center(
+                  child: Text('An Error Occured'),
                 ),
         ),
       ),
