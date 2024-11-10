@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:event_bus/event_bus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/app.dart';
 import 'package:remittance_mobile/core/di/injector.dart';
@@ -21,6 +22,9 @@ void main() {
 
     // Switch the Working Environment for the Endpoints
     await initializeCore(environment: Environmentx.prod);
+
+    // Initialize the .env Environments
+    await dotenv.load(fileName: ".env");
 
     final HiveStorageBase initializeStorageService = HiveStorageService();
     await initializeStorageService.init();

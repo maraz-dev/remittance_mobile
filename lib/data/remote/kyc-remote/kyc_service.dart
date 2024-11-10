@@ -1,4 +1,11 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:aws_s3_upload_lite/aws_s3_upload_lite.dart';
+import 'package:aws_s3_upload_lite/enum/acl.dart';
+import 'package:config/Config.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:remittance_mobile/core/http/http_service.dart';
 import 'package:remittance_mobile/core/http/response_body_handler.dart';
 import 'package:remittance_mobile/core/storage/secure-storage/secure_storage.dart';
@@ -28,8 +35,7 @@ class KycService {
 
   Future<KycStatus> getKycStatusEndpoint() async {
     try {
-      final response = await _networkService.request(
-          endpointUrl.kycStatus, RequestMethod.get);
+      final response = await _networkService.request(endpointUrl.kycStatus, RequestMethod.get);
 
       return _responseHandler.handleResponse(
         response: response.data,
@@ -44,15 +50,14 @@ class KycService {
 
   Future<List<IdTypesItem>> getIdTypesEndpoint() async {
     try {
-      final response = await _networkService.request(
-          "${endpointUrl.getIdDocumentsTypes}/NG", RequestMethod.get);
+      final response =
+          await _networkService.request("${endpointUrl.getIdDocumentsTypes}/NG", RequestMethod.get);
 
       return _responseHandler.handleResponse(
         response: response.data,
         onSuccess: () {
           final res = response.data['data'] as List;
-          final responseList =
-              res.map((json) => IdTypesItem.fromJson(json)).toList();
+          final responseList = res.map((json) => IdTypesItem.fromJson(json)).toList();
           return responseList;
         },
       );
@@ -70,11 +75,35 @@ class KycService {
         response: response.data,
         onSuccess: () {
           final res = response.data['data'] as List;
-          final responseList =
-              res.map((json) => IdTypesItem.fromJson(json)).toList();
+          final responseList = res.map((json) => IdTypesItem.fromJson(json)).toList();
           return responseList;
         },
       );
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<dynamic> uploadKycFile(File file, String fileName) async {
+    final bucketName = dotenv.env["AWS_BUCKET"];
+    final region = dotenv.env["AWS_REGION"];
+    final accessKey = dotenv.env["AWS_ACCESS_KEY"];
+    final secretKey = dotenv.env["AWS_SECRET_KEY"];
+
+    try {
+      final response = await AwsS3.uploadFile(
+        accessKey: accessKey!,
+        secretKey: secretKey!,
+        bucket: bucketName!,
+        file: file,
+        region: region!,
+        destDir: "Kyc/$APP_PARTNER_CODE/Individual/${SharedPrefManager.userId}",
+        filename: "/$fileName",
+        onUploadProgress: (sentBytes, totalBytes) {
+          log('Upload Progress: ($sentBytes/$totalBytes)');
+        },
+      );
+      return response;
     } catch (e) {
       throw e.toString();
     }

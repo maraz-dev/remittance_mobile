@@ -83,6 +83,7 @@ flutter:
     - assets/images/country/
     - assets/fonts/
     - assets/countries.json
+    - .env
 
   fonts:
     - family: SFPro
