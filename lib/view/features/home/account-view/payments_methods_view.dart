@@ -41,6 +41,8 @@ class _PaymentMethodViewState extends ConsumerState<PaymentMethodView> {
       if (next is AsyncData) {
         AppBottomSheet.showBottomSheet(
           context,
+          enableDrag: false,
+          isDismissible: false,
           widget: UssdFundSheet(
             bank: selectedResult?.bank ?? "",
             ussdCode: next.value?.note ?? "",

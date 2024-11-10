@@ -5,8 +5,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
+import 'package:remittance_mobile/view/features/home/account-view/create_account_sheet.dart';
 import 'package:remittance_mobile/view/features/services/vm/send-money-vm/send_money_vm.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/input_fields.dart';
@@ -47,7 +49,7 @@ class _FROMCountrySheetState extends ConsumerState<FROMCountrySheet> {
 
   @override
   Widget build(BuildContext context) {
-    final sourceCountry = ref.watch(sourceCurrencyProvider);
+    final sourceCountry = ref.watch(sourceCountryProvider);
 
     return SizedBox(
       height: 500,
@@ -81,14 +83,26 @@ class _FROMCountrySheetState extends ConsumerState<FROMCountrySheet> {
                         onPressed: () {
                           ref
                               .read(selectedTransferStateProvider.notifier)
-                              .selectSourceCurrency(value);
-
-                          context.pop();
+                              .selectSourceCountry(value);
+                          if (value.sourceCurrencies!.length == 1) {
+                            ref
+                                .read(selectedTransferStateProvider.notifier)
+                                .selectSourceCurrency(value.sourceCurrencies!.first);
+                            context.pop();
+                          } else {
+                            AppBottomSheet.showBottomSheet(
+                              context,
+                              widget: CurrencySheet(
+                                name: value.name ?? '',
+                                list: value.sourceCurrencies ?? [],
+                              ),
+                            );
+                          }
                         },
                         image: value.flag!.png,
                         name: value.name,
                         countryCode: value.code,
-                        currencyData: data,
+                        currencyData: value.sourceCurrencies,
                       );
                     },
                     separatorBuilder: (context, index) => 24.0.height,
@@ -197,6 +211,74 @@ class _SendCurrencyItemState extends State<SendCurrencyItem> {
               : SvgPicture.asset(AppImages.arrowRight)
         ],
       ),
+    );
+  }
+}
+
+class CurrencySheet extends ConsumerStatefulWidget {
+  const CurrencySheet({
+    super.key,
+    required this.name,
+    required this.list,
+  });
+
+  final String name;
+  final List<SMCountry> list;
+
+  @override
+  ConsumerState<CurrencySheet> createState() => _CurrencySheetState();
+}
+
+class _CurrencySheetState extends ConsumerState<CurrencySheet> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InkWell(
+          onTap: () {
+            context.pop();
+          },
+          child: Row(
+            children: [
+              SvgPicture.asset(AppImages.backArrow),
+              16.0.width,
+              Text(
+                widget.name,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.kGrey700,
+                    ),
+              )
+            ],
+          ),
+        ),
+        24.0.height,
+        ListView.separated(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            var newList = widget.list[index];
+            return InkWell(
+              onTap: () {
+                ref.read(selectedTransferStateProvider.notifier).selectSourceCurrency(newList);
+                context.pop();
+                context.pop();
+              },
+              child: CurrencyItem(
+                name: newList.name,
+                code: "${newList.code} Account domiciled in ${widget.name}",
+                image: newList.flag == null
+                    ? "https://media.istockphoto.com/id/583715254/photo/national-flags-of-the-different-countries-of-the-world.jpg?b=1&s=612x612&w=0&k=20&c=gdvXYVsV6R6K0aCip-Q4i_R5qCfLsg61-qAXtlhUzpI="
+                    : newList.flag!.png,
+              ),
+            );
+          },
+          separatorBuilder: (context, index) => 24.0.height,
+          itemCount: widget.list.length,
+        ),
+      ],
     );
   }
 }

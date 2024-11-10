@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:aws_s3_upload_lite/aws_s3_upload_lite.dart';
-import 'package:aws_s3_upload_lite/enum/acl.dart';
 import 'package:config/Config.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -97,10 +96,11 @@ class KycService {
         bucket: bucketName!,
         file: file,
         region: region!,
-        destDir: "Kyc/$APP_PARTNER_CODE/Individual/${SharedPrefManager.userId}",
-        filename: "/$fileName",
+        key: "Kyc/$APP_PARTNER_CODE/Individual/${SharedPrefManager.userId}/$fileName",
+        destDir: "Kyc/$APP_PARTNER_CODE/Individual/${SharedPrefManager.userId}/",
+        filename: fileName,
         onUploadProgress: (sentBytes, totalBytes) {
-          log('Upload Progress: ($sentBytes/$totalBytes)');
+          log('Upload Progress: ${((sentBytes / totalBytes) * 100).toStringAsFixed(2)}%');
         },
       );
       return response;

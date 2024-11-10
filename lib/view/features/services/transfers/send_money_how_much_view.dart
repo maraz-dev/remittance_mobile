@@ -106,7 +106,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
         //context.pushNamed(SendMoneyFinalView.path);
         _destinationAmount.text = next.value?.destinationAmount?.amountInt() ?? '0.00';
         _rate = 1 / (next.value?.rate ?? 1.0);
-        _fee = next.value?.fee ?? 0.0;
+        _fee = next.value?.feeInSourceCurrency ?? 0.0;
         feeResponse.value = next.value ?? SendChargeResponse();
 
         setState(() {
@@ -194,7 +194,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                                       );
                                     },
                                     image: transferState.sourceCurrency?.flag?.png ?? "",
-                                    code: fromBalance.value.countryCode ?? "NG",
+                                    code: transferState.sourceCountry?.code ?? "NG",
                                   ),
                                 ],
                               ),

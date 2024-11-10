@@ -13,40 +13,50 @@ class SelectedTransferStateNotifier extends StateNotifier<TransferState> {
   final Ref ref;
 
   void _initializeDefaultSelections() {
-    // Default Country
     ref.listen(
-      sourceCurrencyProvider,
+      sourceCountryProvider,
       (_, next) {
         next.whenData((sourceCountry) {
-          if (state.sourceCurrency == null) {
-            selectSourceCurrency(sourceCountry.first);
-          }
+          selectSourceCountry(sourceCountry.first);
         });
       },
     );
 
-    // Listen to destination countries changes
-    ref.listen(destinationCountryProvider, (previous, next) {
-      next.whenData((countries) {
-        if (countries.isNotEmpty && state.destinationCountry == null) {
-          final firstCountry = countries.first;
-          selectDestinationCountry(firstCountry);
+    // Listen to Destination countries changes
+    ref.listen(
+      destinationCountryProvider,
+      (_, next) {
+        next.whenData((countries) {
+          if (countries.isNotEmpty && state.destinationCountry == null) {
+            final firstCountry = countries.first;
+            selectDestinationCountry(firstCountry);
 
-          selectDestinationCurrency(firstCountry.destinationCurrencies!.first);
-        }
-      });
-    });
+            selectDestinationCurrency(firstCountry.destinationCurrencies!.first);
+          }
+        });
+      },
+    );
   }
 
-  void selectSourceCurrency(SMCountry country) {
-    state = state.copyWith(sourceCurrency: country);
+  void selectSourceCountry(CorridorsResponse country) {
+    state = state.copyWith(
+      sourceCountry: country,
+      sourceCurrency: country.sourceCurrencies!.first,
+      destinationCountry: country.destinationCountries!.first,
+      destinationCurrency: country.destinationCountries!.first.destinationCurrencies!.first,
+    );
+    showCharge.value = false;
+  }
+
+  void selectSourceCurrency(SMCountry currency) {
+    state = state.copyWith(sourceCurrency: currency);
     showCharge.value = false;
   }
 
   void selectDestinationCountry(SMCountry country) {
     state = state.copyWith(
       destinationCountry: country,
-      destinationCurrency: null,
+      destinationCurrency: country.destinationCurrencies!.first,
     );
     showCharge.value = false;
   }
@@ -68,7 +78,7 @@ final selectedTransferStateProvider =
 // --------------------------------------------------------------
 // Providers
 
-final sourceCurrencyProvider = Provider<AsyncValue<List<SMCountry>>>((ref) {
+final sourceCountryProvider = Provider<AsyncValue<List<CorridorsResponse>>>((ref) {
   final corridors = ref.watch(getCorridorsProvider(fromBalance.value.countryCode ?? "NG"));
 
   return corridors.maybeWhen(
@@ -76,7 +86,7 @@ final sourceCurrencyProvider = Provider<AsyncValue<List<SMCountry>>>((ref) {
     loading: () => const AsyncValue.loading(),
     error: (error, stackTrace) => AsyncValue.error(error, stackTrace),
     data: (data) {
-      return AsyncValue.data(data.first.sourceCurrencies ?? []);
+      return AsyncValue.data(data);
     },
   );
 });

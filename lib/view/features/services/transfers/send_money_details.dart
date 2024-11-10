@@ -37,9 +37,9 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
   @override
   void initState() {
     super.initState();
-    totalFee =
-        (double.parse(sourceAmount.value.replaceAll(',', '')) + (feeResponse.value.fee ?? 0.0))
-            .toString();
+    totalFee = (double.parse(sourceAmount.value.replaceAll(',', '')) +
+            (feeResponse.value.feeInSourceCurrency ?? 0.0))
+        .toString();
   }
 
   @override
@@ -133,7 +133,7 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
                         TrxItems(
                           title: 'Bank Transfer fees',
                           description:
-                              '${feeResponse.value.fee.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                              '${feeResponse.value.feeInSourceCurrency.formatDecimal()} ${transferState.sourceCurrency?.code}',
                         ),
                         16.0.height,
                         TrxItems(

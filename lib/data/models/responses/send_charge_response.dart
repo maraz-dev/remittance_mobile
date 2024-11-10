@@ -7,14 +7,16 @@ String sendChargeResponseToJson(SendChargeResponse data) => json.encode(data.toJ
 
 class SendChargeResponse {
   final num? rate;
-  final num? fee;
+  final num? feeInDestinationCurrency;
+  final num? feeInSourceCurrency;
   final num? amountConverted;
   final num? destinationAmount;
   final dynamic feesPerChannel;
 
   SendChargeResponse({
     this.rate,
-    this.fee,
+    this.feeInDestinationCurrency,
+    this.feeInSourceCurrency,
     this.amountConverted,
     this.destinationAmount,
     this.feesPerChannel,
@@ -22,17 +24,19 @@ class SendChargeResponse {
 
   factory SendChargeResponse.fromJson(Map<String, dynamic> json) => SendChargeResponse(
         rate: json["rate"],
-        fee: json["fee"],
-        amountConverted: json["amountConverted"],
-        destinationAmount: json["destinationAmount"],
-        feesPerChannel: json["feesPerChannel"],
+        feeInDestinationCurrency: json["feeInDestinationCurrency"]?.toDouble(),
+        feeInSourceCurrency: json["feeInSourceCurrency"],
+        amountConverted: json[" amountConverted"],
+        destinationAmount: json[" destinationAmount"],
+        feesPerChannel: json[" feesPerChannel"],
       );
 
   Map<String, dynamic> toJson() => {
         "rate": rate,
-        "fee": fee,
-        "amountConverted": amountConverted,
-        "destinationAmount": destinationAmount,
-        "feesPerChannel": feesPerChannel,
+        "feeInDestinationCurrency": feeInDestinationCurrency,
+        "feeInSourceCurrency": feeInSourceCurrency,
+        " amountConverted": amountConverted,
+        " destinationAmount": destinationAmount,
+        " feesPerChannel": feesPerChannel,
       };
 }

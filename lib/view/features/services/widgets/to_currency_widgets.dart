@@ -70,7 +70,9 @@ class _TOCountrySheetState extends ConsumerState<TOCountrySheet> {
           destinationCountry.maybeWhen(
             data: (data) {
               final filteredDataTO = data
-                  .where((country) => country.name!.toLowerCase().contains(_searchQuery))
+                  .where((country) =>
+                      country.name!.toLowerCase().contains(_searchQuery) ||
+                      country.code!.toLowerCase().contains(_searchQuery))
                   .toList();
               return Expanded(
                 child: SingleChildScrollView(

@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/verify_transx_req.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
+import 'package:remittance_mobile/view/features/home/account-view/add-money/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/verify_transx_funding_vm.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
@@ -82,7 +83,7 @@ class _UssdFundSheetState extends ConsumerState<UssdFundSheet> {
           ),
           child: Center(
             child: Text(
-              '${100000.formatDecimal()} ${accountInfo.value.currencyCode}',
+              '${addMoneyAmount.value} ${accountInfo.value.currencyCode}',
               style: Theme.of(context).textTheme.displayLarge?.copyWith(color: AppColors.kGrey500),
             ),
           ),
@@ -100,21 +101,23 @@ class _UssdFundSheetState extends ConsumerState<UssdFundSheet> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.ussdCode,
-                        style: Theme.of(context)
-                            .textTheme
-                            .displayLarge
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      12.0.height,
-                      Text(widget.bank),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.ussdCode,
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayMedium
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        8.0.height,
+                        Text(widget.bank),
+                      ],
+                    ),
                   ),
-                  const Spacer(),
+                  8.0.width,
                   InkWell(
                     onTap: () {
                       Clipboard.setData(ClipboardData(text: widget.ussdCode)).then((value) {
