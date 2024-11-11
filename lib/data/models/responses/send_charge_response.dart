@@ -26,17 +26,17 @@ class SendChargeResponse {
         rate: json["rate"],
         feeInDestinationCurrency: json["feeInDestinationCurrency"]?.toDouble(),
         feeInSourceCurrency: json["feeInSourceCurrency"],
-        amountConverted: json[" amountConverted"],
-        destinationAmount: json[" destinationAmount"],
-        feesPerChannel: json[" feesPerChannel"],
+        amountConverted: json["amountConverted"],
+        destinationAmount: json["destinationAmount"],
+        feesPerChannel: json["feesPerChannel"],
       );
 
   Map<String, dynamic> toJson() => {
         "rate": rate,
         "feeInDestinationCurrency": feeInDestinationCurrency,
         "feeInSourceCurrency": feeInSourceCurrency,
-        " amountConverted": amountConverted,
-        " destinationAmount": destinationAmount,
-        " feesPerChannel": feesPerChannel,
+        "amountConverted": amountConverted,
+        "destinationAmount": destinationAmount,
+        "feesPerChannel": feesPerChannel,
       };
 }

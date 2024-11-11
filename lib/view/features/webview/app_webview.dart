@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/verify_transx_req.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
-import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/debit_card_sheet.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/verify_transx_funding_vm.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
@@ -73,20 +72,19 @@ class _WebviewScreenState extends ConsumerState<WebviewScreen> with RestorationM
           },
           onNavigationRequest: (NavigationRequest navRequest) async {
             if (navRequest.url.contains("borderpal.co")) {
+              final strippedNavUrl = navRequest.url.split('&');
+              final flwTrxId = strippedNavUrl
+                  .elementAt(strippedNavUrl.indexWhere((item) => item.contains("transaction_id")))
+                  .split('=')
+                  .last;
               if (context.mounted) {
                 ref.read(verifyFundingTransxProvider.notifier).verifyFundingTransxMethod(
                       VerifyFundingTransxReq(
-                        flwTransactionId: flwTransactionId.value,
-                        requestId: flwRequestId.value,
+                        flwTransactionId: int.parse(flwTrxId),
+                        //requestId: flwRequestId.value,
                       ),
                     );
               }
-
-              // Future.delayed(const Duration(seconds: 2), () {
-              //   if (context.mounted) {
-              //     // context.goNamed(DashboardView.path);
-              //   }
-              // });
             }
             return NavigationDecision.navigate;
           },

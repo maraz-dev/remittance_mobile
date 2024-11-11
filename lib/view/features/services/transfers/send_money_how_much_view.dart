@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -102,12 +103,12 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
     final transferState = ref.watch(selectedTransferStateProvider);
 
     ref.listen(sendChargeProvider, (_, next) {
-      if (next is AsyncData) {
-        //context.pushNamed(SendMoneyFinalView.path);
-        _destinationAmount.text = next.value?.destinationAmount?.amountInt() ?? '0.00';
-        _rate = 1 / (next.value?.rate ?? 1.0);
-        _fee = next.value?.feeInSourceCurrency ?? 0.0;
-        feeResponse.value = next.value ?? SendChargeResponse();
+      if (next is AsyncData<SendChargeResponse>) {
+        _destinationAmount.text = next.value.destinationAmount.formatDecimal();
+        log(_destinationAmount.text);
+        _rate = 1 / (next.value.rate ?? 1.0);
+        _fee = next.value.feeInSourceCurrency ?? 0.0;
+        feeResponse.value = next.value;
 
         setState(() {
           showCharge.value = true;
