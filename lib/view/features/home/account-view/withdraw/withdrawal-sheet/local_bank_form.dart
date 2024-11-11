@@ -109,7 +109,7 @@ class _LocalBankFormState extends ConsumerState<LocalBankForm> {
               header: 'Recipient Name',
               controller: _recipientName,
               hint: 'Recipient Name',
-              inputType: TextInputType.name,
+              inputType: TextInputType.text,
               validator: validateGeneric,
             ),
             24.0.height,

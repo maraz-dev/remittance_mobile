@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/verify_transx_req.dart';
@@ -77,6 +78,7 @@ class _WebviewScreenState extends ConsumerState<WebviewScreen> with RestorationM
                   .elementAt(strippedNavUrl.indexWhere((item) => item.contains("transaction_id")))
                   .split('=')
                   .last;
+              log(flwTrxId);
               if (context.mounted) {
                 ref.read(verifyFundingTransxProvider.notifier).verifyFundingTransxMethod(
                       VerifyFundingTransxReq(
@@ -193,6 +195,7 @@ class _WebviewScreenState extends ConsumerState<WebviewScreen> with RestorationM
         }
       }
       if (next is AsyncError) {
+        context.pop();
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
       }
     });
@@ -201,7 +204,15 @@ class _WebviewScreenState extends ConsumerState<WebviewScreen> with RestorationM
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: innerAppBar(title: ''),
-        body: WebViewWidget(controller: _controller),
+        body: pageLoading
+            ? const Center(
+                child: SpinKitRing(
+                  color: AppColors.kPrimaryColor,
+                  size: 100,
+                  lineWidth: 3,
+                ),
+              )
+            : WebViewWidget(controller: _controller),
       ),
     );
   }

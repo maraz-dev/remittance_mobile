@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/verify_transx_req.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
-import 'package:remittance_mobile/view/features/home/account-view/add-money/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/verify_transx_funding_vm.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
@@ -21,12 +20,14 @@ import 'package:remittance_mobile/view/widgets/section_header.dart';
 
 class UssdFundSheet extends ConsumerStatefulWidget {
   final String bank, ussdCode;
+  final double amount;
   final int flwTransactionId;
   const UssdFundSheet({
     super.key,
     required this.bank,
     required this.ussdCode,
     required this.flwTransactionId,
+    required this.amount,
   });
 
   @override
@@ -83,7 +84,7 @@ class _UssdFundSheetState extends ConsumerState<UssdFundSheet> {
           ),
           child: Center(
             child: Text(
-              '${addMoneyAmount.value} ${accountInfo.value.currencyCode}',
+              '${widget.amount.formatDecimal()} ${accountInfo.value.currencyCode}',
               style: Theme.of(context).textTheme.displayLarge?.copyWith(color: AppColors.kGrey500),
             ),
           ),
@@ -144,7 +145,7 @@ class _UssdFundSheetState extends ConsumerState<UssdFundSheet> {
         24.0.height,
         MainButton(
           isLoading: loading,
-          text: 'Done',
+          text: "I've made this transfer",
           onPressed: () {
             ref.read(verifyFundingTransxProvider.notifier).verifyFundingTransxMethod(
                   VerifyFundingTransxReq(

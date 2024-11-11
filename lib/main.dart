@@ -21,7 +21,7 @@ void main() {
     // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
     // Switch the Working Environment for the Endpoints
-    await initializeCore(environment: Environmentx.staging);
+    await initializeCore(environment: Environmentx.prod);
 
     // Initialize the .env Environments
     await dotenv.load(fileName: ".env");

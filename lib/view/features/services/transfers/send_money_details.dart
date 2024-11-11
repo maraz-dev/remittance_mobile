@@ -136,6 +136,13 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
                               '${feeResponse.value.feeInSourceCurrency.formatDecimal()} ${transferState.sourceCurrency?.code}',
                         ),
                         16.0.height,
+                        // TrxItems(
+                        //   title: '',
+                        //   description:
+                        //       '≈ ${feeResponse.value.feeInSourceCurrency.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                        //   descFontSize: 13,
+                        // ),
+                        // 16.0.height,
                         TrxItems(
                           title: 'Recipient receives',
                           description:

@@ -55,6 +55,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
   // Charge Values
   num _rate = 0.0;
   num _fee = 0.0;
+  //num _destinationfee = 0.0;
 
   // // Variable to show charge
   // bool showCharge.value = false;
@@ -107,6 +108,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
         _destinationAmount.text = next.value.destinationAmount.formatDecimal();
         log(_destinationAmount.text);
         _rate = 1 / (next.value.rate ?? 1.0);
+        //_destinationfee = next.value.feeInDestinationCurrency ?? 0.0;
         _fee = next.value.feeInSourceCurrency ?? 0.0;
         feeResponse.value = next.value;
 

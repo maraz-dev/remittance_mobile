@@ -45,6 +45,7 @@ class _PaymentMethodViewState extends ConsumerState<PaymentMethodView> {
           isDismissible: false,
           widget: UssdFundSheet(
             bank: selectedResult?.bank ?? "",
+            amount: next.value?.amount ?? 0.0,
             ussdCode: next.value?.note ?? "",
             flwTransactionId: next.value?.flwTransactionId ?? 0,
           ),
