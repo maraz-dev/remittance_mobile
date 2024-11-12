@@ -126,7 +126,7 @@ class _CreateAccountFormViewState extends ConsumerState<CreateAccountFormView> {
                           controller: _middleName,
                           hint: "Enter your Middle Name",
                           inputType: TextInputType.text,
-                          validator: validateGeneric,
+                          validator: null,
                         ),
                         16.0.height,
                         input.TextInput(
