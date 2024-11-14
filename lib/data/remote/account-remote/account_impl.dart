@@ -9,6 +9,7 @@ import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
 import 'package:remittance_mobile/data/models/responses/checkout_model.dart';
+import 'package:remittance_mobile/data/models/responses/funding_options_dto.dart';
 import 'package:remittance_mobile/data/models/responses/ussd_bank_model.dart';
 import 'package:remittance_mobile/data/models/responses/ussd_funding_model.dart';
 import 'package:remittance_mobile/data/models/responses/validate_card_funding_model.dart';
@@ -77,5 +78,10 @@ class AccountImpl implements AccountRepository {
   @override
   Future<List<BanksModel>> getMobileBanksEndpoint(String country) async {
     return await _accountService.getMobileBanksEndpoint(country);
+  }
+
+  @override
+  Future<List<FundingOptionDto>> getFundingOptionsEndpoint(String accountNumber) async {
+    return await _accountService.getFundingOptionsEndpoint(accountNumber);
   }
 }

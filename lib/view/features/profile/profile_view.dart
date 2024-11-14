@@ -117,7 +117,10 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                               text: value.text,
                               onPressed: () => value.optionPath == null
                                   ? null
-                                  : context.pushNamed(value.optionPath),
+                                  : context.pushNamed(
+                                      value.optionPath,
+                                      extra: userProfile.value,
+                                    ),
                             );
                           },
                           separatorBuilder: (context, index) {

@@ -88,9 +88,7 @@ class AuthService {
       _responseHandler.handleResponse(
         response: response.data,
         onSuccess: () async {
-          final res = await response.data['data'];
-          await _storage.saveData(PrefKeys.token, res['token'] ?? '');
-          _hivestorage.set(StorageKey.userProfile.name, res);
+          final res = response.data['data'];
           SharedPrefManager.userId = res['userId'];
           SharedPrefManager.email = res['email'];
           SharedPrefManager.isNewLogin = res['isNewLogin'];
@@ -98,6 +96,9 @@ class AuthService {
           SharedPrefManager.isKycComplete = res['isKycComplete'];
           SharedPrefManager.isSecurityQuestionSet = res['isSecurityQuestionSet'];
           SharedPrefManager.onboardingRequestId = res['onboardingRequestId'];
+
+          await _storage.saveData(PrefKeys.token, res['token'] ?? '');
+          await _hivestorage.set(StorageKey.userProfile.name, res);
 
           // Save the Password for Biometrics Login
           await _storage.saveData(PrefKeys.password, loginReq.password ?? "");

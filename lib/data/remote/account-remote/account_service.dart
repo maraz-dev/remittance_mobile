@@ -14,6 +14,7 @@ import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
 import 'package:remittance_mobile/data/models/responses/checkout_model.dart';
+import 'package:remittance_mobile/data/models/responses/funding_options_dto.dart';
 import 'package:remittance_mobile/data/models/responses/ussd_bank_model.dart';
 import 'package:remittance_mobile/data/models/responses/ussd_funding_model.dart';
 import 'package:remittance_mobile/data/models/responses/validate_card_funding_model.dart';
@@ -120,6 +121,29 @@ class AccountService {
         onSuccess: () {
           final res = response.data['data'];
           return AccountModel.fromJson(res);
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  // Get Banks
+  Future<List<FundingOptionDto>> getFundingOptionsEndpoint(String accountNumber) async {
+    try {
+      final response = await _networkService.request(
+        '${endpointUrl.baseFundingUrl}${endpointUrl.getFundingOptions}/$accountNumber',
+        RequestMethod.get,
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'] as List;
+          final responseList = res.map((json) => FundingOptionDto.fromJson(json)).toList();
+          return responseList;
         },
       );
       return result;

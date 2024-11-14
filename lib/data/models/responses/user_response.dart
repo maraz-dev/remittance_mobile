@@ -1,8 +1,14 @@
+import 'dart:convert';
+
+UserResponse userResponseFromJson(String str) => UserResponse.fromJson(json.decode(str));
+
+String userResponseToJson(UserResponse data) => json.encode(data.toJson());
+
 class UserResponse {
   final String? userId;
   final String? firstName;
   final String? lastName;
-  final String? middleName;
+  final dynamic middleName;
   final String? partnerCode;
   final dynamic businessCode;
   final String? countryCode;
@@ -16,7 +22,7 @@ class UserResponse {
   final String? token;
   final String? refreshToken;
   final String? onboardingStatus;
-  final dynamic kycProgress;
+  final String? kycProgress;
   final String? onboardingRequestId;
   final DateTime? tokenExpiresAt;
   final bool? changePassword;
@@ -25,6 +31,8 @@ class UserResponse {
   final dynamic deviceToken;
   final bool? isNewLogin;
   final bool? isSecurityQuestionSet;
+  final String? phoneNumber;
+  final dynamic address;
 
   UserResponse({
     this.userId,
@@ -53,6 +61,8 @@ class UserResponse {
     this.deviceToken,
     this.isNewLogin,
     this.isSecurityQuestionSet,
+    this.phoneNumber,
+    this.address,
   });
 
   factory UserResponse.fromJson(Map<String, dynamic> json) => UserResponse(
@@ -75,15 +85,16 @@ class UserResponse {
         onboardingStatus: json["onboardingStatus"],
         kycProgress: json["kycProgress"],
         onboardingRequestId: json["onboardingRequestId"],
-        tokenExpiresAt: json["tokenExpiresAt"] == null
-            ? null
-            : DateTime.parse(json["tokenExpiresAt"]),
+        tokenExpiresAt:
+            json["tokenExpiresAt"] == null ? null : DateTime.parse(json["tokenExpiresAt"]),
         changePassword: json["changePassword"],
         isLiveMode: json["isLiveMode"],
         deviceType: json["deviceType"],
         deviceToken: json["deviceToken"],
         isNewLogin: json["isNewLogin"],
         isSecurityQuestionSet: json["isSecurityQuestionSet"],
+        phoneNumber: json["phoneNumber"],
+        address: json["address"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -113,5 +124,7 @@ class UserResponse {
         "deviceToken": deviceToken,
         "isNewLogin": isNewLogin,
         "isSecurityQuestionSet": isSecurityQuestionSet,
+        "phoneNumber": phoneNumber,
+        "address": address,
       };
 }

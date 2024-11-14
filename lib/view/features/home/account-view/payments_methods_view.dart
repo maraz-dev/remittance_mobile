@@ -9,6 +9,7 @@ import 'package:remittance_mobile/view/features/home/account-view/add-money/paym
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/ussd_bank_sheet.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/ussd_sheet.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
+import 'package:remittance_mobile/view/features/home/vm/accounts-vm/account_providers.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/checkout_vm.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/fund_with_ussd_vm.dart';
 import 'package:remittance_mobile/view/features/home/widgets/payment_method_card.dart';
@@ -36,6 +37,8 @@ class _PaymentMethodViewState extends ConsumerState<PaymentMethodView> {
   Widget build(BuildContext context) {
     final checkoutloading = ref.watch(fundWithCheckoutProvider).isLoading;
     final ussdLoading = ref.watch(fundWithUssdProvider).isLoading;
+    final fundingOptions =
+        ref.watch(getFundingOptionsProvider(accountInfo.value.accountNumber ?? ""));
 
     ref.listen(fundWithUssdProvider, (_, next) {
       if (next is AsyncData) {

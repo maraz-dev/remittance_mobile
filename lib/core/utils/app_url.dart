@@ -117,6 +117,7 @@ class ApiEndpoints {
   // Funding
   String get getBanks => "/api/v1/bank";
   String get getUssdBanks => '/api/v1/bank/ussd';
+  String get getFundingOptions => '/api/v1/funding/customer';
   String get checkoutFunding => "/api/v1/funding/flutterwave/customer/checkout/initiate";
   String get initiateCardFunding => "/api/v1/funding/flutterwave/customer/card/initiate";
   String get validateCardFunding => "/api/v1/funding/flutterwave/card/validate";

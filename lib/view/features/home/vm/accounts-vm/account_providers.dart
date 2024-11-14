@@ -1,6 +1,7 @@
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/core/di/injector.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
+import 'package:remittance_mobile/data/models/responses/funding_options_dto.dart';
 import 'package:remittance_mobile/data/models/responses/ussd_bank_model.dart';
 
 final getCustomerAccountsProvider = FutureProvider.autoDispose((ref) async {
@@ -29,4 +30,9 @@ final getMobileBanksProvider =
 final getUSSDBanksProvider =
     FutureProvider.autoDispose.family<List<UssdBanksDto>, String>((ref, args) async {
   return ref.read(accountRepository).getUSSDBanksEndpoint(args);
+});
+
+final getFundingOptionsProvider =
+    FutureProvider.autoDispose.family<List<FundingOptionDto>, String>((ref, args) async {
+  return ref.read(accountRepository).getFundingOptionsEndpoint(args);
 });

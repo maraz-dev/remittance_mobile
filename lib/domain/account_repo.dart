@@ -9,6 +9,7 @@ import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
 import 'package:remittance_mobile/data/models/responses/checkout_model.dart';
+import 'package:remittance_mobile/data/models/responses/funding_options_dto.dart';
 import 'package:remittance_mobile/data/models/responses/ussd_bank_model.dart';
 import 'package:remittance_mobile/data/models/responses/ussd_funding_model.dart';
 import 'package:remittance_mobile/data/models/responses/validate_card_funding_model.dart';
@@ -19,6 +20,7 @@ abstract class AccountRepository {
   Future<List<AccountModel>> getAccountsEndpoint();
   Future<AccountModel> getIndividualAccountsEndpoint(String country, String currency);
   Future<AccountModel> createIndividualAccountEndpoint(CreateCustomerAccountReq req);
+  Future<List<FundingOptionDto>> getFundingOptionsEndpoint(String accountNumber);
   Future<List<BanksModel>> getBanksEndpoint(String country);
   Future<List<BanksModel>> getMobileBanksEndpoint(String country);
   Future<List<UssdBanksDto>> getUSSDBanksEndpoint(String vendorCode);
