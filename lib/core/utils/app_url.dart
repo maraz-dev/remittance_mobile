@@ -127,8 +127,8 @@ class ApiEndpoints {
 
   // Send Money
   String get getCorridors => "/api/v1/sendmoney/corridors/ST000015";
-  String get sendToBank => "/api/v1/sendmoney/toBank";
-  String get sendToMobileMoney => "/api/v1/sendmoney/toMobileMoney";
+  String get sendToBank => "/api/v1/sendmoney/Bank";
+  String get sendToMobileMoney => "/api/v1/sendmoney/MobileMoney";
   String get sendToInAppUser => "/api/v1/sendmoney/toInAppUser";
   String get sendCharge => "/api/v1/sendmoney/charge";
   String get getBeneficiaries => "/api/v1/Beneficiary";

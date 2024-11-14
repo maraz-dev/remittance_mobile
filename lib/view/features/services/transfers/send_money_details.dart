@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/send_money_to_bank_req.dart';
+import 'package:remittance_mobile/data/models/requests/send_money_to_mobile_money.dart';
 import 'package:remittance_mobile/view/features/home/account-view/exchange/exchange_transaction_detail.dart';
 import 'package:remittance_mobile/view/features/home/widgets/validate_pin_sheet.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_from_view.dart';
@@ -10,6 +11,7 @@ import 'package:remittance_mobile/view/features/services/transfers/send_money_ho
 import 'package:remittance_mobile/view/features/services/transfers/send_money_to_who_view.dart';
 import 'package:remittance_mobile/view/features/services/vm/send-money-vm/send_money_vm.dart';
 import 'package:remittance_mobile/view/features/services/vm/send_to_bank_vm.dart';
+import 'package:remittance_mobile/view/features/services/vm/send_to_mobile_money_vm.dart';
 import 'package:remittance_mobile/view/features/services/widgets/send_trx_details_card.dart';
 import 'package:remittance_mobile/view/features/services/widgets/success_transaction_sheet.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
@@ -45,6 +47,7 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
   @override
   Widget build(BuildContext context) {
     final sendMoneyLoading = ref.watch(sendToBankProvider).isLoading;
+    final mobileMoneyLoading = ref.watch(sendToMobileMoneyProvider).isLoading;
     final transferState = ref.watch(selectedTransferStateProvider);
 
     ref.listen(sendToBankProvider, (_, next) {
@@ -66,12 +69,31 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
       }
     });
 
+    ref.listen(sendToMobileMoneyProvider, (_, next) {
+      if (next is AsyncData) {
+        AppBottomSheet.showBottomSheet(
+          context,
+          isDismissible: false,
+          enableDrag: false,
+          widget: SuccessTranxSheet(
+            amount: double.parse(sourceAmount.value.replaceAll(',', ''))
+                .amountWithCurrency(transferState.sourceCurrency?.symbol ?? ''),
+            accountDetails: '${selectedBeneficiary.value.accountName}',
+            requestId: next.value?.requestId ?? "",
+          ),
+        );
+      }
+      if (next is AsyncError) {
+        SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
+      }
+    });
+
     return AbsorbPointer(
-      absorbing: sendMoneyLoading,
+      absorbing: sendMoneyLoading || mobileMoneyLoading,
       child: Scaffold(
         appBar: innerAppBar(title: 'Send Money'),
         body: OverlayLoadingIndicator(
-          isLoading: sendMoneyLoading,
+          isLoading: sendMoneyLoading || mobileMoneyLoading,
           child: ScaffoldBody(
             body: SingleChildScrollView(
               child: Column(
@@ -195,7 +217,7 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
           children: [
             MainButton(
               text: 'Send ${totalFee.formatDecimal()} ${transferState.sourceCurrency?.code}',
-              isLoading: sendMoneyLoading,
+              isLoading: sendMoneyLoading || mobileMoneyLoading,
               onPressed: () async {
                 bool? res = await AppBottomSheet.showBottomSheet(
                   context,
@@ -205,20 +227,37 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
                 );
                 if (res == null) return;
                 if (res == true) {
-                  ref.read(sendToBankProvider.notifier).sendToBankMethod(
-                        SendToBankReq(
-                          bankCode: selectedBeneficiary.value.bankCode,
-                          destinationAccountName: selectedBeneficiary.value.accountName,
-                          destinationAccountNumber: selectedBeneficiary.value.accountNumber,
-                          destinationCountryCode: transferState.destinationCountry?.code,
-                          destinationCurrency: transferState.destinationCurrency?.code,
-                          sourceAccountNumber: fromBalance.value.accountNumber,
-                          sourceCurrency: transferState.sourceCurrency?.code,
-                          serviceTypeCode: "ST000015",
-                          amount: double.parse(sourceAmount.value.replaceAll(',', '')),
-                          description: '',
-                        ),
-                      );
+                  if (selectedBeneficiary.value.channel!.contains("Bank")) {
+                    ref.read(sendToBankProvider.notifier).sendToBankMethod(
+                          SendToBankReq(
+                            bankCode: selectedBeneficiary.value.bankCode,
+                            destinationAccountName: selectedBeneficiary.value.accountName,
+                            destinationAccountNumber: selectedBeneficiary.value.accountNumber,
+                            destinationCountryCode: transferState.destinationCountry?.code,
+                            destinationCurrency: transferState.destinationCurrency?.code,
+                            sourceAccountNumber: fromBalance.value.accountNumber,
+                            sourceCurrency: transferState.sourceCurrency?.code,
+                            serviceTypeCode: "ST000015",
+                            amount: double.parse(sourceAmount.value.replaceAll(',', '')),
+                            description: '',
+                          ),
+                        );
+                  } else {
+                    ref.read(sendToMobileMoneyProvider.notifier).sendToMobileMoneyMethod(
+                          SendToMobileMoneyReq(
+                            bankCode: selectedBeneficiary.value.bankCode,
+                            recipientName: selectedBeneficiary.value.accountName,
+                            mobileMoneyNumber: selectedBeneficiary.value.phoneNumber,
+                            destinationCountryCode: transferState.destinationCountry?.code,
+                            destinationCurrency: transferState.destinationCurrency?.code,
+                            sourceCountryCode: transferState.sourceCountry?.code,
+                            sourceAccountNumber: fromBalance.value.accountNumber,
+                            sourceCurrency: transferState.sourceCurrency?.code,
+                            amount: double.parse(sourceAmount.value.replaceAll(',', '')),
+                            description: '',
+                          ),
+                        );
+                  }
                 }
               },
             )

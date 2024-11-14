@@ -30,7 +30,6 @@ class SelectedTransferStateNotifier extends StateNotifier<TransferState> {
           if (countries.isNotEmpty && state.destinationCountry == null) {
             final firstCountry = countries.first;
             selectDestinationCountry(firstCountry);
-
             selectDestinationCurrency(firstCountry.destinationCurrencies!.first);
           }
         });
@@ -44,6 +43,8 @@ class SelectedTransferStateNotifier extends StateNotifier<TransferState> {
       sourceCurrency: country.sourceCurrencies!.first,
       destinationCountry: country.destinationCountries!.first,
       destinationCurrency: country.destinationCountries!.first.destinationCurrencies!.first,
+      recipientTypes:
+          country.destinationCountries!.first.destinationCurrencies!.first.recipientTypes,
     );
     showCharge.value = false;
   }

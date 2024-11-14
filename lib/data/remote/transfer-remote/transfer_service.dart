@@ -146,11 +146,37 @@ class TransferService {
 
   // Send to Mobile Money
   Future<SendMoneyResponse> sendMoneyToMobileMoneyEndpoint(SendToMobileMoneyReq req) async {
+    String? deviceToken, ipAddress, latitude, longitude;
+
     try {
+      await getDeviceDetails().then((value) {
+        deviceToken = value[1];
+      });
+
+      // Get Device IP Address
+      await getDeviceIP().then((value) {
+        ipAddress = value;
+      });
+
+      // Get Location
+      await determineDeviceLocation().then((value) async {
+        latitude = value.latitude.toString();
+        longitude = value.longitude.toString();
+      });
+
       final response = await _networkService.request(
+        options: Options(headers: {'sessionId': UUIDGenerator.generateUUID()}),
         endpointUrl.baseFundingUrl + endpointUrl.sendToMobileMoney,
         RequestMethod.post,
-        data: req.toJson(),
+        data: req
+            .copyWith(
+              latitude: latitude,
+              longitude: longitude,
+              ipAddress: ipAddress,
+              deviceToken: deviceToken,
+              channel: 'Mobile',
+            )
+            .toJson(),
       );
 
       // Handle the Response
