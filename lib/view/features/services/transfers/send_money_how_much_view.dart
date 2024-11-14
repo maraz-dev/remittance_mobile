@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/send_money_charge.dart';
@@ -18,6 +17,7 @@ import 'package:remittance_mobile/view/features/services/vm/send-money-vm/send_m
 import 'package:remittance_mobile/view/features/services/vm/send_charge_vm.dart';
 import 'package:remittance_mobile/view/features/services/vm/services_vm.dart';
 import 'package:remittance_mobile/view/features/services/widgets/from_currency_widgets.dart';
+import 'package:remittance_mobile/view/features/services/widgets/how_much_buttons.dart';
 import 'package:remittance_mobile/view/features/services/widgets/rates_card.dart';
 import 'package:remittance_mobile/view/features/services/widgets/swap_icon_card.dart';
 import 'package:remittance_mobile/view/features/services/widgets/to_currency_widgets.dart';
@@ -370,70 +370,6 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                     .slideY(begin: .1, end: 0)
               ],
             ),
-    );
-  }
-}
-
-class FromButton extends ConsumerWidget {
-  final String image, code;
-  final Function()? onPressed;
-  const FromButton({
-    super.key,
-    required this.image,
-    required this.code,
-    this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return InkWell(
-      onTap: onPressed,
-      child: Row(
-        children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(image),
-          ),
-          8.0.width,
-          Text(
-            code,
-            style: Theme.of(context).textTheme.displaySmall,
-          ),
-          8.0.width,
-          SvgPicture.asset(AppImages.arrowDown),
-        ],
-      ),
-    );
-  }
-}
-
-class ToButton extends StatelessWidget {
-  final String image, code;
-  final Function()? onPressed;
-  const ToButton({
-    super.key,
-    required this.image,
-    required this.code,
-    this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      child: Row(
-        children: [
-          CircleAvatar(
-            backgroundImage: NetworkImage(image),
-          ),
-          8.0.width,
-          Text(
-            code,
-            style: Theme.of(context).textTheme.displaySmall,
-          ),
-          8.0.width,
-          SvgPicture.asset(AppImages.arrowDown),
-        ],
-      ),
     );
   }
 }

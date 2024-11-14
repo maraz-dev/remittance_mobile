@@ -20,6 +20,7 @@ abstract class AccountRepository {
   Future<AccountModel> getIndividualAccountsEndpoint(String country, String currency);
   Future<AccountModel> createIndividualAccountEndpoint(CreateCustomerAccountReq req);
   Future<List<BanksModel>> getBanksEndpoint(String country);
+  Future<List<BanksModel>> getMobileBanksEndpoint(String country);
   Future<List<UssdBanksDto>> getUSSDBanksEndpoint(String vendorCode);
   Future<CheckoutDto> fundWithCheckoutEndpoint(CheckoutReq req);
   Future<UssdFundingDto> fundWithUssdEndpoint(InitiateUssdFundingReq req);

@@ -5,12 +5,14 @@ class TransferState {
   final SMCountry? sourceCurrency;
   final SMCountry? destinationCountry;
   final DestinationCurrency? destinationCurrency;
+  final List<RecipientType>? recipientTypes;
 
   TransferState({
     this.sourceCountry,
     this.sourceCurrency,
     this.destinationCountry,
     this.destinationCurrency,
+    this.recipientTypes,
   });
 
   TransferState copyWith({
@@ -18,12 +20,14 @@ class TransferState {
     SMCountry? sourceCurrency,
     SMCountry? destinationCountry,
     DestinationCurrency? destinationCurrency,
+    List<RecipientType>? recipientTypes,
   }) {
     return TransferState(
       sourceCountry: sourceCountry ?? this.sourceCountry,
       sourceCurrency: sourceCurrency ?? this.sourceCurrency,
       destinationCountry: destinationCountry ?? this.destinationCountry,
       destinationCurrency: destinationCurrency ?? this.destinationCurrency,
+      recipientTypes: recipientTypes ?? this.recipientTypes,
     );
   }
 }

@@ -178,11 +178,11 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
                   SendTrxDetailsCard(
                     heading: "Recipient",
                     icon: AppImages.accountDetails,
-                    info: 'Bank Account',
+                    info: selectedBeneficiary.value.channel,
                     title: selectedBeneficiary.value.accountName?.truncate(25) ?? 'John Doe',
                     subtitle:
-                        '${selectedBeneficiary.value.accountNumber} · ${selectedBeneficiary.value.bankName}'
-                            .truncate(29),
+                        '${selectedBeneficiary.value.channel == "Bank" ? selectedBeneficiary.value.accountNumber : selectedBeneficiary.value.phoneNumber} - ${selectedBeneficiary.value.bankName}'
+                            .truncate(27),
                     onPressed: () => context.pop(),
                   ),
                   24.0.height,

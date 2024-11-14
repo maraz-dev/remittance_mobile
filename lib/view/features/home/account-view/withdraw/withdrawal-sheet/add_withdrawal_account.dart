@@ -54,7 +54,7 @@ class _AddBankAccountSheetState extends State<AddBankAccountSheet>
             children: [
               SectionHeader(
                   text: widget.route == BankRoute.recipients
-                      ? 'Bank Account'
+                      ? 'Add Bank Account'
                       : 'Add Withdrawal Bank Account'),
               InkWell(
                 onTap: () => context.pop(),

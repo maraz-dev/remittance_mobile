@@ -9,6 +9,7 @@ import 'package:remittance_mobile/data/models/responses/beneficiary_model.dart';
 import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdrawal-sheet/add_withdrawal_account.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/account_providers.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_details.dart';
+import 'package:remittance_mobile/view/features/services/vm/send-money-vm/send_money_vm.dart';
 import 'package:remittance_mobile/view/features/services/vm/services_vm.dart';
 import 'package:remittance_mobile/view/features/services/widgets/recipient_card.dart';
 import 'package:remittance_mobile/view/features/services/widgets/recipients-sheets/borderpay_user_sheet.dart';
@@ -59,6 +60,7 @@ class _SendMoneyToWhoViewState extends ConsumerState<SendMoneyToWhoView> {
   @override
   Widget build(BuildContext context) {
     final getBeneficiaries = ref.watch(getBeneficiariesProvider);
+    final transferState = ref.watch(selectedTransferStateProvider);
 
     return Scaffold(
       appBar: innerAppBar(title: 'Send Money'),
@@ -80,14 +82,21 @@ class _SendMoneyToWhoViewState extends ConsumerState<SendMoneyToWhoView> {
                   16.0.height,
                   getBeneficiaries.maybeWhen(
                     data: (data) {
-                      final filteredData = data
+                      // Show only the recipients for that particular currency
+                      final streamlinedList = data
+                          .where((currency) => currency.destinationCurrency!
+                              .contains("${transferState.destinationCurrency!.code}"))
+                          .toList();
+
+                      // Filter the list for searching
+                      final filteredData = streamlinedList
                           .where(
                             (recipient) =>
                                 recipient.accountName!.toLowerCase().contains(_searchQuery) ||
                                 recipient.accountNumber!.toLowerCase().contains(_searchQuery),
                           )
                           .toList();
-                      if (data.isEmpty) {
+                      if (streamlinedList.isEmpty) {
                         return AddNewRecipientWidget(
                           onPressed: () {
                             AppBottomSheet.showBottomSheet(
@@ -155,7 +164,9 @@ class _SendMoneyToWhoViewState extends ConsumerState<SendMoneyToWhoView> {
                                           image:
                                               "https://static.vecteezy.com/system/resources/thumbnails/000/593/729/small/B011.jpg",
                                           name: value.accountName,
-                                          accNumber: value.accountNumber,
+                                          accNumber: value.channel!.contains("Bank")
+                                              ? value.accountNumber
+                                              : value.phoneNumber,
                                           channel: value.bankName,
                                         ),
                                       );
@@ -206,13 +217,19 @@ class _SendMoneyToWhoViewState extends ConsumerState<SendMoneyToWhoView> {
   }
 }
 
-class AddRecipientSheet extends StatelessWidget {
+class AddRecipientSheet extends ConsumerWidget {
   const AddRecipientSheet({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final transferState = ref.watch(selectedTransferStateProvider);
+
+    final filteredRecipientList = addRecipientOptionList
+        .where((e) => transferState.recipientTypes!
+            .any((l) => e.title.replaceAll(' ', '').contains(l.name ?? "")))
+        .toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -238,29 +255,21 @@ class AddRecipientSheet extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
-            var list = addRecipientOptionList[index];
-
-            // List containing all the bottomsheets
-            List<Widget> sheets = const [
-              AddBankAccountSheet(route: BankRoute.recipients),
-              MobileMoneySheet(),
-              BorderPayUserSheet(),
-              CashPickUpSheet(),
-            ];
+            var list = filteredRecipientList[index];
 
             return InkWell(
               onTap: () {
                 context.pop();
                 AppBottomSheet.showBottomSheet(
                   context,
-                  widget: sheets[index],
+                  widget: list.getScreen(context),
                 );
               },
               child: AddRecipientItemCard(list: list),
             );
           },
           separatorBuilder: (context, index) => 24.0.height,
-          itemCount: 1,
+          itemCount: filteredRecipientList.length,
         ),
         16.0.height,
       ],
@@ -270,12 +279,29 @@ class AddRecipientSheet extends StatelessWidget {
 
 class AddRecipientOptionItem {
   final String icon, title, desc;
+  Widget? screen;
 
   AddRecipientOptionItem({
     required this.icon,
     required this.title,
     required this.desc,
+    this.screen,
   });
+
+  Widget getScreen(BuildContext context) {
+    switch (title) {
+      case 'Bank Account':
+        return const AddBankAccountSheet(route: BankRoute.recipients);
+      case 'Mobile Money':
+        return const MobileMoneySheet();
+      case 'Balance ($APP_NAME)':
+        return const BorderPayUserSheet();
+      case 'Cash Pickup':
+        return const CashPickUpSheet();
+      default:
+        throw Exception('No screen defined for $title');
+    }
+  }
 }
 
 List<AddRecipientOptionItem> addRecipientOptionList = [
@@ -283,20 +309,24 @@ List<AddRecipientOptionItem> addRecipientOptionList = [
     icon: AppImages.accountDetails,
     title: 'Bank Account',
     desc: 'Provide recipients bank account details',
+    screen: const AddBankAccountSheet(route: BankRoute.recipients),
   ),
   AddRecipientOptionItem(
     icon: AppImages.accountDetails,
     title: 'Mobile Money',
     desc: 'Provide recipients mobile money account details',
+    screen: const MobileMoneySheet(),
   ),
   AddRecipientOptionItem(
     icon: AppImages.wallet,
-    title: 'Balance $APP_NAME',
+    title: 'Balance ($APP_NAME)',
     desc: 'Send money to a $APP_NAME user',
+    screen: const BorderPayUserSheet(),
   ),
   AddRecipientOptionItem(
     icon: AppImages.card,
-    title: 'Cash Pick Up',
+    title: 'Cash Pickup',
     desc: 'Provide details of the person receiving the cash',
+    screen: const CashPickUpSheet(),
   ),
 ];

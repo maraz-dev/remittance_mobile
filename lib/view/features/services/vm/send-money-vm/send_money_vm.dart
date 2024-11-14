@@ -62,7 +62,11 @@ class SelectedTransferStateNotifier extends StateNotifier<TransferState> {
   }
 
   void selectDestinationCurrency(DestinationCurrency currency) {
-    state = state.copyWith(destinationCurrency: currency);
+    state = state.copyWith(
+      destinationCurrency: currency,
+      recipientTypes: currency.recipientTypes,
+    );
+
     showCharge.value = false;
   }
 

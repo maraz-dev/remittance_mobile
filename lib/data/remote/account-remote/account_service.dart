@@ -151,6 +151,29 @@ class AccountService {
     }
   }
 
+  // Get Banks
+  Future<List<BanksModel>> getMobileBanksEndpoint(String country) async {
+    try {
+      final response = await _networkService.request(
+        '${endpointUrl.baseFundingUrl}${endpointUrl.getBanks}/$country/MobileMoney',
+        RequestMethod.get,
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data'] as List;
+          final responseList = res.map((json) => BanksModel.fromJson(json)).toList();
+          return responseList;
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   // Get USSD Banks
   Future<List<UssdBanksDto>> getUSSDBanksEndpoint(String vendorCode) async {
     try {

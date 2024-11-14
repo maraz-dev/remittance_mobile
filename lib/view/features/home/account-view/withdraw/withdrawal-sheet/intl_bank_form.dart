@@ -7,7 +7,6 @@ import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/beneficiary_model.dart';
 import 'package:remittance_mobile/view/features/services/transfers/bank_sheet.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_details.dart';
-import 'package:remittance_mobile/view/features/services/transfers/send_money_from_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_to_who_view.dart';
 import 'package:remittance_mobile/view/features/services/vm/add_beneficiary_vm.dart';
 import 'package:remittance_mobile/view/features/services/vm/send-money-vm/send_money_vm.dart';
@@ -108,7 +107,7 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
               BanksModel? result = await AppBottomSheet.showBottomSheet(
                 context,
                 widget: BanksSheet(
-                  country: transferState.destinationCurrency?.code ?? "",
+                  country: transferState.destinationCountry?.code ?? "",
                 ),
               );
 
@@ -149,8 +148,8 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
                         channel: 'Bank',
                         sourceAccountNumber: _accountNo.text,
                         currency: transferState.sourceCurrency?.code,
-                        sourceCountry: fromBalance.value.countryCode,
-                        sourceCountryCode: fromBalance.value.countryCode,
+                        sourceCountry: transferState.sourceCountry?.code,
+                        sourceCountryCode: transferState.sourceCountry?.code,
                         destinationCountryCode: transferState.destinationCountry?.code,
                         destinationCurrency: transferState.destinationCurrency?.code,
                         sourceCurrency: transferState.sourceCurrency?.code,
@@ -158,8 +157,8 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
                         iban: _accountNo.text,
                         accountName: _recipientName.text,
                         fullName: _recipientName.text,
-                        firstName: _recipientName.text.split(' ').first,
-                        lastName: _recipientName.text.split(' ').last,
+                        firstName: _recipientName.text.trim().split(' ').first,
+                        lastName: _recipientName.text.trim().split(' ').last,
                         bankCode: _selectedBank?.code,
                         bankName: _selectedBank?.bankName,
                         routingNumber: _sortCode.text,

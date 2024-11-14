@@ -21,6 +21,11 @@ final getBanksProvider =
   return ref.read(accountRepository).getBanksEndpoint(args);
 });
 
+final getMobileBanksProvider =
+    FutureProvider.autoDispose.family<List<BanksModel>, String>((ref, args) async {
+  return ref.read(accountRepository).getMobileBanksEndpoint(args);
+});
+
 final getUSSDBanksProvider =
     FutureProvider.autoDispose.family<List<UssdBanksDto>, String>((ref, args) async {
   return ref.read(accountRepository).getUSSDBanksEndpoint(args);

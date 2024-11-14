@@ -94,8 +94,8 @@ class KycService {
         accessKey: accessKey!,
         secretKey: secretKey!,
         bucket: bucketName!,
-        file: file,
         region: region!,
+        file: file,
         key: "Kyc/$APP_PARTNER_CODE/Individual/${SharedPrefManager.userId}/$fileName",
         destDir: "Kyc/$APP_PARTNER_CODE/Individual/${SharedPrefManager.userId}/",
         filename: fileName,
@@ -103,6 +103,7 @@ class KycService {
           log('Upload Progress: ${((sentBytes / totalBytes) * 100).toStringAsFixed(2)}%');
         },
       );
+      //print("Kyc/$APP_PARTNER_CODE/Individual/${SharedPrefManager.userId}/$fileName");
       return response;
     } catch (e) {
       throw e.toString();

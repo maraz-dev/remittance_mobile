@@ -73,4 +73,9 @@ class AccountImpl implements AccountRepository {
   Future<List<UssdBanksDto>> getUSSDBanksEndpoint(String vendorCode) async {
     return await _accountService.getUSSDBanksEndpoint(vendorCode);
   }
+
+  @override
+  Future<List<BanksModel>> getMobileBanksEndpoint(String country) async {
+    return await _accountService.getMobileBanksEndpoint(country);
+  }
 }

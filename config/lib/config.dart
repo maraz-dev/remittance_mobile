@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 const APP_NAME = 'Remittance';
-const APP_PARTNER_CODE = 'P00004'; //'P00004';
+const APP_PARTNER_CODE = 'P00020'; //'P00004';
 const APP_PARTNER_SUPPORT_NUMBER = '08188880951';
 const APP_PARTNER_SUPPORT_EMAIL = 'hello@errandpay.com';
 const APP_PARTNER_DOMAIN_NAME = 'borderpal.co';
