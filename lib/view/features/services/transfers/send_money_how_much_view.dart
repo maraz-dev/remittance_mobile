@@ -88,7 +88,6 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
               destinationCountryCode: transfer.destinationCountry?.code,
               destinationCurrency: transfer.destinationCurrency?.code,
               sourceCurrency: transfer.sourceCurrency?.code,
-              channel: "Bank",
               amount: double.parse(_sourceAmount.text.replaceAll(',', '')),
             ),
           );

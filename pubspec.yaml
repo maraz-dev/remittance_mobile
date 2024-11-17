@@ -6,10 +6,13 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.1+3
 
 environment:
-  sdk: '>=3.3.2 <4.0.0'
+  sdk: ">=3.3.2 <4.0.0"
 
 dependencies:
-  aws_s3_upload_lite: ^0.1.5
+  amplify_storage_s3: ^2.5.0
+  aws_s3_upload_lite: #^0.1.5
+    git:
+      url: https://github.com/maraz-dev/aws_s3_upload_lite.git
   camera: ^0.11.0+1
   clock: ^1.1.1
   config:
@@ -36,7 +39,7 @@ dependencies:
   flutter_svg: ^2.0.9
   fluttertoast: ^8.2.4
   geocoding: ^3.0.0
-  geolocator: ^13.0.1
+  geolocator: any
   get_ip_address: ^0.0.7
   get_it: ^7.2.0
   go_router: ^13.1.0
