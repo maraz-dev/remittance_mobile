@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/responses/customer_transaction_model.dart';
+import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/transactions/transaction_details.dart';
 import 'package:remittance_mobile/view/features/transactions/vm/get_customer_transx_vm.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
@@ -93,7 +94,10 @@ class _TransactionHistoryViewState extends ConsumerState<TransactionHistoryView>
         .toList();
 
     return Scaffold(
-      appBar: innerAppBar(title: 'Transaction History'),
+      appBar: innerAppBar(
+        title: 'Transaction History',
+        backOnPressed: () => context.goNamed(DashboardView.path),
+      ),
       body: ScaffoldBody(
         body: AbsorbPointer(
           absorbing: transactionLoading,

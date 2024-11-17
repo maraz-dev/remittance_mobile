@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math' as math;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +54,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
   // Charge Values
   num _rate = 0.0;
   num _fee = 0.0;
+  FeesPerChannel _feesPerChannel = FeesPerChannel();
   //num _destinationfee = 0.0;
 
   // // Variable to show charge
@@ -105,11 +105,11 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
     ref.listen(sendChargeProvider, (_, next) {
       if (next is AsyncData<SendChargeResponse>) {
         _destinationAmount.text = next.value.destinationAmount.formatDecimal();
-        log(_destinationAmount.text);
         _rate = 1 / (next.value.rate ?? 1.0);
         //_destinationfee = next.value.feeInDestinationCurrency ?? 0.0;
         _fee = next.value.feeInSourceCurrency ?? 0.0;
         feeResponse.value = next.value;
+        _feesPerChannel = next.value.feesPerChannel ?? FeesPerChannel();
 
         setState(() {
           showCharge.value = true;
@@ -308,7 +308,35 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                                       text:
                                           '${_fee.formatDecimal()} ${transferState.sourceCurrency?.code}',
                                       description: 'Fees',
-                                      onTapped: () {},
+                                      onTapped: () {
+                                        AppBottomSheet.showBottomSheet(
+                                          context,
+                                          widget: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              const SectionHeader(text: 'Fee'),
+                                              24.0.height,
+                                              if (_feesPerChannel.bank != null) ...[
+                                                FeeItem(
+                                                  channel: 'Bank',
+                                                  fee:
+                                                      '${_feesPerChannel.bank?.feeInSourceCurrency} ${transferState.sourceCurrency?.code}',
+                                                ),
+                                                24.0.height,
+                                              ],
+                                              if (_feesPerChannel.mobileMoney != null) ...[
+                                                FeeItem(
+                                                  channel: 'Mobile Money',
+                                                  fee:
+                                                      '${_feesPerChannel.mobileMoney?.feeInSourceCurrency} ${transferState.sourceCurrency?.code}',
+                                                ),
+                                                24.0.height,
+                                              ],
+                                            ],
+                                          ),
+                                        );
+                                      },
                                     ),
                                     16.0.height,
                                     if (_sourceAmount.text.isNotEmpty &&
@@ -369,6 +397,29 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                     .slideY(begin: .1, end: 0)
               ],
             ),
+    );
+  }
+}
+
+class FeeItem extends StatelessWidget {
+  final String? channel, fee;
+  const FeeItem({
+    super.key,
+    this.channel,
+    this.fee,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionHeader(text: channel ?? ""),
+          Text(fee ?? ""),
+        ],
+      ),
     );
   }
 }

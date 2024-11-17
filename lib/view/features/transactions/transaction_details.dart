@@ -123,6 +123,7 @@ class _TransactionDetailsState extends ConsumerState<TransactionDetails>
                                       length: data.updates?.length ?? 0,
                                       widget: widget,
                                       transxUpdates: data.updates ?? [],
+                                      transxDetail: data.detail ?? TransxDetail(),
                                     ),
                                   ],
                                 ),
