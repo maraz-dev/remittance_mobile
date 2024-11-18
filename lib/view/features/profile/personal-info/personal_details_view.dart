@@ -37,9 +37,9 @@ class _PersonalDetailsViewState extends ConsumerState<PersonalDetailsView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _fullName.text = "${widget.user.firstName} ${widget.user.lastName}";
       _phoneNumber.text = widget.user.phoneNumber ?? "";
-      _address.text = widget.user.address ?? widget.user.countryCode;
-      _country.text = widget.user.countryCode ?? "";
+      _country.text = widget.user.country ?? "";
       _emailAddress.text = widget.user.email ?? "";
+      _address.text = widget.user.address ?? widget.user.country;
     });
   }
 

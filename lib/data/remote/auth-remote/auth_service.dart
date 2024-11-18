@@ -96,6 +96,8 @@ class AuthService {
           SharedPrefManager.isKycComplete = res['isKycComplete'];
           SharedPrefManager.isSecurityQuestionSet = res['isSecurityQuestionSet'];
           SharedPrefManager.onboardingRequestId = res['onboardingRequestId'];
+          SharedPrefManager.firstName = res['firstName'];
+          SharedPrefManager.lastName = res['lastName'];
 
           await _storage.saveData(PrefKeys.token, res['token'] ?? '');
           await _hivestorage.set(StorageKey.userProfile.name, res);

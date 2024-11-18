@@ -11,7 +11,7 @@ class UserResponse {
   final dynamic middleName;
   final String? partnerCode;
   final dynamic businessCode;
-  final String? countryCode;
+  final String? country;
   final String? roleId;
   final String? roleName;
   final String? email;
@@ -41,7 +41,7 @@ class UserResponse {
     this.middleName,
     this.partnerCode,
     this.businessCode,
-    this.countryCode,
+    this.country,
     this.roleId,
     this.roleName,
     this.email,
@@ -72,7 +72,7 @@ class UserResponse {
         middleName: json["middleName"],
         partnerCode: json["partnerCode"],
         businessCode: json["businessCode"],
-        countryCode: json["countryCode"],
+        country: json["country"],
         roleId: json["roleId"],
         roleName: json["roleName"],
         email: json["email"],
@@ -104,7 +104,7 @@ class UserResponse {
         "middleName": middleName,
         "partnerCode": partnerCode,
         "businessCode": businessCode,
-        "countryCode": countryCode,
+        "country": country,
         "roleId": roleId,
         "roleName": roleName,
         "email": email,

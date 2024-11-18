@@ -97,7 +97,9 @@ class _TransactionDetailsState extends ConsumerState<TransactionDetails>
                               5.0.height,
                               RichTextWidget(
                                 text: '${widget.status.name.toUpperCase()} to ',
-                                hyperlink: data.detail?.beneficiary!.split('|')[1] ?? "",
+                                hyperlink: data.detail!.beneficiary!.contains('|')
+                                    ? data.detail!.beneficiary!.split('|')[1]
+                                    : data.detail?.beneficiary ?? "",
                                 hyperlinkColor: AppColors.kGrey700,
                               ),
                               16.0.height,

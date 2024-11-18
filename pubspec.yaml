@@ -58,6 +58,7 @@ dependencies:
   pdf: ^3.11.1
   pinput: ^3.0.1
   pretty_dio_logger: ^1.1.1
+  screenshot: ^3.0.0
   share_plus: ^10.1.2
   shared_preferences: ^2.2.2
   smooth_page_indicator: ^1.1.0

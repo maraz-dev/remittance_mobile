@@ -13,7 +13,8 @@ import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/button_with_icon.dart';
-import 'package:remittance_mobile/view/widgets/receipt.dart';
+import 'package:remittance_mobile/view/widgets/receipt_image.dart';
+import 'package:remittance_mobile/view/widgets/receipt_pdf.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 import 'package:timelines/timelines.dart';
 
@@ -155,8 +156,8 @@ class TransactionUpdatesTab extends StatelessWidget {
                           image: AppImages.documentUploadIcon,
                           text: 'PDF',
                           onPressed: () async {
+                            context.pop();
                             final result = await SharePDF.pdfTransxReceipt(details: transxDetail);
-
                             await AppUtils.shareFile(result);
                           },
                         ),
@@ -164,7 +165,11 @@ class TransactionUpdatesTab extends StatelessWidget {
                         ShareReceiptItem(
                           image: AppImages.imageUploadIcon,
                           text: 'Image',
-                          onPressed: () {},
+                          onPressed: () async {
+                            context.pop();
+                            final result = await ShareImage.imgTransxReceipt(details: transxDetail);
+                            await AppUtils.shareFile(result);
+                          },
                         ),
                         16.0.height,
                       ],
