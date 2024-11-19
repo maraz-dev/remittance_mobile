@@ -18,6 +18,10 @@ class SelectedTransferStateNotifier extends StateNotifier<TransferState> {
       (_, next) {
         next.whenData((sourceCountry) {
           selectSourceCountry(sourceCountry.first);
+          selectSourceCurrency(sourceCountry.first.sourceCurrencies!.first);
+          selectDestinationCountry(sourceCountry.first.destinationCountries!.first);
+          selectDestinationCurrency(
+              sourceCountry.first.destinationCountries!.first.destinationCurrencies!.first);
         });
       },
     );

@@ -75,7 +75,7 @@ class ShareImage {
                     ),
                   ),
                   Text(
-                    '${details.trxAmount.formatDecimal()} ${details.sourceCurrency}',
+                    '${details.trxAmount.formatDecimal()} ${details.currency!.shortCode}',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,

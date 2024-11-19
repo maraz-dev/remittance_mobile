@@ -113,6 +113,10 @@ class _CreateCustomerAccountSheetState extends ConsumerState<CreateCustomerAccou
                                   currency.currencyName!.toLowerCase().contains(_searchQuery) ||
                                   currency.currencyCode!.toLowerCase().contains(_searchQuery))
                               .toList();
+                          if (data.isEmpty) {
+                            return const Center(
+                                child: Text('No Available Currency at the Moment...'));
+                          }
                           return ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),

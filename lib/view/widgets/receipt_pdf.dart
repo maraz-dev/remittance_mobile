@@ -76,7 +76,7 @@ class SharePDF {
                     ),
                     SizedBox(height: 5),
                     pdf.Text(
-                      '${details.trxAmount.formatDecimal()} ${details.sourceCurrency}',
+                      '${details.trxAmount.formatDecimal()} ${details.currency!.shortCode}',
                       style: pdf.TextStyle(
                           fontSize: 32, fontWeight: pdf.FontWeight.bold, color: PdfColors.grey700),
                     ),

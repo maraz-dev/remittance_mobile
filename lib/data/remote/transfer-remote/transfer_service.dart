@@ -126,6 +126,7 @@ class TransferService {
               longitude: longitude,
               latitude: latitude,
               ipAddress: ipAddress,
+              channel: "Bank",
             )
             .toJson(),
       );
@@ -136,6 +137,28 @@ class TransferService {
         onSuccess: () {
           final res = response.data['data'];
           return SendMoneyResponse.fromJson(res);
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  // Validate Account Number
+  Future<String> validateAccountNumberEndpoint(String accountNumber) async {
+    try {
+      final response = await _networkService.request(
+        '${endpointUrl.baseFundingUrl}${endpointUrl.validateAccountNumber}/115/$accountNumber',
+        RequestMethod.get,
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () {
+          final res = response.data['data']['message'];
+          return res;
         },
       );
       return result;
@@ -174,7 +197,7 @@ class TransferService {
               longitude: longitude,
               ipAddress: ipAddress,
               deviceToken: deviceToken,
-              channel: 'Mobile',
+              channel: 'MobileMoney',
             )
             .toJson(),
       );

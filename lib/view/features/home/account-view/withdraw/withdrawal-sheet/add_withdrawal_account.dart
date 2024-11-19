@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdrawal-sheet/intl_bank_form.dart';
-import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdrawal-sheet/local_bank_form.dart';
-import 'package:remittance_mobile/view/features/home/account-view/withdraw/withdrawal-sheet/custom_tab_bar.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -70,23 +68,29 @@ class _AddBankAccountSheetState extends State<AddBankAccountSheet>
           27.0.height,
 
           // Bank Tab Controller
-          CustomTabBar(
-            tabController: _bankOptionTabController,
-            tabs: const [
-              Tab(text: 'Local'),
-              Tab(text: 'International'),
-            ],
-          ),
-          24.0.height,
+          // CustomTabBar(
+          //   tabController: _bankOptionTabController,
+          //   tabs: const [
+          //     Tab(text: 'Local'),
+          //     Tab(text: 'International'),
+          //   ],
+          // ),
+          // 24.0.height,
+
+          // Expanded(
+          //   child: TabBarView(
+          //     controller: _bankOptionTabController,
+          //     children: const [
+          //       SingleChildScrollView(child: LocalBankForm()),
+          //       SingleChildScrollView(child: InternationalBankForm()),
+          //     ],
+          //   ),
+          // ),
 
           // View Per Tab
-          Expanded(
-            child: TabBarView(
-              controller: _bankOptionTabController,
-              children: const [
-                SingleChildScrollView(child: LocalBankForm()),
-                SingleChildScrollView(child: InternationalBankForm()),
-              ],
+          const Expanded(
+            child: SingleChildScrollView(
+              child: InternationalBankForm(),
             ),
           ),
 

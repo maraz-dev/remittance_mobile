@@ -12,6 +12,7 @@ abstract class TransferRepo {
   Future<List<BeneficiaryModel>> getBeneficiariesEndpoint();
   Future<BeneficiaryModel> addBeneficiaryEndpoint(AddBeneficiaryReq req);
   Future<SendMoneyResponse> sendMoneyToBankEndpoint(SendToBankReq req);
+  Future<String> validateAccountNumberEndpoint(String accountNumber);
   Future<SendMoneyResponse> sendMoneyToMobileMoneyEndpoint(SendToMobileMoneyReq req);
   Future<SendMoneyResponse> sendMoneyToInAppUserEndpoint(SendToMobileMoneyReq req);
   Future<SendChargeResponse> sendMoneyChargeEndpoint(SendChargeReq req);

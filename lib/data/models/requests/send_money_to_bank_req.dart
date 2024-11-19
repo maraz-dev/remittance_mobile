@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-SendToBankReq sendMoneyToBankReqFromJson(String str) =>
-    SendToBankReq.fromJson(json.decode(str));
+SendToBankReq sendMoneyToBankReqFromJson(String str) => SendToBankReq.fromJson(json.decode(str));
 
-String sendMoneyToBankReqToJson(SendToBankReq data) =>
-    json.encode(data.toJson());
+String sendMoneyToBankReqToJson(SendToBankReq data) => json.encode(data.toJson());
 
 class SendToBankReq {
   final String? destinationCountryCode;
@@ -23,6 +21,7 @@ class SendToBankReq {
   final String? ipAddress;
   final String? serviceCode;
   final String? serviceTypeCode;
+  final String? channel;
 
   SendToBankReq({
     this.destinationCountryCode,
@@ -41,6 +40,7 @@ class SendToBankReq {
     this.ipAddress,
     this.serviceCode,
     this.serviceTypeCode,
+    this.channel,
   });
 
   SendToBankReq copyWith({
@@ -60,19 +60,17 @@ class SendToBankReq {
     String? ipAddress,
     String? serviceCode,
     String? serviceTypeCode,
+    String? channel,
   }) =>
       SendToBankReq(
-        destinationCountryCode:
-            destinationCountryCode ?? this.destinationCountryCode,
+        destinationCountryCode: destinationCountryCode ?? this.destinationCountryCode,
         sourceCurrency: sourceCurrency ?? this.sourceCurrency,
         destinationCurrency: destinationCurrency ?? this.destinationCurrency,
         bankCode: bankCode ?? this.bankCode,
         bankBranch: bankBranch ?? this.bankBranch,
         sourceAccountNumber: sourceAccountNumber ?? this.sourceAccountNumber,
-        destinationAccountNumber:
-            destinationAccountNumber ?? this.destinationAccountNumber,
-        destinationAccountName:
-            destinationAccountName ?? this.destinationAccountName,
+        destinationAccountNumber: destinationAccountNumber ?? this.destinationAccountNumber,
+        destinationAccountName: destinationAccountName ?? this.destinationAccountName,
         amount: amount ?? this.amount,
         description: description ?? this.description,
         deviceToken: deviceToken ?? this.deviceToken,
@@ -81,6 +79,7 @@ class SendToBankReq {
         ipAddress: ipAddress ?? this.ipAddress,
         serviceCode: serviceCode ?? this.serviceCode,
         serviceTypeCode: serviceTypeCode ?? this.serviceTypeCode,
+        channel: channel ?? this.channel,
       );
 
   factory SendToBankReq.fromJson(Map<String, dynamic> json) => SendToBankReq(
@@ -100,6 +99,7 @@ class SendToBankReq {
         ipAddress: json["ipAddress"],
         serviceCode: json["serviceCode"],
         serviceTypeCode: json["serviceTypeCode"],
+        channel: json["Channel"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -119,5 +119,6 @@ class SendToBankReq {
         "ipAddress": ipAddress,
         "serviceCode": serviceCode,
         "serviceTypeCode": serviceTypeCode,
+        "Channel": channel,
       };
 }

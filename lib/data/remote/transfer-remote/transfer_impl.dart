@@ -41,4 +41,8 @@ class TransferImpl implements TransferRepo {
   @override
   Future<List<BeneficiaryModel>> getBeneficiariesEndpoint() async =>
       await _transferService.getBeneficiariesEndpoint();
+
+  @override
+  Future<String> validateAccountNumberEndpoint(String accountNumber) async =>
+      await _transferService.validateAccountNumberEndpoint(accountNumber);
 }

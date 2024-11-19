@@ -74,24 +74,6 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextInput(
-            animate: false,
-            header: 'Account Number/IBAN',
-            controller: _accountNo,
-            hint: 'Enter your Account Number/IBAN',
-            inputType: TextInputType.number,
-            validator: validateGeneric,
-          ),
-          24.0.height,
-          TextInput(
-            animate: false,
-            header: 'Recipient Name',
-            controller: _recipientName,
-            hint: 'Recipient Name',
-            inputType: TextInputType.text,
-            validator: validateGeneric,
-          ),
-          24.0.height,
-          TextInput(
             header: 'Bank',
             controller: _bank,
             hint: 'Select Bank',
@@ -121,6 +103,24 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
           24.0.height,
           TextInput(
             animate: false,
+            header: 'Account Number/IBAN',
+            controller: _accountNo,
+            hint: 'Enter your Account Number/IBAN',
+            inputType: TextInputType.number,
+            validator: validateGeneric,
+          ),
+          24.0.height,
+          TextInput(
+            animate: false,
+            header: 'Recipient Name',
+            controller: _recipientName,
+            hint: 'Recipient Name',
+            inputType: TextInputType.text,
+            validator: validateGeneric,
+          ),
+          24.0.height,
+          TextInput(
+            animate: false,
             header: 'Sort Code',
             controller: _sortCode,
             hint: 'Sort Code',
@@ -137,6 +137,15 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
             validator: validateGeneric,
           ),
           24.0.height,
+          TextInput(
+            animate: false,
+            header: 'Swift Code',
+            controller: _swiftCode,
+            hint: 'Swift Code',
+            inputType: TextInputType.name,
+            validator: validateGeneric,
+          ),
+          48.0.height,
           MainButton(
             isLoading: addBeneficiaryLoading,
             text: 'Add Bank Account',
@@ -167,7 +176,8 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
                     );
               }
             },
-          )
+          ),
+          16.0.height,
         ],
       ),
     );
