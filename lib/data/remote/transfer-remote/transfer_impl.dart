@@ -2,6 +2,7 @@ import 'package:remittance_mobile/data/models/requests/add_beneficiary_req.dart'
 import 'package:remittance_mobile/data/models/requests/send_money_charge.dart';
 import 'package:remittance_mobile/data/models/requests/send_money_to_bank_req.dart';
 import 'package:remittance_mobile/data/models/requests/send_money_to_mobile_money.dart';
+import 'package:remittance_mobile/data/models/requests/validate_acc_no_req.dart';
 import 'package:remittance_mobile/data/models/responses/beneficiary_model.dart';
 import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
 import 'package:remittance_mobile/data/models/responses/send_charge_response.dart';
@@ -43,6 +44,6 @@ class TransferImpl implements TransferRepo {
       await _transferService.getBeneficiariesEndpoint();
 
   @override
-  Future<String> validateAccountNumberEndpoint(String accountNumber) async =>
-      await _transferService.validateAccountNumberEndpoint(accountNumber);
+  Future<String> validateAccountNumberEndpoint(ValidateAccountNumberReq req) async =>
+      await _transferService.validateAccountNumberEndpoint(req);
 }

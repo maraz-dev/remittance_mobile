@@ -10,6 +10,7 @@ import 'package:remittance_mobile/data/models/requests/add_beneficiary_req.dart'
 import 'package:remittance_mobile/data/models/requests/send_money_charge.dart';
 import 'package:remittance_mobile/data/models/requests/send_money_to_bank_req.dart';
 import 'package:remittance_mobile/data/models/requests/send_money_to_mobile_money.dart';
+import 'package:remittance_mobile/data/models/requests/validate_acc_no_req.dart';
 import 'package:remittance_mobile/data/models/responses/beneficiary_model.dart';
 import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
 import 'package:remittance_mobile/data/models/responses/send_charge_response.dart';
@@ -146,18 +147,17 @@ class TransferService {
   }
 
   // Validate Account Number
-  Future<String> validateAccountNumberEndpoint(String accountNumber) async {
+  Future<String> validateAccountNumberEndpoint(ValidateAccountNumberReq req) async {
     try {
       final response = await _networkService.request(
-        '${endpointUrl.baseFundingUrl}${endpointUrl.validateAccountNumber}/115/$accountNumber',
-        RequestMethod.get,
-      );
+          '${endpointUrl.baseFundingUrl}${endpointUrl.validateAccountNumber}', RequestMethod.post,
+          data: req.toJson());
 
       // Handle the Response
       final result = _responseHandler.handleResponse(
         response: response.data,
         onSuccess: () {
-          final res = response.data['data']['message'];
+          final res = response.data['data'];
           return res;
         },
       );

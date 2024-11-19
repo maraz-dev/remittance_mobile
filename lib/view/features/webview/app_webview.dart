@@ -2,12 +2,12 @@
 
 import 'dart:developer';
 
+import 'package:config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:remittance_mobile/data/models/requests/verify_transx_req.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/verify_transx_funding_vm.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
@@ -72,21 +72,22 @@ class _WebviewScreenState extends ConsumerState<WebviewScreen> with RestorationM
             }
           },
           onNavigationRequest: (NavigationRequest navRequest) async {
-            if (navRequest.url.contains("borderpal.co")) {
-              final strippedNavUrl = navRequest.url.split('&');
-              final flwTrxId = strippedNavUrl
-                  .elementAt(strippedNavUrl.indexWhere((item) => item.contains("transaction_id")))
-                  .split('=')
-                  .last;
-              log(flwTrxId);
-              if (context.mounted) {
-                ref.read(verifyFundingTransxProvider.notifier).verifyFundingTransxMethod(
-                      VerifyFundingTransxReq(
-                        flwTransactionId: int.parse(flwTrxId),
-                        //requestId: flwRequestId.value,
-                      ),
-                    );
-              }
+            if (navRequest.url == APP_PARTNER_DOMAIN_NAME) {
+              context.goNamed(DashboardView.path);
+              // final strippedNavUrl = navRequest.url.split('&');
+              // final flwTrxId = strippedNavUrl
+              //     .elementAt(strippedNavUrl.indexWhere((item) => item.contains("transaction_id")))
+              //     .split('=')
+              //     .last;
+              // log(flwTrxId);
+              // if (context.mounted) {
+              //   ref.read(verifyFundingTransxProvider.notifier).verifyFundingTransxMethod(
+              //         VerifyFundingTransxReq(
+              //           flwTransactionId: int.parse(flwTrxId),
+              //           //requestId: flwRequestId.value,
+              //         ),
+              //       );
+              // }
             }
             return NavigationDecision.navigate;
           },
@@ -203,7 +204,9 @@ class _WebviewScreenState extends ConsumerState<WebviewScreen> with RestorationM
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        appBar: innerAppBar(title: ''),
+        appBar: innerAppBar(
+          title: widget.routeName != "checkout" ? widget.routeName : "",
+        ),
         body: pageLoading
             ? const Center(
                 child: SpinKitRing(

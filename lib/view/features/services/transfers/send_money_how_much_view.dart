@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_skeleton_ui/flutter_skeleton_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -69,13 +70,14 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
       setState(() {
         showCharge.value = false;
       });
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //   handleChargeReq(ref.watch(selectedTransferStateProvider));
+      // });
     });
   }
 
   @override
   void dispose() {
-    // _sourceCurrency.dispose();
-    // _destinationCurrency.dispose();
     _sourceAmount.dispose();
     _destinationAmount.dispose();
     super.dispose();
@@ -102,6 +104,10 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
     final corridors = ref.watch(getCorridorsProvider(fromBalance.value.countryCode ?? "NG"));
     final transferState = ref.watch(selectedTransferStateProvider);
 
+    // if (showCharge.value == false) {
+    //   handleChargeReq(transferState);
+    // }
+
     ref.listen(sendChargeProvider, (_, next) {
       if (next is AsyncData<SendChargeResponse>) {
         _destinationAmount.text = next.value.destinationAmount.formatDecimal();
@@ -118,6 +124,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
       if (next is AsyncError) {
         setState(() {
           showCharge.value = false;
+          _destinationAmount.text = "0.00";
         });
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
       }
@@ -239,6 +246,9 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                           fontSize: 36.sp,
                           controller: _sourceAmount,
                           currency: transferState.sourceCurrency?.code,
+                          onFieldSubmitted: (value) {
+                            handleChargeReq(transferState);
+                          },
                         ),
                         8.0.height,
 
@@ -277,80 +287,114 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // Destination Amount
-                              AmountInput(
-                                readOnly: true,
-                                header: 'Recipient Receives',
-                                color: AppColors.kWhiteColor,
-                                currencyColor: AppColors.kGrey200,
-                                controller: _destinationAmount,
-                                currency: transferState.destinationCurrency?.code,
-                                fontSize: 30.sp,
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: AmountInput(
+                                      readOnly: true,
+                                      header: 'Recipient Receives',
+                                      color: AppColors.kWhiteColor,
+                                      currencyColor: AppColors.kGrey200,
+                                      controller: _destinationAmount,
+                                      currency: transferState.destinationCurrency?.code,
+                                      fontSize: 30.sp,
+                                    ),
+                                  ),
+                                  if (sendChargeLoading) ...[
+                                    15.0.width,
+                                    Column(
+                                      children: [
+                                        20.0.height,
+                                        const SpinKitFadingCircle(
+                                          color: AppColors.kPrimaryColor,
+                                          size: 35,
+                                        ),
+                                      ],
+                                    )
+                                  ]
+                                ],
                               ),
 
                               24.0.height,
-                              Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: AppColors.kWhiteColor,
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Column(
-                                  children: [
-                                    RatesCard(
-                                      image: AppImages.compareArrows,
-                                      text:
-                                          '1 ${transferState.destinationCurrency?.code} = ${_rate.formatDecimal()} ${transferState.sourceCurrency?.code}',
-                                      description: 'Rate',
-                                    ),
-                                    16.0.height,
-                                    RatesCard(
-                                      image: AppImages.loyalty,
-                                      text:
-                                          '${_fee.formatDecimal()} ${transferState.sourceCurrency?.code}',
-                                      description: 'Fees',
-                                      onTapped: () {
-                                        AppBottomSheet.showBottomSheet(
-                                          context,
-                                          widget: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              const SectionHeader(text: 'Fee'),
-                                              24.0.height,
-                                              if (_feesPerChannel.bank != null) ...[
-                                                FeeItem(
-                                                  channel: 'Bank',
-                                                  fee:
-                                                      '${_feesPerChannel.bank?.feeInSourceCurrency} ${transferState.sourceCurrency?.code}',
-                                                ),
-                                                24.0.height,
-                                              ],
-                                              if (_feesPerChannel.mobileMoney != null) ...[
-                                                FeeItem(
-                                                  channel: 'Mobile Money',
-                                                  fee:
-                                                      '${_feesPerChannel.mobileMoney?.feeInSourceCurrency} ${transferState.sourceCurrency?.code}',
-                                                ),
-                                                24.0.height,
-                                              ],
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                    16.0.height,
-                                    if (_sourceAmount.text.isNotEmpty &&
-                                        _sourceAmount.text != '.') ...[
-                                      RatesCard(
-                                        image: AppImages.addAlt,
-                                        text:
-                                            '${(double.parse(_sourceAmount.text.replaceAll(',', '')) + _fee).formatDecimal()} ${transferState.sourceCurrency?.code}',
-                                        description: 'Total Amount',
+                              sendChargeLoading
+                                  ? SkeletonLine(
+                                      style: SkeletonLineStyle(
+                                        height: 120,
+                                        borderRadius: BorderRadius.circular(16),
                                       ),
-                                    ],
-                                  ],
-                                ),
-                              ),
+                                    )
+                                  : Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.kWhiteColor,
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          RatesCard(
+                                            image: AppImages.compareArrows,
+                                            text:
+                                                '1 ${transferState.destinationCurrency?.code} = ${_rate.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                                            description: 'Rate',
+                                          ),
+                                          16.0.height,
+                                          RatesCard(
+                                            image: AppImages.loyalty,
+                                            text:
+                                                '${_fee.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                                            description: 'Fees',
+                                            onTapped: () {
+                                              AppBottomSheet.showBottomSheet(
+                                                context,
+                                                widget: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    const SectionHeader(text: 'Fees'),
+                                                    24.0.height,
+                                                    if (_feesPerChannel.bank != null) ...[
+                                                      FeeItem(
+                                                        channel: 'Bank',
+                                                        fee:
+                                                            '${_feesPerChannel.bank?.feeInSourceCurrency.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                                                      ),
+                                                      24.0.height,
+                                                    ],
+                                                    if (_feesPerChannel.mobileMoney != null) ...[
+                                                      FeeItem(
+                                                        channel: 'Mobile Money',
+                                                        fee:
+                                                            '${_feesPerChannel.mobileMoney?.feeInSourceCurrency.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                                                      ),
+                                                      24.0.height,
+                                                    ],
+                                                    if (_feesPerChannel.cashPickup != null) ...[
+                                                      FeeItem(
+                                                        channel: 'Cash Pickup',
+                                                        fee:
+                                                            '${_feesPerChannel.cashPickup?.feeInSourceCurrency.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                                                      ),
+                                                      24.0.height,
+                                                    ],
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                          16.0.height,
+                                          if (_sourceAmount.text.isNotEmpty &&
+                                              _sourceAmount.text != '.') ...[
+                                            RatesCard(
+                                              image: AppImages.addAlt,
+                                              text:
+                                                  '${(double.parse(_sourceAmount.text.replaceAll(',', '')) + _fee).formatDecimal()} ${transferState.sourceCurrency?.code}',
+                                              description: 'Total Amount',
+                                            ),
+                                          ],
+                                        ],
+                                      ),
+                                    ),
                             ],
                           ),
                         ),
@@ -375,7 +419,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                 ),
         ),
       ),
-      bottomNavigationBar: corridorsLoading || !showCharge.value
+      bottomNavigationBar: corridorsLoading || sendChargeLoading || !showCharge.value
           ? null
           : BottomNavBarWidget(
               children: [

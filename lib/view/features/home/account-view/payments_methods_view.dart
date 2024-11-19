@@ -1,3 +1,4 @@
+import 'package:config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -142,7 +143,7 @@ class _PaymentMethodViewState extends ConsumerState<PaymentMethodView> {
                 currency: accountInfo.value.currencyCode,
                 charge: 0,
                 accountNumber: accountInfo.value.accountNumber,
-                redirectUrl: "https://borderpal.co",
+                redirectUrl: APP_PARTNER_DOMAIN_NAME,
               ),
             );
       // context.pushNamed(DebitCardSheet.path);

@@ -6,6 +6,10 @@ BeneficiaryModel beneficiaryModelFromJson(String str) =>
 String beneficiaryModelToJson(BeneficiaryModel data) => json.encode(data.toJson());
 
 class BeneficiaryModel {
+  final String? createdBy;
+  final DateTime? dateCreated;
+  final DateTime? dateModified;
+  final String? modifiedBy;
   final int? id;
   final bool? isActive;
   final bool? isDeleted;
@@ -36,8 +40,19 @@ class BeneficiaryModel {
   final String? email;
   final String? smartCodeNumber;
   final String? meterNumber;
+  final String? swiftCode;
+  final String? sortCode;
+  final String? bankAddress;
+  final String? recipientCity;
+  final String? recipientPostalCode;
+  final String? recipientAddress;
+  final String? accountType;
 
   BeneficiaryModel({
+    this.createdBy,
+    this.dateCreated,
+    this.dateModified,
+    this.modifiedBy,
     this.id,
     this.isActive,
     this.isDeleted,
@@ -68,9 +83,107 @@ class BeneficiaryModel {
     this.email,
     this.smartCodeNumber,
     this.meterNumber,
+    this.swiftCode,
+    this.sortCode,
+    this.bankAddress,
+    this.recipientCity,
+    this.recipientPostalCode,
+    this.recipientAddress,
+    this.accountType,
   });
 
+  BeneficiaryModel copyWith({
+    String? createdBy,
+    DateTime? dateCreated,
+    DateTime? dateModified,
+    String? modifiedBy,
+    int? id,
+    bool? isActive,
+    bool? isDeleted,
+    String? partnerCode,
+    String? userId,
+    String? serviceTypeCode,
+    String? serviceType,
+    String? channel,
+    String? currency,
+    String? sourceCountry,
+    String? sourceCurrency,
+    String? destinationCountry,
+    String? destinationCurrency,
+    String? sourceCountryCode,
+    String? destinationCountryCode,
+    String? iban,
+    String? transitNumber,
+    String? routingNumber,
+    String? firstName,
+    String? lastName,
+    String? fullName,
+    String? bankCode,
+    String? bankName,
+    String? sourceAccountNumber,
+    String? accountNumber,
+    String? accountName,
+    String? phoneNumber,
+    String? email,
+    String? smartCodeNumber,
+    String? meterNumber,
+    String? swiftCode,
+    String? sortCode,
+    String? bankAddress,
+    String? recipientCity,
+    String? recipientPostalCode,
+    String? recipientAddress,
+    String? accountType,
+  }) =>
+      BeneficiaryModel(
+        createdBy: createdBy ?? this.createdBy,
+        dateCreated: dateCreated ?? this.dateCreated,
+        dateModified: dateModified ?? this.dateModified,
+        modifiedBy: modifiedBy ?? this.modifiedBy,
+        id: id ?? this.id,
+        isActive: isActive ?? this.isActive,
+        isDeleted: isDeleted ?? this.isDeleted,
+        partnerCode: partnerCode ?? this.partnerCode,
+        userId: userId ?? this.userId,
+        serviceTypeCode: serviceTypeCode ?? this.serviceTypeCode,
+        serviceType: serviceType ?? this.serviceType,
+        channel: channel ?? this.channel,
+        currency: currency ?? this.currency,
+        sourceCountry: sourceCountry ?? this.sourceCountry,
+        sourceCurrency: sourceCurrency ?? this.sourceCurrency,
+        destinationCountry: destinationCountry ?? this.destinationCountry,
+        destinationCurrency: destinationCurrency ?? this.destinationCurrency,
+        sourceCountryCode: sourceCountryCode ?? this.sourceCountryCode,
+        destinationCountryCode: destinationCountryCode ?? this.destinationCountryCode,
+        iban: iban ?? this.iban,
+        transitNumber: transitNumber ?? this.transitNumber,
+        routingNumber: routingNumber ?? this.routingNumber,
+        firstName: firstName ?? this.firstName,
+        lastName: lastName ?? this.lastName,
+        fullName: fullName ?? this.fullName,
+        bankCode: bankCode ?? this.bankCode,
+        bankName: bankName ?? this.bankName,
+        sourceAccountNumber: sourceAccountNumber ?? this.sourceAccountNumber,
+        accountNumber: accountNumber ?? this.accountNumber,
+        accountName: accountName ?? this.accountName,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        email: email ?? this.email,
+        smartCodeNumber: smartCodeNumber ?? this.smartCodeNumber,
+        meterNumber: meterNumber ?? this.meterNumber,
+        swiftCode: swiftCode ?? this.swiftCode,
+        sortCode: sortCode ?? this.sortCode,
+        bankAddress: bankAddress ?? this.bankAddress,
+        recipientCity: recipientCity ?? this.recipientCity,
+        recipientPostalCode: recipientPostalCode ?? this.recipientPostalCode,
+        recipientAddress: recipientAddress ?? this.recipientAddress,
+        accountType: accountType ?? this.accountType,
+      );
+
   factory BeneficiaryModel.fromJson(Map<String, dynamic> json) => BeneficiaryModel(
+        createdBy: json["createdBy"],
+        dateCreated: json["dateCreated"] == null ? null : DateTime.parse(json["dateCreated"]),
+        dateModified: json["dateModified"] == null ? null : DateTime.parse(json["dateModified"]),
+        modifiedBy: json["modifiedBy"],
         id: json["id"],
         isActive: json["isActive"],
         isDeleted: json["isDeleted"],
@@ -101,9 +214,20 @@ class BeneficiaryModel {
         email: json["email"],
         smartCodeNumber: json["smartCodeNumber"],
         meterNumber: json["meterNumber"],
+        swiftCode: json["swiftCode"],
+        sortCode: json["sortCode"],
+        bankAddress: json["bankAddress"],
+        recipientCity: json["recipientCity"],
+        recipientPostalCode: json["recipientPostalCode"],
+        recipientAddress: json["recipientAddress"],
+        accountType: json["accountType"],
       );
 
   Map<String, dynamic> toJson() => {
+        "createdBy": createdBy,
+        "dateCreated": dateCreated?.toIso8601String(),
+        "dateModified": dateModified?.toIso8601String(),
+        "modifiedBy": modifiedBy,
         "id": id,
         "isActive": isActive,
         "isDeleted": isDeleted,
@@ -134,5 +258,12 @@ class BeneficiaryModel {
         "email": email,
         "smartCodeNumber": smartCodeNumber,
         "meterNumber": meterNumber,
+        "swiftCode": swiftCode,
+        "sortCode": sortCode,
+        "bankAddress": bankAddress,
+        "recipientCity": recipientCity,
+        "recipientPostalCode": recipientPostalCode,
+        "recipientAddress": recipientAddress,
+        "accountType": accountType,
       };
 }

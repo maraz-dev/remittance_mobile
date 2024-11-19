@@ -62,17 +62,15 @@ class SendChargeResponse {
 class FeesPerChannel {
   final Bank? bank;
   final Bank? mobileMoney;
+  final Bank? cashPickup;
 
   FeesPerChannel({
     this.bank,
     this.mobileMoney,
+    this.cashPickup,
   });
 
-  FeesPerChannel copyWith({
-    Bank? bank,
-    Bank? mobileMoney,
-  }) =>
-      FeesPerChannel(
+  FeesPerChannel copyWith({Bank? bank, Bank? mobileMoney, Bank? cashPickup}) => FeesPerChannel(
         bank: bank ?? this.bank,
         mobileMoney: mobileMoney ?? this.mobileMoney,
       );
@@ -80,11 +78,13 @@ class FeesPerChannel {
   factory FeesPerChannel.fromJson(Map<String, dynamic> json) => FeesPerChannel(
         bank: json["Bank"] == null ? null : Bank.fromJson(json["Bank"]),
         mobileMoney: json["MobileMoney"] == null ? null : Bank.fromJson(json["MobileMoney"]),
+        cashPickup: json["CashPickup"] == null ? null : Bank.fromJson(json["CashPickup"]),
       );
 
   Map<String, dynamic> toJson() => {
         "Bank": bank?.toJson(),
         "MobileMoney": mobileMoney?.toJson(),
+        "CashPickup": cashPickup?.toJson(),
       };
 }
 

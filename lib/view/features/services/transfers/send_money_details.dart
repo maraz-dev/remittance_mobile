@@ -36,12 +36,23 @@ class SendMoneyDetailsView extends ConsumerStatefulWidget {
 
 class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
   String totalFee = '';
+
+  num getFee() {
+    if (selectedBeneficiary.value.channel!.contains("Bank")) {
+      return feeResponse.value.feesPerChannel?.bank?.feeInSourceCurrency ?? 0;
+    } else if (selectedBeneficiary.value.channel!.contains("MobileMoney")) {
+      return feeResponse.value.feesPerChannel?.mobileMoney?.feeInSourceCurrency ?? 0;
+    } else if (selectedBeneficiary.value.channel!.contains("CashPickup")) {
+      return feeResponse.value.feesPerChannel?.cashPickup?.feeInSourceCurrency ?? 0;
+    } else {
+      return 0.0;
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    totalFee = (double.parse(sourceAmount.value.replaceAll(',', '')) +
-            (feeResponse.value.feeInSourceCurrency ?? 0.0))
-        .toString();
+    totalFee = (double.parse(sourceAmount.value.replaceAll(',', '')) + (getFee())).toString();
   }
 
   @override
@@ -155,7 +166,7 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
                         TrxItems(
                           title: 'Bank Transfer fees',
                           description:
-                              '${feeResponse.value.feeInSourceCurrency.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                              '${getFee().formatDecimal()} ${transferState.sourceCurrency?.code}',
                         ),
                         16.0.height,
                         // TrxItems(
@@ -228,21 +239,35 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
                 if (res == null) return;
                 if (res == true) {
                   if (selectedBeneficiary.value.channel!.contains("Bank")) {
+                    // Send To Bank Request
                     ref.read(sendToBankProvider.notifier).sendToBankMethod(
                           SendToBankReq(
-                            bankCode: selectedBeneficiary.value.bankCode,
+                            serviceTypeCode: "ST000015",
                             destinationAccountName: selectedBeneficiary.value.accountName,
                             destinationAccountNumber: selectedBeneficiary.value.accountNumber,
                             destinationCountryCode: transferState.destinationCountry?.code,
                             destinationCurrency: transferState.destinationCurrency?.code,
                             sourceAccountNumber: fromBalance.value.accountNumber,
                             sourceCurrency: transferState.sourceCurrency?.code,
-                            serviceTypeCode: "ST000015",
+                            sourceCountryCode: transferState.sourceCountry?.code,
                             amount: double.parse(sourceAmount.value.replaceAll(',', '')),
                             description: '',
+                            bankName: selectedBeneficiary.value.bankName,
+                            bankCode: selectedBeneficiary.value.bankCode,
+                            bankAddress: selectedBeneficiary.value.bankAddress,
+                            iban: selectedBeneficiary.value.accountNumber,
+                            swiftCode: selectedBeneficiary.value.swiftCode,
+                            sortCode: selectedBeneficiary.value.sortCode,
+                            transitNumber: selectedBeneficiary.value.transitNumber,
+                            routingNumber: selectedBeneficiary.value.routingNumber,
+                            recipientAddress: selectedBeneficiary.value.recipientAddress,
+                            recipientCity: selectedBeneficiary.value.recipientCity,
+                            recipientPostalCode: selectedBeneficiary.value.recipientPostalCode,
+                            accountType: selectedBeneficiary.value.accountType,
                           ),
                         );
                   } else {
+                    // Send to Mobile Money Request
                     ref.read(sendToMobileMoneyProvider.notifier).sendToMobileMoneyMethod(
                           SendToMobileMoneyReq(
                             bankCode: selectedBeneficiary.value.bankCode,
