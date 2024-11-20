@@ -55,7 +55,12 @@ class _TransactionDetailsState extends ConsumerState<TransactionDetails>
     final transxDetails = ref.watch(getTransactionDetailProvider(widget.requestId));
 
     return Scaffold(
-      appBar: innerAppBar(title: 'Transaction Details'),
+      appBar: innerAppBar(
+        title: 'Transaction Details',
+        backOnPressed: widget.fromSend != 'false'
+            ? () => context.goNamed(DashboardView.path)
+            : () => context.pop(),
+      ),
       body: ScaffoldBody(
         body: Column(
           mainAxisSize: MainAxisSize.min,

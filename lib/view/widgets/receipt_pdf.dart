@@ -64,6 +64,23 @@ class SharePDF {
                     ),
                   ],
                 ),
+                SizedBox(height: 1),
+
+                // Status
+                pdf.Text(
+                  '${details.status}',
+                  style: pdf.TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: switch (details.status ?? "") {
+                      "Completed" => const PdfColor.fromInt(0xFF039855),
+                      "Failed" => const PdfColor.fromInt(0xFFD92D20),
+                      "Cancelled" => const PdfColor.fromInt(0xFFD92D20),
+                      "Pending" => const PdfColor.fromInt(0xFFF79009),
+                      String() => const PdfColor.fromInt(0xFFF79009),
+                    },
+                  ),
+                ),
                 SizedBox(height: 32),
 
                 // Amount
@@ -142,6 +159,24 @@ class SharePDF {
                   ),
                   SizedBox(height: 24),
                 ],
+
+                // Reference Number
+                pdf.Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    pdf.Text(
+                      'Transaction Type',
+                      style: const pdf.TextStyle(fontSize: 14, color: PdfColors.grey500),
+                    ),
+                    SizedBox(height: 5),
+                    pdf.Text(
+                      '${details.postingType}',
+                      style: pdf.TextStyle(
+                          fontSize: 16, fontWeight: pdf.FontWeight.bold, color: PdfColors.grey700),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 24),
 
                 // Reference Number
                 pdf.Column(

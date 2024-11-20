@@ -85,6 +85,7 @@ class _TransactionHistoryViewState extends ConsumerState<TransactionHistoryView>
   @override
   Widget build(BuildContext context) {
     final transactionLoading = ref.watch(getCustomerTranxProvider).isLoading;
+    final transactionError = ref.watch(getCustomerTranxProvider).hasError;
 
     // Search Controller
     final filteredData = transactionList
@@ -170,54 +171,73 @@ class _TransactionHistoryViewState extends ConsumerState<TransactionHistoryView>
                                 lineWidth: 3,
                               ),
                             )
-                          : transactionList.isEmpty
-                              ? Center(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      24.0.height,
-                                      const CardIcon(
-                                        image: AppImages.chart,
-                                        size: 40,
-                                        padding: 40,
-                                        bgColor: AppColors.kGrey200,
-                                      ),
-                                      16.0.height,
-                                      Text(
-                                        'No Transactions',
-                                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                                              fontWeight: FontWeight.w700,
-                                              color: AppColors.kGrey700,
-                                            ),
-                                      )
-                                    ],
-                                  ),
+                          : transactionError
+                              ? Column(
+                                  children: [
+                                    const CardIcon(
+                                      image: AppImages.deactivate,
+                                      size: 30,
+                                      padding: 30,
+                                      bgColor: AppColors.kGrey200,
+                                    ),
+                                    16.0.height,
+                                    Text(
+                                      'Oops! An Error Occured',
+                                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                            fontWeight: FontWeight.w700,
+                                            color: AppColors.kGrey700,
+                                          ),
+                                    )
+                                  ],
                                 )
-                              : Expanded(
-                                  child: ListView.separated(
-                                    physics: const AlwaysScrollableScrollPhysics(
-                                        parent: BouncingScrollPhysics()),
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      var value = filteredData[index];
-                                      return TransactionCard(
-                                        onPressed: () {
-                                          context.pushNamed(
-                                            TransactionDetails.path,
-                                            pathParameters: {
-                                              "id": value.requestId ?? "",
-                                              "fromSend": "false",
+                              : transactionList.isEmpty
+                                  ? Center(
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                          24.0.height,
+                                          const CardIcon(
+                                            image: AppImages.chart,
+                                            size: 40,
+                                            padding: 40,
+                                            bgColor: AppColors.kGrey200,
+                                          ),
+                                          16.0.height,
+                                          Text(
+                                            'No Transactions',
+                                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                                  fontWeight: FontWeight.w700,
+                                                  color: AppColors.kGrey700,
+                                                ),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  : Expanded(
+                                      child: ListView.separated(
+                                        physics: const AlwaysScrollableScrollPhysics(
+                                            parent: BouncingScrollPhysics()),
+                                        shrinkWrap: true,
+                                        itemBuilder: (context, index) {
+                                          var value = filteredData[index];
+                                          return TransactionCard(
+                                            onPressed: () {
+                                              context.pushNamed(
+                                                TransactionDetails.path,
+                                                pathParameters: {
+                                                  "id": value.requestId ?? "",
+                                                  "fromSend": "false",
+                                                },
+                                                extra: TransactionStatusUpdate.sent,
+                                              );
                                             },
-                                            extra: TransactionStatusUpdate.sent,
+                                            transxItem: value,
                                           );
                                         },
-                                        transxItem: value,
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) => 24.0.height,
-                                    itemCount: filteredData.length,
-                                  ),
-                                ),
+                                        separatorBuilder: (context, index) => 24.0.height,
+                                        itemCount: filteredData.length,
+                                      ),
+                                    ),
                     ],
                   ),
                 ),

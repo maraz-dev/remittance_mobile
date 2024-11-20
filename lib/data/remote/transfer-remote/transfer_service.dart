@@ -127,7 +127,7 @@ class TransferService {
               longitude: longitude,
               latitude: latitude,
               ipAddress: ipAddress,
-              channel: "Bank",
+              channel: "Mobile",
             )
             .toJson(),
       );
@@ -197,7 +197,7 @@ class TransferService {
               longitude: longitude,
               ipAddress: ipAddress,
               deviceToken: deviceToken,
-              channel: 'MobileMoney',
+              channel: 'Mobile',
             )
             .toJson(),
       );

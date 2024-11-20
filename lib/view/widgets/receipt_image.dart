@@ -61,6 +61,23 @@ class ShareImage {
                   ),
                 ],
               ),
+              const SizedBox(height: 1),
+
+              // Status
+              Text(
+                '${details.status}',
+                style: TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: switch (details.status ?? "") {
+                    "Completed" => AppColors.kSuccessColor,
+                    "Failed" => AppColors.kErrorColor,
+                    "Cancelled" => AppColors.kErrorColor,
+                    "Pending" => AppColors.kWarningColor500,
+                    String() => AppColors.kWarningColor500,
+                  },
+                ),
+              ),
               const SizedBox(height: 24),
 
               // Amount
@@ -122,6 +139,29 @@ class ShareImage {
                   ),
                   Text(
                     '${details.beneficiary!.contains('|') ? details.beneficiary!.split('|')[1] : details.beneficiary}',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey[700],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+
+              // Posting Type
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Transaction Type',
+                    style: TextStyle(
+                      fontSize: 8,
+                      color: Colors.grey[500],
+                    ),
+                  ),
+                  Text(
+                    '${details.postingType}',
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.bold,

@@ -329,6 +329,7 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
                         currency: transferState.sourceCurrency?.code,
                         sourceCountry: transferState.sourceCountry?.code,
                         sourceCountryCode: transferState.sourceCountry?.code,
+                        destinationCountry: transferState.destinationCountry?.code,
                         destinationCountryCode: transferState.destinationCountry?.code,
                         destinationCurrency: transferState.destinationCurrency?.code,
                         sourceCurrency: transferState.sourceCurrency?.code,
@@ -339,16 +340,20 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
                         lastName: _recipientName.text.trim().split(' ').last,
                         bankCode: _selectedBank?.code,
                         bankName: _selectedBank?.bankName,
-                        bankAddress: _bankAddress.text,
+                        bankAddress: _bankAddress.text.isEmpty ? null : _bankAddress.text,
                         iban: _accountNo.text,
-                        routingNumber: _routingNumber.text,
-                        swiftCode: _swiftCode.text,
-                        sortCode: _sortCode.text,
-                        transitNumber: _transitNumber.text,
-                        recipientAddress: _recipientAddress.text,
-                        recipientCity: _recipientCity.text,
-                        recipientPostalCode: _recipientPostalCode.text,
-                        accountType: _fundTransferAccountType.text,
+                        routingNumber: _routingNumber.text.isEmpty ? null : _routingNumber.text,
+                        swiftCode: _swiftCode.text.isEmpty ? null : _swiftCode.text,
+                        sortCode: _sortCode.text.isEmpty ? null : _sortCode.text,
+                        transitNumber: _transitNumber.text.isEmpty ? null : _transitNumber.text,
+                        recipientAddress:
+                            _recipientAddress.text.isEmpty ? null : _recipientAddress.text,
+                        recipientCity: _recipientCity.text.isEmpty ? null : _recipientCity.text,
+                        recipientPostalCode:
+                            _recipientPostalCode.text.isEmpty ? null : _recipientPostalCode.text,
+                        accountType: _fundTransferAccountType.text.isEmpty
+                            ? null
+                            : _fundTransferAccountType.text,
                       ),
                     );
               }

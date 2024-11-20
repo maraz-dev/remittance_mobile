@@ -116,6 +116,7 @@ class _ConfirmCreateAccountViewState extends State<ConfirmCreateAccountView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
                               'Note:',
@@ -123,12 +124,14 @@ class _ConfirmCreateAccountViewState extends State<ConfirmCreateAccountView> {
                                   fontWeight: FontWeight.bold, color: AppColors.kGrey800),
                             ),
                             5.0.width,
-                            Text(
-                              'Balances can only be used to hold funds.',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(color: AppColors.kGrey700),
+                            Expanded(
+                              child: Text(
+                                'Balances can only be used to hold funds.',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(color: AppColors.kGrey700),
+                              ),
                             )
                           ],
                         )

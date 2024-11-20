@@ -161,8 +161,9 @@ class _SendMoneyToWhoViewState extends ConsumerState<SendMoneyToWhoView> {
                                           );
                                         },
                                         child: RecipientsCard(
-                                          image:
-                                              "https://static.vecteezy.com/system/resources/thumbnails/000/593/729/small/B011.jpg",
+                                          image: value.channel!.contains('Mobile')
+                                              ? "https://banner2.cleanpng.com/20180402/zde/avhi752rp.webp"
+                                              : "https://static.vecteezy.com/system/resources/thumbnails/000/593/729/small/B011.jpg",
                                           name: value.accountName,
                                           accNumber: value.channel!.contains("Bank")
                                               ? value.accountNumber
