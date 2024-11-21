@@ -37,8 +37,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: af0d356bd90d53c234b81cef3707d0f38a551a1b
+      ref: e40a22e048c451475c5fc8fa69b1bc91ebe03651
+      resolved-ref: e40a22e048c451475c5fc8fa69b1bc91ebe03651
       url: "https://github.com/maraz-dev/aws_s3_upload_lite.git"
     source: git
     version: "0.1.5"

@@ -50,6 +50,9 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
               );
             case "Failed":
               return KYCInfo(
+                onPressed: () {
+                  context.pushNamed(CompleteProfileView.path);
+                },
                 bgColor: AppColors.kWarningColor700,
                 text: "Profile Rejected!",
                 subText: "${data.comment}",
@@ -57,6 +60,7 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
                 arrowColor: AppColors.kWarningColor50,
               );
             default:
+              //SharedPrefManager.isKycComplete = true;
               return Container();
           }
         },
@@ -78,9 +82,7 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
                 8.0.width,
                 Expanded(
                   child: Text(
-                    kDebugMode
-                        ? error.toString()
-                        : "Couldn't Fetch Profile Status",
+                    kDebugMode ? error.toString() : "Couldn't Fetch Profile Status",
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall!
@@ -129,8 +131,7 @@ class KYCInfo extends StatelessWidget {
             CardIcon(
               padding: 8,
               image: AppImages.timer,
-              iconColor:
-                  iconColor ?? AppColors.kWarningColor700.colorFilterMode(),
+              iconColor: iconColor ?? AppColors.kWarningColor700.colorFilterMode(),
               bgColor: AppColors.kWhiteColor,
             ),
             8.0.width,

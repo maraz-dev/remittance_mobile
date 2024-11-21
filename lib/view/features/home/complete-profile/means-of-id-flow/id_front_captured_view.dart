@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -32,11 +29,12 @@ class IdFrontCapturedView extends ConsumerStatefulWidget {
 class _IdFrontCapturedViewState extends ConsumerState<IdFrontCapturedView> {
   @override
   Widget build(BuildContext context) {
-    final kycUploading = ref.watch(uploadKycFileProvider).isLoading;
-    ref.listen(uploadKycFileProvider, (_, next) {
-      if (next is AsyncData) {
-        log(next.value!);
-        //widget.pressed();
+    final kycUploading = ref.watch(uploadKycDocProvider).isLoading;
+
+    ref.listen(uploadKycDocProvider, (_, next) {
+      if (next is AsyncData<String>) {
+        kycData.addAll({'MeansOfIdDocFrontPath': next.value});
+        widget.pressed();
       }
       if (next is AsyncError) {
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
@@ -110,16 +108,9 @@ class _IdFrontCapturedViewState extends ConsumerState<IdFrontCapturedView> {
             isLoading: kycUploading,
             text: 'Continue',
             onPressed: () async {
-              kycData.addAll({
-                'MeansOfIdDocFront': await MultipartFile.fromFile(
-                  idFrontImagePath.value.path,
-                  filename: idFrontImagePath.value.path.split('/').last,
-                )
-              });
-
               ref
-                  .read(uploadKycFileProvider.notifier)
-                  .uploadKycFileMethod(idFrontImagePath.value, 'ID_DOC_FRONT');
+                  .read(uploadKycDocProvider.notifier)
+                  .uploadKycDocMethod(idFrontImagePath.value, 'ID_DOC_FRONT');
             },
           )
               .animate()

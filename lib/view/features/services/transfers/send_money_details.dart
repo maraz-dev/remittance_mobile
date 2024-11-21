@@ -71,7 +71,7 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
             amount: double.parse(sourceAmount.value.replaceAll(',', ''))
                 .amountWithCurrency(transferState.sourceCurrency?.symbol ?? ''),
             accountDetails: '${selectedBeneficiary.value.accountName}',
-            requestId: next.value?.requestId ?? "",
+            requestId: next.value?.reference ?? "",
           ),
         );
       }
@@ -90,7 +90,7 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
             amount: double.parse(sourceAmount.value.replaceAll(',', ''))
                 .amountWithCurrency(transferState.sourceCurrency?.symbol ?? ''),
             accountDetails: '${selectedBeneficiary.value.accountName}',
-            requestId: next.value?.requestId ?? "",
+            requestId: next.value?.reference ?? "",
           ),
         );
       }

@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:aws_s3_upload_lite/aws_s3_upload_lite.dart';
 import 'package:config/Config.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:remittance_mobile/core/http/http_service.dart';
 import 'package:remittance_mobile/core/http/response_body_handler.dart';
@@ -90,21 +91,34 @@ class KycService {
     final secretKey = dotenv.env["AWS_SECRET_KEY"];
 
     try {
+      // Variable to get the extention
+      final String extension = file.path.split('.').last;
+
+      // Variable to hold the file path
+      final filePath =
+          "Kyc/$APP_PARTNER_CODE/Individual/${SharedPrefManager.userId}/$fileName.$extension";
+
+      // Method to Upload
       final response = await AwsS3.uploadFile(
         accessKey: accessKey!,
         secretKey: secretKey!,
         bucket: bucketName!,
         region: region!,
         file: file,
-        key: "Kyc/$APP_PARTNER_CODE/Individual/${SharedPrefManager.userId}/$fileName",
-        destDir: "Kyc/$APP_PARTNER_CODE/Individual/${SharedPrefManager.userId}/",
+        key: filePath,
+        destDir: "Kyc/$APP_PARTNER_CODE/Individual/${SharedPrefManager.userId}",
         filename: fileName,
         onUploadProgress: (sentBytes, totalBytes) {
           log('Upload Progress: ${((sentBytes / totalBytes) * 100).toStringAsFixed(2)}%');
         },
       );
-      //print("Kyc/$APP_PARTNER_CODE/Individual/${SharedPrefManager.userId}/$fileName");
-      return response;
+      if (response == '200' || response == '204') {
+        log("File Path: ${file.path}");
+        log("S3 Bucket Message: $response");
+        return filePath;
+      } else {
+        kDebugMode ? throw response : throw "Opps! An Error Occured";
+      }
     } catch (e) {
       throw e.toString();
     }

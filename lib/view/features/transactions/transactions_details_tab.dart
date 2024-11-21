@@ -78,7 +78,7 @@ class TransactionDetailsTab extends StatelessWidget {
               fontSize: 12,
               title: 'Name',
               description:
-                  '${transxDetail.beneficiary!.contains('|') ? transxDetail.beneficiary?.split('|')[1] : transxDetail.beneficiary}',
+                  '${transxDetail.beneficiary!.contains('|') ? transxDetail.beneficiary?.split('|')[1].truncate(22) : transxDetail.beneficiary?.truncate(22)}',
             ),
             12.0.height,
             TrxItems(

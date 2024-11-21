@@ -124,7 +124,7 @@ class _LatestTransactionsBoxState extends ConsumerState<LatestTransactionsBox> {
                                 context.pushNamed(
                                   TransactionDetails.path,
                                   pathParameters: {
-                                    "id": value.requestId ?? "",
+                                    "id": value.reference ?? "",
                                     "fromSend": "false",
                                   },
                                   extra: TransactionStatusUpdate.sent,
