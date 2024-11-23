@@ -64,7 +64,9 @@ dependencies:
   share_plus: ^10.1.2
   shared_preferences: ^2.2.2
   smooth_page_indicator: ^1.1.0
+  stop_watch_timer: ^3.2.1
   timelines: ^0.1.0
+  timer_button: ^2.1.1
   uuid: ^4.5.1
   webview_flutter: ^4.10.0
 

@@ -17,6 +17,7 @@ import 'package:remittance_mobile/view/utils/validator.dart';
 import 'package:remittance_mobile/view/widgets/back_button.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/richtext_widget.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class OTPVerificationView extends ConsumerStatefulWidget {
   static String path = 'otp-verification-view';
@@ -28,8 +29,7 @@ class OTPVerificationView extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<OTPVerificationView> createState() =>
-      _OTPVerificationViewState();
+  ConsumerState<OTPVerificationView> createState() => _OTPVerificationViewState();
 }
 
 class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
@@ -39,9 +39,26 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
   // Text Editing Controllers
   final TextEditingController _otp = TextEditingController();
 
+  // Stopwatch Timer
+  final StopWatchTimer _timer = StopWatchTimer(
+    mode: StopWatchMode.countDown,
+    presetMillisecond: StopWatchTimer.getMilliSecFromSecond(60),
+  );
+
   @override
-  void dispose() {
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        _timer.onStartTimer();
+      },
+    );
+  }
+
+  @override
+  void dispose() async {
     _otp.dispose();
+    _timer.dispose();
     super.dispose();
   }
 
@@ -58,23 +75,22 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
           widget.pressed();
         }
         if (next is AsyncError) {
-          SnackBarDialog.showErrorFlushBarMessage(
-              next.error.toString(), context);
+          SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
         }
       },
     );
 
-    // Endpoint State
+    // Resend OTP Endpoint State
     ref.listen(
       resendOtpViaEmailProvider,
       (_, next) {
         if (next is AsyncData<String>) {
-          SnackBarDialog.showSuccessFlushBarMessage(
-              'OTP has been sent Successfully', context);
+          SnackBarDialog.showSuccessFlushBarMessage('OTP has been sent Successfully', context);
+          _timer.onResetTimer();
+          _timer.onStartTimer();
         }
         if (next is AsyncError) {
-          SnackBarDialog.showErrorFlushBarMessage(
-              next.error.toString(), context);
+          SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
         }
       },
     );
@@ -108,22 +124,50 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
                     focusedPinTheme: focusedPinInputTheme,
                     validator: validateGeneric,
                   ),
-                )
+                ),
+                24.0.height,
+                StreamBuilder(
+                    stream: _timer.secondTime,
+                    initialData: _timer.secondTime.value,
+                    builder: (context, snap) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (snap.data == 0) ...[
+                            RichTextWidget(
+                              text: "Didn't receive a code? ",
+                              hyperlink: 'Resend to Email',
+                              onTap: () => ref
+                                  .read(resendOtpViaEmailProvider.notifier)
+                                  .resendOtpEmailMethod(),
+                            ),
+                          ] else ...[
+                            RichTextWidget(
+                              text: "Resend OTP in ",
+                              hyperlink: '${snap.data}s',
+                              hyperlinkColor: AppColors.kGrey700,
+                              onTap: () => ref
+                                  .read(resendOtpViaEmailProvider.notifier)
+                                  .resendOtpEmailMethod(),
+                            ),
+                            5.0.height,
+                          ],
+                        ],
+                      );
+                    }),
               ],
             ),
           ),
         ),
         bottomNavigationBar: BottomNavBarWidget(
           children: [
-            RichTextWidget(
-              text: "Didn't receive a code? ",
-              hyperlink: 'Send to Email',
-              onTap: () {
-                ref
-                    .read(resendOtpViaEmailProvider.notifier)
-                    .resendOtpEmailMethod();
-              },
-            ),
+            // RichTextWidget(
+            //   text: "Didn't receive a code? ",
+            //   hyperlink: 'Send to Email',
+            //   onTap: () {
+            //     ref.read(resendOtpViaEmailProvider.notifier).resendOtpEmailMethod();
+            //   },
+            // ),
             12.0.height,
             MainButton(
               isLoading: loading.isLoading || resendLoading.isLoading,
@@ -132,8 +176,7 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
                 if (_formKey.currentState!.validate()) {
                   ref
                       .read(verifyPhoneNumberProvider.notifier)
-                      .verifyPhoneNumberMethod(
-                          VerifyPhoneNumberReq(otp: _otp.text));
+                      .verifyPhoneNumberMethod(VerifyPhoneNumberReq(otp: _otp.text));
                 }
               },
             )

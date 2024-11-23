@@ -106,7 +106,7 @@ class _PaymentMethodViewState extends ConsumerState<PaymentMethodView> {
                       );
                     },
                     separatorBuilder: (context, index) => 24.0.height,
-                    itemCount: 2,
+                    itemCount: accountInfo.value.countryCode == 'NG' ? 2 : 1,
                   ),
                   20.0.height,
                 ],

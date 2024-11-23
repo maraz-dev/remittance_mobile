@@ -85,10 +85,10 @@ class KycService {
   }
 
   Future<dynamic> uploadKycFile(File file, String fileName) async {
-    final bucketName = dotenv.env["AWS_BUCKET"];
-    final region = dotenv.env["AWS_REGION"];
-    final accessKey = dotenv.env["AWS_ACCESS_KEY"];
-    final secretKey = dotenv.env["AWS_SECRET_KEY"];
+    final bucketName = dotenv.env["PROD_AWS_BUCKET"];
+    final region = dotenv.env["PROD_AWS_REGION"];
+    final accessKey = dotenv.env["PROD_AWS_ACCESS_KEY"];
+    final secretKey = dotenv.env["PROD_AWS_SECRET_KEY"];
 
     try {
       // Variable to get the extention
@@ -117,6 +117,7 @@ class KycService {
         log("S3 Bucket Message: $response");
         return filePath;
       } else {
+        log(response);
         kDebugMode ? throw response : throw "Opps! An Error Occured";
       }
     } catch (e) {
