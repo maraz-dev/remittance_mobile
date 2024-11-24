@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/core/storage/share_pref.dart';
@@ -51,7 +50,7 @@ class _LoginViewState extends ConsumerState<ForgotPasswordView> {
   Widget build(BuildContext context) {
     final loading = ref.watch(initiateForgotPasswordProvider);
     ref.listen(initiateForgotPasswordProvider, (_, next) {
-      if (next is AsyncData<String>) {
+      if (next is AsyncData<bool>) {
         successfulCreatedEmail.value = _email.text;
         context.pushNamed(ForgotPasswordOtpForm.path);
       }
@@ -84,18 +83,6 @@ class _LoginViewState extends ConsumerState<ForgotPasswordView> {
                     inputType: TextInputType.emailAddress,
                     validator: validateEmail,
                   ),
-                  16.0.height,
-                  input.PasswordInput(
-                    header: 'Transaction PIN',
-                    controller: _pin,
-                    hint: '****',
-                    maxLength: 4,
-                    inputType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                    ],
-                    validator: validateGeneric,
-                  ),
                   24.0.height,
                 ],
               ),
@@ -106,15 +93,14 @@ class _LoginViewState extends ConsumerState<ForgotPasswordView> {
           children: [
             MainButton(
               isLoading: loading.isLoading,
-              text: 'Reset Password',
+              text: 'Continue',
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
-                  ref
-                      .read(initiateForgotPasswordProvider.notifier)
-                      .initiateForgotPasswordMethod(InitiateForgotPassReq(
-                        email: _email.text.trim(),
-                        pin: _pin.text,
-                      ));
+                  ref.read(initiateForgotPasswordProvider.notifier).initiateForgotPasswordMethod(
+                        InitiateForgotPassReq(
+                          email: _email.text.trim(),
+                        ),
+                      );
                 }
               },
             )

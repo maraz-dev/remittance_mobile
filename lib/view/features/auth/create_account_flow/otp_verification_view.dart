@@ -127,34 +127,33 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
                 ),
                 24.0.height,
                 StreamBuilder(
-                    stream: _timer.secondTime,
-                    initialData: _timer.secondTime.value,
-                    builder: (context, snap) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          if (snap.data == 0) ...[
-                            RichTextWidget(
-                              text: "Didn't receive a code? ",
-                              hyperlink: 'Resend to Email',
-                              onTap: () => ref
-                                  .read(resendOtpViaEmailProvider.notifier)
-                                  .resendOtpEmailMethod(),
-                            ),
-                          ] else ...[
-                            RichTextWidget(
-                              text: "Resend OTP in ",
-                              hyperlink: '${snap.data}s',
-                              hyperlinkColor: AppColors.kGrey700,
-                              onTap: () => ref
-                                  .read(resendOtpViaEmailProvider.notifier)
-                                  .resendOtpEmailMethod(),
-                            ),
-                            5.0.height,
-                          ],
+                  stream: _timer.secondTime,
+                  initialData: _timer.secondTime.value,
+                  builder: (context, snap) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (snap.data == 0) ...[
+                          RichTextWidget(
+                            text: "Didn't receive a code? ",
+                            hyperlink: 'Resend to Email',
+                            onTap: () =>
+                                ref.read(resendOtpViaEmailProvider.notifier).resendOtpEmailMethod(),
+                          ),
+                        ] else ...[
+                          RichTextWidget(
+                            text: "Resend OTP in ",
+                            hyperlink: '${snap.data}s',
+                            hyperlinkColor: AppColors.kGrey700,
+                            onTap: () =>
+                                ref.read(resendOtpViaEmailProvider.notifier).resendOtpEmailMethod(),
+                          ),
+                          5.0.height,
                         ],
-                      );
-                    }),
+                      ],
+                    );
+                  },
+                ),
               ],
             ),
           ),

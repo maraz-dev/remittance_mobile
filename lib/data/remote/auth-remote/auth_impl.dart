@@ -63,8 +63,7 @@ class AuthImpl implements AuthRepository {
       await _authService.completeForgotPasswordEndpoint(completeForgotPassReq);
 
   @override
-  Future<String> initiateForgotPasswordEndpoint(
-          InitiateForgotPassReq initiateForgotPassReq) async =>
+  Future<bool> initiateForgotPasswordEndpoint(InitiateForgotPassReq initiateForgotPassReq) async =>
       await _authService.initiateForgotPasswordEndpoint(initiateForgotPassReq);
 
   @override

@@ -96,9 +96,9 @@ class ApiEndpoints {
   String get createPassword => "/api/v1/partner/customer/onboarding/CreatePassword";
   String get resendOtpViaEmail => "/api/v1/partner/customer/onboarding/ResendOtpViaEmail";
   String get getCountries => "/api/v1/Utility/countries?includeFlagImage=true";
-  String get initiateForgotPassword => "/api/v1/partner/customer/onboarding/InitiateForgotPassword";
+  String get initiateForgotPassword => "/api/v1/partner/auth/InitiatePasswordResetWithOtp";
   String get verifyForgotPasswordOtp => "/api/v1/partner/customer/onboarding/VerifyOtp";
-  String get completeForgotPassword => "/api/v1/partner/customer/onboarding/CompleteForgotPassword";
+  String get completeForgotPassword => "/api/v1/partner/auth/FinalizePasswordReset";
 
   // KYC
   String get kycStatus => "/api/v1/kyc/customer/GetStatus";

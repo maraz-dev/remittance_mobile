@@ -439,7 +439,7 @@ class AuthService {
     }
   }
 
-  Future<String> initiateForgotPasswordEndpoint(InitiateForgotPassReq initiateForgotPassReq) async {
+  Future<bool> initiateForgotPasswordEndpoint(InitiateForgotPassReq initiateForgotPassReq) async {
     try {
       final response = await _networkService.request(
         endpointUrl.initiateForgotPassword,
@@ -451,9 +451,9 @@ class AuthService {
       final result = _responseHandler.handleResponse(
         response: response.data,
         onSuccess: () async {
-          final requestId = response.data["data"]["requestId"];
-          await _storage.saveData('forgotPassRequestId', requestId);
-          return requestId;
+          final requestId = response.data["data"];
+          //await _storage.saveData('forgotPassRequestId', requestId);
+          return requestId as bool;
         },
       );
       return result;
