@@ -7,6 +7,7 @@ import 'package:pdf/widgets.dart';
 import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/data/models/responses/transaction_detail_model.dart';
 import 'package:pdf/widgets.dart' as pdf;
+import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
@@ -64,21 +65,36 @@ class SharePDF {
                     ),
                   ],
                 ),
-                SizedBox(height: 1),
+                SizedBox(height: 3),
 
                 // Status
-                pdf.Text(
-                  '${details.status}',
-                  style: pdf.TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: switch (details.status ?? "") {
-                      "Completed" => const PdfColor.fromInt(0xFF039855),
-                      "Failed" => const PdfColor.fromInt(0xFFD92D20),
-                      "Cancelled" => const PdfColor.fromInt(0xFFD92D20),
-                      "Pending" => const PdfColor.fromInt(0xFFF79009),
-                      String() => const PdfColor.fromInt(0xFFF79009),
-                    },
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+                  decoration: BoxDecoration(
+                      color: switch (details.status ?? "") {
+                        "Completed" => PdfColor.fromInt(AppColors.kSuccessColor50.value),
+                        "Successful" => PdfColor.fromInt(AppColors.kSuccessColor50.value),
+                        "Failed" => PdfColor.fromInt(AppColors.kErrorColor50.value),
+                        "Reversed" => PdfColor.fromInt(AppColors.kErrorColor50.value),
+                        "Cancelled" => PdfColor.fromInt(AppColors.kErrorColor50.value),
+                        "Pending" => PdfColor.fromInt(AppColors.kWarningColor50.value),
+                        String() => PdfColor.fromInt(AppColors.kWarningColor50.value),
+                      },
+                      borderRadius: BorderRadius.circular(16)),
+                  child: Text(
+                    "${details.status}",
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: switch (details.status ?? "") {
+                          "Completed" => PdfColor.fromInt(AppColors.kSuccessColor.value),
+                          "Successful" => PdfColor.fromInt(AppColors.kSuccessColor.value),
+                          "Failed" => PdfColor.fromInt(AppColors.kErrorColor.value),
+                          "Reversed" => PdfColor.fromInt(AppColors.kErrorColor.value),
+                          "Cancelled" => PdfColor.fromInt(AppColors.kErrorColor.value),
+                          "Pending" => PdfColor.fromInt(AppColors.kWarningColor.value),
+                          String() => PdfColor.fromInt(AppColors.kWarningColor.value),
+                        }),
                   ),
                 ),
                 SizedBox(height: 32),
@@ -221,7 +237,8 @@ class SharePDF {
     );
 
     return PdfApi.saveDocument(
-      name: '${APP_NAME.toLowerCase()}_transaction_receipt.pdf',
+      name:
+          '${APP_NAME.toLowerCase()}_${details.reference!.replaceAll(' ', '_')}_transaction_receipt.pdf',
       pdf: pdfDoc,
     );
   }

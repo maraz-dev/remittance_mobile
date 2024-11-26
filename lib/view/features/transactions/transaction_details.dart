@@ -102,10 +102,41 @@ class _TransactionDetailsState extends ConsumerState<TransactionDetails>
                               5.0.height,
                               RichTextWidget(
                                 text: '${widget.status.name.toUpperCase()} to ',
-                                hyperlink: data.detail!.beneficiary!.contains('|')
-                                    ? data.detail!.beneficiary!.split('|')[1]
-                                    : data.detail?.beneficiary ?? "",
+                                hyperlink: data.detail!.beneficiary == null
+                                    ? ""
+                                    : data.detail!.beneficiary!.contains('|')
+                                        ? data.detail!.beneficiary!.split('|')[1]
+                                        : data.detail?.beneficiary ?? "",
                                 hyperlinkColor: AppColors.kGrey700,
+                              ),
+                              12.0.height,
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                                decoration: BoxDecoration(
+                                    color: switch (data.detail!.status ?? "") {
+                                      "Completed" => AppColors.kSuccessColor50,
+                                      "Successful" => AppColors.kSuccessColor50,
+                                      "Failed" => AppColors.kErrorColor50,
+                                      "Reversed" => AppColors.kErrorColor50,
+                                      "Cancelled" => AppColors.kErrorColor50,
+                                      "Pending" => AppColors.kWarningColor50,
+                                      String() => AppColors.kWarningColor50,
+                                    },
+                                    borderRadius: BorderRadius.circular(16)),
+                                child: Text(
+                                  "${data.detail!.status}",
+                                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: switch (data.detail!.status ?? "") {
+                                        "Completed" => AppColors.kSuccessColor,
+                                        "Successful" => AppColors.kSuccessColor,
+                                        "Failed" => AppColors.kErrorColor,
+                                        "Reversed" => AppColors.kErrorColor,
+                                        "Cancelled" => AppColors.kErrorColor,
+                                        "Pending" => AppColors.kWarningColor500,
+                                        String() => AppColors.kWarningColor500,
+                                      }),
+                                ),
                               ),
                               16.0.height,
 

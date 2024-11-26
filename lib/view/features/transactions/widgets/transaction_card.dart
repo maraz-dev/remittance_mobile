@@ -62,7 +62,7 @@ class TransactionCard extends StatelessWidget {
                   children: [
                     Text(
                       transxItem.postingType == "Cr" && transxItem.narration!.contains('Card')
-                          ? 'Card Fund'
+                          ? 'Card Funding'
                           : transxItem.beneficiary!.contains("|")
                               ? transxItem.beneficiary!.split('|')[1].truncate(15)
                               : transxItem.beneficiary?.truncate(15) ?? "",

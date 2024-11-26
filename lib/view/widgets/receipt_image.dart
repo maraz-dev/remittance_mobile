@@ -64,18 +64,33 @@ class ShareImage {
               const SizedBox(height: 1),
 
               // Status
-              Text(
-                '${details.status}',
-                style: TextStyle(
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
-                  color: switch (details.status ?? "") {
-                    "Completed" => AppColors.kSuccessColor,
-                    "Failed" => AppColors.kErrorColor,
-                    "Cancelled" => AppColors.kErrorColor,
-                    "Pending" => AppColors.kWarningColor500,
-                    String() => AppColors.kWarningColor500,
-                  },
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                decoration: BoxDecoration(
+                    color: switch (details.status ?? "") {
+                      "Completed" => AppColors.kSuccessColor50,
+                      "Successful" => AppColors.kSuccessColor50,
+                      "Failed" => AppColors.kErrorColor50,
+                      "Reversed" => AppColors.kErrorColor50,
+                      "Cancelled" => AppColors.kErrorColor50,
+                      "Pending" => AppColors.kWarningColor50,
+                      String() => AppColors.kWarningColor50,
+                    },
+                    borderRadius: BorderRadius.circular(16)),
+                child: Text(
+                  "${details.status}",
+                  style: TextStyle(
+                      fontSize: 8,
+                      fontWeight: FontWeight.w600,
+                      color: switch (details.status ?? "") {
+                        "Completed" => AppColors.kSuccessColor,
+                        "Successful" => AppColors.kSuccessColor,
+                        "Failed" => AppColors.kErrorColor,
+                        "Reversed" => AppColors.kErrorColor,
+                        "Cancelled" => AppColors.kErrorColor,
+                        "Pending" => AppColors.kWarningColor500,
+                        String() => AppColors.kWarningColor500,
+                      }),
                 ),
               ),
               const SizedBox(height: 24),
