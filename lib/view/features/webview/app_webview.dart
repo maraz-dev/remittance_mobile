@@ -72,8 +72,42 @@ class _WebviewScreenState extends ConsumerState<WebviewScreen> with RestorationM
             }
           },
           onNavigationRequest: (NavigationRequest navRequest) async {
-            if (navRequest.url == APP_PARTNER_DOMAIN_NAME) {
-              context.goNamed(DashboardView.path);
+            if (widget.routeName == "checkout" &&
+                navRequest.url.contains(APP_PARTNER_DOMAIN_NAME)) {
+              //context.goNamed(DashboardView.path);
+              AppBottomSheet.showBottomSheet(
+                context,
+                enableDrag: false,
+                isDismissible: false,
+                widget: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    64.0.height,
+                    const CardIcon(
+                      image: AppImages.doneOutline,
+                      padding: 30,
+                      bgColor: AppColors.kGrey100,
+                    ),
+                    24.0.height,
+                    const SectionHeader(text: 'Transaction Complete'),
+                    8.0.height,
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      child: Text(
+                        'Your request is Complete. \n\nIf your Balance doesn\'t reflect immediately, Refresh your Dashboard.',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    64.0.height,
+                    MainButton(
+                        text: 'Go to Dashboard',
+                        onPressed: () {
+                          context.goNamed(DashboardView.path);
+                        })
+                  ],
+                ),
+              );
               // final strippedNavUrl = navRequest.url.split('&');
               // final flwTrxId = strippedNavUrl
               //     .elementAt(strippedNavUrl.indexWhere((item) => item.contains("transaction_id")))

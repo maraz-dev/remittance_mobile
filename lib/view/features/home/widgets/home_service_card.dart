@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:remittance_mobile/core/storage/share_pref.dart';
+import 'package:remittance_mobile/view/features/home/complete-profile/complete_profile_view.dart';
 import 'package:remittance_mobile/view/features/services/bill-payment/airtime_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_from_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_how_much_view.dart';
@@ -23,7 +25,9 @@ class HomeServiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => context.pushNamed(onTap ?? SendMoneyHowMuchView.path),
+      onTap: () => SharedPrefManager.isKycComplete
+          ? context.pushNamed(onTap ?? SendMoneyHowMuchView.path)
+          : context.pushNamed(CompleteProfileView.path),
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
@@ -37,10 +41,7 @@ class HomeServiceCard extends StatelessWidget {
             8.0.width,
             Text(
               title ?? 'Send Money',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: AppColors.kGrey700),
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: AppColors.kGrey700),
             )
           ],
         ),

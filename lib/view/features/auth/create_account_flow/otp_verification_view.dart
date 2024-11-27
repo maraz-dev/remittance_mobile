@@ -145,8 +145,7 @@ class _OTPVerificationViewState extends ConsumerState<OTPVerificationView> {
                             text: "Resend OTP in ",
                             hyperlink: '${snap.data}s',
                             hyperlinkColor: AppColors.kGrey700,
-                            onTap: () =>
-                                ref.read(resendOtpViaEmailProvider.notifier).resendOtpEmailMethod(),
+                            onTap: null,
                           ),
                           5.0.height,
                         ],

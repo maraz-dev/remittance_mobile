@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_skeleton_ui/flutter_skeleton_ui.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/complete_profile_view.dart';
 import 'package:remittance_mobile/view/features/home/vm/home_providers.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
@@ -26,7 +27,14 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
     final kycStatus = ref.watch(getKycStatusProvider);
 
     return kycStatus.maybeWhen(
+        skipLoadingOnRefresh: false,
         orElse: () => SkeletonLine(
+              style: SkeletonLineStyle(
+                height: 60,
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+        loading: () => SkeletonLine(
               style: SkeletonLineStyle(
                 height: 60,
                 borderRadius: BorderRadius.circular(16),
@@ -48,6 +56,11 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
                 subText: 'Check Back Later...',
                 showArrow: false,
               );
+            case "Ongoing":
+              return const KYCInfo(
+                subText: 'Check Back Later...',
+                showArrow: false,
+              );
             case "Failed":
               return KYCInfo(
                 onPressed: () {
@@ -59,8 +72,10 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
                 textColor: AppColors.kWarningColor50,
                 arrowColor: AppColors.kWarningColor50,
               );
+            case "Completed":
+              SharedPrefManager.isKycComplete = true;
+              return Container();
             default:
-              //SharedPrefManager.isKycComplete = true;
               return Container();
           }
         },
