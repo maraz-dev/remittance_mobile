@@ -36,7 +36,8 @@ abstract class AppColors {
   static const kWarningColor500 = Color(0xFFF79009);
   static const kWarningColor700 = Color(0xFFB54708);
 
-  static const kErrorColor = Color(0xFFD92D20);
+  static const kErrorColor = Color(0xFFB42318);
+  static const kErrorColor50 = Color(0xFFFEF3F2);
   static const kTextBorderColor = Color(0xFFF9F8FF);
   static final kBoxShadowColor = const Color(0xFF101828).withOpacity(0.1);
 }

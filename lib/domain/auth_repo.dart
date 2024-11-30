@@ -24,7 +24,7 @@ abstract class AuthRepository {
   Future<String> setSecurityQuestionEndpoint(SetSecurityQuestionReq setQuestionReq);
   Future<InitiateValidateDeviceDto> initiateValidateDeviceEndpoint(String email);
   Future<String> validateSecurityQuestionEndpoint(SecurityQuestionReq securityQuestionReq);
-  Future<String> initiateForgotPasswordEndpoint(InitiateForgotPassReq initiateForgotPassReq);
+  Future<bool> initiateForgotPasswordEndpoint(InitiateForgotPassReq initiateForgotPassReq);
   Future<String> verifyForgotPasswordOTPEndpoint(ForgotPasswordOtpReq forgotPasswordOtpReq);
   Future<String> completeForgotPasswordEndpoint(CompleteForgotPassReq completeForgotPassReq);
   Future<String> resendViaEmailEndpoint();

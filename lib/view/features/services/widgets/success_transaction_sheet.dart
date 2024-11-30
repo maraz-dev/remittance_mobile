@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
 import 'package:remittance_mobile/view/features/auth/widgets/bottomsheet_title.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_how_much_view.dart';
@@ -78,10 +77,6 @@ class _SuccessTranxSheetState extends State<SuccessTranxSheet> {
           onPressed: () {
             // Set all the Value Notifiers to Default
             setState(() {
-              sourceCorridor.value = CorridorsResponse();
-              sourceCurrency.value = DestinationCountry();
-              destinationCorridor.value = DestinationCountry();
-              destinationCurrency.value = DestinationCurrency();
               showCharge.value = false;
             });
             context.pop();

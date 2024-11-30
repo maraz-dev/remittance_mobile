@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
@@ -8,10 +7,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/responses/kyc_submission_model.dart';
 import 'package:remittance_mobile/data/remote/kyc-remote/kyc_service.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
-import 'package:remittance_mobile/view/features/home/complete-profile/complete_profile_view.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/proof-of-address-flow/proof_of_address_upload_view.dart';
-import 'package:remittance_mobile/view/features/home/vm/home_providers.dart';
 import 'package:remittance_mobile/view/features/home/vm/initiate_kyc_vm.dart';
+import 'package:remittance_mobile/view/features/home/vm/upload_kyc_file.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -19,6 +17,7 @@ import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/utils/snackbar.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
+import 'package:remittance_mobile/view/widgets/overlay_animation.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
 class ProofOfAddressCapturedView extends ConsumerStatefulWidget {
@@ -33,12 +32,10 @@ class ProofOfAddressCapturedView extends ConsumerStatefulWidget {
   final PageController controller;
 
   @override
-  ConsumerState<ProofOfAddressCapturedView> createState() =>
-      _ProofOfAddressCapturedViewState();
+  ConsumerState<ProofOfAddressCapturedView> createState() => _ProofOfAddressCapturedViewState();
 }
 
-class _ProofOfAddressCapturedViewState
-    extends ConsumerState<ProofOfAddressCapturedView> {
+class _ProofOfAddressCapturedViewState extends ConsumerState<ProofOfAddressCapturedView> {
   String fileSize = '';
   Future<String> calculateFileSize(String filePath) async {
     try {
@@ -65,43 +62,37 @@ class _ProofOfAddressCapturedViewState
 
   @override
   Widget build(BuildContext context) {
-    final loading = ref.watch(initiateKycProvider);
-    ref.listen(initiateKycProvider, (_, next) {
-      if (next is AsyncData<KycSubmission>) {
-        ref.invalidate(getKycStatusProvider);
-        context.goNamed(DashboardView.path);
+    final loading = ref.watch(initiateKycProvider).isLoading;
+    final kycUploading = ref.watch(uploadKycFileProvider).isLoading;
+
+    ref.listen(uploadKycFileProvider, (_, next) {
+      if (next is AsyncData<String>) {
+        kycData.addAll({'ProofOfAddressDocPath': next.value});
+        ref.read(initiateKycProvider.notifier).initiateKycMethod();
       }
       if (next is AsyncError) {
-        Navigator.popUntil(
-            context, ModalRoute.withName(CompleteProfileView.path));
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
       }
     });
-    return loading.isLoading
-        ? ScaffoldBody(
-            body: Center(
-              child: Column(
-                children: [
-                  50.0.height,
-                  const CardIcon(
-                    image: AppImages.uploadingIcon,
-                    size: 56,
-                    padding: 32,
-                    bgColor: AppColors.kGrey100,
-                  ),
-                  24.0.height,
-                  Text(
-                    'Uploading...',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: AppColors.kGrey700,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  )
-                ],
-              ),
-            ),
-          )
-        : Scaffold(
+
+    ref.listen(initiateKycProvider, (_, next) {
+      if (next is AsyncData<KycSubmission>) {
+        SnackBarDialog.showSuccessFlushBarMessage('KYC Submitted Successfully!', context);
+
+        context.goNamed(DashboardView.path);
+      }
+      if (next is AsyncError) {
+        //Navigator.popUntil(context, ModalRoute.withName(CompleteProfileView.path));
+        SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
+      }
+    });
+
+    return AbsorbPointer(
+      absorbing: kycUploading || loading,
+      child: OverlayLoadingIndicator(
+        isLoading: loading,
+        text: 'Uploading KYC...',
+        child: Scaffold(
             body: ScaffoldBody(
               body: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,10 +118,7 @@ class _ProofOfAddressCapturedViewState
                               width: 210,
                               child: Text(
                                 proofOfAddressDoc.value.path.split('/').last,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
+                                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                                       fontWeight: FontWeight.w600,
                                       color: AppColors.kGrey700,
                                     ),
@@ -158,16 +146,12 @@ class _ProofOfAddressCapturedViewState
             bottomNavigationBar: BottomNavBarWidget(
               children: [
                 MainButton(
-                  //isLoading: true,
+                  isLoading: kycUploading || loading,
                   text: 'Complete Verification',
                   onPressed: () async {
-                    kycData.addAll({
-                      'ProofOfAddressDoc': await MultipartFile.fromFile(
-                        proofOfAddressDoc.value.path,
-                        filename: proofOfAddressDoc.value.path.split('/').last,
-                      )
-                    });
-                    ref.read(initiateKycProvider.notifier).initiateKycMethod();
+                    ref
+                        .read(uploadKycFileProvider.notifier)
+                        .uploadKycFileMethod(proofOfAddressDoc.value, 'ADDRESS_PROOF_DOC');
                   },
                 )
                     .animate()
@@ -175,6 +159,8 @@ class _ProofOfAddressCapturedViewState
                     // .then(delay: 200.ms)
                     .slideY(begin: .1, end: 0),
               ],
-            ));
+            )),
+      ),
+    );
   }
 }

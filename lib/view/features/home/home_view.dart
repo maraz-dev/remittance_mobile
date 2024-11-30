@@ -16,6 +16,7 @@ import 'package:remittance_mobile/view/features/home/widgets/home_service_card.d
 import 'package:remittance_mobile/view/features/transactions/vm/get_customer_transx_vm.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/latest_transaction_box.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
+import 'package:remittance_mobile/view/widgets/linear_loading.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
@@ -55,13 +56,22 @@ class _HomeViewState extends ConsumerState<HomeView> {
     // Fetch the Saved User Data
     final user = ref.watch(localUserProvider);
     final userAccounts = ref.watch(getCustomerAccountsProvider);
+    final kyc = ref.watch(getKycStatusProvider);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.kGrey50,
         automaticallyImplyLeading: false,
-        title: HomeAppBarWidget(
-          response: user.value ?? UserResponse(),
+        title: Column(
+          children: [
+            HomeAppBarWidget(
+              response: user.value ?? UserResponse(),
+            ),
+            5.0.height,
+            LineLoadingIndicator(
+              loading: userAccounts.isLoading || user.isLoading || kyc.isLoading,
+            ),
+          ],
         ),
       ),
       body: RefreshIndicator.adaptive(
@@ -83,6 +93,20 @@ class _HomeViewState extends ConsumerState<HomeView> {
 
               /// Acounts
               userAccounts.maybeWhen(
+                skipLoadingOnRefresh: false,
+                loading: () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SectionHeader(text: 'Accounts'),
+                    12.0.height,
+                    SkeletonLine(
+                      style: SkeletonLineStyle(
+                        height: 100,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ],
+                ).widgetPadding(l: 24, r: 24.0),
                 orElse: () => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

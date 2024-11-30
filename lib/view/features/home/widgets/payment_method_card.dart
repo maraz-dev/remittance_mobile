@@ -31,8 +31,10 @@ class PaymentMethodCard extends StatelessWidget {
                 children: [
                   Text(
                     methodName ?? 'Debit Card',
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: AppColors.kGrey700, fontWeight: FontWeight.w500),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(color: AppColors.kGrey700, fontWeight: FontWeight.w500),
                   ),
                   if (methodName!.contains('Bank')) ...[
                     8.0.width,
@@ -76,11 +78,13 @@ class PaymentMethodCard extends StatelessWidget {
 List<PaymentMethodCard> paymentMethods = [
   const PaymentMethodCard(
     methodImage: AppImages.card,
-    methodName: 'Card',
+    methodName: 'Checkout',
+    methodDescription: 'Fund using online payment gateways.',
   ),
   const PaymentMethodCard(
     methodImage: AppImages.accountDetails,
     methodName: 'USSD',
+    methodDescription: 'Fund using your preferred bank ussd code.',
   ),
   const PaymentMethodCard(
     methodImage: AppImages.add,

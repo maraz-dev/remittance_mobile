@@ -3,23 +3,25 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_skeleton_ui/flutter_skeleton_ui.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/send_money_charge.dart';
-import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
 import 'package:remittance_mobile/data/models/responses/send_charge_response.dart';
 import 'package:remittance_mobile/view/features/home/widgets/balance_widget.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_from_view.dart';
 import 'package:remittance_mobile/view/features/services/transfers/send_money_to_who_view.dart';
+import 'package:remittance_mobile/view/features/services/vm/send-money-vm/send_money_state.dart';
+import 'package:remittance_mobile/view/features/services/vm/send-money-vm/send_money_vm.dart';
 import 'package:remittance_mobile/view/features/services/vm/send_charge_vm.dart';
 import 'package:remittance_mobile/view/features/services/vm/services_vm.dart';
+import 'package:remittance_mobile/view/features/services/widgets/from_currency_widgets.dart';
+import 'package:remittance_mobile/view/features/services/widgets/how_much_buttons.dart';
 import 'package:remittance_mobile/view/features/services/widgets/rates_card.dart';
-import 'package:remittance_mobile/view/features/services/widgets/send_currency_widgets.dart';
 import 'package:remittance_mobile/view/features/services/widgets/swap_icon_card.dart';
+import 'package:remittance_mobile/view/features/services/widgets/to_currency_widgets.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
-import 'package:remittance_mobile/view/utils/alert_dialog.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
@@ -32,14 +34,8 @@ import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 import 'package:remittance_mobile/view/widgets/section_header.dart';
 
 ValueNotifier<String> sourceAmount = ValueNotifier('');
-ValueNotifier<CorridorsResponse> sourceCorridor = ValueNotifier(CorridorsResponse());
-ValueNotifier<DestinationCountry> sourceCurrency = ValueNotifier(DestinationCountry());
-ValueNotifier<DestinationCountry> destinationCorridor = ValueNotifier(DestinationCountry());
-ValueNotifier<DestinationCurrency> destinationCurrency = ValueNotifier(DestinationCurrency());
 ValueNotifier<SendChargeResponse> feeResponse = ValueNotifier(SendChargeResponse());
 ValueNotifier<bool> showCharge = ValueNotifier(false);
-
-enum SendRoute { from, to }
 
 class SendMoneyHowMuchView extends ConsumerStatefulWidget {
   static String path = 'send-money-how-much';
@@ -53,14 +49,14 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
   //final GlobalKey<State> _recipientTypeKey = GlobalKey();
   final GlobalKey<FormState> _formKey = GlobalKey();
 
-  // final TextEditingController _sourceCurrency = TextEditingController();
-  // final TextEditingController _destinationCurrency = TextEditingController();
   final TextEditingController _sourceAmount = TextEditingController();
   final TextEditingController _destinationAmount = TextEditingController();
 
   // Charge Values
   num _rate = 0.0;
   num _fee = 0.0;
+  FeesPerChannel _feesPerChannel = FeesPerChannel();
+  //num _destinationfee = 0.0;
 
   // // Variable to show charge
   // bool showCharge.value = false;
@@ -74,26 +70,26 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
       setState(() {
         showCharge.value = false;
       });
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //   handleChargeReq(ref.watch(selectedTransferStateProvider));
+      // });
     });
   }
 
   @override
   void dispose() {
-    // _sourceCurrency.dispose();
-    // _destinationCurrency.dispose();
     _sourceAmount.dispose();
     _destinationAmount.dispose();
     super.dispose();
   }
 
-  handleChargeReq() {
+  handleChargeReq(TransferState transfer) {
     if (_sourceAmount.text.isNotEmpty && _sourceAmount.text != '.') {
       ref.read(sendChargeProvider.notifier).sendChargeMethod(
             SendChargeReq(
-              destinationCountryCode: destinationCorridor.value.code,
-              destinationCurrency: destinationCurrency.value.code,
-              sourceCurrency: sourceCurrency.value.code,
-              channel: "Bank",
+              destinationCountryCode: transfer.destinationCountry?.code,
+              destinationCurrency: transfer.destinationCurrency?.code,
+              sourceCurrency: transfer.sourceCurrency?.code,
               amount: double.parse(_sourceAmount.text.replaceAll(',', '')),
             ),
           );
@@ -106,14 +102,20 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
     final corridorsLoading =
         ref.watch(getCorridorsProvider(fromBalance.value.countryCode ?? "NG")).isLoading;
     final corridors = ref.watch(getCorridorsProvider(fromBalance.value.countryCode ?? "NG"));
+    final transferState = ref.watch(selectedTransferStateProvider);
+
+    // if (showCharge.value == false) {
+    //   handleChargeReq(transferState);
+    // }
 
     ref.listen(sendChargeProvider, (_, next) {
-      if (next is AsyncData) {
-        //context.pushNamed(SendMoneyFinalView.path);
-        _destinationAmount.text = next.value?.destinationAmount?.amountInt() ?? '0.00';
-        _rate = 1 / (next.value?.rate ?? 1.0);
-        _fee = next.value?.fee ?? 0.0;
-        feeResponse.value = next.value ?? SendChargeResponse();
+      if (next is AsyncData<SendChargeResponse>) {
+        _destinationAmount.text = next.value.destinationAmount.formatDecimal();
+        _rate = 1 / (next.value.rate ?? 1.0);
+        //_destinationfee = next.value.feeInDestinationCurrency ?? 0.0;
+        _fee = next.value.feeInSourceCurrency ?? 0.0;
+        feeResponse.value = next.value;
+        _feesPerChannel = next.value.feesPerChannel ?? FeesPerChannel();
 
         setState(() {
           showCharge.value = true;
@@ -122,6 +124,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
       if (next is AsyncError) {
         setState(() {
           showCharge.value = false;
+          _destinationAmount.text = "0.00";
         });
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
       }
@@ -135,10 +138,6 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
 
           // Set all the Value Notifiers to Default
           setState(() {
-            sourceCorridor.value = CorridorsResponse();
-            sourceCurrency.value = DestinationCountry();
-            destinationCorridor.value = DestinationCountry();
-            destinationCurrency.value = DestinationCurrency();
             showCharge.value = false;
           });
         },
@@ -163,12 +162,6 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
               );
             } else {
               // Set Default values
-              setState(() {
-                sourceCorridor.value = data.first;
-                destinationCorridor.value = data.first.destinationCountries!.first;
-                sourceCurrency.value = sourceCorridor.value.sourceCurrencies!.first;
-                destinationCurrency.value = destinationCorridor.value.destinationCurrencies!.first;
-              });
               return AbsorbPointer(
                 absorbing: sendChargeLoading || corridorsLoading,
                 child: ScaffoldBody(
@@ -202,37 +195,15 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                                   8.0.height,
 
                                   // FROM Button
-                                  InkWell(
-                                    onTap: () async {
-                                      CorridorsResponse? result =
-                                          await AppBottomSheet.showBottomSheet(
+                                  FromButton(
+                                    onPressed: () {
+                                      AppBottomSheet.showBottomSheet(
                                         context,
-                                        widget: SendCurrencySheet(
-                                          location: SendRoute.from,
-                                          corridors: data,
-                                          destination:
-                                              sourceCorridor.value.destinationCountries ?? [],
-                                        ),
+                                        widget: const FROMCountrySheet(),
                                       );
-                                      setState(() {
-                                        sourceCorridor.value = result!;
-                                      });
                                     },
-                                    child: Row(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundImage:
-                                              NetworkImage(sourceCorridor.value.flag?.png ?? ""),
-                                        ),
-                                        8.0.width,
-                                        Text(
-                                          sourceCorridor.value.code ?? "TBS",
-                                          style: Theme.of(context).textTheme.displaySmall,
-                                        ),
-                                        8.0.width,
-                                        SvgPicture.asset(AppImages.arrowDown),
-                                      ],
-                                    ),
+                                    image: transferState.sourceCurrency?.flag?.png ?? "",
+                                    code: transferState.sourceCountry?.code ?? "NG",
                                   ),
                                 ],
                               ),
@@ -252,47 +223,15 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                                   8.0.height,
 
                                   // TO Button
-                                  InkWell(
-                                    onTap: () async {
-                                      if (sourceCorridor.value.destinationCountries == null) {
-                                        ShowAlertDialog.showAlertDialog(
-                                          context,
-                                          title: 'Error!',
-                                          content: 'Select the FROM Country',
-                                          defaultActionText: 'Ok',
-                                        );
-                                      } else {
-                                        DestinationCountry? result =
-                                            await AppBottomSheet.showBottomSheet(
-                                          context,
-                                          widget: SendCurrencySheet(
-                                            location: SendRoute.to,
-                                            corridors: data,
-                                            destination:
-                                                sourceCorridor.value.destinationCountries ?? [],
-                                          ),
-                                        );
-
-                                        setState(() {
-                                          destinationCorridor.value = result!;
-                                        });
-                                      }
+                                  ToButton(
+                                    onPressed: () {
+                                      AppBottomSheet.showBottomSheet(
+                                        context,
+                                        widget: const TOCountrySheet(),
+                                      );
                                     },
-                                    child: Row(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundImage: NetworkImage(
-                                              destinationCorridor.value.flag?.png ?? ""),
-                                        ),
-                                        8.0.width,
-                                        Text(
-                                          destinationCorridor.value.code ?? "TBS",
-                                          style: Theme.of(context).textTheme.displaySmall,
-                                        ),
-                                        8.0.width,
-                                        SvgPicture.asset(AppImages.arrowDown),
-                                      ],
-                                    ),
+                                    image: transferState.destinationCurrency?.flag?.png ?? "",
+                                    code: transferState.destinationCountry?.code ?? "",
                                   ),
                                 ],
                               ),
@@ -306,7 +245,10 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                           header: 'You Send',
                           fontSize: 36.sp,
                           controller: _sourceAmount,
-                          currency: sourceCurrency.value.code,
+                          currency: transferState.sourceCurrency?.code,
+                          onFieldSubmitted: (value) {
+                            handleChargeReq(transferState);
+                          },
                         ),
                         8.0.height,
 
@@ -328,7 +270,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                                 isLoading: sendChargeLoading,
                                 text: 'Calculate',
                                 onPressed: () {
-                                  handleChargeReq();
+                                  handleChargeReq(transferState);
                                 },
                               )
                                   .animate()
@@ -345,51 +287,114 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // Destination Amount
-                              AmountInput(
-                                readOnly: true,
-                                header: 'Recipient Receives',
-                                color: AppColors.kWhiteColor,
-                                currencyColor: AppColors.kGrey200,
-                                controller: _destinationAmount,
-                                currency: destinationCurrency.value.code,
-                                fontSize: 30.sp,
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: AmountInput(
+                                      readOnly: true,
+                                      header: 'Recipient Receives',
+                                      color: AppColors.kWhiteColor,
+                                      currencyColor: AppColors.kGrey200,
+                                      controller: _destinationAmount,
+                                      currency: transferState.destinationCurrency?.code,
+                                      fontSize: 30.sp,
+                                    ),
+                                  ),
+                                  if (sendChargeLoading) ...[
+                                    15.0.width,
+                                    Column(
+                                      children: [
+                                        20.0.height,
+                                        const SpinKitFadingCircle(
+                                          color: AppColors.kPrimaryColor,
+                                          size: 35,
+                                        ),
+                                      ],
+                                    )
+                                  ]
+                                ],
                               ),
 
                               24.0.height,
-                              Container(
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: AppColors.kWhiteColor,
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
-                                child: Column(
-                                  children: [
-                                    RatesCard(
-                                      image: AppImages.compareArrows,
-                                      text:
-                                          '1 ${destinationCurrency.value.code} = ${_rate.formatDecimal()} ${sourceCurrency.value.code}',
-                                      description: 'Rate',
-                                    ),
-                                    16.0.height,
-                                    RatesCard(
-                                      image: AppImages.loyalty,
-                                      text: '${_fee.formatDecimal()} ${sourceCurrency.value.code}',
-                                      description: 'Fees',
-                                      onTapped: () {},
-                                    ),
-                                    16.0.height,
-                                    if (_sourceAmount.text.isNotEmpty &&
-                                        _sourceAmount.text != '.') ...[
-                                      RatesCard(
-                                        image: AppImages.addAlt,
-                                        text:
-                                            '${(double.parse(_sourceAmount.text.replaceAll(',', '')) + _fee).formatDecimal()} ${sourceCurrency.value.code}',
-                                        description: 'Total Amount',
+                              sendChargeLoading
+                                  ? SkeletonLine(
+                                      style: SkeletonLineStyle(
+                                        height: 120,
+                                        borderRadius: BorderRadius.circular(16),
                                       ),
-                                    ],
-                                  ],
-                                ),
-                              ),
+                                    )
+                                  : Container(
+                                      padding: const EdgeInsets.all(16),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.kWhiteColor,
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          RatesCard(
+                                            image: AppImages.compareArrows,
+                                            text:
+                                                '1 ${transferState.destinationCurrency?.code} = ${_rate.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                                            description: 'Rate',
+                                          ),
+                                          16.0.height,
+                                          RatesCard(
+                                            image: AppImages.loyalty,
+                                            text:
+                                                '${_fee.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                                            description: 'Fees',
+                                            onTapped: () {
+                                              AppBottomSheet.showBottomSheet(
+                                                context,
+                                                widget: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    const SectionHeader(text: 'Fees'),
+                                                    24.0.height,
+                                                    if (_feesPerChannel.bank != null) ...[
+                                                      FeeItem(
+                                                        channel: 'Bank',
+                                                        fee:
+                                                            '${_feesPerChannel.bank?.feeInSourceCurrency.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                                                      ),
+                                                      24.0.height,
+                                                    ],
+                                                    if (_feesPerChannel.mobileMoney != null) ...[
+                                                      FeeItem(
+                                                        channel: 'Mobile Money',
+                                                        fee:
+                                                            '${_feesPerChannel.mobileMoney?.feeInSourceCurrency.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                                                      ),
+                                                      24.0.height,
+                                                    ],
+                                                    if (_feesPerChannel.cashPickup != null) ...[
+                                                      FeeItem(
+                                                        channel: 'Cash Pickup',
+                                                        fee:
+                                                            '${_feesPerChannel.cashPickup?.feeInSourceCurrency.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                                                      ),
+                                                      24.0.height,
+                                                    ],
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                          16.0.height,
+                                          if (_sourceAmount.text.isNotEmpty &&
+                                              _sourceAmount.text != '.') ...[
+                                            RatesCard(
+                                              image: AppImages.addAlt,
+                                              text:
+                                                  '${(double.parse(_sourceAmount.text.replaceAll(',', '')) + _fee).formatDecimal()} ${transferState.sourceCurrency?.code}',
+                                              description: 'Total Amount',
+                                            ),
+                                          ],
+                                        ],
+                                      ),
+                                    ),
                             ],
                           ),
                         ),
@@ -406,15 +411,15 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
             lineWidth: 3,
           ),
           error: (error, stackTrace) => kDebugMode
-              ? Text(error.toString())
-              : const SpinKitRing(
-                  color: AppColors.kPrimaryColor,
-                  size: 100,
-                  lineWidth: 3,
+              ? Center(
+                  child: Text(error.toString()),
+                )
+              : const Center(
+                  child: Text('An Error Occured'),
                 ),
         ),
       ),
-      bottomNavigationBar: corridorsLoading || !showCharge.value
+      bottomNavigationBar: corridorsLoading || sendChargeLoading || !showCharge.value
           ? null
           : BottomNavBarWidget(
               children: [
@@ -436,6 +441,29 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                     .slideY(begin: .1, end: 0)
               ],
             ),
+    );
+  }
+}
+
+class FeeItem extends StatelessWidget {
+  final String? channel, fee;
+  const FeeItem({
+    super.key,
+    this.channel,
+    this.fee,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionHeader(text: channel ?? ""),
+          Text(fee ?? ""),
+        ],
+      ),
     );
   }
 }

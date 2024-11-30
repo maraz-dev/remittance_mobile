@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/core/storage/share_pref.dart';
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
+import 'package:remittance_mobile/data/models/responses/user_response.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_otp_form.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/forgot_password_view.dart';
 import 'package:remittance_mobile/view/features/auth/forgot-password/reset_password_view.dart';
@@ -312,7 +313,12 @@ final routeProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: PersonalDetailsView.path,
             name: PersonalDetailsView.path,
-            builder: (context, state) => const PersonalDetailsView(),
+            builder: (context, state) {
+              final userProfile = state.extra as UserResponse;
+              return PersonalDetailsView(
+                user: userProfile,
+              );
+            },
           ),
           GoRoute(
             path: ChangePasswordView.path,

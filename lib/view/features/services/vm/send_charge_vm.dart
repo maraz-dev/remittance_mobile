@@ -11,9 +11,6 @@ class SendChargeNotifier extends AutoDisposeAsyncNotifier<SendChargeResponse> {
     state = await AsyncValue.guard(
       () => ref.read(transferRepository).sendMoneyChargeEndpoint(req),
     );
-    if (!state.hasError) {
-      //ref.invalidate(getCustomerAccountsProvider);
-    }
   }
 
   @override

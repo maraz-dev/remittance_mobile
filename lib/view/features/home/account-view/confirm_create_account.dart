@@ -3,7 +3,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remittance_mobile/data/models/responses/account_model.dart';
-import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/bank_transfer_sheet.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
@@ -20,16 +19,14 @@ class ConfirmCreateAccountView extends StatefulWidget {
   });
 
   @override
-  State<ConfirmCreateAccountView> createState() =>
-      _ConfirmCreateAccountViewState();
+  State<ConfirmCreateAccountView> createState() => _ConfirmCreateAccountViewState();
 }
 
 class _ConfirmCreateAccountViewState extends State<ConfirmCreateAccountView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar:
-            innerAppBar(title: '${widget.accountDetails.currencyCode} Account'),
+        appBar: innerAppBar(title: '${widget.accountDetails.currencyCode} Account'),
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -48,12 +45,10 @@ class _ConfirmCreateAccountViewState extends State<ConfirmCreateAccountView> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(widget.accountDetails.currencyName ??
-                              "Currency Account"),
+                          Text(widget.accountDetails.currencyName ?? "Currency Account"),
                           CircleAvatar(
                             radius: 16.r,
-                            backgroundImage: NetworkImage(
-                                widget.accountDetails.flagPng ?? ""),
+                            backgroundImage: NetworkImage(widget.accountDetails.flagPng ?? ""),
                           ),
                         ],
                       ),
@@ -66,32 +61,47 @@ class _ConfirmCreateAccountViewState extends State<ConfirmCreateAccountView> {
                           style: Theme.of(context)
                               .textTheme
                               .displayLarge!
-                              .copyWith(
-                                  fontWeight: FontWeight.bold, fontSize: 36.sp),
+                              .copyWith(fontWeight: FontWeight.bold, fontSize: 36.sp),
                         ),
                       ),
                       24.0.height,
                       const Divider(),
                       24.0.height,
-                      AccountDetailsCard(
-                        title: 'Account Name',
-                        value: widget.accountDetails.accountName,
-                        showCopy: false,
-                      ),
-                      24.0.height,
-                      AccountDetailsCard(
-                        title: 'Account Number/IBAN',
-                        value: widget.accountDetails.accountNumber,
-                        showCopy: false,
-                      ),
-                      if (widget.accountDetails.currencyCode == "USD") ...[
-                        24.0.height,
-                        const AccountDetailsCard(
-                          title: 'Sort Code',
-                          value: '098-832-98',
-                          showCopy: false,
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: AppColors.kWarningColor100,
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                      ]
+                        child: Center(
+                          child: Text(
+                            'This is just a wallet to hold or keep funds.',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(color: AppColors.kGrey700),
+                          ),
+                        ),
+                      ),
+                      // AccountDetailsCard(
+                      //   title: 'Account Name',
+                      //   value: widget.accountDetails.accountName,
+                      //   showCopy: false,
+                      // ),
+                      // 24.0.height,
+                      // AccountDetailsCard(
+                      //   title: 'Account Number/IBAN',
+                      //   value: widget.accountDetails.accountNumber,
+                      //   showCopy: false,
+                      // ),
+                      // if (widget.accountDetails.currencyCode == "USD") ...[
+                      //   24.0.height,
+                      //   const AccountDetailsCard(
+                      //     title: 'Sort Code',
+                      //     value: '098-832-98',
+                      //     showCopy: false,
+                      //   ),
+                      // ]
                     ],
                   ),
                 ),
@@ -105,17 +115,35 @@ class _ConfirmCreateAccountViewState extends State<ConfirmCreateAccountView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                            'American USD Accounts are balances with the items below'),
-                        12.0.height,
-                        const Text('Wire routing number'),
-                        12.0.height,
-                        const Text('Bank code (SWIFT/BIC)'),
-                        12.0.height,
-                        const Text('Routing number (ACH / ABA)'),
-                        12.0.height,
-                        const Text(
-                            'NB* Account details will be generated in your name'),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Note:',
+                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.bold, color: AppColors.kGrey800),
+                            ),
+                            5.0.width,
+                            Expanded(
+                              child: Text(
+                                'Balances can only be used to hold funds.',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(color: AppColors.kGrey700),
+                              ),
+                            )
+                          ],
+                        )
+                        // const Text('American USD Accounts are balances with the items below'),
+                        // 12.0.height,
+                        // const Text('Wire routing number'),
+                        // 12.0.height,
+                        // const Text('Bank code (SWIFT/BIC)'),
+                        // 12.0.height,
+                        // const Text('Routing number (ACH / ABA)'),
+                        // 12.0.height,
+                        // const Text('NB* Account details will be generated in your name'),
                       ],
                     )),
 

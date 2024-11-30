@@ -96,9 +96,9 @@ class ApiEndpoints {
   String get createPassword => "/api/v1/partner/customer/onboarding/CreatePassword";
   String get resendOtpViaEmail => "/api/v1/partner/customer/onboarding/ResendOtpViaEmail";
   String get getCountries => "/api/v1/Utility/countries?includeFlagImage=true";
-  String get initiateForgotPassword => "/api/v1/partner/customer/onboarding/InitiateForgotPassword";
+  String get initiateForgotPassword => "/api/v1/partner/auth/InitiatePasswordResetWithOtp";
   String get verifyForgotPasswordOtp => "/api/v1/partner/customer/onboarding/VerifyOtp";
-  String get completeForgotPassword => "/api/v1/partner/customer/onboarding/CompleteForgotPassword";
+  String get completeForgotPassword => "/api/v1/partner/auth/FinalizePasswordReset";
 
   // KYC
   String get kycStatus => "/api/v1/kyc/customer/GetStatus";
@@ -116,16 +116,20 @@ class ApiEndpoints {
 
   // Funding
   String get getBanks => "/api/v1/bank";
+  String get getUssdBanks => '/api/v1/bank/ussd';
+  String get getFundingOptions => '/api/v1/funding/customer';
+  String get checkoutFunding => "/api/v1/funding/flutterwave/customer/checkout/initiate";
   String get initiateCardFunding => "/api/v1/funding/flutterwave/customer/card/initiate";
   String get validateCardFunding => "/api/v1/funding/flutterwave/card/validate";
   String get authorizeCardFunding => "/api/v1/funding/flutterwave/card/authorize";
-  String get initiateUSSDFunding => "/api/v1/funding/flutterwave/ussd/initiate";
+  String get initiateUSSDFunding => "/api/v1/funding/flutterwave/customer/ussd/initiate";
   String get verifyTransaction => "/api/v1/funding/flutterwave/charge/verify";
 
   // Send Money
   String get getCorridors => "/api/v1/sendmoney/corridors/ST000015";
-  String get sendToBank => "/api/v1/sendmoney/toBank";
-  String get sendToMobileMoney => "/api/v1/sendmoney/toMobileMoney";
+  String get sendToBank => "/api/v1/sendmoney/Bank";
+  String get validateAccountNumber => "/api/v1/sendmoney/validateAccountNumber";
+  String get sendToMobileMoney => "/api/v1/sendmoney/MobileMoney";
   String get sendToInAppUser => "/api/v1/sendmoney/toInAppUser";
   String get sendCharge => "/api/v1/sendmoney/charge";
   String get getBeneficiaries => "/api/v1/Beneficiary";

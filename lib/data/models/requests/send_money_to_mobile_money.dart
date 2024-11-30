@@ -3,122 +3,111 @@ import 'dart:convert';
 SendToMobileMoneyReq sendToMobileMoneyReqFromJson(String str) =>
     SendToMobileMoneyReq.fromJson(json.decode(str));
 
-String sendToMobileMoneyReqToJson(SendToMobileMoneyReq data) =>
-    json.encode(data.toJson());
+String sendToMobileMoneyReqToJson(SendToMobileMoneyReq data) => json.encode(data.toJson());
 
 class SendToMobileMoneyReq {
+  final String? sourceCountryCode;
   final String? destinationCountryCode;
   final String? sourceCurrency;
   final String? destinationCurrency;
   final String? bankCode;
-  final String? bankBranch;
   final String? sourceAccountNumber;
-  final String? destinationAccountNumber;
-  final String? destinationAccountName;
-  final double? amount;
+  final String? mobileMoneyNumber;
+  final String? recipientName;
+  final num? amount;
   final String? description;
   final String? deviceToken;
   final String? longitude;
   final String? latitude;
   final String? ipAddress;
-  final String? serviceCode;
-  final String? serviceTypeCode;
+  final String? channel;
 
   SendToMobileMoneyReq({
+    this.sourceCountryCode,
     this.destinationCountryCode,
     this.sourceCurrency,
     this.destinationCurrency,
     this.bankCode,
-    this.bankBranch,
     this.sourceAccountNumber,
-    this.destinationAccountNumber,
-    this.destinationAccountName,
+    this.mobileMoneyNumber,
+    this.recipientName,
     this.amount,
     this.description,
     this.deviceToken,
     this.longitude,
     this.latitude,
     this.ipAddress,
-    this.serviceCode,
-    this.serviceTypeCode,
+    this.channel,
   });
 
   SendToMobileMoneyReq copyWith({
+    String? sourceCountryCode,
     String? destinationCountryCode,
     String? sourceCurrency,
     String? destinationCurrency,
     String? bankCode,
-    String? bankBranch,
     String? sourceAccountNumber,
-    String? destinationAccountNumber,
-    String? destinationAccountName,
-    double? amount,
+    String? mobileMoneyNumber,
+    String? recipientName,
+    int? amount,
     String? description,
     String? deviceToken,
     String? longitude,
     String? latitude,
     String? ipAddress,
-    String? serviceCode,
-    String? serviceTypeCode,
+    String? channel,
   }) =>
       SendToMobileMoneyReq(
-        destinationCountryCode:
-            destinationCountryCode ?? this.destinationCountryCode,
+        sourceCountryCode: sourceCountryCode ?? this.sourceCountryCode,
+        destinationCountryCode: destinationCountryCode ?? this.destinationCountryCode,
         sourceCurrency: sourceCurrency ?? this.sourceCurrency,
         destinationCurrency: destinationCurrency ?? this.destinationCurrency,
         bankCode: bankCode ?? this.bankCode,
-        bankBranch: bankBranch ?? this.bankBranch,
         sourceAccountNumber: sourceAccountNumber ?? this.sourceAccountNumber,
-        destinationAccountNumber:
-            destinationAccountNumber ?? this.destinationAccountNumber,
-        destinationAccountName:
-            destinationAccountName ?? this.destinationAccountName,
+        mobileMoneyNumber: mobileMoneyNumber ?? this.mobileMoneyNumber,
+        recipientName: recipientName ?? this.recipientName,
         amount: amount ?? this.amount,
         description: description ?? this.description,
         deviceToken: deviceToken ?? this.deviceToken,
         longitude: longitude ?? this.longitude,
         latitude: latitude ?? this.latitude,
         ipAddress: ipAddress ?? this.ipAddress,
-        serviceCode: serviceCode ?? this.serviceCode,
-        serviceTypeCode: serviceTypeCode ?? this.serviceTypeCode,
+        channel: channel ?? this.channel,
       );
 
-  factory SendToMobileMoneyReq.fromJson(Map<String, dynamic> json) =>
-      SendToMobileMoneyReq(
-        destinationCountryCode: json["destinationCountryCode"],
-        sourceCurrency: json["sourceCurrency"],
-        destinationCurrency: json["destinationCurrency"],
-        bankCode: json["bankCode"],
-        bankBranch: json["bankBranch"],
-        sourceAccountNumber: json["sourceAccountNumber"],
-        destinationAccountNumber: json["destinationAccountNumber"],
-        destinationAccountName: json["destinationAccountName"],
-        amount: json["amount"]?.toDouble(),
-        description: json["description"],
-        deviceToken: json["deviceToken"],
-        longitude: json["longitude"],
-        latitude: json["latitude"],
-        ipAddress: json["ipAddress"],
-        serviceCode: json["serviceCode"],
-        serviceTypeCode: json["serviceTypeCode"],
+  factory SendToMobileMoneyReq.fromJson(Map<String, dynamic> json) => SendToMobileMoneyReq(
+        sourceCountryCode: json["SourceCountryCode"],
+        destinationCountryCode: json["DestinationCountryCode"],
+        sourceCurrency: json["SourceCurrency"],
+        destinationCurrency: json["DestinationCurrency"],
+        bankCode: json["BankCode"],
+        sourceAccountNumber: json["SourceAccountNumber"],
+        mobileMoneyNumber: json["MobileMoneyNumber"],
+        recipientName: json["RecipientName"],
+        amount: json["Amount"],
+        description: json["Description"],
+        deviceToken: json["DeviceToken"],
+        longitude: json["Longitude"],
+        latitude: json["Latitude"],
+        ipAddress: json["IpAddress"],
+        channel: json["Channel"],
       );
 
   Map<String, dynamic> toJson() => {
-        "destinationCountryCode": destinationCountryCode,
-        "sourceCurrency": sourceCurrency,
-        "destinationCurrency": destinationCurrency,
-        "bankCode": bankCode,
-        "bankBranch": bankBranch,
-        "sourceAccountNumber": sourceAccountNumber,
-        "destinationAccountNumber": destinationAccountNumber,
-        "destinationAccountName": destinationAccountName,
-        "amount": amount,
-        "description": description,
-        "deviceToken": deviceToken,
-        "longitude": longitude,
-        "latitude": latitude,
-        "ipAddress": ipAddress,
-        "serviceCode": serviceCode,
-        "serviceTypeCode": serviceTypeCode,
+        "SourceCountryCode": sourceCountryCode,
+        "DestinationCountryCode": destinationCountryCode,
+        "SourceCurrency": sourceCurrency,
+        "DestinationCurrency": destinationCurrency,
+        "BankCode": bankCode,
+        "SourceAccountNumber": sourceAccountNumber,
+        "MobileMoneyNumber": mobileMoneyNumber,
+        "RecipientName": recipientName,
+        "Amount": amount,
+        "Description": description,
+        "DeviceToken": deviceToken,
+        "Longitude": longitude,
+        "Latitude": latitude,
+        "IpAddress": ipAddress,
+        "Channel": channel,
       };
 }

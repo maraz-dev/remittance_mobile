@@ -3,8 +3,7 @@ import 'dart:convert';
 AddBeneficiaryReq addBeneficiaryReqFromJson(String str) =>
     AddBeneficiaryReq.fromJson(json.decode(str));
 
-String addBeneficiaryReqToJson(AddBeneficiaryReq data) =>
-    json.encode(data.toJson());
+String addBeneficiaryReqToJson(AddBeneficiaryReq data) => json.encode(data.toJson());
 
 class AddBeneficiaryReq {
   final String? serviceTypeCode;
@@ -31,6 +30,13 @@ class AddBeneficiaryReq {
   final String? email;
   final String? smartCodeNumber;
   final String? meterNumber;
+  final String? swiftCode;
+  final String? sortCode;
+  final String? bankAddress;
+  final String? recipientCity;
+  final String? recipientPostalCode;
+  final String? recipientAddress;
+  final String? accountType;
 
   AddBeneficiaryReq({
     this.serviceTypeCode,
@@ -57,6 +63,13 @@ class AddBeneficiaryReq {
     this.email,
     this.smartCodeNumber,
     this.meterNumber,
+    this.swiftCode,
+    this.sortCode,
+    this.bankAddress,
+    this.recipientCity,
+    this.recipientPostalCode,
+    this.recipientAddress,
+    this.accountType,
   });
 
   AddBeneficiaryReq copyWith({
@@ -84,6 +97,13 @@ class AddBeneficiaryReq {
     String? email,
     String? smartCodeNumber,
     String? meterNumber,
+    String? swiftCode,
+    String? sortCode,
+    String? bankAddress,
+    String? recipientCity,
+    String? recipientPostalCode,
+    String? recipientAddress,
+    String? accountType,
   }) =>
       AddBeneficiaryReq(
         serviceTypeCode: serviceTypeCode ?? this.serviceTypeCode,
@@ -94,8 +114,7 @@ class AddBeneficiaryReq {
         destinationCountry: destinationCountry ?? this.destinationCountry,
         destinationCurrency: destinationCurrency ?? this.destinationCurrency,
         sourceCountryCode: sourceCountryCode ?? this.sourceCountryCode,
-        destinationCountryCode:
-            destinationCountryCode ?? this.destinationCountryCode,
+        destinationCountryCode: destinationCountryCode ?? this.destinationCountryCode,
         iban: iban ?? this.iban,
         transitNumber: transitNumber ?? this.transitNumber,
         routingNumber: routingNumber ?? this.routingNumber,
@@ -111,10 +130,16 @@ class AddBeneficiaryReq {
         email: email ?? this.email,
         smartCodeNumber: smartCodeNumber ?? this.smartCodeNumber,
         meterNumber: meterNumber ?? this.meterNumber,
+        swiftCode: swiftCode ?? this.swiftCode,
+        sortCode: sortCode ?? this.sortCode,
+        bankAddress: bankAddress ?? this.bankAddress,
+        recipientCity: recipientCity ?? this.recipientCity,
+        recipientPostalCode: recipientPostalCode ?? this.recipientPostalCode,
+        recipientAddress: recipientAddress ?? this.recipientAddress,
+        accountType: accountType ?? this.accountType,
       );
 
-  factory AddBeneficiaryReq.fromJson(Map<String, dynamic> json) =>
-      AddBeneficiaryReq(
+  factory AddBeneficiaryReq.fromJson(Map<String, dynamic> json) => AddBeneficiaryReq(
         serviceTypeCode: json["serviceTypeCode"],
         channel: json["channel"],
         currency: json["currency"],
@@ -139,6 +164,13 @@ class AddBeneficiaryReq {
         email: json["email"],
         smartCodeNumber: json["smartCodeNumber"],
         meterNumber: json["meterNumber"],
+        swiftCode: json["swiftCode"],
+        sortCode: json["sortCode"],
+        bankAddress: json["bankAddress"],
+        recipientCity: json["recipientCity"],
+        recipientPostalCode: json["recipientPostalCode"],
+        recipientAddress: json["recipientAddress"],
+        accountType: json["accountType"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -166,5 +198,12 @@ class AddBeneficiaryReq {
         "email": email,
         "smartCodeNumber": smartCodeNumber,
         "meterNumber": meterNumber,
+        "swiftCode": swiftCode,
+        "sortCode": sortCode,
+        "bankAddress": bankAddress,
+        "recipientCity": recipientCity,
+        "recipientPostalCode": recipientPostalCode,
+        "recipientAddress": recipientAddress,
+        "accountType": accountType,
       };
 }

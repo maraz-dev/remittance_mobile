@@ -271,3 +271,7 @@ extension StringBoldExtension on String {
     return '*$this*';
   }
 }
+
+extension CapitalizeExtension on String {
+  String capitalize() => isEmpty ? '' : '${this[0].toUpperCase()}${substring(1)}';
+}

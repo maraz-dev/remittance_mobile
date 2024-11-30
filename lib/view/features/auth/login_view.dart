@@ -180,7 +180,8 @@ class _LoginViewState extends ConsumerState<LoginScreen> {
                       splashColor: Colors.transparent,
                       radius: 0,
                       onTap: () async {
-                        if (SharedPrefManager.hasBiometrics) {
+                        if (SharedPrefManager.hasBiometrics &&
+                            (SharedPrefManager.email == _email.text)) {
                           final storage = inject.get<SecureStorageBase>();
                           if (await Biometrics.authenticate()) {
                             var password = await storage.readData(PrefKeys.password);

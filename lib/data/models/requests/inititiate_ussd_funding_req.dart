@@ -3,13 +3,12 @@ import 'dart:convert';
 InitiateUssdFundingReq initiateUssdFundingReqFromJson(String str) =>
     InitiateUssdFundingReq.fromJson(json.decode(str));
 
-String initiateUssdFundingReqToJson(InitiateUssdFundingReq data) =>
-    json.encode(data.toJson());
+String initiateUssdFundingReqToJson(InitiateUssdFundingReq data) => json.encode(data.toJson());
 
 class InitiateUssdFundingReq {
   final String? bankCode;
-  final int? amount;
-  final int? charge;
+  final num? amount;
+  final num? charge;
 
   InitiateUssdFundingReq({
     this.bankCode,
@@ -28,8 +27,7 @@ class InitiateUssdFundingReq {
         charge: charge ?? this.charge,
       );
 
-  factory InitiateUssdFundingReq.fromJson(Map<String, dynamic> json) =>
-      InitiateUssdFundingReq(
+  factory InitiateUssdFundingReq.fromJson(Map<String, dynamic> json) => InitiateUssdFundingReq(
         bankCode: json["bankCode"],
         amount: json["amount"],
         charge: json["charge"],

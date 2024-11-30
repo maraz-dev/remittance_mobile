@@ -34,13 +34,16 @@ class RatesCard extends StatelessWidget {
               ),
         ),
         const Spacer(),
-        Text(
-          description,
-          style: description.contains('Fees')
-              ? Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.kPrimaryColor,
-                  )
-              : null,
+        InkWell(
+          onTap: onTapped,
+          child: Text(
+            description,
+            style: description.contains('Fees')
+                ? Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: AppColors.kPrimaryColor,
+                    )
+                : null,
+          ),
         ),
         if (description.contains('Fees')) ...[
           9.0.width,

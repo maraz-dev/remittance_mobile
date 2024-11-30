@@ -42,7 +42,7 @@ class DioExceptions implements Exception {
       case 400:
         return handleError(error);
       case 401:
-        return error["error"]["message"];
+        return "Please Login Again!";
       case 413:
         return error["message"];
       case 424:
@@ -51,11 +51,13 @@ class DioExceptions implements Exception {
         // FailureRes result = FailureRes.fromJson(error);
         return "Error Occurred";
       case 404:
-        return handleError(error);
+        return "An Error Occured";
       case 500:
         return "An Error Occurred. Try again later";
       case 502:
         return "Bad Gateway";
+      case 503:
+        return "Service Unavailable";
       case 504:
         return "Service Unavaiilable. Please Try Again Later";
       default:
@@ -98,7 +100,7 @@ class DioExceptions implements Exception {
         return error["message"];
       }
     } else {
-      return error["error"]["message"];
+      return "An Error Occurred";
     }
   }
 

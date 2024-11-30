@@ -1,13 +1,15 @@
+import 'package:config/Config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/core/utils/constants.dart';
 import 'package:remittance_mobile/data/models/responses/new_country_model.dart';
 import 'package:remittance_mobile/view/features/auth/login_view.dart';
 import 'package:remittance_mobile/view/features/auth/vm/auth_providers.dart';
-import 'package:remittance_mobile/view/features/profile/more/terms_and_conditions_view.dart';
+import 'package:remittance_mobile/view/features/webview/app_webview.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_dropdown.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
@@ -156,7 +158,12 @@ class _ChooseCountryViewState extends ConsumerState<ChooseCountryView> {
             RichTextWidget(
               text: "By continuing, you’ve accepted our ",
               hyperlink: 'terms and conditions.',
-              onTap: () => context.pushNamed(TermsAndConditionsView.path),
+              onTap: () {
+                context.pushNamed(WebviewScreen.path, pathParameters: {
+                  "url": "$APP_PARTNER_DOMAIN_NAME/${PrefKeys.termsAndConditions}",
+                  "routeName": "Terms and Conditions",
+                });
+              },
             ),
             12.0.height,
             MainButton(

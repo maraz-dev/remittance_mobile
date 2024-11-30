@@ -84,6 +84,7 @@ class AppImages {
   static const withdraw = 'assets/images/svg/withdraw.svg';
   static const idIcon = 'assets/images/svg/id_icon.svg';
   static const documentUploadIcon = 'assets/images/svg/document_upload_icon.svg';
+  static const imageUploadIcon = 'assets/images/svg/image_upload.svg';
   static const selfieIcon = 'assets/images/svg/selfie_icon.svg';
   static const locationIcon = 'assets/images/svg/location_icon.svg';
   static const resendIdIcon = 'assets/images/svg/resend_id_icon.svg';
@@ -128,6 +129,7 @@ class AppImages {
   static const onboardingFour = 'assets/images/onboarding_four.png';
   static const forYouOne = 'assets/images/for_you1.png';
   static const forYouTwo = 'assets/images/for_you2.png';
+  static const appIcon = 'assets/images/app_icon.png';
 
   /// COUNTRY
   static const String imageCountryPath = 'assets/images/country';

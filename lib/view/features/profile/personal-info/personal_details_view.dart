@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/data/models/responses/user_response.dart';
 import 'package:remittance_mobile/view/features/auth/create_account_flow/choose_country_view.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
@@ -13,11 +14,14 @@ import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
 class PersonalDetailsView extends ConsumerStatefulWidget {
   static String path = 'personal-details-view';
-  const PersonalDetailsView({super.key});
+  final UserResponse user;
+  const PersonalDetailsView({
+    super.key,
+    required this.user,
+  });
 
   @override
-  ConsumerState<PersonalDetailsView> createState() =>
-      _PersonalDetailsViewState();
+  ConsumerState<PersonalDetailsView> createState() => _PersonalDetailsViewState();
 }
 
 class _PersonalDetailsViewState extends ConsumerState<PersonalDetailsView> {
@@ -30,11 +34,13 @@ class _PersonalDetailsViewState extends ConsumerState<PersonalDetailsView> {
   @override
   void initState() {
     super.initState();
-    _fullName.text = 'Adebola Sanni';
-    _phoneNumber.text = '(+1) 8738 9738 9382';
-    _address.text = '2464 Royal Ln. Mesa, New Jersey 45463';
-    _country.text = 'United States';
-    _emailAddress.text = 'pinkybolar@gmail.com';
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fullName.text = "${widget.user.firstName} ${widget.user.lastName}";
+      _phoneNumber.text = widget.user.phoneNumber ?? "";
+      _country.text = widget.user.country ?? "";
+      _emailAddress.text = widget.user.email ?? "";
+      _address.text = widget.user.address ?? widget.user.country;
+    });
   }
 
   @override
@@ -77,9 +83,10 @@ class _PersonalDetailsViewState extends ConsumerState<PersonalDetailsView> {
                   children: [
                     Text(
                       selectedCountry.value.code ?? "",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: AppColors.kBlackColor,
-                          fontWeight: FontWeight.bold),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: AppColors.kBlackColor, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),

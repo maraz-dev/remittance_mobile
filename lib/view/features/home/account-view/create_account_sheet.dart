@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
@@ -99,17 +100,23 @@ class _CreateCustomerAccountSheetState extends ConsumerState<CreateCustomerAccou
                           size: 100,
                           lineWidth: 3,
                         ),
-                        error: (error, stackTrace) => const SpinKitRing(
-                          color: AppColors.kPrimaryColor,
-                          size: 100,
-                          lineWidth: 3,
-                        ),
+                        error: (error, stackTrace) => kDebugMode
+                            ? Center(
+                                child: Text(error.toString()),
+                              )
+                            : const Center(
+                                child: Text('An Error Occured'),
+                              ),
                         data: (data) {
                           final filteredData = data
                               .where((currency) =>
                                   currency.currencyName!.toLowerCase().contains(_searchQuery) ||
                                   currency.currencyCode!.toLowerCase().contains(_searchQuery))
                               .toList();
+                          if (data.isEmpty) {
+                            return const Center(
+                                child: Text('No Available Currency at the Moment...'));
+                          }
                           return ListView.separated(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),

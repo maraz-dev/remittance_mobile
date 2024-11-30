@@ -1,16 +1,18 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/remote/kyc-remote/kyc_service.dart';
 import 'package:remittance_mobile/view/features/home/complete-profile/means-of-id-flow/id_front_capture_view.dart';
+import 'package:remittance_mobile/view/features/home/vm/upload_kyc_file.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
+import 'package:remittance_mobile/view/utils/snackbar.dart';
 import 'package:remittance_mobile/view/widgets/bottom_nav_bar_widget.dart';
 import 'package:remittance_mobile/view/widgets/richtext_widget.dart';
 import 'package:remittance_mobile/view/widgets/scaffold_body.dart';
 
-class IdFrontCapturedView extends StatefulWidget {
+class IdFrontCapturedView extends ConsumerStatefulWidget {
   static String path = "id-front-captured-view";
   const IdFrontCapturedView({
     super.key,
@@ -21,12 +23,24 @@ class IdFrontCapturedView extends StatefulWidget {
   final PageController controller;
 
   @override
-  State<IdFrontCapturedView> createState() => _IdFrontCapturedViewState();
+  ConsumerState<IdFrontCapturedView> createState() => _IdFrontCapturedViewState();
 }
 
-class _IdFrontCapturedViewState extends State<IdFrontCapturedView> {
+class _IdFrontCapturedViewState extends ConsumerState<IdFrontCapturedView> {
   @override
   Widget build(BuildContext context) {
+    final kycUploading = ref.watch(uploadKycDocProvider).isLoading;
+
+    ref.listen(uploadKycDocProvider, (_, next) {
+      if (next is AsyncData<String>) {
+        kycData.addAll({'MeansOfIdDocFrontPath': next.value});
+        widget.pressed();
+      }
+      if (next is AsyncError) {
+        SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
+      }
+    });
+
     return Scaffold(
       body: ScaffoldBody(
         body: SingleChildScrollView(
@@ -55,9 +69,10 @@ class _IdFrontCapturedViewState extends State<IdFrontCapturedView> {
                 24.0.height,
                 Text(
                   'Front of ID Captured!',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.kBlackColor),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(fontWeight: FontWeight.bold, color: AppColors.kBlackColor),
                 ),
                 16.0.height,
                 InkWell(
@@ -90,16 +105,12 @@ class _IdFrontCapturedViewState extends State<IdFrontCapturedView> {
       bottomNavigationBar: BottomNavBarWidget(
         children: [
           MainButton(
-            //isLoading: true,
+            isLoading: kycUploading,
             text: 'Continue',
             onPressed: () async {
-              kycData.addAll({
-                'MeansOfIdDocFront': await MultipartFile.fromFile(
-                  idFrontImagePath.value.path,
-                  filename: idFrontImagePath.value.path.split('/').last,
-                )
-              });
-              widget.pressed();
+              ref
+                  .read(uploadKycDocProvider.notifier)
+                  .uploadKycDocMethod(idFrontImagePath.value, 'ID_DOC_FRONT');
             },
           )
               .animate()

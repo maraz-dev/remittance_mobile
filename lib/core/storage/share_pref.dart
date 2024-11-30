@@ -3,12 +3,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPrefManager {
   static late SharedPreferences prefs;
 
-  static set isFirstLaunch(bool isFirstLaunch) =>
-      prefs.setBool("isFirstLaunch", isFirstLaunch);
+  static set isFirstLaunch(bool isFirstLaunch) => prefs.setBool("isFirstLaunch", isFirstLaunch);
   static bool get isFirstLaunch => prefs.getBool("isFirstLaunch") ?? true;
 
-  static set isLoggedIn(bool isLoggedIn) =>
-      prefs.setBool("isLoggedIn", isLoggedIn);
+  static set isLoggedIn(bool isLoggedIn) => prefs.setBool("isLoggedIn", isLoggedIn);
   static bool get isLoggedIn => prefs.getBool("isLoggedIn") ?? false;
 
   static set email(String email) => prefs.setString("email", email);
@@ -17,35 +15,35 @@ class SharedPrefManager {
   static set userId(String userId) => prefs.setString("userId", userId);
   static String get userId => prefs.getString("userId") ?? '';
 
-  static set hasBiometrics(bool hasBiometrics) =>
-      prefs.setBool("hasBiometrics", hasBiometrics);
+  static set firstName(String firstName) => prefs.setString("firstName", firstName);
+  static String get firstName => prefs.getString("firstName") ?? '';
+
+  static set lastName(String lastName) => prefs.setString("lastName", lastName);
+  static String get lastName => prefs.getString("lastName") ?? '';
+
+  static set hasBiometrics(bool hasBiometrics) => prefs.setBool("hasBiometrics", hasBiometrics);
   static bool get hasBiometrics => prefs.getBool("hasBiometrics") ?? false;
 
   static set hasBiometricsTranx(bool hasBiometricsTranx) =>
       prefs.setBool("hasBiometricsTranx", hasBiometricsTranx);
-  static bool get hasBiometricsTranx =>
-      prefs.getBool("hasBiometricsTranx") ?? false;
+  static bool get hasBiometricsTranx => prefs.getBool("hasBiometricsTranx") ?? false;
 
-  static set isNewLogin(bool isNewLogin) =>
-      prefs.setBool("isNewLogin", isNewLogin);
+  static set isNewLogin(bool isNewLogin) => prefs.setBool("isNewLogin", isNewLogin);
   static bool get isNewLogin => prefs.getBool("isNewLogin") ?? false;
 
   static set isPINSet(bool isPINSet) => prefs.setBool("isPINSet", isPINSet);
   static bool get isPINSet => prefs.getBool("isPINSet") ?? false;
 
-  static set isKycComplete(bool isKycComplete) =>
-      prefs.setBool("isKycComplete", isKycComplete);
+  static set isKycComplete(bool isKycComplete) => prefs.setBool("isKycComplete", isKycComplete);
   static bool get isKycComplete => prefs.getBool("isKycComplete") ?? false;
 
   static set isSecurityQuestionSet(bool isSecurityQuestionSet) =>
       prefs.setBool("isSecurityQuestionSet", isSecurityQuestionSet);
-  static bool get isSecurityQuestionSet =>
-      prefs.getBool("isSecurityQuestionSet") ?? false;
+  static bool get isSecurityQuestionSet => prefs.getBool("isSecurityQuestionSet") ?? false;
 
   static set onboardingRequestId(String onboardingRequestId) =>
       prefs.setString("onboardingRequestId", onboardingRequestId);
-  static String get onboardingRequestId =>
-      prefs.getString("onboardingRequestId") ?? '';
+  static String get onboardingRequestId => prefs.getString("onboardingRequestId") ?? '';
 
   static void clear() {
     //prefs.clear();

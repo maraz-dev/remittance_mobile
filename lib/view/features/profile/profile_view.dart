@@ -1,12 +1,15 @@
+import 'package:config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:remittance_mobile/core/utils/constants.dart';
 import 'package:remittance_mobile/data/local/user_data_impl.dart';
 import 'package:remittance_mobile/view/features/profile/profile_options.dart';
 import 'package:remittance_mobile/view/features/profile/widgets/biometrics_sheet.dart';
 import 'package:remittance_mobile/view/features/profile/widgets/profile_card.dart';
 import 'package:remittance_mobile/view/features/profile/widgets/profile_title.dart';
+import 'package:remittance_mobile/view/features/webview/app_webview.dart';
 import 'package:remittance_mobile/view/route/current_user_notifier.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
 import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
@@ -45,6 +48,7 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
             children: [
               Image.asset(
                 AppImages.profileBackground,
+                color: AppColors.kPrimaryColor.withOpacity(0.7),
               ),
               Positioned(
                 bottom: -65,
@@ -117,7 +121,10 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                               text: value.text,
                               onPressed: () => value.optionPath == null
                                   ? null
-                                  : context.pushNamed(value.optionPath),
+                                  : context.pushNamed(
+                                      value.optionPath,
+                                      extra: userProfile.value,
+                                    ),
                             );
                           },
                           separatorBuilder: (context, index) {
@@ -185,9 +192,22 @@ class _ProfileViewState extends ConsumerState<ProfileView> {
                               image: value.image,
                               text: value.text,
                               color: value.color,
-                              onPressed: () => value.text == 'Log Out'
-                                  ? ref.read(userStateProvider.notifier).logOutUser()
-                                  : context.pushNamed(value.optionPath),
+                              onPressed: () {
+                                if (value.text == 'Log Out') {
+                                  ref.read(userStateProvider.notifier).logOutUser();
+                                } else if (value.text == 'Terms and Conditions') {
+                                  context.pushNamed(WebviewScreen.path, pathParameters: {
+                                    "url":
+                                        "$APP_PARTNER_DOMAIN_NAME/${PrefKeys.termsAndConditions}",
+                                    "routeName": "Terms and Conditions",
+                                  });
+                                } else if (value.text == 'Privacy Policy') {
+                                  context.pushNamed(WebviewScreen.path, pathParameters: {
+                                    "url": "$APP_PARTNER_DOMAIN_NAME/${PrefKeys.privacyPolicy}",
+                                    "routeName": "Privacy Policy",
+                                  });
+                                }
+                              },
                             );
                           },
                           separatorBuilder: (context, index) {

@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
+import 'package:remittance_mobile/core/utils/app_func_utils.dart';
 import 'package:remittance_mobile/data/models/responses/transaction_detail_model.dart';
 import 'package:remittance_mobile/view/features/transactions/transaction_details.dart';
+import 'package:remittance_mobile/view/features/transactions/widgets/share_receipt_item.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/transaction_indicator.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/update_text.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
+import 'package:remittance_mobile/view/utils/app_bottomsheet.dart';
 import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/buttons.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 import 'package:remittance_mobile/view/widgets/button_with_icon.dart';
+import 'package:remittance_mobile/view/widgets/receipt_image.dart';
+import 'package:remittance_mobile/view/widgets/receipt_pdf.dart';
+import 'package:remittance_mobile/view/widgets/section_header.dart';
 import 'package:timelines/timelines.dart';
 
 class TransactionUpdatesTab extends StatelessWidget {
@@ -16,11 +24,13 @@ class TransactionUpdatesTab extends StatelessWidget {
     required this.length,
     required this.widget,
     required this.transxUpdates,
+    required this.transxDetail,
   });
 
   final int length;
   final TransactionDetails widget;
   final List<TransxUpdate> transxUpdates;
+  final TransxDetail transxDetail;
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +129,53 @@ class TransactionUpdatesTab extends StatelessWidget {
             if (widget.status == TransactionStatusUpdate.sent) ...[
               24.0.height,
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  AppBottomSheet.showBottomSheet(
+                    context,
+                    widget: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const SectionHeader(text: 'Share Receipt'),
+                            InkWell(
+                              onTap: () => context.pop(),
+                              child: SvgPicture.asset(
+                                AppImages.closeIcon,
+                                colorFilter: AppColors.kGrey700.colorFilterMode(),
+                                width: 24,
+                                height: 24,
+                              ),
+                            )
+                          ],
+                        ),
+                        32.0.height,
+                        ShareReceiptItem(
+                          image: AppImages.documentUploadIcon,
+                          text: 'PDF',
+                          onPressed: () async {
+                            context.pop();
+                            final result = await SharePDF.pdfTransxReceipt(details: transxDetail);
+                            await AppUtils.shareFile(result);
+                          },
+                        ),
+                        16.0.height,
+                        ShareReceiptItem(
+                          image: AppImages.imageUploadIcon,
+                          text: 'Image',
+                          onPressed: () async {
+                            context.pop();
+                            final result = await ShareImage.imgTransxReceipt(details: transxDetail);
+                            await AppUtils.shareFile(result);
+                          },
+                        ),
+                        16.0.height,
+                      ],
+                    ),
+                  );
+                },
                 child: const ButtonWithIcon(),
               ),
             ]

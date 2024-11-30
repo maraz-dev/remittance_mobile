@@ -110,12 +110,11 @@ class _SendMoneyFromViewState extends ConsumerState<SendMoneyFromView> {
                             ),
                           ),
                           error: (error, stackTrace) => kDebugMode
-                              ? Text(error.toString())
-                              : SkeletonLine(
-                                  style: SkeletonLineStyle(
-                                    height: 50,
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
+                              ? Center(
+                                  child: Text(error.toString()),
+                                )
+                              : const Center(
+                                  child: Text('An Error Occured'),
                                 ),
                         ),
                       ],

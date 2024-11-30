@@ -77,7 +77,8 @@ class TransactionDetailsTab extends StatelessWidget {
             TrxItems(
               fontSize: 12,
               title: 'Name',
-              description: '${transxDetail.beneficiary?.split('|')[1]}',
+              description:
+                  '${transxDetail.beneficiary!.contains('|') ? transxDetail.beneficiary?.split('|')[1].truncate(22) : transxDetail.beneficiary?.truncate(22)}',
             ),
             12.0.height,
             TrxItems(
@@ -94,7 +95,8 @@ class TransactionDetailsTab extends StatelessWidget {
               description: '${transxDetail.serviceTypeChannel}',
             ),
             12.0.height,
-            if (transxDetail.beneficiary?.split('|')[2].isNotEmpty ?? false) ...[
+            if (transxDetail.beneficiary!.contains('|') &&
+                (transxDetail.beneficiary?.split('|')[2].isNotEmpty ?? false)) ...[
               TrxItems(
                 fontSize: 12,
                 descFontSize: 12,

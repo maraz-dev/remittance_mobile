@@ -2,13 +2,13 @@
 
 import 'dart:developer';
 
+import 'package:config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:remittance_mobile/data/models/requests/verify_transx_req.dart';
 import 'package:remittance_mobile/view/features/dashboard/dashboard_view.dart';
-import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/debit_card_sheet.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/verify_transx_funding_vm.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
@@ -72,21 +72,56 @@ class _WebviewScreenState extends ConsumerState<WebviewScreen> with RestorationM
             }
           },
           onNavigationRequest: (NavigationRequest navRequest) async {
-            if (navRequest.url.contains("borderpal.co")) {
-              if (context.mounted) {
-                ref.read(verifyFundingTransxProvider.notifier).verifyFundingTransxMethod(
-                      VerifyFundingTransxReq(
-                        flwTransactionId: flwTransactionId.value,
-                        requestId: flwRequestId.value,
+            if (widget.routeName == "checkout" &&
+                navRequest.url.contains(APP_PARTNER_DOMAIN_NAME)) {
+              //context.goNamed(DashboardView.path);
+              AppBottomSheet.showBottomSheet(
+                context,
+                enableDrag: false,
+                isDismissible: false,
+                widget: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    64.0.height,
+                    const CardIcon(
+                      image: AppImages.doneOutline,
+                      padding: 30,
+                      bgColor: AppColors.kGrey100,
+                    ),
+                    24.0.height,
+                    const SectionHeader(text: 'Transaction Complete'),
+                    8.0.height,
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      child: Text(
+                        'Your request is Complete. \n\nIf your Balance doesn\'t reflect immediately, Refresh your Dashboard.',
+                        textAlign: TextAlign.center,
                       ),
-                    );
-              }
-
-              // Future.delayed(const Duration(seconds: 2), () {
-              //   if (context.mounted) {
-              //     // context.goNamed(DashboardView.path);
-              //   }
-              // });
+                    ),
+                    64.0.height,
+                    MainButton(
+                        text: 'Go to Dashboard',
+                        onPressed: () {
+                          context.goNamed(DashboardView.path);
+                        })
+                  ],
+                ),
+              );
+              // final strippedNavUrl = navRequest.url.split('&');
+              // final flwTrxId = strippedNavUrl
+              //     .elementAt(strippedNavUrl.indexWhere((item) => item.contains("transaction_id")))
+              //     .split('=')
+              //     .last;
+              // log(flwTrxId);
+              // if (context.mounted) {
+              //   ref.read(verifyFundingTransxProvider.notifier).verifyFundingTransxMethod(
+              //         VerifyFundingTransxReq(
+              //           flwTransactionId: int.parse(flwTrxId),
+              //           //requestId: flwRequestId.value,
+              //         ),
+              //       );
+              // }
             }
             return NavigationDecision.navigate;
           },
@@ -195,6 +230,7 @@ class _WebviewScreenState extends ConsumerState<WebviewScreen> with RestorationM
         }
       }
       if (next is AsyncError) {
+        context.pop();
         SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
       }
     });
@@ -202,8 +238,18 @@ class _WebviewScreenState extends ConsumerState<WebviewScreen> with RestorationM
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        appBar: innerAppBar(title: ''),
-        body: WebViewWidget(controller: _controller),
+        appBar: innerAppBar(
+          title: widget.routeName != "checkout" ? widget.routeName : "",
+        ),
+        body: pageLoading
+            ? const Center(
+                child: SpinKitRing(
+                  color: AppColors.kPrimaryColor,
+                  size: 100,
+                  lineWidth: 3,
+                ),
+              )
+            : WebViewWidget(controller: _controller),
       ),
     );
   }

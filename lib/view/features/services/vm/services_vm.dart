@@ -3,7 +3,7 @@ import 'package:remittance_mobile/core/di/injector.dart';
 import 'package:remittance_mobile/data/models/responses/corridor_response.dart';
 
 final getCorridorsProvider =
-    FutureProvider.autoDispose.family<List<CorridorsResponse>, String>((ref, args) async {
+    FutureProvider.family<List<CorridorsResponse>, String>((ref, args) async {
   return ref.read(transferRepository).getCorridorsEndpoint(args);
 });
 

@@ -46,7 +46,7 @@ class TransactionsService {
   Future<TransactionDetailRes> getTransactionDetail(String requestId) async {
     try {
       final response = await _networkService.request(
-        "${endpointUrl.baseFundingUrl}${endpointUrl.getTransactionDetails}?requestId=$requestId",
+        "${endpointUrl.baseFundingUrl}${endpointUrl.getTransactionDetails}?reference=$requestId",
         RequestMethod.get,
       );
 
