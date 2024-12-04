@@ -73,9 +73,14 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
                 arrowColor: AppColors.kWarningColor50,
               );
             case "Completed":
-              SharedPrefManager.isKycComplete = true;
+              if (data.isKycCompleted == true) {
+                SharedPrefManager.isKycComplete = true;
+              }
               return Container();
             default:
+              if (data.isKycCompleted == true) {
+                SharedPrefManager.isKycComplete = true;
+              }
               return Container();
           }
         },
