@@ -41,47 +41,52 @@ class _KycInfoCardState extends ConsumerState<KycInfoCard> {
               ),
             ),
         data: (data) {
-          switch (data.validationStatus) {
-            case "Pending" || null:
-              return KYCInfo(
-                onPressed: () {
-                  context.pushNamed(CompleteProfileView.path);
-                },
-                text: "Profile Incomplete!",
-                subText: 'Complete your profile to enjoy all our features',
-                textColor: AppColors.kGrey700,
-              );
-            case "Initiated":
-              return const KYCInfo(
-                subText: 'Check Back Later...',
-                showArrow: false,
-              );
-            case "Ongoing":
-              return const KYCInfo(
-                subText: 'Check Back Later...',
-                showArrow: false,
-              );
-            case "Failed":
-              return KYCInfo(
-                onPressed: () {
-                  context.pushNamed(CompleteProfileView.path);
-                },
-                bgColor: AppColors.kWarningColor700,
-                text: "Profile Rejected!",
-                subText: "${data.comment}",
-                textColor: AppColors.kWarningColor50,
-                arrowColor: AppColors.kWarningColor50,
-              );
-            case "Completed":
-              if (data.isKycCompleted == true) {
-                SharedPrefManager.isKycComplete = true;
-              }
-              return Container();
-            default:
-              if (data.isKycCompleted == true) {
-                SharedPrefManager.isKycComplete = true;
-              }
-              return Container();
+          if (data.isKycCompleted == true) {
+            SharedPrefManager.isKycComplete = true;
+            return Container();
+          } else {
+            switch (data.validationStatus) {
+              case "Pending" || null:
+                return KYCInfo(
+                  onPressed: () {
+                    context.pushNamed(CompleteProfileView.path);
+                  },
+                  text: "Profile Incomplete!",
+                  subText: 'Complete your profile to enjoy all our features',
+                  textColor: AppColors.kGrey700,
+                );
+              case "Initiated":
+                return const KYCInfo(
+                  subText: 'Check Back Later...',
+                  showArrow: false,
+                );
+              case "Ongoing":
+                return const KYCInfo(
+                  subText: 'Check Back Later...',
+                  showArrow: false,
+                );
+              case "Failed":
+                return KYCInfo(
+                  onPressed: () {
+                    context.pushNamed(CompleteProfileView.path);
+                  },
+                  bgColor: AppColors.kWarningColor700,
+                  text: "Profile Rejected!",
+                  subText: "${data.comment}",
+                  textColor: AppColors.kWarningColor50,
+                  arrowColor: AppColors.kWarningColor50,
+                );
+              case "Completed":
+                if (data.isKycCompleted == true) {
+                  SharedPrefManager.isKycComplete = true;
+                }
+                return Container();
+              default:
+                if (data.isKycCompleted == true) {
+                  SharedPrefManager.isKycComplete = true;
+                }
+                return Container();
+            }
           }
         },
         error: (error, stackTrace) {

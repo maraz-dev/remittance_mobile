@@ -57,7 +57,7 @@ class DioExceptions implements Exception {
       case 502:
         return "Bad Gateway";
       case 503:
-        return "Service Unavailable";
+        return "Service Unavailable, Please Try Again";
       case 504:
         return "Service Unavaiilable. Please Try Again Later";
       default:
