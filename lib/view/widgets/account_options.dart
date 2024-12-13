@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:remittance_mobile/data/models/responses/fund_with_bank_transfer_dto.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/add_money_view.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/bank_transfer_sheet.dart';
 import 'package:remittance_mobile/view/features/home/account-view/deactivate/deactivate_view.dart';
@@ -68,8 +69,9 @@ class AccountOptionsAlt extends StatelessWidget {
         } else if (text.contains("Details")) {
           AppBottomSheet.showBottomSheet(
             context,
-            widget: const BankTransferSheet(
+            widget: BankTransferSheet(
               transferCountry: TransferCountry.usd,
+              ngnTransferDetails: FundWithBankTransferDto(),
             ),
           );
         } else {

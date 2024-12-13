@@ -128,38 +128,45 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
           TextInput(
             header: 'Bank',
             controller: _bank,
-            hint: 'Select Bank',
+            hint: (transferState.destinationCountry?.code?.contains("CN") ?? false)
+                ? 'Enter Bank'
+                : 'Select Bank',
             inputType: TextInputType.text,
             validator: validateGeneric,
-            readOnly: true,
+            readOnly:
+                (transferState.destinationCountry?.code?.contains("CN") ?? false) ? false : true,
             animate: false,
-            suffixIcon: SvgPicture.asset(
-              AppImages.arrowDown,
-              fit: BoxFit.scaleDown,
-            ),
-            onPressed: () async {
-              BanksModel? result = await AppBottomSheet.showBottomSheet(
-                context,
-                widget: BanksSheet(
-                  country: transferState.destinationCountry?.code ?? "",
-                ),
-              );
+            suffixIcon: (transferState.destinationCountry?.code?.contains("CN") ?? false)
+                ? null
+                : SvgPicture.asset(
+                    AppImages.arrowDown,
+                    fit: BoxFit.scaleDown,
+                  ),
+            onPressed: (transferState.destinationCountry?.code?.contains("CN") ?? false)
+                ? () {}
+                : () async {
+                    BanksModel? result = await AppBottomSheet.showBottomSheet(
+                      context,
+                      widget: BanksSheet(
+                        country: transferState.destinationCountry?.code ?? "",
+                      ),
+                    );
 
-              if (result != null) {
-                _selectedBank = result;
-                _bank.text = result.bankName ?? "";
-                _sortCode.text = result.bic ?? "";
-                _swiftCode.text = result.swiftCode ?? "";
-                if ((transferState.destinationCountry?.code?.contains("NG") ?? false) &&
-                    _accountNo.text.isNotEmpty &&
-                    _accountNo.text.length == 10) {
-                  validateAccountNumber();
-                }
-              }
-            },
+                    if (result != null) {
+                      _selectedBank = result;
+                      _bank.text = result.bankName ?? "";
+                      _sortCode.text = result.bic ?? "";
+                      _swiftCode.text = result.swiftCode ?? "";
+                      if ((transferState.destinationCountry?.code?.contains("NG") ?? false) &&
+                          _accountNo.text.isNotEmpty &&
+                          _accountNo.text.length == 10) {
+                        validateAccountNumber();
+                      }
+                    }
+                  },
             onChanged: (value) {
               log("changed");
-              if ((transferState.destinationCountry?.code?.contains("GH") ?? false) &&
+              if ((transferState.destinationCountry?.code?.contains("NG") ?? false) &&
                   value.isNotEmpty &&
                   _accountNo.text.isNotEmpty &&
                   _accountNo.text.length == 10) {
@@ -338,8 +345,12 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
                         fullName: _recipientName.text,
                         firstName: _recipientName.text.trim().split(' ').first,
                         lastName: _recipientName.text.trim().split(' ').last,
-                        bankCode: _selectedBank?.code,
-                        bankName: _selectedBank?.bankName,
+                        bankCode: (transferState.destinationCountry?.code?.contains("CN") ?? false)
+                            ? _bank.text
+                            : _selectedBank?.code,
+                        bankName: (transferState.destinationCountry?.code?.contains("CN") ?? false)
+                            ? _bank.text
+                            : _selectedBank?.bankName,
                         bankAddress: _bankAddress.text.isEmpty ? null : _bankAddress.text,
                         iban: _accountNo.text,
                         routingNumber: _routingNumber.text.isEmpty ? null : _routingNumber.text,

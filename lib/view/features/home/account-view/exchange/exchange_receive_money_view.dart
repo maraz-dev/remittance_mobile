@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:remittance_mobile/data/models/responses/fund_with_bank_transfer_dto.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/bank_transfer_sheet.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/debit_card_sheet.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/platform_pay_sheet.dart';
@@ -72,8 +73,9 @@ void methodBottomSheet(int index, BuildContext context) {
     case 1:
       AppBottomSheet.showBottomSheet(
         context,
-        widget: const BankTransferSheet(
+        widget: BankTransferSheet(
           transferCountry: TransferCountry.ngn,
+          ngnTransferDetails: FundWithBankTransferDto(),
         ),
       );
     case 2:
@@ -88,14 +90,12 @@ List<PaymentMethodCard> exchangeMethods = [
   const PaymentMethodCard(
     methodImage: AppImages.card,
     methodName: 'Cash Pick Up',
-    methodDescription:
-        'Choose from a list of verified pick up locations to get the cash.',
+    methodDescription: 'Choose from a list of verified pick up locations to get the cash.',
   ),
   const PaymentMethodCard(
     methodImage: AppImages.accountDetails,
     methodName: 'Bank Transfer',
-    methodDescription:
-        'Provide details of your account to receive money from the seller.',
+    methodDescription: 'Provide details of your account to receive money from the seller.',
   ),
   const PaymentMethodCard(
     methodImage: AppImages.homeIcon,

@@ -6,6 +6,7 @@ import 'package:remittance_mobile/core/utils/app_url.dart';
 import 'package:remittance_mobile/data/models/requests/authorize_charge_req.dart';
 import 'package:remittance_mobile/data/models/requests/checkout_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_customer_req.dart';
+import 'package:remittance_mobile/data/models/requests/fund_with_bank_transfer_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_card_funding_req.dart';
 import 'package:remittance_mobile/data/models/requests/inititiate_ussd_funding_req.dart';
 import 'package:remittance_mobile/data/models/requests/verify_transx_req.dart';
@@ -14,6 +15,7 @@ import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
 import 'package:remittance_mobile/data/models/responses/checkout_model.dart';
+import 'package:remittance_mobile/data/models/responses/fund_with_bank_transfer_dto.dart';
 import 'package:remittance_mobile/data/models/responses/funding_options_dto.dart';
 import 'package:remittance_mobile/data/models/responses/ussd_bank_model.dart';
 import 'package:remittance_mobile/data/models/responses/ussd_funding_model.dart';
@@ -389,6 +391,30 @@ class AccountService {
           final res = response.data['data'];
           await _storage.saveData('fundingId', res['requestId']);
           return UssdFundingDto.fromJson(res);
+        },
+      );
+      return result;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  // Fund with Bank Transfer Endpoint
+  Future<FundWithBankTransferDto> fundWithBankTransferEndpoint(FundWithBankTransferReq req) async {
+    try {
+      final response = await _networkService.request(
+        endpointUrl.baseFundingUrl + endpointUrl.fundWithBankTransfer,
+        RequestMethod.post,
+        data: req.toJson(),
+      );
+
+      // Handle the Response
+      final result = _responseHandler.handleResponse(
+        response: response.data,
+        onSuccess: () async {
+          final res = response.data['data'];
+          await _storage.saveData('fundingId', res['requestId']);
+          return FundWithBankTransferDto.fromJson(res);
         },
       );
       return result;

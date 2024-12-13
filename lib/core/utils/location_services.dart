@@ -80,7 +80,7 @@ Future<Position> determineDeviceLocation() async {
 Future<String> getLocationAddress(double lat, double long) async {
   try {
     List<Placemark> placemark = await placemarkFromCoordinates(lat, long);
-    return "${placemark.first.locality}, ${placemark.first.country}";
+    return "${placemark.first.locality} ${placemark.first.country}";
   } catch (e) {
     throw kDebugMode ? e.toString() : 'An Error Occurred, Please Try Again';
   }

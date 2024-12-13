@@ -1,3 +1,4 @@
+import 'package:config/config.dart';
 import 'package:flutter/material.dart';
 import 'package:remittance_mobile/view/features/transactions/widgets/card_icon.dart';
 import 'package:remittance_mobile/view/theme/app_colors.dart';
@@ -84,10 +85,11 @@ List<PaymentMethodCard> paymentMethods = [
   const PaymentMethodCard(
     methodImage: AppImages.accountDetails,
     methodName: 'USSD',
-    methodDescription: 'Fund using your preferred bank ussd code.',
+    methodDescription: 'Fund using your preferred bank USSD code.',
   ),
   const PaymentMethodCard(
     methodImage: AppImages.add,
-    methodName: 'Apple Pay',
+    methodName: 'Bank Transfer',
+    methodDescription: 'Transfer from your local bank to your $APP_NAME Account',
   ),
 ];

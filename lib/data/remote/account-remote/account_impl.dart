@@ -1,6 +1,7 @@
 import 'package:remittance_mobile/data/models/requests/authorize_charge_req.dart';
 import 'package:remittance_mobile/data/models/requests/checkout_req.dart';
 import 'package:remittance_mobile/data/models/requests/create_customer_req.dart';
+import 'package:remittance_mobile/data/models/requests/fund_with_bank_transfer_req.dart';
 import 'package:remittance_mobile/data/models/requests/initiate_card_funding_req.dart';
 import 'package:remittance_mobile/data/models/requests/inititiate_ussd_funding_req.dart';
 import 'package:remittance_mobile/data/models/requests/verify_transx_req.dart';
@@ -9,6 +10,7 @@ import 'package:remittance_mobile/data/models/responses/account_model.dart';
 import 'package:remittance_mobile/data/models/responses/banks_model.dart';
 import 'package:remittance_mobile/data/models/responses/card_funding_response_model.dart';
 import 'package:remittance_mobile/data/models/responses/checkout_model.dart';
+import 'package:remittance_mobile/data/models/responses/fund_with_bank_transfer_dto.dart';
 import 'package:remittance_mobile/data/models/responses/funding_options_dto.dart';
 import 'package:remittance_mobile/data/models/responses/ussd_bank_model.dart';
 import 'package:remittance_mobile/data/models/responses/ussd_funding_model.dart';
@@ -71,17 +73,18 @@ class AccountImpl implements AccountRepository {
       await _accountService.fundWithCheckoutEndpoint(req);
 
   @override
-  Future<List<UssdBanksDto>> getUSSDBanksEndpoint(String vendorCode) async {
-    return await _accountService.getUSSDBanksEndpoint(vendorCode);
-  }
+  Future<List<UssdBanksDto>> getUSSDBanksEndpoint(String vendorCode) async =>
+      await _accountService.getUSSDBanksEndpoint(vendorCode);
 
   @override
-  Future<List<BanksModel>> getMobileBanksEndpoint(String country) async {
-    return await _accountService.getMobileBanksEndpoint(country);
-  }
+  Future<List<BanksModel>> getMobileBanksEndpoint(String country) async =>
+      await _accountService.getMobileBanksEndpoint(country);
 
   @override
-  Future<List<FundingOptionDto>> getFundingOptionsEndpoint(String accountNumber) async {
-    return await _accountService.getFundingOptionsEndpoint(accountNumber);
-  }
+  Future<List<FundingOptionDto>> getFundingOptionsEndpoint(String accountNumber) async =>
+      await _accountService.getFundingOptionsEndpoint(accountNumber);
+
+  @override
+  Future<FundWithBankTransferDto> fundWithBankTransferEndpoint(FundWithBankTransferReq req) async =>
+      await _accountService.fundWithBankTransferEndpoint(req);
 }

@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:remittance_mobile/data/models/requests/checkout_req.dart';
+import 'package:remittance_mobile/data/models/requests/fund_with_bank_transfer_req.dart';
 import 'package:remittance_mobile/data/models/requests/inititiate_ussd_funding_req.dart';
+import 'package:remittance_mobile/data/models/responses/fund_with_bank_transfer_dto.dart';
 import 'package:remittance_mobile/data/models/responses/ussd_bank_model.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/add_money_view.dart';
-import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/platform_pay_sheet.dart';
+import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/bank_transfer_sheet.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/ussd_bank_sheet.dart';
 import 'package:remittance_mobile/view/features/home/account-view/add-money/payment_method_sheet/ussd_sheet.dart';
 import 'package:remittance_mobile/view/features/home/currency_account_view.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/account_providers.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/checkout_vm.dart';
+import 'package:remittance_mobile/view/features/home/vm/accounts-vm/fund_with_bank_transfer_vm.dart';
 import 'package:remittance_mobile/view/features/home/vm/accounts-vm/fund_with_ussd_vm.dart';
 import 'package:remittance_mobile/view/features/home/widgets/payment_method_card.dart';
 import 'package:remittance_mobile/view/features/webview/app_webview.dart';
@@ -38,9 +41,27 @@ class _PaymentMethodViewState extends ConsumerState<PaymentMethodView> {
   Widget build(BuildContext context) {
     final checkoutloading = ref.watch(fundWithCheckoutProvider).isLoading;
     final ussdLoading = ref.watch(fundWithUssdProvider).isLoading;
+    final bankTransferLoading = ref.watch(fundWithBankTransferProvider).isLoading;
     final fundingOptions =
         ref.watch(getFundingOptionsProvider(accountInfo.value.accountNumber ?? ""));
 
+    // Bank Transfer
+    ref.listen(fundWithBankTransferProvider, (_, next) {
+      if (next is AsyncData<FundWithBankTransferDto>) {
+        AppBottomSheet.showBottomSheet(context,
+            enableDrag: false,
+            isDismissible: false,
+            widget: BankTransferSheet(
+              transferCountry: TransferCountry.ngn,
+              ngnTransferDetails: next.value,
+            ));
+      }
+      if (next is AsyncError) {
+        SnackBarDialog.showErrorFlushBarMessage(next.error.toString(), context);
+      }
+    });
+
+    // USSD
     ref.listen(fundWithUssdProvider, (_, next) {
       if (next is AsyncData) {
         AppBottomSheet.showBottomSheet(
@@ -60,6 +81,7 @@ class _PaymentMethodViewState extends ConsumerState<PaymentMethodView> {
       }
     });
 
+    // Checkout
     ref.listen(fundWithCheckoutProvider, (_, next) {
       if (next is AsyncData) {
         //flwTransactionId.value = next.value?.
@@ -78,7 +100,7 @@ class _PaymentMethodViewState extends ConsumerState<PaymentMethodView> {
     return Scaffold(
       appBar: innerAppBar(title: 'Add Money'),
       body: OverlayLoadingIndicator(
-        isLoading: checkoutloading || ussdLoading,
+        isLoading: checkoutloading || ussdLoading || bankTransferLoading,
         child: ScaffoldBody(
             body: Column(
           children: [
@@ -106,7 +128,7 @@ class _PaymentMethodViewState extends ConsumerState<PaymentMethodView> {
                       );
                     },
                     separatorBuilder: (context, index) => 24.0.height,
-                    itemCount: accountInfo.value.countryCode == 'NG' ? 2 : 1,
+                    itemCount: accountInfo.value.countryCode == 'NG' ? 3 : 1,
                   ),
                   20.0.height,
                 ],
@@ -119,7 +141,7 @@ class _PaymentMethodViewState extends ConsumerState<PaymentMethodView> {
   }
 
   methodBottomSheet(int index, BuildContext context, WidgetRef ref) {
-    handleReq() async {
+    handleUSSDReq() async {
       selectedResult = await AppBottomSheet.showBottomSheet(
         context,
         widget: const UssdBanksSheet(vendorCode: 'FLW'),
@@ -131,6 +153,15 @@ class _PaymentMethodViewState extends ConsumerState<PaymentMethodView> {
               bankCode: selectedResult?.code,
               amount: double.parse(addMoneyAmount.value.replaceAll(',', '')),
               charge: 0,
+            ),
+          );
+    }
+
+    handleTransferReq() async {
+      ref.read(fundWithBankTransferProvider.notifier).fundWithBankTransferMethod(
+            FundWithBankTransferReq(
+              amount: double.parse(addMoneyAmount.value.replaceAll(',', '')),
+              accountNumber: accountInfo.value.accountNumber,
             ),
           );
     }
@@ -152,12 +183,13 @@ class _PaymentMethodViewState extends ConsumerState<PaymentMethodView> {
       //   widget: const DebitCardSheet(),
       // );
       case 1:
-        handleReq();
+        handleUSSDReq();
       case 2:
-        AppBottomSheet.showBottomSheet(
-          context,
-          widget: const PlatformPaySheet(),
-        );
+        handleTransferReq();
+      // AppBottomSheet.showBottomSheet(
+      //   context,
+      //   widget: const PlatformPaySheet(),
+      // );
     }
   }
 }

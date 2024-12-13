@@ -123,6 +123,7 @@ class ApiEndpoints {
   String get validateCardFunding => "/api/v1/funding/flutterwave/card/validate";
   String get authorizeCardFunding => "/api/v1/funding/flutterwave/card/authorize";
   String get initiateUSSDFunding => "/api/v1/funding/flutterwave/customer/ussd/initiate";
+  String get fundWithBankTransfer => "/api/v1/funding/flutterwave/customer/banktransfer/initiate";
   String get verifyTransaction => "/api/v1/funding/flutterwave/charge/verify";
 
   // Send Money
