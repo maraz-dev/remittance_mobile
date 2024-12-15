@@ -128,21 +128,26 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
           TextInput(
             header: 'Bank',
             controller: _bank,
-            hint: (transferState.destinationCountry?.code?.contains("CN") ?? false)
+            hint: ((transferState.destinationCurrency?.code?.contains("USD") ?? false) &&
+                    !(transferState.destinationCountry?.code?.contains("US") ?? false))
                 ? 'Enter Bank'
                 : 'Select Bank',
             inputType: TextInputType.text,
             validator: validateGeneric,
-            readOnly:
-                (transferState.destinationCountry?.code?.contains("CN") ?? false) ? false : true,
+            readOnly: ((transferState.destinationCurrency?.code?.contains("USD") ?? false) &&
+                    !(transferState.destinationCountry?.code?.contains("US") ?? false))
+                ? false
+                : true,
             animate: false,
-            suffixIcon: (transferState.destinationCountry?.code?.contains("CN") ?? false)
+            suffixIcon: ((transferState.destinationCurrency?.code?.contains("USD") ?? false) &&
+                    !(transferState.destinationCountry?.code?.contains("US") ?? false))
                 ? null
                 : SvgPicture.asset(
                     AppImages.arrowDown,
                     fit: BoxFit.scaleDown,
                   ),
-            onPressed: (transferState.destinationCountry?.code?.contains("CN") ?? false)
+            onPressed: ((transferState.destinationCurrency?.code?.contains("USD") ?? false) &&
+                    !(transferState.destinationCountry?.code?.contains("US") ?? false))
                 ? () {}
                 : () async {
                     BanksModel? result = await AppBottomSheet.showBottomSheet(
@@ -345,10 +350,14 @@ class _InternationalBankFormState extends ConsumerState<InternationalBankForm> {
                         fullName: _recipientName.text,
                         firstName: _recipientName.text.trim().split(' ').first,
                         lastName: _recipientName.text.trim().split(' ').last,
-                        bankCode: (transferState.destinationCountry?.code?.contains("CN") ?? false)
+                        bankCode: ((transferState.destinationCurrency?.code?.contains("USD") ??
+                                    false) &&
+                                !(transferState.destinationCountry?.code?.contains("US") ?? false))
                             ? _bank.text
                             : _selectedBank?.code,
-                        bankName: (transferState.destinationCountry?.code?.contains("CN") ?? false)
+                        bankName: ((transferState.destinationCurrency?.code?.contains("USD") ??
+                                    false) &&
+                                !(transferState.destinationCountry?.code?.contains("US") ?? false))
                             ? _bank.text
                             : _selectedBank?.bankName,
                         bankAddress: _bankAddress.text.isEmpty ? null : _bankAddress.text,

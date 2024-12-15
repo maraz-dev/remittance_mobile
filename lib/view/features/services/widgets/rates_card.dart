@@ -6,12 +6,13 @@ import 'package:remittance_mobile/view/utils/app_images.dart';
 import 'package:remittance_mobile/view/utils/extensions.dart';
 
 class RatesCard extends StatelessWidget {
-  final String image, text, description;
+  final String image, description;
+  final String? text;
   final Function()? onTapped;
   const RatesCard({
     super.key,
     required this.image,
-    required this.text,
+    this.text,
     required this.description,
     this.onTapped,
   });
@@ -26,14 +27,16 @@ class RatesCard extends StatelessWidget {
           bgColor: AppColors.kGrey200,
         ),
         8.0.width,
-        Text(
-          text,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: AppColors.kGrey700,
-              ),
-        ),
-        const Spacer(),
+        if (text != null) ...[
+          Text(
+            text ?? '',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.kGrey700,
+                ),
+          ),
+          const Spacer(),
+        ],
         InkWell(
           onTap: onTapped,
           child: Text(
@@ -46,7 +49,7 @@ class RatesCard extends StatelessWidget {
           ),
         ),
         if (description.contains('Fees')) ...[
-          9.0.width,
+          text != null ? 9.0.width : const Spacer(),
           InkWell(
             onTap: onTapped,
             child: SvgPicture.asset(AppImages.arrowDown),

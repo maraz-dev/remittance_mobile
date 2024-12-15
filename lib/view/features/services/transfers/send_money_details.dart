@@ -160,7 +160,7 @@ class _SendMoneyDetailsViewState extends ConsumerState<SendMoneyDetailsView> {
                         TrxItems(
                           title: 'At (rate)',
                           description:
-                              '1 ${transferState.destinationCurrency?.code} - ${(1 / (feeResponse.value.rate ?? 1.0)).formatDecimal()} ${transferState.sourceCurrency?.code}',
+                              '1 ${transferState.sourceCurrency?.code} - ${((feeResponse.value.rate ?? 1.0)).formatDecimal()} ${transferState.destinationCurrency?.code}',
                         ),
                         16.0.height,
                         TrxItems(

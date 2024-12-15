@@ -111,7 +111,7 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
     ref.listen(sendChargeProvider, (_, next) {
       if (next is AsyncData<SendChargeResponse>) {
         _destinationAmount.text = next.value.destinationAmount.formatDecimal();
-        _rate = 1 / (next.value.rate ?? 1.0);
+        _rate = (next.value.rate ?? 1.0);
         //_destinationfee = next.value.feeInDestinationCurrency ?? 0.0;
         _fee = next.value.feeInSourceCurrency ?? 0.0;
         feeResponse.value = next.value;
@@ -335,14 +335,12 @@ class _SendMoneyInitialViewState extends ConsumerState<SendMoneyHowMuchView> {
                                           RatesCard(
                                             image: AppImages.compareArrows,
                                             text:
-                                                '1 ${transferState.destinationCurrency?.code} = ${_rate.formatDecimal()} ${transferState.sourceCurrency?.code}',
+                                                '1 ${transferState.sourceCurrency?.code} = ${_rate.formatDecimal()} ${transferState.destinationCurrency?.code}',
                                             description: 'Rate',
                                           ),
                                           16.0.height,
                                           RatesCard(
                                             image: AppImages.loyalty,
-                                            text:
-                                                '${_fee.formatDecimal()} ${transferState.sourceCurrency?.code}',
                                             description: 'Fees',
                                             onTapped: () {
                                               AppBottomSheet.showBottomSheet(

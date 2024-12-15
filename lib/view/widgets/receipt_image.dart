@@ -12,9 +12,6 @@ import 'package:screenshot/screenshot.dart';
 
 class ShareImage {
   static Future<File> imgTransxReceipt({required TransxDetail details}) async {
-    // Create a GlobalKey to use with RepaintBoundary
-    //final GlobalKey globalKey = GlobalKey();
-
     // Build the receipt widget
     Widget receiptWidget = Material(
       child: Container(
